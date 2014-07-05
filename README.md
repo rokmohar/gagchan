@@ -1,6 +1,6 @@
-GAG Chan (Access URI: http://gagchan.com)
+GAG Chan (http://gagchan.com)
 ================================================================================
-@to do:
+Needs to be done:
 - Create a simple & clean web design
 - Design a database
 - Create Zend Framework 2 base application
