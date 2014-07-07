@@ -5,7 +5,9 @@ Needs to be done:
 - Design a database (DONE)
 - Create Zend Framework 2 application (DONE)
 
-Modules
+Modules (Which we could use)
 ================================================================================
 - AWS: https://github.com/aws/aws-sdk-php-zf2
 - User: https://github.com/ZF-Commons/ZfcUser
+- OAuth: https://github.com/SocalNick/ScnSocialAuth
+- ACL: https://github.com/bjyoungblood/BjyAuthorize
