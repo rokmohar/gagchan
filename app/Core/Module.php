@@ -36,7 +36,7 @@ class Module
     {
         return array(
             'aliases' => array(
-                'db.adapter' => 'Zend\Db\Adapter',
+                'db.adapter' => 'Zend\Db\Adapter\Adapter',
             ),
         );
     }
