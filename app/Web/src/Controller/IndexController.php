@@ -4,6 +4,8 @@ namespace Web\Controller;
 
 use Zend\View\Model\ViewModel;
 
+use Core\Mvc\Controller\AbstractController;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
