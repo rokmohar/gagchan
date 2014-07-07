@@ -34,9 +34,7 @@ return array(
          * Zend\Db adapter.
          */
         'role_providers' => array(
-            /**
-             * Load role configuration from MySQL database.
-             */
+            // Load role configuration from MySQL database.
             'BjyAuthorize\Provider\Role\ZendDb' => array(
                 'table'                 => 'user_role',
                 'identifier_field_name' => 'id',
@@ -45,15 +43,18 @@ return array(
             ),
         ),
 
-        // resource providers provide a list of resources that will be tracked
-        // in the ACL. like roles, they can be hierarchical
+        /**
+         * Resource providers provide a list of resources that will be tracked
+         * in the ACL. like roles, they can be hierarchical
+         */
         'resource_providers' => array(
             'BjyAuthorize\Provider\Resource\Config' => array(
                 'pants' => array(),
             ),
         ),
 
-        /* rules can be specified here with the format:
+        /**
+         * Rules can be specified here with the format:
          * array(roles (array), resource, [privilege (array|string), assertion])
          * assertions will be loaded using the service manager and must implement
          * Zend\Acl\Assertion\AssertionInterface.
@@ -62,10 +63,8 @@ return array(
         'rule_providers' => array(
             'BjyAuthorize\Provider\Rule\Config' => array(
                 'allow' => array(
-                    /**
-                     * Allow guests and users (and admins, through inheritance)
-                     * the "wear" privilege on the resource "pants".
-                     */
+                    // Allow guests and users (and admins, through inheritance)
+                    // the "wear" privilege on the resource "pants".
                     array(
                         array(
                             'guest',
@@ -76,10 +75,8 @@ return array(
                     ),
                 ),
 
-                /**
-                 * Don't mix allow/deny rules if you are using role inheritance.
-                 * There are some weird bugs.
-                 */
+                // Don't mix allow/deny rules if you are using role inheritance.
+                // There are some weird bugs.
                 'deny' => array(
                     // ...
                 ),
@@ -92,18 +89,43 @@ return array(
          * Consider enabling either the controller or the route guard depending on your needs.
          */
         'guards' => array(
-            /**
-             * If this guard is specified here (i.e. it is enabled), it will block
-             * access to all routes unless they are specified here.
-             */
+            // If this guard is specified here (i.e. it is enabled), it will block
+            // access to all routes unless they are specified here.
             'BjyAuthorize\Guard\Route' => array(
-                array('route' => 'zfcuser', 'roles' => array('user')),
-                array('route' => 'zfcuser/logout', 'roles' => array('user')),
-                array('route' => 'zfcuser/login', 'roles' => array('guest')),
-                array('route' => 'zfcuser/register', 'roles' => array('guest')),
+                // ZfcUser
+                array(
+                    'route' => 'zfcuser',
+                    'roles' => array(
+                        'user',
+                    ),
+                ),
+                array(
+                    'route' => 'zfcuser/logout',
+                    'roles' => array(
+                        'user',
+                    ),
+                ),
+                array(
+                    'route' => 'zfcuser/login',
+                    'roles' => array(
+                        'guest',
+                    ),
+                ),
+                array(
+                    'route' => 'zfcuser/register',
+                    'roles' => array(
+                        'guest',
+                    ),
+                ),
                 
                 // Below is the default index action
-                array('route' => 'home', 'roles' => array('guest', 'user')),
+                array(
+                    'route' => 'home',
+                    'roles' => array(
+                        'guest',
+                        'user',
+                    ),
+                ),
             ),
         ),
     ),
