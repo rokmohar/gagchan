@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 07. jul 2014 ob 00.33
+-- Čas nastanka: 07. jul 2014 ob 17.52
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -32,7 +32,23 @@ CREATE TABLE IF NOT EXISTS `category` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+
+--
+-- Odloži podatke za tabelo `category`
+--
+
+INSERT INTO `category` (`id`, `slug`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'gif', 'GIF', '2014-07-07 13:53:39', '2014-07-07 13:53:39'),
+(2, 'cute', 'Cute', '2014-07-07 13:53:46', '2014-07-07 13:53:46'),
+(3, 'geeky', 'Geeky', '2014-07-07 13:53:53', '2014-07-07 13:53:53'),
+(4, 'cosplay', 'Cosplay', '2014-07-07 13:54:02', '2014-07-07 13:54:02'),
+(5, 'meme', 'Meme', '2014-07-07 13:54:29', '2014-07-07 13:54:29'),
+(6, 'timely', 'Timely', '2014-07-07 13:54:40', '2014-07-07 13:54:40'),
+(7, 'girl', 'Girl', '2014-07-07 13:55:01', '2014-07-07 13:55:01'),
+(8, 'food', 'Food', '2014-07-07 13:55:16', '2014-07-07 13:55:16'),
+(9, 'wtf', 'WTF', '2014-07-07 13:55:26', '2014-07-07 13:55:26'),
+(10, 'comic', 'Comic', '2014-07-07 13:55:33', '2014-07-07 13:55:33');
 
 -- --------------------------------------------------------
 
@@ -45,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `media` (
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
@@ -57,7 +74,6 @@ CREATE TABLE IF NOT EXISTS `media` (
 
 CREATE TABLE IF NOT EXISTS `media_comment` (
 `id` int(11) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
   `media_id` int(11) NOT NULL,
   `comment` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -67,21 +83,10 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabele `media_has_category`
+-- Struktura tabele `media_response`
 --
 
-CREATE TABLE IF NOT EXISTS `media_has_category` (
-  `media_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Struktura tabele `media_has_response`
---
-
-CREATE TABLE IF NOT EXISTS `media_has_response` (
+CREATE TABLE IF NOT EXISTS `media_response` (
   `media_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `type` set('up','down') COLLATE utf8_unicode_ci NOT NULL
@@ -133,24 +138,18 @@ ALTER TABLE `category`
 -- Indeksi tabele `media`
 --
 ALTER TABLE `media`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`), ADD KEY `user_id` (`user_id`), ADD KEY `category_id` (`category_id`);
 
 --
 -- Indeksi tabele `media_comment`
 --
 ALTER TABLE `media_comment`
- ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`), ADD KEY `media_id` (`media_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`);
 
 --
--- Indeksi tabele `media_has_category`
+-- Indeksi tabele `media_response`
 --
-ALTER TABLE `media_has_category`
- ADD KEY `media_id` (`media_id`), ADD KEY `category_id` (`category_id`);
-
---
--- Indeksi tabele `media_has_response`
---
-ALTER TABLE `media_has_response`
+ALTER TABLE `media_response`
  ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
 
 --
@@ -173,7 +172,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT tabele `category`
 --
 ALTER TABLE `category`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT tabele `media`
 --
@@ -202,28 +201,21 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- Omejitve za tabelo `media`
 --
 ALTER TABLE `media`
+ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
 ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Omejitve za tabelo `media_comment`
 --
 ALTER TABLE `media_comment`
-ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
-ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `media_comment` (`id`);
+ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
--- Omejitve za tabelo `media_has_category`
+-- Omejitve za tabelo `media_response`
 --
-ALTER TABLE `media_has_category`
-ADD CONSTRAINT `media_has_category_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
-ADD CONSTRAINT `media_has_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
-
---
--- Omejitve za tabelo `media_has_response`
---
-ALTER TABLE `media_has_response`
-ADD CONSTRAINT `media_has_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `media_has_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
+ALTER TABLE `media_response`
+ADD CONSTRAINT `media_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
 -- Omejitve za tabelo `newsletter`
