@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 07. jul 2014 ob 23.29
+-- Čas nastanka: 07. jul 2014 ob 23.38
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `newsletter` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-`id` int(11) NOT NULL,
+`user_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `display_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Odloži podatke za tabelo `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
+INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
 (1, 'rokm92', NULL, 'rok.mohar@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
 (2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 2, '2014-07-07 23:29:26', '2014-07-07 23:29:26');
 
@@ -207,7 +207,7 @@ ALTER TABLE `newsletter`
 -- Indeksi tabele `user`
 --
 ALTER TABLE `user`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
+ ADD PRIMARY KEY (`user_id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indeksi tabele `user_role`
@@ -249,7 +249,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT tabele `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT tabele `user_role`
 --
@@ -263,28 +263,28 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- Omejitve za tabelo `media`
 --
 ALTER TABLE `media`
-ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
 ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
 -- Omejitve za tabelo `media_comment`
 --
 ALTER TABLE `media_comment`
-ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
 ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
 -- Omejitve za tabelo `media_response`
 --
 ALTER TABLE `media_response`
-ADD CONSTRAINT `media_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
 ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
 -- Omejitve za tabelo `newsletter`
 --
 ALTER TABLE `newsletter`
-ADD CONSTRAINT `newsletter_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ADD CONSTRAINT `newsletter_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Omejitve za tabelo `user_role`
@@ -296,8 +296,8 @@ ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `user_rol
 -- Omejitve za tabelo `user_role_linker`
 --
 ALTER TABLE `user_role_linker`
-ADD CONSTRAINT `user_role_linker_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`),
-ADD CONSTRAINT `user_role_linker_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ADD CONSTRAINT `user_role_linker_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+ADD CONSTRAINT `user_role_linker_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
