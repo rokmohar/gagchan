@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 07. jul 2014 ob 17.52
+-- Čas nastanka: 07. jul 2014 ob 23.25
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `category` (
 `id` int(11) NOT NULL,
-  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Odloži podatke za tabelo `category`
@@ -58,13 +58,13 @@ INSERT INTO `category` (`id`, `slug`, `name`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE IF NOT EXISTS `media` (
 `id` int(11) NOT NULL,
-  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -75,10 +75,11 @@ CREATE TABLE IF NOT EXISTS `media` (
 CREATE TABLE IF NOT EXISTS `media_comment` (
 `id` int(11) NOT NULL,
   `media_id` int(11) NOT NULL,
-  `comment` text COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `comment` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -89,8 +90,10 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
 CREATE TABLE IF NOT EXISTS `media_response` (
   `media_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `type` set('up','down') COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `type` set('up','down') NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -101,10 +104,10 @@ CREATE TABLE IF NOT EXISTS `media_response` (
 CREATE TABLE IF NOT EXISTS `newsletter` (
 `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -114,15 +117,48 @@ CREATE TABLE IF NOT EXISTS `newsletter` (
 
 CREATE TABLE IF NOT EXISTS `user` (
 `id` int(11) NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `registration_at` datetime DEFAULT NULL,
-  `registration_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password_reset_at` datetime DEFAULT NULL,
-  `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `state` smallint(4) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabele `user_role`
+--
+
+CREATE TABLE IF NOT EXISTS `user_role` (
+`id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `role_id` varchar(255) NOT NULL,
+  `is_default` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Odloži podatke za tabelo `user_role`
+--
+
+INSERT INTO `user_role` (`id`, `parent_id`, `role_id`, `is_default`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'guest', 1, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
+(2, NULL, 'user', 0, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
+(3, NULL, 'admin', 0, '2014-07-07 23:20:21', '2014-07-07 23:20:21');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabele `user_role_linker`
+--
+
+CREATE TABLE IF NOT EXISTS `user_role_linker` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indeksi zavrženih tabel
@@ -144,7 +180,7 @@ ALTER TABLE `media`
 -- Indeksi tabele `media_comment`
 --
 ALTER TABLE `media_comment`
- ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeksi tabele `media_response`
@@ -162,7 +198,19 @@ ALTER TABLE `newsletter`
 -- Indeksi tabele `user`
 --
 ALTER TABLE `user`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `email` (`email`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indeksi tabele `user_role`
+--
+ALTER TABLE `user_role`
+ ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`);
+
+--
+-- Indeksi tabele `user_role_linker`
+--
+ALTER TABLE `user_role_linker`
+ ADD PRIMARY KEY (`user_id`,`role_id`), ADD KEY `role_id` (`role_id`);
 
 --
 -- AUTO_INCREMENT zavrženih tabel
@@ -194,6 +242,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `user`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT tabele `user_role`
+--
+ALTER TABLE `user_role`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
 -- Omejitve tabel za povzetek stanja
 --
 
@@ -201,14 +254,15 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- Omejitve za tabelo `media`
 --
 ALTER TABLE `media`
-ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
 -- Omejitve za tabelo `media_comment`
 --
 ALTER TABLE `media_comment`
-ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
+ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
 -- Omejitve za tabelo `media_response`
@@ -222,6 +276,19 @@ ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `medi
 --
 ALTER TABLE `newsletter`
 ADD CONSTRAINT `newsletter_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Omejitve za tabelo `user_role`
+--
+ALTER TABLE `user_role`
+ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `user_role` (`id`);
+
+--
+-- Omejitve za tabelo `user_role_linker`
+--
+ALTER TABLE `user_role_linker`
+ADD CONSTRAINT `user_role_linker_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`),
+ADD CONSTRAINT `user_role_linker_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
