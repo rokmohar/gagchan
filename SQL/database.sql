@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 07. jul 2014 ob 23.38
+-- Čas nastanka: 07. jul 2014 ob 23.52
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
 (1, 'rokm92', NULL, 'rok.mohar@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
-(2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 2, '2014-07-07 23:29:26', '2014-07-07 23:29:26');
+(2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 1, '2014-07-07 23:29:26', '2014-07-07 23:29:26');
 
 -- --------------------------------------------------------
 
@@ -142,9 +142,9 @@ INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, 
 
 CREATE TABLE IF NOT EXISTS `user_role` (
 `id` int(11) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
   `role_id` varchar(255) NOT NULL,
   `is_default` tinyint(1) NOT NULL,
+  `parent_id` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
@@ -153,10 +153,10 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 -- Odloži podatke za tabelo `user_role`
 --
 
-INSERT INTO `user_role` (`id`, `parent_id`, `role_id`, `is_default`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'guest', 1, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
-(2, NULL, 'user', 0, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
-(3, NULL, 'admin', 0, '2014-07-07 23:20:21', '2014-07-07 23:20:21');
+INSERT INTO `user_role` (`id`, `role_id`, `is_default`, `parent_id`, `created_at`, `updated_at`) VALUES
+(1, 'guest', 1, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
+(2, 'user', 0, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
+(3, 'admin', 0, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21');
 
 -- --------------------------------------------------------
 
@@ -168,6 +168,14 @@ CREATE TABLE IF NOT EXISTS `user_role_linker` (
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Odloži podatke za tabelo `user_role_linker`
+--
+
+INSERT INTO `user_role_linker` (`user_id`, `role_id`) VALUES
+(1, 3),
+(2, 3);
 
 --
 -- Indeksi zavrženih tabel
@@ -213,7 +221,7 @@ ALTER TABLE `user`
 -- Indeksi tabele `user_role`
 --
 ALTER TABLE `user_role`
- ADD PRIMARY KEY (`id`), ADD KEY `parent_id` (`parent_id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indeksi tabele `user_role_linker`
@@ -285,12 +293,6 @@ ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `medi
 --
 ALTER TABLE `newsletter`
 ADD CONSTRAINT `newsletter_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
---
--- Omejitve za tabelo `user_role`
---
-ALTER TABLE `user_role`
-ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `user_role` (`id`);
 
 --
 -- Omejitve za tabelo `user_role_linker`

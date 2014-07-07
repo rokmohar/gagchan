@@ -87,7 +87,7 @@ return array(
         ),
 
         /**
-         * Currently, only controller and route guards exist
+         * Currently, only controller and route guards exist.
          *
          * Consider enabling either the controller or the route guard depending on your needs.
          */
