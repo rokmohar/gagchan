@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 07. jul 2014 ob 23.52
+-- Čas nastanka: 07. jul 2014 ob 23.58
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 INSERT INTO `user_role` (`id`, `role_id`, `is_default`, `parent_id`, `created_at`, `updated_at`) VALUES
 (1, 'guest', 1, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
 (2, 'user', 0, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
-(3, 'admin', 0, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21');
+(3, 'admin', 0, 'user', '2014-07-07 23:20:21', '2014-07-07 23:20:21');
 
 -- --------------------------------------------------------
 
@@ -166,7 +166,7 @@ INSERT INTO `user_role` (`id`, `role_id`, `is_default`, `parent_id`, `created_at
 
 CREATE TABLE IF NOT EXISTS `user_role_linker` (
   `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL
+  `role_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -174,8 +174,8 @@ CREATE TABLE IF NOT EXISTS `user_role_linker` (
 --
 
 INSERT INTO `user_role_linker` (`user_id`, `role_id`) VALUES
-(1, 3),
-(2, 3);
+(1, 'admin'),
+(2, 'admin');
 
 --
 -- Indeksi zavrženih tabel
@@ -221,7 +221,7 @@ ALTER TABLE `user`
 -- Indeksi tabele `user_role`
 --
 ALTER TABLE `user_role`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `role_id` (`role_id`), ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Indeksi tabele `user_role_linker`
@@ -295,11 +295,17 @@ ALTER TABLE `newsletter`
 ADD CONSTRAINT `newsletter_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
+-- Omejitve za tabelo `user_role`
+--
+ALTER TABLE `user_role`
+ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `user_role` (`role_id`);
+
+--
 -- Omejitve za tabelo `user_role_linker`
 --
 ALTER TABLE `user_role_linker`
-ADD CONSTRAINT `user_role_linker_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-ADD CONSTRAINT `user_role_linker_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`id`);
+ADD CONSTRAINT `user_role_linker_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`),
+ADD CONSTRAINT `user_role_linker_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
