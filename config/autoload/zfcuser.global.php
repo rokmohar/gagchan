@@ -36,7 +36,17 @@ return array(
          *
          * Accepted values: boolean true or false
          */
-        'enable_username' => false,
+        'enable_username' => true,
+
+        /**
+         * Enable Display Name
+         *
+         * Enables a display name field on the registration form, which is persisted
+         * in the database. Default value is false.
+         *
+         * Accepted values: boolean true or false
+         */
+        'enable_display_name' => false,
 
         /**     
          * Authentication Adapters
@@ -49,16 +59,6 @@ return array(
         'auth_adapters' => array(
             100 => 'ZfcUser\Authentication\Adapter\Db',
         ),
-
-        /**
-         * Enable Display Name
-         *
-         * Enables a display name field on the registration form, which is persisted
-         * in the database. Default value is false.
-         *
-         * Accepted values: boolean true or false
-         */
-        'enable_display_name' => false,
 
         /**
          * Modes for authentication identity match

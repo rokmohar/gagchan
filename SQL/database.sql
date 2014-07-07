@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 07. jul 2014 ob 23.25
+-- Čas nastanka: 07. jul 2014 ob 23.29
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -118,12 +118,21 @@ CREATE TABLE IF NOT EXISTS `newsletter` (
 CREATE TABLE IF NOT EXISTS `user` (
 `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
+  `display_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(128) NOT NULL,
   `state` smallint(4) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Odloži podatke za tabelo `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
+(1, 'rokm92', NULL, 'rok.mohar@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
+(2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 2, '2014-07-07 23:29:26', '2014-07-07 23:29:26');
 
 -- --------------------------------------------------------
 
@@ -240,7 +249,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT tabele `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT tabele `user_role`
 --
