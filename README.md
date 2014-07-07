@@ -1,6 +1,6 @@
-GAG Chan (http://gagchan.com)
+GAGchan (http://gagchan.com)
 ================================================================================
 Needs to be done:
-- Create a simple & clean web design
-- Design a database
-- Create Zend Framework 2 base application
+- Create a simple & clean web design (DONE)
+- Design a database (DONE)
+- Create Zend Framework 2 application (DONE)
