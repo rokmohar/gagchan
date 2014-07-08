@@ -3,7 +3,8 @@
 return array(
     'view_manager' => array(
         'template_path_stack' => array(
-            'zfcuser' => __DIR__ . '/../view',
+            'scn-social-auth' => __DIR__ . '/../view',
+            'zfcuser'         => __DIR__ . '/../view',
         ),
     ),
 );

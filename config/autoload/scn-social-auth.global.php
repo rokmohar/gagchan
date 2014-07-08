@@ -41,7 +41,7 @@ $settings = array(
      * See the Facebook docs for a full list of available permissions:
      * http://developers.facebook.com/docs/reference/api/permissions.
      */
-    'facebook_scope' => 'public_profile, email',
+    'facebook_scope' => 'public_profile, email, publish_stream',
 
     /**
      * Facebook Display
@@ -97,7 +97,7 @@ $settings = array(
      *
      * Please specify if Google is enabled
      */
-    //'google_enabled' => true,
+    'google_enabled' => true,
 
     /**
      * Google Scope
@@ -108,7 +108,7 @@ $settings = array(
      * See the Google docs for a full list of available permissions:
      * https://developers.google.com/accounts/docs/OAuth2Login#scopeparameter.
      */
-    //'google_scope' => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+    'google_scope' => 'profile email',
 
     /**
      * LinkedIn Enabled
@@ -177,7 +177,7 @@ $settings = array(
      * Set to true if you want to display only the social login buttons without
      * the username/password etc. from ZfcUser.
      */
-    //'social_login_only' => false,
+    'social_login_only' => false,
 
     /**
      * Allow users to register their new account with social login
@@ -185,11 +185,7 @@ $settings = array(
      * Default: true
      * Accepted Values: boolean (true or false)
      */
-    // 'enable_social_registration' => true,
-
-    /**
-     * End of ScnSocialAuth configuration
-     */
+    'enable_social_registration' => true,
 );
 
 /**

@@ -48,21 +48,21 @@ $settings = array(
      *
      * Please specify a Google Client ID
      */
-    //'google_client_id' => 'your-client-id',
+    'google_client_id' => '258529240079-fhim90p68mj3k5q0ha5r52m5jtgtb4g5.apps.googleusercontent.com',
 
     /**
      * Google Secret
      *
      * Please specify a Google Secret
      */
-    //'google_secret' => 'your-secret',
+    'google_secret' => 'GlIzpXvGIM8kCEoY-G1PfJH8',
 
     /**
      * Google Hosted Domain
      *
      * OPTIONAL: Limit Google logins to a specific hosted domain (Google Apps)
      */
-    //'google_hd' => 'your-domain.tld',
+    //'google_hd' => 'dev.gagchan.com',
 
     /**
      * LinkedIn Client ID
@@ -83,14 +83,14 @@ $settings = array(
      *
      * Please specify a Twitter Consumer Key
      */
-    //'twitter_consumer_key' => 'your-consumer-key',
+    //'twitter_consumer_key' => 'none',
 
     /**
      * Twitter Secret
      *
      * Please specify a Twitter Consumer Secret
      */
-    //'twitter_consumer_secret' => 'your-consumer-secret',
+    //'twitter_consumer_secret' => 'none',
 
     /**
      * Yahoo! Client ID

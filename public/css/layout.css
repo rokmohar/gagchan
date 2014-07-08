@@ -350,6 +350,7 @@ h1, h2, h3, h4, h5, h6 {
  * =============================================================================
  **/
 .btn-facebook,
+.btn-google,
 .btn-twitter {
     padding-left: 20px;
     padding-right: 20px;
@@ -371,6 +372,21 @@ h1, h2, h3, h4, h5, h6 {
 .btn-facebook:hover {
     background: #5874b0;
     border-color: #5874b0;
+    color: #ffffff;
+}
+
+.btn-google {
+    background: #d34836;
+    border-color: #d34836;
+    color: #ffffff;
+}
+
+.btn-google.active,
+.btn-google:active,
+.btn-google:focus,
+.btn-google:hover {
+    background: #e06b5b;
+    border-color: #e06b5b;
     color: #ffffff;
 }
 
