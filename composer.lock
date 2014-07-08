@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "32e4c8d8abbe77bd3badea82ec48cf44",
+    "hash": "7f0e30cf5aabb3a1bd1b17136aaf2c32",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -128,76 +128,6 @@
             "time": "2014-01-08 23:24:01"
         },
         {
-            "name": "bjyoungblood/bjy-authorize",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bjyoungblood/BjyAuthorize.git",
-                "reference": "02723bd19f0bba33649d708022f8d0e0b795f57a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bjyoungblood/BjyAuthorize/zipball/02723bd19f0bba33649d708022f8d0e0b795f57a",
-                "reference": "02723bd19f0bba33649d708022f8d0e0b795f57a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "zendframework/zend-cache": "~2.1",
-                "zendframework/zend-eventmanager": "~2.1",
-                "zendframework/zend-http": "~2.1",
-                "zendframework/zend-mvc": "~2.1",
-                "zendframework/zend-permissions-acl": "~2.1",
-                "zendframework/zend-servicemanager": "~2.1",
-                "zendframework/zend-view": "~2.1"
-            },
-            "require-dev": {
-                "doctrine/common": ">=2.3,<2.5-dev",
-                "phpunit/phpunit": "~3.7",
-                "satooshi/php-coveralls": "~0.6",
-                "squizlabs/php_codesniffer": "1.4.*",
-                "zendframework/zend-developer-tools": "0.*",
-                "zf-commons/zfc-user": "0.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "BjyAuthorize\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Ben Youngblood",
-                    "email": "bx.youngblood@gmail.com",
-                    "homepage": "http://bjyoungblood.com/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Zend\\Acl based firewall system for ZF2 dispatch protection",
-            "homepage": "https://github.com/bjyoungblood/BjyAuthorize",
-            "keywords": [
-                "acl",
-                "zf2",
-                "zfc-user"
-            ],
-            "time": "2013-07-05 11:59:46"
-        },
-        {
             "name": "guzzle/guzzle",
             "version": "v3.9.1",
             "source": {
@@ -288,6 +218,108 @@
                 "web service"
             ],
             "time": "2014-05-07 17:04:22"
+        },
+        {
+            "name": "hybridauth/hybridauth",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hybridauth/hybridauth.git",
+                "reference": "a38f981ad45fafc23eed347b45e6e1a1508c99da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/a38f981ad45fafc23eed347b45e6e1a1508c99da",
+                "reference": "a38f981ad45fafc23eed347b45e6e1a1508c99da",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Hybrid": "hybridauth/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "(MIT or GPL-3.0+)"
+            ],
+            "authors": [
+                {
+                    "name": "Miled",
+                    "email": "hybridauth@gmail.com"
+                }
+            ],
+            "description": "Open source social sign on PHP library.",
+            "homepage": "http://hybridauth.sourceforge.net",
+            "keywords": [
+                "OpenId",
+                "facebook",
+                "google",
+                "hybridauth",
+                "login",
+                "oauth",
+                "social",
+                "twitter",
+                "yahoo"
+            ],
+            "time": "2014-05-26 16:29:53"
+        },
+        {
+            "name": "socalnick/scn-social-auth",
+            "version": "1.14.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocalNick/ScnSocialAuth.git",
+                "reference": "cbb85fe49355eb76148e1b62b3cc41fd6b7d98ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocalNick/ScnSocialAuth/zipball/cbb85fe49355eb76148e1b62b3cc41fd6b7d98ea",
+                "reference": "cbb85fe49355eb76148e1b62b3cc41fd6b7d98ea",
+                "shasum": ""
+            },
+            "require": {
+                "hybridauth/hybridauth": "2.2.*",
+                "php": ">=5.3.3",
+                "zendframework/zendframework": "2.*",
+                "zf-commons/zfc-base": "0.1.*",
+                "zf-commons/zfc-user": "1.0.*"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ScnSocialAuth": "src/",
+                    "ScnSocialAuthTest": "test/"
+                },
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nicholas Calugar",
+                    "email": "njcalugar@gmail.com",
+                    "homepage": "http://socalnick.github.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Uses the HybridAuth PHP library to Enable authentication via Google, Facebook, Twitter, Yahoo!, etc for the ZfcUser ZF2 module.",
+            "homepage": "https://github.com/SocalNick/ScnSocialAuth",
+            "keywords": [
+                "zf2"
+            ],
+            "time": "2014-06-06 01:43:05"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -566,16 +598,16 @@
         },
         {
             "name": "zf-commons/zfc-user",
-            "version": "1.2.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZF-Commons/ZfcUser.git",
-                "reference": "4036d0cf07f788b739b304b5771746defc5156d5"
+                "reference": "db5b39df5f640c86299c74f46a91869c09c9a3ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZF-Commons/ZfcUser/zipball/4036d0cf07f788b739b304b5771746defc5156d5",
-                "reference": "4036d0cf07f788b739b304b5771746defc5156d5",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcUser/zipball/db5b39df5f640c86299c74f46a91869c09c9a3ed",
+                "reference": "db5b39df5f640c86299c74f46a91869c09c9a3ed",
                 "shasum": ""
             },
             "require": {
@@ -639,7 +671,7 @@
             "keywords": [
                 "zf2"
             ],
-            "time": "2014-07-03 15:12:13"
+            "time": "2014-04-17 10:31:44"
         }
     ],
     "packages-dev": [],
