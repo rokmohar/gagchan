@@ -1,0 +1,451 @@
+/**
+ * =============================================================================
+ * #General Style
+ * =============================================================================
+ **/
+body {
+    padding-top: 50px;
+    background: #f8f8f8;
+    
+    color: #222222;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto Slab', serif;
+}
+
+.hidden-overflow {
+    overflow: hidden;
+}
+
+/**
+ * =============================================================================
+ * #Container Bar Style
+ * =============================================================================
+ **/
+@media (min-width: 768px) {
+    .container {
+        width: 680px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 800px;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 940px;
+    }
+}
+
+/**
+ * =============================================================================
+ * #Navigation Bar Style
+ * =============================================================================
+ **/
+.navbar-inverse {
+    background: #ffffff;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.navbar-inverse .navbar-brand {
+    margin-right: 20px;
+    
+    width: 92px;
+    height: 50px;
+    
+    background: url('../images/logo.png') 0 15px no-repeat;
+    display: block;
+    
+    color: #222222;
+}
+
+.navbar-inverse .navbar-brand:focus,
+.navbar-inverse .navbar-brand:hover {
+    color: #ff0000;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #999999;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.navbar-inverse .navbar-nav > li > a.strong {
+    color: #f41c54;
+    font-weight: 700;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus,
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #222222;
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:focus,
+.navbar-inverse .navbar-nav > .active > a:hover {
+    background: #ffffff;
+    color: #ff9f00;
+    font-weight: 700;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+    background: #ffffff;
+    color: #222222;
+}
+
+.navbar-inverse .navbar-toggle {
+    background: #ff9f00;
+    border-color: #ff9f00;
+}
+
+.navbar-inverse .navbar-toggle:focus,
+.navbar-inverse .navbar-toggle:hover {
+    background: #ffb335;
+    border-color: #ffb335;
+}
+
+
+.navbar-inverse .navbar-collapse,
+.navbar-inverse .navbar-form {
+    border-color: #e8e8e8;
+}
+
+ .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+    color: #999999;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus,
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover {
+    color: #222222;
+}
+
+/**
+ * =============================================================================
+ * #Dropdown Menu Style
+ * =============================================================================
+ **/
+.dropdown-menu {
+    border: 1px solid #e8e8e8;
+    border-top: 0;
+    
+    border-radius: 0;
+    
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+.dropdown-menu > li > a {
+    color: #999999;
+}
+
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+    background: #ffffff;
+    color: #222222;
+}
+
+/**
+ * =============================================================================
+ * #Content Style
+ * =============================================================================
+ **/
+#content {
+    padding-top: 40px;
+}
+
+/**
+ * =============================================================================
+ * #Category Style
+ * =============================================================================
+ **/
+.category-name {
+    margin: 0;
+    margin-bottom: 20px;;
+    padding-top: 0;
+    padding-bottom: 20px;
+    
+    border-bottom: 1px solid #d8d8d8;
+    
+    color: #666666;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+/**
+ * =============================================================================
+ * #Meme Style
+ * =============================================================================
+ **/
+.meme-listing > .adsbygoogle {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.meme-listing > .meme {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.meme-listing > .meme:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.meme {
+    margin-bottom: 20px;
+}
+
+.meme > .meme-title,
+.meme > .meme-title > a {
+    color: #222222;
+    font-size: 24px;
+    line-height: 24px;
+    font-family: 'Roboto Slab', serif;
+}
+
+.meme > .meme-title > a:focus,
+.meme > .meme-title > a:hover {
+    color: #a8bf12;
+    text-decoration: none;
+}
+
+.meme > .meme-img {
+    margin-top: 20px;
+    display: block;
+}
+
+.meme > .meme-img > img {
+    margin: 0;
+    padding: 0;
+    
+    width: 100%;
+    display: block;
+}
+
+.meme > .meme-author {
+    margin-top: 20px;
+    float: right;
+    
+    color: #666666;
+    font-size: 12px;;
+    line-height: 34px;
+}
+.meme > .meme-action,
+.meme > .meme-action > li {
+    margin-bottom: 0;
+    padding-left: 0;
+    
+    display: block;
+}
+
+.meme > .meme-action {
+    margin-top: 20px;
+}
+
+.meme > .meme-action > li {
+    margin-right: 10px;
+    float: left;
+}
+
+/**
+ * =============================================================================
+ * #Widget Style
+ * =============================================================================
+ **/
+.widget {
+    margin-bottom: 20px;
+}
+
+.widget > .widget-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    
+    font-size: 24px;
+    line-height: 24px;
+}
+
+/**
+ * =============================================================================
+ * #Sidebar Style
+ * =============================================================================
+ **/
+#sidebar > .meme-listing {
+    margin-bottom: 0;
+}
+
+#sidebar > .meme-listing > .meme {
+    padding-bottom: 0;
+    border-bottom: 20px;
+}
+
+#sidebar > .meme-listing > .meme > .meme-img {
+    margin-top: 0;
+}
+
+#sidebar > .meme-listing > .meme > .meme-title {
+    margin-top: 10px;
+}
+
+#sidebar > .meme-listing > .meme > .meme-title > a,
+#sidebar > .meme-listing > .meme > .meme-title > a:focus,
+#sidebar > .meme-listing > .meme > .meme-title > a:hover {
+    font-size: 14px;
+    line-height: 14px;
+}
+
+/**
+ * =============================================================================
+ * #Comments Style
+ * =============================================================================
+ **/
+.comments {
+    margin-top: 60px;
+}
+
+.comments > .comments-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    
+    border-bottom: 1px solid #d8d8d8;
+    
+    color: #666666;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.comments > .comment-widget {
+    margin-bottom: 20px;
+}
+
+.comments > .comment-widget > .user-details {
+    margin-bottom: 10px;
+    
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 700;
+}
+
+.comments > .comment-widget > .user-details > small {
+    color: #999999;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.comments > .comment-widget > .comment-text {
+    font-size: 14px;
+    line-height: 14px;
+}
+
+/**
+ * =============================================================================
+ * #Button Style
+ * =============================================================================
+ **/
+.btn-facebook,
+.btn-twitter {
+    padding-left: 20px;
+    padding-right: 20px;
+    
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 700;
+}
+
+.btn-facebook {
+    background: #3b5998;
+    border-color: #3b5998;
+    color: #ffffff;
+}
+
+.btn-facebook.active,
+.btn-facebook:active,
+.btn-facebook:focus,
+.btn-facebook:hover {
+    background: #5874b0;
+    border-color: #5874b0;
+    color: #ffffff;
+}
+
+.btn-twitter {
+    background: #4099ff;
+    border-color: #4099ff;
+    color: #ffffff;
+}
+
+.btn-twitter.active,
+.btn-twitter:active,
+.btn-twitter:focus,
+.btn-twitter:hover {
+    background: #67aeff;
+    border-color: #67aeff;
+    color: #ffffff;
+}
+
+/**
+ * =============================================================================
+ * #Login & Sign Up Style
+ * =============================================================================
+ **/
+.login-title {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.form-row {
+    margin-bottom: 10px;
+}
+
+/**
+ * =============================================================================
+ * #Button Style
+ * =============================================================================
+ **/
+.btn-primary {
+    background: #ff9f00;
+    border-color: #ff9f00;
+    
+    color: #ffffff;
+}
+
+.btn-primary.active,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:hover {
+    background: #ffb335;
+    border-color: #ffb335;
+    
+    color: #ffffff;
+}
+
+.btn-social-group {
+    margin: -10px -5px 0;
+    padding: 0;
+    
+    display: block;
+    float: none;
+}
+
+.btn-social-group > li {
+    margin: 10px 0 0;
+    padding: 0 5px;
+    
+    width: 50%;
+    display: block;
+    float: left;
+}
+
+.btn-social-group > li > a {
+    display: block;
+    float: none;
+}

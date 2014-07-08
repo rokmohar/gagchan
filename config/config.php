@@ -4,7 +4,7 @@ return array(
     'modules' => array(
         'BjyAuthorize',
         'Core',
-        'User',
+        //'User',
         'Web',
         'ZfcBase',
         'ZfcUser',
