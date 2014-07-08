@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 07. jul 2014 ob 23.58
+-- Čas nastanka: 08. jul 2014 ob 14.44
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -137,45 +137,21 @@ INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, 
 -- --------------------------------------------------------
 
 --
--- Struktura tabele `user_role`
+-- Struktura tabele `user_provider`
 --
 
-CREATE TABLE IF NOT EXISTS `user_role` (
-`id` int(11) NOT NULL,
-  `role_id` varchar(255) NOT NULL,
-  `is_default` tinyint(1) NOT NULL,
-  `parent_id` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Odloži podatke za tabelo `user_role`
---
-
-INSERT INTO `user_role` (`id`, `role_id`, `is_default`, `parent_id`, `created_at`, `updated_at`) VALUES
-(1, 'guest', 1, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
-(2, 'user', 0, NULL, '2014-07-07 23:20:21', '2014-07-07 23:20:21'),
-(3, 'admin', 0, 'user', '2014-07-07 23:20:21', '2014-07-07 23:20:21');
-
--- --------------------------------------------------------
-
---
--- Struktura tabele `user_role_linker`
---
-
-CREATE TABLE IF NOT EXISTS `user_role_linker` (
+CREATE TABLE IF NOT EXISTS `user_provider` (
   `user_id` int(11) NOT NULL,
-  `role_id` varchar(255) NOT NULL
+  `provider_id` varchar(50) NOT NULL,
+  `provider` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Odloži podatke za tabelo `user_role_linker`
+-- Odloži podatke za tabelo `user_provider`
 --
 
-INSERT INTO `user_role_linker` (`user_id`, `role_id`) VALUES
-(1, 'admin'),
-(2, 'admin');
+INSERT INTO `user_provider` (`user_id`, `provider_id`, `provider`) VALUES
+(1, '1513677385514321', 'facebook');
 
 --
 -- Indeksi zavrženih tabel
@@ -218,16 +194,10 @@ ALTER TABLE `user`
  ADD PRIMARY KEY (`user_id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indeksi tabele `user_role`
+-- Indeksi tabele `user_provider`
 --
-ALTER TABLE `user_role`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `role_id` (`role_id`), ADD KEY `parent_id` (`parent_id`);
-
---
--- Indeksi tabele `user_role_linker`
---
-ALTER TABLE `user_role_linker`
- ADD PRIMARY KEY (`user_id`,`role_id`), ADD KEY `role_id` (`role_id`);
+ALTER TABLE `user_provider`
+ ADD PRIMARY KEY (`user_id`,`provider_id`), ADD UNIQUE KEY `provider_id` (`provider_id`,`provider`);
 
 --
 -- AUTO_INCREMENT zavrženih tabel
@@ -258,11 +228,6 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `user`
 MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT tabele `user_role`
---
-ALTER TABLE `user_role`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- Omejitve tabel za povzetek stanja
 --
@@ -295,17 +260,10 @@ ALTER TABLE `newsletter`
 ADD CONSTRAINT `newsletter_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Omejitve za tabelo `user_role`
+-- Omejitve za tabelo `user_provider`
 --
-ALTER TABLE `user_role`
-ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `user_role` (`role_id`);
-
---
--- Omejitve za tabelo `user_role_linker`
---
-ALTER TABLE `user_role_linker`
-ADD CONSTRAINT `user_role_linker_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`),
-ADD CONSTRAINT `user_role_linker_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `user_provider`
+ADD CONSTRAINT `user_provider_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
