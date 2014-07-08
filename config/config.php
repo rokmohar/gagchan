@@ -4,10 +4,10 @@ return array(
     'modules' => array(
         'BjyAuthorize',
         'Core',
-        //'User',
         'Web',
         'ZfcBase',
         'ZfcUser',
+        'User', // Must be loaded after ZfcUser
     ),
 
     // These are various options for the listeners attached to the ModuleManager
