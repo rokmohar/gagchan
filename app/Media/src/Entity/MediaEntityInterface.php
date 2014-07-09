@@ -1,8 +1,24 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Media\Entity;
 
+/**
+ * @author Rok Mohar <rok.mohar@gmail.com>
+ */
+interface MediaEntityInterface
+{
+    /**
+     * @return Integer
+     */
+    public function getId();
+    
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+    
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt();
+}

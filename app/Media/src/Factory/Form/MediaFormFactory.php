@@ -1,8 +1,26 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Media\Factory\Form;
 
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+use Media\Form\MediaForm;
+use Media\InputFilter\MediaFilter;
+
+/**
+ * @author Rok Mohar <rok.mohar@gmail.com>
+ */
+class MediaFormFactory implements FactoryInterface
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        $form = new MediaForm('media');
+        $form->setInputFilter(new MediaFilter());
+
+        return $form;
+    }
+}

@@ -8,7 +8,7 @@ namespace Media;
 class Module
 {
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function getConfig()
     {
@@ -16,7 +16,7 @@ class Module
     }
     
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function getAutoloaderConfig()
     {
@@ -25,6 +25,18 @@ class Module
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src',
                 ),
+            ),
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'media.form.media_form' => 'Media\Factory\Form\MediaFormFactory',
             ),
         );
     }
