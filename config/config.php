@@ -2,12 +2,16 @@
 return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
+        // 3rd party modules
         'Aws',
-        'Core',
-        'Web',
         'ScnSocialAuth',
         'ZfcBase',
         'ZfcUser',
+        
+        // Our modules
+        'Core',
+        'Media',
+        'Web',
         'User', // Must be loaded after ZfcUser
     ),
 

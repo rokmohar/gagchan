@@ -1,3 +1,4 @@
 /config/autoload/database.local.php
+/config/autoload/scn-social-auth.local.php
 /nbproject/
 /vendor/
