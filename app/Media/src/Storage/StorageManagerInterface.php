@@ -5,7 +5,7 @@ namespace Media\Storage;
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-interface MediaStorageInterface
+interface StorageManagerInterface
 {
     /**
      * Add new storage to the collection.

@@ -2,15 +2,30 @@
 
 namespace Media\Storage;
 
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
 class StorageManager implements StorageManagerInterface
 {
     /**
+     * @var \Zend\ServiceManager\ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+    
+    /**
      * @var Array
      */
     protected $storages = array();
+    
+    /**
+     * @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     */
+    public function __construct(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
     
     /**
      * {@inheritDoc}
@@ -23,7 +38,7 @@ class StorageManager implements StorageManagerInterface
             );
         }
         
-        $this->storagees[$name] = $storage;
+        $this->storages[$name] = $storage;
         
         return $this;
     }
@@ -47,7 +62,7 @@ class StorageManager implements StorageManagerInterface
             );
         }
         
-        return $this->storagees[$name];
+        return $this->storages[$name];
     }
     
     /**

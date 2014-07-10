@@ -43,9 +43,11 @@ class Module implements
     {
         return array(
             'factories' => array(
-                'media.form.media'             => 'Media\Factory\Form\MediaFormFactory',
-                'media.mapper.media'           => 'Media\Factory\Mapper\MediaMapperFactory',
-                'media.service.bucket_manager' => 'Media\Factory\Service\BucketManagerFactory',
+                'media.form.media'              => 'Media\Factory\Form\MediaFormFactory',
+                'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',
+                'media.service.bucket_manager'  => 'Media\Factory\Service\BucketManagerFactory',
+                'media.service.media_manager'   => 'Media\Factory\Service\MediaManagerFactory',
+                'media.storage.storage_manager' => 'Media\Factory\Storage\StorageManagerFactory',
             ),
         );
     }

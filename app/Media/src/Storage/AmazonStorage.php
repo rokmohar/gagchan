@@ -2,6 +2,10 @@
 
 namespace Media\Storage;
 
+use Aws\Common\Aws;
+
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
@@ -13,11 +17,16 @@ class AmazonStorage implements StorageInterface
     protected $aws;
     
     /**
-     * @param \Aws\Common\Aws $aws
+     * @var \Zend\ServiceManager\ServiceLocatorInterface
      */
-    public function __construct(Aws $aws)
+    protected $serviceLocator;
+    
+    /**
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     */
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->aws = $aws;
+        $this->serviceLocator = $serviceLocator;
     }
     
     /**
@@ -55,19 +64,11 @@ class AmazonStorage implements StorageInterface
      */
     public function getAws()
     {
-        return $this->aws;
-    }
-    
-    /**
-     * @param \Aws\Common\Aws $aws
-     * 
-     * @return \Media\Service\BucketManager
-     */
-    public function setAws(Aws $aws)
-    {
-        $this->aws = $aws;
+        if (!$this->aws instanceof Aws) {
+            return $this->aws = $this->serviceLocator->get('aws');
+        }
         
-        return $this;
+        return $this->aws;
     }
     
     /**

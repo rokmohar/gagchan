@@ -2,8 +2,6 @@
 
 namespace Media\Service;
 
-use Aws\Common\Aws;
-
 use Media\Mapper\MediaMapperInterface;
 
 interface BucketManagerInterface

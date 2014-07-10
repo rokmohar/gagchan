@@ -26,6 +26,13 @@ class MediaController extends AbstractActionController
      */
     public function uploadAction()
     {
+        // Get file from AWS S3
+        $sm = $this->getServiceLocator()->get('media.storage.storage_manager');
+        $am = $sm->getStorage('amazon');
+        
+        var_dump($am->getFile('a092pZX_460s_v1.jpg'));
+        die();
+        
         // Instance of request
         $request = $this->getRequest();
         
