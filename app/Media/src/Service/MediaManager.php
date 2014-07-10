@@ -83,11 +83,34 @@ class MediaManager implements MediaManagerInterface
         $image
             ->resize(new Box($width, $height))
             ->save($file->getPathname(), array(
-                'format' => 'jpg',
+                'format' => $this->getFormatExtension(
+                    $file->getMimeType()
+                ),
             ))
         ;
         
         return $this;
+    }
+    
+    /**
+     * @return String
+     */
+    protected function getFormatExtension($mimeType)
+    {
+        $extension = array(
+            'application/gif' => 'gif',
+            'image/jpeg'      => 'jpg',
+            'image/pjpeg'     => 'jpg',
+            'image/png'       => 'jpg',
+        );
+        
+        if (isset($extension[$mimeType]) === false) {
+            throw new \InvalidArgumentException(
+                sprintf('Unsupported mime type, "%s" given.', $mimeType)
+            );
+        }
+        
+        return $extension[$mimeType];
     }
     
     /**
