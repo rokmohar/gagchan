@@ -17,6 +17,10 @@ class MediaForm extends Form
         parent::__construct($name);
         
         $this
+            ->setAttribute('enctype', 'multipart/form-data')
+        ;
+        
+        $this
             ->addName()
             ->addFile()
             ->addUrl()

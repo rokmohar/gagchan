@@ -38,25 +38,21 @@ class MediaController extends AbstractActionController
         // Check if form is posted
         if ($request->isPost() === true) {
             // Set posted data
-            $mediaForm->setData($request->getPost());
+            $mediaForm->setData(array_merge(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            ));
             
             // Validate form
             if ($mediaForm->isValid() === true) {
                 // Upload selected file
                 
-                // Meme name: $file_name   = $mediaForm->getInputFilter()->getValue('name');
-                           
-                // File name
-                $file_name   = $mediaForm->getInputFilter()->getValue('file');
-                
-                // File source
-                $source_file = $mediaForm->getInputFilter()->getValue('file');
-                
                 //echo $file_name . " " . $source_file;
-                var_dump($request->getFiles());
+                $file = $mediaForm->get('file')->getValue();
                 
-                $this->uploadFile($file_name, $source_file);
-               // return $this->redirect()->toRoute('home');
+                $this->uploadFile($file['name'], $file['tmp_name']);
+                
+                return $this->redirect()->toRoute('home');
             }
         }
         
@@ -94,18 +90,14 @@ class MediaController extends AbstractActionController
         $client = $aws->get('s3');
         
         // Try upload the file
-        try {
-            
-            $client->putObject(array(
-                'Bucket' => "aa",
-                'Key'    => $file_name,
-                'Body'   => fopen($source_file,'r'),
-                'ACL'    => 'public-read',
-            ));
-        } catch (S3Exception $e) {      // Error occured
-            echo "There was an error uploading the file.\n";
-        } 
-/*
+        $client->putObject(array(
+            'Bucket' => "gagchan",
+            'Key'    => $file_name,
+            'Body'   => fopen($source_file, 'r'),
+            'ACL'    => 'public-read',
+        ));
+ 
+        /*
         return $client->waitUntilObjectExists(array(
             'Bucket' => $this->_bucket,
             'Key'    => $file_name
