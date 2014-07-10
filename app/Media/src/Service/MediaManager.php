@@ -47,8 +47,8 @@ class MediaManager implements MediaManagerInterface
      */
     public function uploadFile(UploadedFile $file, $name)
     {
-        // Resize file
-        $this->resizeFile($file);
+        // Resize image
+        $this->resizeImage($file);
         
         // Get unique slug
         $slug = $this->getUniqueSlug();
@@ -105,7 +105,7 @@ class MediaManager implements MediaManagerInterface
      * 
      * @return \Media\Service\MediaManager
      */
-    protected function resizeFile(UploadedFile $file)
+    protected function resizeImage(UploadedFile $file)
     {
         // Get image
         $imagine = $this->getImagine();

@@ -49,15 +49,26 @@ class MediaController extends AbstractActionController
                 $name = $mediaForm->get('name')->getValue();
                 $url  = $mediaForm->get('url')->getValue();
                 
+                // Temporary file name
+                $temp = tempnam(false, false);
+                
+                // Copy image from URL to temporary file
+                copy($url, $temp);
+                
+                // Image size
+                $size = getimagesize($temp);
+               
+                $file = new UploadedFile(
+                    $temp,
+                    basename($url),
+                    image_type_to_mime_type($size[2]),
+                    filesize($temp),
+                    $size[0],
+                    $size[1]
+                );
+                
                 // Get file information
                 //$fileinfo = $mediaForm->get('file')->getValue();
-                
-                $file = new \SplFileInfo(tmpfile());
-                
-                //header('Content-type: image/jpeg');
-                //echo file_get_contents($url);
-                
-                die();
                 
                 // Create uploaded file
                 /*$file = new UploadedFile(
@@ -69,8 +80,8 @@ class MediaController extends AbstractActionController
                 );*/
                 
                 // Media manager
-                //$mediaManager = $this->getMediaManager();
-                //$mediaManager->uploadFile($file, $name);
+                $mediaManager = $this->getMediaManager();
+                $mediaManager->uploadFile($file, $name);
                 
                 return $this->redirect()->toRoute('home');
             }
