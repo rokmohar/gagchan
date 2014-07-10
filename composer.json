@@ -7,6 +7,7 @@
         "zendframework/zendframework": "2.3.*",
         "aws/aws-sdk-php-zf2": "1.2.*",
         "zf-commons/zfc-user": "1.0.*",
-        "socalnick/scn-social-auth": "1.14.*"
+        "socalnick/scn-social-auth": "1.14.*",
+        "imagine/imagine": "0.6.*"
     }
 }

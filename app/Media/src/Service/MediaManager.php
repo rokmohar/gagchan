@@ -54,8 +54,6 @@ class MediaManager implements MediaManagerInterface
         // Storage
         $storage = $this->getStorageManager()->getStorage('amazon');
         
-        $file = new UploadedFile($file->getPathname() . '.jpg', $file->getOriginalName(), $file->getMimeType(), $file->getSize(), $file->getError());
-        
         // Upload file to the storage
         $storage->putFile($file->getOriginalName(), $file);
     }
@@ -83,7 +81,7 @@ class MediaManager implements MediaManagerInterface
         // Resize image
         $image
             ->resize(new Box($width, $height))
-            ->save($file->getPathname() . '.jpg')
+            //->save($file->getPathname() . '.jpg')
         ;
         
         return $this;
