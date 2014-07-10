@@ -6,8 +6,8 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.3.*",
         "aws/aws-sdk-php-zf2": "1.2.*",
+        "imagine/imagine": "0.6.*",
         "zf-commons/zfc-user": "1.0.*",
-        "socalnick/scn-social-auth": "1.14.*",
-        "imagine/imagine": "0.6.*"
+        "socalnick/scn-social-auth": "1.14.*"
     }
 }

@@ -4,7 +4,6 @@ namespace Media\Service;
 
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
-use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;;
 
 use Core\File\UploadedFile;
@@ -56,6 +55,8 @@ class MediaManager implements MediaManagerInterface
         
         // Upload file to the storage
         $storage->putFile($file->getOriginalName(), $file);
+        
+        return $this;
     }
     
     /**
@@ -81,7 +82,9 @@ class MediaManager implements MediaManagerInterface
         // Resize image
         $image
             ->resize(new Box($width, $height))
-            //->save($file->getPathname() . '.jpg')
+            ->save($file->getPathname(), array(
+                'format' => 'jpg',
+            ))
         ;
         
         return $this;

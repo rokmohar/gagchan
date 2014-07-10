@@ -50,10 +50,11 @@ class AmazonStorage implements StorageInterface
     {
         $client = $this->getAws()->get('s3');
         
+        
         $client->putObject(array(
             'Bucket' => 'gagchan/photo',
             'Key'    => $key,
-            'Body'   => $file->openFile(),
+            'Body'   => fopen($file->getPathname(), 'r'),
             'ACL'    => 'public-read',
         ));
         
