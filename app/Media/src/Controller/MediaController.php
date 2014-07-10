@@ -8,7 +8,6 @@ use Zend\View\Model\ViewModel;
 use Core\File\UploadedFile;
 use Media\Form\MediaForm;
 use Media\Service\MediaManagerInterface;
-use Media\Storage\StorageManagerInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -46,21 +45,32 @@ class MediaController extends AbstractActionController
             
             // Validate form
             if ($mediaForm->isValid() === true) {
+                // Name
+                $name = $mediaForm->get('name')->getValue();
+                $url  = $mediaForm->get('url')->getValue();
+                
                 // Get file information
-                $fileinfo = $mediaForm->get('file')->getValue();
+                //$fileinfo = $mediaForm->get('file')->getValue();
+                
+                $file = new \SplFileInfo(tmpfile());
+                
+                //header('Content-type: image/jpeg');
+                //echo file_get_contents($url);
+                
+                die();
                 
                 // Create uploaded file
-                $file = new UploadedFile(
+                /*$file = new UploadedFile(
                     $fileinfo['tmp_name'],
                     $fileinfo['name'],
                     $fileinfo['type'],
                     $fileinfo['size'],
                     $fileinfo['error']
-                );
+                );*/
                 
                 // Media manager
-                $mediaManager = $this->getMediaManager();
-                $mediaManager->uploadFile($file);
+                //$mediaManager = $this->getMediaManager();
+                //$mediaManager->uploadFile($file, $name);
                 
                 return $this->redirect()->toRoute('home');
             }

@@ -43,18 +43,59 @@ class MediaManager implements MediaManagerInterface
     }
     
     /**
-     * @param \Core\File\UploadedFile
+     * {@inheritDoc}
      */
-    public function uploadFile(UploadedFile $file)
+    public function uploadFile(UploadedFile $file, $name)
     {
         // Resize file
         $this->resizeFile($file);
+        
+        // Get unique slug
+        $slug = $this->getUniqueSlug();
+        
+        // Insert image data into DB
+        $this->insertData($file, $slug, $name);
         
         // Storage
         $storage = $this->getStorageManager()->getStorage('amazon');
         
         // Upload file to the storage
-        $storage->putFile($file->getOriginalName(), $file);
+        $storage->putFile($slug, $file);
+        
+        return $this;
+    }
+    
+    /**
+     * @param \Core\File\UploadedFile $file
+     * @param String                  $slug
+     * @param String                  $name
+     * 
+     * @return \Media\Service\MediaManager
+     */
+    public function insertData(UploadedFile $file, $slug, $name)
+    {
+        // Media mapper
+        $mediaMapper = $this->getMediaMapper();
+        
+        // Imagine
+        $imagine = $this->getImagine();
+        
+        // Open image
+        $image = $imagine->open($file->getPathname());
+        $size  = $image->getSize();
+        
+        // Insert into DB
+        $mediaMapper->insertMedia(
+            $slug,
+            $name,
+            null,
+            1,
+            1,
+            $size->getWidth(),
+            $size->getHeight(),
+            $file->getSize(),
+            $file->getMimeType()
+        );
         
         return $this;
     }
@@ -83,24 +124,41 @@ class MediaManager implements MediaManagerInterface
         $image
             ->resize(new Box($width, $height))
             ->save($file->getPathname(), array(
-                'format' => $this->getFormatExtension($file->getMimeType()),
+                'format' => 'jpg',
             ))
+        ;
+        
+        $file
+            ->setMimeType('image/jpeg')
+            ->setSize(filesize($file->getPathname()))
         ;
         
         return $this;
     }
     
     /**
+     * Get a unique slug.
+     * 
      * @return String
      */
-    protected function getFormatExtension($mimeType)
+    public function getUniqueSlug()
     {
-        $extension = array(
-            'image/gif' => 'gif',
-        );
+        // Generate a slug
+        $slug = $this->generateString(8);
         
-        return (isset($extension[$mimeType]) ? $extension[$mimeType] : 'jpg');
+        // Media mapper
+        $mediaMapper = $this->getMediaMapper();
+        
+        // Check if slug is unique
+        if ($mediaMapper->isUniqueSlug($slug) === true) {
+            // Return unique slug
+            return $slug;
+        }
+        
+        // Generate a new slug
+        return $this->getUniqueSlug();
     }
+    
     
     /**
      * Generate a random string.

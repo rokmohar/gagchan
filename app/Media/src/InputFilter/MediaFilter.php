@@ -48,11 +48,11 @@ class MediaFilter extends InputFilter
         $this->add(array(
             'name'       => 'url',
             'required'   => false,
-            'validators' => array(
+            /*'validators' => array(
                 array(
                     'name' => 'Hostname',
                 ),
-            ),
+            ),*/
             'filters'   => array(
                 array('name' => 'StringTrim'),
             ),
