@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 08. jul 2014 ob 14.44
+-- Čas nastanka: 10. jul 2014 ob 18.14
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -62,6 +62,10 @@ CREATE TABLE IF NOT EXISTS `media` (
   `name` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `content_type` smallint(64) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -117,22 +121,23 @@ CREATE TABLE IF NOT EXISTS `newsletter` (
 
 CREATE TABLE IF NOT EXISTS `user` (
 `user_id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
   `display_name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `state` smallint(4) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(128) DEFAULT NULL,
+  `state` smallint(4) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Odloži podatke za tabelo `user`
 --
 
 INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
-(1, 'rokm92', NULL, 'rok.mohar@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
-(2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 1, '2014-07-07 23:29:26', '2014-07-07 23:29:26');
+(1, 'rokm92', NULL, 'nekdo@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
+(2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 1, '2014-07-07 23:29:26', '2014-07-07 23:29:26'),
+(4, NULL, 'Rok Mohar', 'rok.mohar@gmail.com', 'googleToLocalUser', 1, '2014-07-08 19:50:29', '2014-07-08 19:50:29');
 
 -- --------------------------------------------------------
 
@@ -151,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `user_provider` (
 --
 
 INSERT INTO `user_provider` (`user_id`, `provider_id`, `provider`) VALUES
-(1, '1513677385514321', 'facebook');
+(4, '113884234906240529364', 'google');
 
 --
 -- Indeksi zavrženih tabel
@@ -227,7 +232,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT tabele `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Omejitve tabel za povzetek stanja
 --
