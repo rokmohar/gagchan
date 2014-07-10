@@ -2,10 +2,17 @@
 
 namespace Media;
 
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-class Module
+class Module implements
+    AutoloaderProviderInterface,
+    ConfigProviderInterface,
+    ServiceProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -36,7 +43,9 @@ class Module
     {
         return array(
             'factories' => array(
-                'media.form.media_form' => 'Media\Factory\Form\MediaFormFactory',
+                'media.form.media'             => 'Media\Factory\Form\MediaFormFactory',
+                'media.mapper.media'           => 'Media\Factory\Mapper\MediaMapperFactory',
+                'media.service.bucket_manager' => 'Media\Factory\Service\BucketManagerFactory',
             ),
         );
     }
