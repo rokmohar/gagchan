@@ -4,7 +4,11 @@ namespace Media\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
+use Core\File\UploadedFile;
 use Media\Form\MediaForm;
+use Media\Service\MediaManagerInterface;
+use Media\Storage\StorageManagerInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -12,27 +16,20 @@ use Media\Form\MediaForm;
 class MediaController extends AbstractActionController
 {
     /**
-     * @var \Media\Service\BucketManagerInterface
-     */
-    protected $bucketManager;
-    
-    /**
      * @var \Media\Form\MediaForm
      */
     protected $mediaForm;
+    
+    /**
+     * @var \Media\Service\MediaManagerInterface
+     */
+    protected $mediaManager;
     
     /**
      * @return \Zend\View\Helper\ViewModel
      */
     public function uploadAction()
     {
-        // Get file from AWS S3
-        $sm = $this->getServiceLocator()->get('media.storage.storage_manager');
-        $am = $sm->getStorage('amazon');
-        
-        var_dump($am->getFile('a092pZX_460s_v1.jpg'));
-        die();
-        
         // Instance of request
         $request = $this->getRequest();
         
@@ -49,12 +46,21 @@ class MediaController extends AbstractActionController
             
             // Validate form
             if ($mediaForm->isValid() === true) {
-                // Upload selected file
+                // Get file information
+                $fileinfo = $mediaForm->get('file')->getValue();
                 
-                //echo $file_name . " " . $source_file;
-                $file = $mediaForm->get('file')->getValue();
+                // Create uploaded file
+                $file = new UploadedFile(
+                    $fileinfo['tmp_name'],
+                    $fileinfo['name'],
+                    $fileinfo['type'],
+                    $fileinfo['size'],
+                    $fileinfo['error']
+                );
                 
-                $this->getBucketManager()->uploadFile($file['name'], $file['tmp_name']);
+                // Media manager
+                $mediaManager = $this->getMediaManager();
+                $mediaManager->uploadFile($file);
                 
                 return $this->redirect()->toRoute('home');
             }
@@ -70,20 +76,6 @@ class MediaController extends AbstractActionController
     }
     
     /**
-     * @return \Media\Service\BucketManagerInterface
-     */
-    public function getBucketManager()
-    {
-        if (!$this->bucketManager instanceof BucketManagerInterface) {
-            return $this->bucketManager = $this->getServiceLocator()->get(
-                'media.service.bucket_manager'
-            );
-        }
-        
-        return $this->bucketManager;
-    }
-    
-    /**
      * @return \Media\Form\MediaForm
      */
     public function getMediaForm()
@@ -95,5 +87,19 @@ class MediaController extends AbstractActionController
         }
         
         return $this->mediaForm;
+    }
+    
+    /**
+     * @return \Media\Service\MediaManagerInterface
+     */
+    public function getMediaManager()
+    {
+        if (!$this->mediaManager instanceof MediaManagerInterface) {
+            return $this->mediaManager = $this->getServiceLocator()->get(
+                'media.service.media_manager'
+            );
+        }
+        
+        return $this->mediaManager;
     }
 }

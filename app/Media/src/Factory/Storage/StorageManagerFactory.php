@@ -16,7 +16,7 @@ class StorageManagerFactory implements FactoryInterface
      * @var Array
      */
     protected $storages = array(
-        'amazon' => 'Media\Storage\AmazonStorage',
+        'Media\Storage\AmazonStorage',
     );
     
     /**
@@ -28,12 +28,12 @@ class StorageManagerFactory implements FactoryInterface
         $storageManager = new StorageManager($serviceLocator);
         
         // Attach storages to storage manager
-        foreach ($this->storages as $name => $class) {
+        foreach ($this->storages as $class) {
             // Create storage
             $storage = new $class($serviceLocator);
             
             // Add storage
-            $storageManager->addStorage($name, $storage);
+            $storageManager->addStorage($storage);
         }
         
         // Return storage manager

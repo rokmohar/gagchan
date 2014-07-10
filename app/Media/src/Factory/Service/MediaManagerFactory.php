@@ -20,7 +20,10 @@ class MediaManagerFactory implements FactoryInterface
         // Media mapper
         $mediaMapper = $serviceLocator->get('media.mapper.media');
         
+        // Storage manager
+        $storageManager = $serviceLocator->get('media.storage.storage_manager');
+        
         // Create and return service
-        return new MediaManager($mediaMapper);
+        return new MediaManager($mediaMapper, $storageManager);
     }
 }

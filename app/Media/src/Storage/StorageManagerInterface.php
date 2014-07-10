@@ -10,10 +10,9 @@ interface StorageManagerInterface
     /**
      * Add new storage to the collection.
      * 
-     * @param String                           $name
      * @param \Media\Storage\StorageInterface $storage
      */
-    public function addStorage($name, StorageInterface $storage);
+    public function addStorage(StorageInterface $storage);
     
     /**
      * Check if collection contains a storage.

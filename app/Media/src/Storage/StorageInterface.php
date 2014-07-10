@@ -2,6 +2,8 @@
 
 namespace Media\Storage;
 
+use Core\File\UploadedFile;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
@@ -17,10 +19,10 @@ interface StorageInterface
     /**
      * Save file to the storage.
      * 
-     * @param String $key
-     * @param String $filename
+     * @param String                  $key
+     * @param \Core\File\UploadedFile $file
      */
-    public function putFile($key, $filename);
+    public function putFile($key, UploadedFile $file);
     
     /**
      * Return the storage name.

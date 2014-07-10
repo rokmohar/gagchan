@@ -3,8 +3,9 @@
 namespace Media\Storage;
 
 use Aws\Common\Aws;
-
 use Zend\ServiceManager\ServiceLocatorInterface;
+
+use Core\File\UploadedFile;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -45,14 +46,14 @@ class AmazonStorage implements StorageInterface
     /**
      * {@inheritDoc}
      */
-    public function putFile($key, $filename)
+    public function putFile($key, UploadedFile $file)
     {
         $client = $this->getAws()->get('s3');
         
         $client->putObject(array(
             'Bucket' => 'gagchan/photo',
             'Key'    => $key,
-            'Body'   => fopen($filename, 'r'),
+            'Body'   => $file->openFile(),
             'ACL'    => 'public-read',
         ));
         
