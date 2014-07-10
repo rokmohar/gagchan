@@ -79,8 +79,6 @@ class MediaManager implements MediaManagerInterface
         $width  = 460;
         $height = $width * $size->getHeight() / $size->getWidth();
         
-        var_dump($file->getMimeType()); die();
-        
         // Resize image
         $image
             ->resize(new Box($width, $height))
@@ -98,7 +96,7 @@ class MediaManager implements MediaManagerInterface
     protected function getFormatExtension($mimeType)
     {
         $extension = array(
-            'image/gif'  => 'gif',
+            'image/gif' => 'gif',
         );
         
         return (isset($extension[$mimeType]) ? $extension[$mimeType] : 'jpg');
