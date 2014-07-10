@@ -4,8 +4,15 @@ namespace Media\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-
 use Media\Form\MediaForm;
+
+require 'vendor/autoload.php';
+use Aws\S3\S3Client;
+use Aws\Common\Enum\Region;
+use Aws\Common\Aws;
+use Aws\S3\Enum\CannedAcl;
+use Aws\S3\Exception\S3Exception;
+use Guzzle\Http\EntityBody;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -35,8 +42,21 @@ class MediaController extends AbstractActionController
             
             // Validate form
             if ($mediaForm->isValid() === true) {
-                // Posted data is valid
-                die("Valid");
+                // Upload selected file
+                
+                // Meme name: $file_name   = $mediaForm->getInputFilter()->getValue('name');
+                           
+                // File name
+                $file_name   = $mediaForm->getInputFilter()->getValue('file');
+                
+                // File source
+                $source_file = $mediaForm->getInputFilter()->getValue('file');
+                
+                //echo $file_name . " " . $source_file;
+                var_dump($request->getFiles());
+                
+                $this->uploadFile($file_name, $source_file);
+               // return $this->redirect()->toRoute('home');
             }
         }
         
@@ -48,7 +68,7 @@ class MediaController extends AbstractActionController
             'mediaForm' => $mediaForm,
         ));
     }
-    
+       
     /**
      * @return \Media\Form\MediaForm
      */
@@ -62,4 +82,34 @@ class MediaController extends AbstractActionController
         
         return $this->mediaForm;
     }
+    
+    /**
+     * @param type $file_name
+     * @param type $source_file
+     * @return type
+     */
+    public function uploadFile($file_name, $source_file)
+    {
+        $aws    = $this->getServiceLocator()->get('aws');
+        $client = $aws->get('s3');
+        
+        // Try upload the file
+        try {
+            
+            $client->putObject(array(
+                'Bucket' => "aa",
+                'Key'    => $file_name,
+                'Body'   => fopen($source_file,'r'),
+                'ACL'    => 'public-read',
+            ));
+        } catch (S3Exception $e) {      // Error occured
+            echo "There was an error uploading the file.\n";
+        } 
+/*
+        return $client->waitUntilObjectExists(array(
+            'Bucket' => $this->_bucket,
+            'Key'    => $file_name
+        )); */
+    }
+ 
 }
