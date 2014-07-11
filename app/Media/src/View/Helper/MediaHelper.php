@@ -14,7 +14,7 @@ class MediaHelper extends AbstractHelper
     /**
      * @var String
      */
-    protected $bucketUrl = 'http://d35c4l01ornghz.cloudfront.net/photo/';
+    protected $bucketUrl = 'http://cdn.gagchan.com/photo/';
     
     /**
      * @var \Media\Mapper\MediaMapperInterface
