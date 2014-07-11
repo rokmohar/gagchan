@@ -4,17 +4,27 @@ namespace Media\Form;
 
 use Zend\Form\Form;
 
+use Media\Mapper\CategoryMapperInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
 class MediaForm extends Form
 {
     /**
-     * @param String $name
+     * @var \Media\Mapper\CategoryMapperInterface
      */
-    public function __construct($name)
+    protected $categoryMapper;
+    
+    /**
+     * @param String                                $name
+     * @param \Media\Mapper\CategoryMapperInterface $categoryMapper
+     */
+    public function __construct($name, CategoryMapperInterface $categoryMapper)
     {
         parent::__construct($name);
+        
+        $this->categoryMapper = $categoryMapper;
         
         $this
             ->setAttribute('enctype', 'multipart/form-data')
@@ -103,23 +113,19 @@ class MediaForm extends Form
      */
     protected function addCategory()
     {
+        $values = array();
+        $result = $this->categoryMapper->getCategories();
+        
+        foreach ($result as $category) {
+            $values[$category['id']] = $category['name'];
+        }
+        
         $this->add(array(
-            'type'    => 'Zend\Form\Element\Select',
+            'type'    => 'select',
             'name'    => 'category',
             'options' => array(
-                'label' => 'Select Category',
-                'value_options' => array(
-                    '0' => 'GIF',
-                    '1' => 'Cute',
-                    '2' => 'Geeky',
-                    '3' => 'Cosplay',
-                    '4' => 'Meme',
-                    '5' => 'Timely',
-                    '6' => 'Girl',
-                    '7' => 'Food',
-                    '8' => 'WTF',
-                    '9' => 'Comic',
-                )
+                'value_options' => $values,
+                'empty_option'  => 'Choose category ...',
             ),
             'attributes' => array(
                 'class' => 'form-control',

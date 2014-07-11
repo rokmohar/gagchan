@@ -44,10 +44,24 @@ class Module implements
         return array(
             'factories' => array(
                 'media.form.media'              => 'Media\Factory\Form\MediaFormFactory',
+                'media.mapper.category'         => 'Media\Factory\Mapper\CategoryMapperFactory',
                 'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',
                 'media.service.media_manager'   => 'Media\Factory\Service\MediaManagerFactory',
                 'media.storage.storage_manager' => 'Media\Factory\Storage\StorageManagerFactory',
             ),
         );
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getViewHelperConfig()
+    {
+        return array(
+            'factories' => array(
+                'category' => 'Media\Factory\View\Helper\CategoryHelperFactory',
+            ),
+        );
+    }
+
 }

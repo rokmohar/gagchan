@@ -42,11 +42,27 @@ abstract class AbstractMapper implements MapperInterface
     }
     
     /**
+     * @return \Zend\Db\Sql\Delete;
+     */
+    public function getDelete()
+    {
+        return $this->getSql()->delete($this->getTableName());
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public function getDbAdapter()
     {
         return $this->dbAdapter;
+    }
+    
+    /**
+     * @return \Zend\Db\Sql\Insert;
+     */
+    public function getInsert()
+    {
+        return $this->getSql()->insert($this->getTableName());
     }
     
     /**
@@ -75,5 +91,13 @@ abstract class AbstractMapper implements MapperInterface
     public function getTableName()
     {
         return $this->tableName;
+    }
+    
+    /**
+     * @return \Zend\Db\Sql\Update;
+     */
+    public function getUpdate()
+    {
+        return $this->getSql()->update($this->getTableName());
     }
 }

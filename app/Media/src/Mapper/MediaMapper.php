@@ -4,6 +4,10 @@ namespace Media\Mapper;
 
 use Core\Mapper\AbstractMapper;
 
+/**
+ * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
+ */
 class MediaMapper extends AbstractMapper implements MediaMapperInterface
 {
     /**
@@ -20,7 +24,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     public function insertMedia($slug, $name, $userId, $categoryId, $width, $height, $size, $contentType)
     {
         // Get SQL insert
-        $insert = $this->getSql()->insert($this->getTableName());
+        $insert = $this->getInsert();
         
         $insert
             ->values(array(
