@@ -59,38 +59,9 @@
         <?php echo $this->form()->closeTag() ?>
         
         <?php foreach($this->comments as $comment): ?>
-            <?php
-                $date = date_create($comment['created_at']);
-                $diff = date_diff(date_create(), $date);
-                
-                $diffText = '';
-                
-                if (0 < $diff->y) {
-                    $diffText = $diff->y . ' years ago';
-                }
-                else if (0 < $diff->m) {
-                    $diffText = $diff->m . ' months ago';
-                }
-                else if (0 < $diff->m) {
-                    $diffText = $diff->m . ' months ago';
-                }
-                else if (0 < $diff->d) {
-                    $diffText = $diff->d . ' days ago';
-                }
-                else if (0 < $diff->h) {
-                    $diffText = $diff->h . ' hours ago';
-                }
-                else if (0 < $diff->i) {
-                    $diffText = $diff->i . ' mintues ago';
-                }
-                else {
-                    $diffText = 'less than a mintue ago';
-                }
-            ?>
-            
             <div class="comment-widget">
                 <div class="user-details">
-                    <?php echo $this->user()->findById($comment['user_id'])->getUsername() ?> <small>(<?php echo $diffText ?>)</small>
+                    <?php echo $this->user()->findById($comment['user_id'])->getUsername() ?> <small>(<?php echo $this->comment()->dateDiff($comment['created_at']) ?>)</small>
                 </div>
                 <div class="comment-text">
                     <?php echo $comment['comment'] ?>

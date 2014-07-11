@@ -5,13 +5,13 @@ namespace Media\Factory\View\Helper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Media\View\Helper\MediaHelper;
+use Media\View\Helper\CommentHelper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class MediaHelperFactory implements FactoryInterface
+class CommentHelperFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -21,10 +21,10 @@ class MediaHelperFactory implements FactoryInterface
         // Service locator
         $serviceLocator = $pluginManager->getServiceLocator();
 
-        // Media mapper
-        $mediaMapper = $serviceLocator->get('media.mapper.media');
+        // Comment mapper
+        $commentMapper = $serviceLocator->get('media.mapper.comment');
 
         // Create and return helper
-        return new MediaHelper($mediaMapper);
+        return new CommentHelper($commentMapper);
     }
 }

@@ -50,16 +50,4 @@ class MediaHelper extends AbstractHelper
     {
         return $this->bucketUrl . $media['reference'];
     }
-    
-    /**
-     * Generate URL for media.
-     * 
-     * @param mixed
-     * 
-     * @return String
-     */
-    public function generateUrl($media)
-    {
-        return $this->url($media);
-    }
 }

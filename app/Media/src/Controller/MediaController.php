@@ -104,6 +104,12 @@ class MediaController extends AbstractActionController
      */
     public function uploadAction()
     {
+        // Check is user is logged in
+        if ($this->zfcuserAuthentication()->hasIdentity() === false) {
+            // Redirect user to the login page
+            return $this->redirect()->toRoute('zfcuser/login');
+        }
+        
         // Get request
         $request = $this->getRequest();
         

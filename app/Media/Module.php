@@ -64,6 +64,7 @@ class Module implements
         return array(
             'factories' => array(
                 'category' => 'Media\Factory\View\Helper\CategoryHelperFactory',
+                'comment'  => 'Media\Factory\View\Helper\CommentHelperFactory',
                 'media'    => 'Media\Factory\View\Helper\MediaHelperFactory',
             ),
         );

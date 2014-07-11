@@ -1,7 +1,7 @@
 
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12 meme-listing">
     <?php foreach ($this->media as $media): ?>
-        <article class="meme clearfix">
+        <article class="meme clearfix" data-slug="<?php echo $media['slug'] ?>">
             <div class="meme-title">
                 <a href="<?php echo $this->url('gag', array('slug' => $media['slug'])) ?>">
                     <?php echo $media['name'] ?>
