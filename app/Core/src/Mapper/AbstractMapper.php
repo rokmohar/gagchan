@@ -4,6 +4,7 @@ namespace Core\Mapper;
 
 use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Sql\Sql;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -16,6 +17,16 @@ abstract class AbstractMapper implements MapperInterface
     protected $dbAdapter;
     
     /**
+     * @var String
+     */
+    protected $entityClass;
+    
+    /**
+     * @var \Zend\Stdlib\Hydrator\HydratorInterface
+     */
+    protected $hydrator;
+    
+    /**
      * @var \Zend\Db\Sql\Sql
      */
     protected $sql;
@@ -26,19 +37,21 @@ abstract class AbstractMapper implements MapperInterface
     protected $tableName;
     
     /**
-     * @param \Zend\Db\Adapter\Adapter
-     * @param String
+     * @param \Zend\Db\Adapter\Adapter                $dbAdapter
+     * @param String                                  $tableName
+     * @param String                                  $entityClass
+     * @param \Zend\Stdlib\Hydrator\HydratorInterface $hydrator
      */
-    public function __construct(DbAdapter $dbAdapter, $tableName)
-    {
-        if (is_string($tableName) === false) {
-            throw new \InvalidArgumentException(
-                printf("Expected a string, %s given.", gettype($tableName))
-            );
-        }
-        
-        $this->dbAdapter = $dbAdapter;
-        $this->tableName = $tableName;
+    public function __construct(
+        DbAdapter $dbAdapter,
+        $tableName,
+        $entityClass = null,
+        HydratorInterface $hydrator = null
+    ) {
+        $this->dbAdapter   = $dbAdapter;
+        $this->tableName   = $tableName;
+        $this->entityClass = $entityClass;
+        $this->hydrator    = $hydrator;
     }
     
     /**
@@ -55,6 +68,22 @@ abstract class AbstractMapper implements MapperInterface
     public function getDbAdapter()
     {
         return $this->dbAdapter;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntityClass()
+    {
+        return $this->entityClass;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getHydrator()
+    {
+        return $this->hydrator;
     }
     
     /**

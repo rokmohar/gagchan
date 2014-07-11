@@ -2,6 +2,8 @@
 
 namespace Media\Mapper;
 
+use Zend\Db\ResultSet\HydratingResultSet;
+
 use Core\Mapper\AbstractMapper;
 
 /**
@@ -88,11 +90,19 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             ->order('media.created_at DESC')
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Execute statement
-        return $sql->prepareStatementForSqlObject($select)->execute();
+        // Execute statement and hydrate result set
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
+        
+        // Return result
+        return $resultSet;
     }
     
     /**
@@ -126,14 +136,19 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             ->limit(1)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Execute statement
-        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        // Execute statement and hydrate result set
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
         
         // Return result
-        return $result->current();
+        return $resultSet->current();
     }
     
     /**

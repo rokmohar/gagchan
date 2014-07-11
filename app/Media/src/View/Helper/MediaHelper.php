@@ -4,6 +4,7 @@ namespace Media\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
+use Media\Entity\MediaEntityInterface;
 use Media\Mapper\MediaMapperInterface;
 
 /**
@@ -46,8 +47,8 @@ class MediaHelper extends AbstractHelper
      * 
      * @return String
      */
-    public function url($media)
+    public function url(MediaEntityInterface $media)
     {
-        return $this->bucketUrl . $media['reference'];
+        return $this->bucketUrl . $media->getReference();
     }
 }

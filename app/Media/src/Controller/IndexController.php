@@ -72,7 +72,7 @@ class IndexController extends AbstractActionController
                 
                 // Insert comment into DB
                 $this->getCommentMapper()->insertOne(
-                    $media['id'],
+                    $media->getId(),
                     $this->zfcuserAuthentication()->getIdentity()->getId(),
                     $comment
                 );
@@ -80,12 +80,12 @@ class IndexController extends AbstractActionController
             
             // Redirect to media page
             return $this->redirect()->toRoute('gag', array(
-                'slug' => $media['slug'],
+                'slug' => $media->getSlug(),
             ));
         }
         
         // Get comments for media
-        $comments = $this->getCommentMapper()->selectAllByMedia($media['id']);
+        $comments = $this->getCommentMapper()->selectAllByMedia($media->getId());
         
         // Return view
         return new ViewModel(array(

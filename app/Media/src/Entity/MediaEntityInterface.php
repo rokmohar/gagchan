@@ -12,6 +12,52 @@ interface MediaEntityInterface
      */
     public function getId();
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getSlug();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getName();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getReference();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getUserId();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getCategoryId();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getWidth();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getHeight();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getSize();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentType();
+    
     /**
      * @return \DateTime
      */

@@ -13,6 +13,17 @@ interface MapperInterface
     public function getDbAdapter();
     
     /**
+     * @return String
+     */
+    public function getEntityClass();
+    
+    
+    /**
+     * @return \Zend\Stdlib\Hydrator\HydratorInterface
+     */
+    public function getHydrator();
+    
+    /**
      * @return \Zend\Db\Sql\Sql
      */
     public function getSql();
