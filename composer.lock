@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.6.10",
+            "version": "2.6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "11b56a0fc4b0e00c09d088cf31a64710653b46bc"
+                "reference": "1ffd7d850c8c40f97befa917a58467db101786a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/11b56a0fc4b0e00c09d088cf31a64710653b46bc",
-                "reference": "11b56a0fc4b0e00c09d088cf31a64710653b46bc",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1ffd7d850c8c40f97befa917a58467db101786a4",
+                "reference": "1ffd7d850c8c40f97befa917a58467db101786a4",
                 "shasum": ""
             },
             "require": {
@@ -72,7 +72,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-07-02 20:42:09"
+            "time": "2014-07-10 21:15:25"
         },
         {
             "name": "aws/aws-sdk-php-zf2",

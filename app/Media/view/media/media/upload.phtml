@@ -28,7 +28,17 @@
             </div>
             
             <?php echo $this->formElementErrors($mediaForm->get('file')) ?>
-
+            
+            <!-- #Category -->
+            <div class="form-row input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-flag"></span>
+                </span> 
+                <?php echo $this->formInput($mediaForm->get('category')) ?>
+            </div>
+            
+            <?php echo $this->formElementErrors($mediaForm->get('category')) ?>
+            
             <div class="input-group">
                 <?php echo $this->formButton($mediaForm->get('submit')) ?>
             </div>
@@ -61,6 +71,26 @@
                     <span class="glyphicon glyphicon-file"></span>
                 </span>
                 <?php echo $this->formInput($mediaForm->get('url')) ?>
+            </div>
+            
+            <!-- #Category -->
+            <div class="form-row input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-flag"></span>
+                </span>
+                <select class="form-control">
+                    <option>Select Category</option>
+                    <option>GIF</option>
+                    <option>Cute</option>
+                    <option>Geeky</option>
+                    <option>Cosplay</option>
+                    <option>Meme</option>
+                    <option>Timely</option>
+                    <option>Girl</option>     
+                    <option>Food</option>
+                    <option>WTF</option>
+                    <option>Comic</option>
+                </select>
             </div>
             
             <?php echo $this->formElementErrors($mediaForm->get('url')) ?>

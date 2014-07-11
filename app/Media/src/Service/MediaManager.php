@@ -88,7 +88,7 @@ class MediaManager implements MediaManagerInterface
         $mediaMapper->insertMedia(
             $slug,
             $name,
-            null,
+            2,
             1,
             1,
             $size->getWidth(),
@@ -158,8 +158,7 @@ class MediaManager implements MediaManagerInterface
         // Generate a new slug
         return $this->getUniqueSlug();
     }
-    
-    
+        
     /**
      * Generate a random string.
      * 

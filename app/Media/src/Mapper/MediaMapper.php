@@ -17,7 +17,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
      * @param Integer $size
      * @param String  $contentType
      */
-    public function insertMedia($slug, $name, $reference, $userId, $categoryId, $width, $height, $size, $contentType)
+    public function insertMedia($slug, $name, $userId, $categoryId, $width, $height, $size, $contentType)
     {
         // Get SQL insert
         $insert = $this->getSql()->insert($this->getTableName());
@@ -25,8 +25,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         $insert
             ->values(array(
                 'slug'         => $slug,
-                'name'         => $name,
-                'reference'    => $reference,
+                'name'         => $name,               
                 'user_id'      => $userId,
                 'category_id'  => $categoryId,
                 'width'        => $width,
@@ -41,7 +40,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         
         return $this;
     }
-    
+        
     /**
      * @return Boolean
      */

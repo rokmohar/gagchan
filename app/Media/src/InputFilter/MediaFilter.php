@@ -57,5 +57,11 @@ class MediaFilter extends InputFilter
                 array('name' => 'StringTrim'),
             ),
         ));
+        
+        // Media Category
+        $this->add(array(
+            'name'       => 'category',
+            'required'   => true,
+        ));        
     }
 }

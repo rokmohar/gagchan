@@ -24,6 +24,7 @@ class MediaForm extends Form
             ->addName()
             ->addFile()
             ->addUrl()
+            ->addCategory()
             ->addSubmit()
         ;
     }
@@ -89,6 +90,39 @@ class MediaForm extends Form
                 'type'        => 'text',
                 'class'       => 'form-control',
                 'placeholder' => 'URL',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add media category select field.
+     * 
+     * @return \Media\Form\MediaForm
+     */
+    protected function addCategory()
+    {
+        $this->add(array(
+            'type'    => 'Zend\Form\Element\Select',
+            'name'    => 'category',
+            'options' => array(
+                'label' => 'Select Category',
+                'value_options' => array(
+                    '0' => 'GIF',
+                    '1' => 'Cute',
+                    '2' => 'Geeky',
+                    '3' => 'Cosplay',
+                    '4' => 'Meme',
+                    '5' => 'Timely',
+                    '6' => 'Girl',
+                    '7' => 'Food',
+                    '8' => 'WTF',
+                    '9' => 'Comic',
+                )
+            ),
+            'attributes' => array(
+                'class' => 'form-control',
             ),
         ));
         

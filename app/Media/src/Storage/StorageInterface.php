@@ -22,7 +22,7 @@ interface StorageInterface
      * @param String                  $key
      * @param \Core\File\UploadedFile $file
      */
-    public function putFile($key, UploadedFile $file);
+    public function putFile($key, UploadedFile $filekey);
     
     /**
      * Return the storage name.
