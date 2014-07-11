@@ -50,14 +50,13 @@ class AmazonStorage implements StorageInterface
     {
         $client = $this->getAws()->get('s3');
         
-        $client->putObject(array(
-            'Bucket' => 'gagchan/photo',
-            'Key'    => sprintf("%s.%s", $key, $file->guessExtension()),
-            'Body'   => fopen($file->getPathname(), 'r'),
-            'ACL'    => 'public-read',
+        return $client->putObject(array(
+            'Bucket'      => 'gagchan/photo',
+            'Key'         => sprintf("%s.%s", $key, $file->guessExtension()),
+            'Body'        => fopen($file->getPathname(), 'r'),
+            'ContentType' => $file->getMimeType(),
+            'ACL'         => 'public-read',
         ));
-        
-        return $this;
     }
     
     /**
@@ -65,7 +64,9 @@ class AmazonStorage implements StorageInterface
      */
     public function getAws()
     {
+        // Check if service is loaded
         if (!$this->aws instanceof Aws) {
+            // Load from service locator
             return $this->aws = $this->serviceLocator->get('aws');
         }
         

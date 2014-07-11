@@ -45,7 +45,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function uploadFile(UploadedFile $file, $name)
+    public function uploadFile(UploadedFile $file, $name, $userId, $categoryId)
     {
         // Resize image
         $this->resizeImage($file);
@@ -54,7 +54,7 @@ class MediaManager implements MediaManagerInterface
         $slug = $this->getUniqueSlug();
         
         // Insert image data into DB
-        $this->insertData($file, $slug, $name);
+        $this->insertData($file, $slug, $name,  $userId, $categoryId);
         
         // Storage
         $storage = $this->getStorageManager()->getStorage('amazon');
@@ -69,10 +69,12 @@ class MediaManager implements MediaManagerInterface
      * @param \Core\File\UploadedFile $file
      * @param String                  $slug
      * @param String                  $name
+     * @param Integer                 $userId
+     * @param Integer                 $categoryId
      * 
      * @return \Media\Service\MediaManager
      */
-    public function insertData(UploadedFile $file, $slug, $name)
+    protected function insertData(UploadedFile $file, $slug, $name, $userId, $categoryId)
     {
         // Media mapper
         $mediaMapper = $this->getMediaMapper();
@@ -84,13 +86,13 @@ class MediaManager implements MediaManagerInterface
         $image = $imagine->open($file->getPathname());
         $size  = $image->getSize();
         
-        // Insert into DB
-        $mediaMapper->insertMedia(
+        // Insert media into DB
+        $mediaMapper->insertOne(
             $slug,
             $name,
-            2,
-            1,
-            1,
+            sprintf("%s.%s", $slug, $file->guessExtension()),
+            $userId,
+            $categoryId,
             $size->getWidth(),
             $size->getHeight(),
             $file->getSize(),
@@ -141,10 +143,10 @@ class MediaManager implements MediaManagerInterface
      * 
      * @return String
      */
-    public function getUniqueSlug()
+    protected function getUniqueSlug()
     {
         // Generate a slug
-        $slug = $this->generateString(8);
+        $slug = $this->getRandomString(8);
         
         // Media mapper
         $mediaMapper = $this->getMediaMapper();
@@ -166,7 +168,7 @@ class MediaManager implements MediaManagerInterface
      * 
      * @return String
      */
-    protected function generateString($length = 8)
+    protected function getRandomString($length = 8)
     {
         $chars  = '0123456789abcdefghijklmnopqrstuvwxyz';
         $string = '';

@@ -11,8 +11,10 @@ interface MediaManagerInterface
      * 
      * @param \Core\File\UploadedFile $file
      * @param String                  $name
+     * @param Integer                 $userId
+     * @param Integer                 $categoryId
      */
-    public function uploadFile(UploadedFile $file, $name);
+    public function uploadFile(UploadedFile $file, $name, $userId, $categoryId);
     
     /**
      * @return \Media\Mapper\MediaMapperInterface

@@ -120,43 +120,53 @@ class MediaController extends AbstractActionController
             
             // Validate form
             if ($mediaForm->isValid() === true) {
-                // Name
-                $name = $mediaForm->get('name')->getValue();
-                $url  = $mediaForm->get('url')->getValue();
+                // Get posted data
+                $name     = $mediaForm->get('name')->getValue();
+                $file     = $mediaForm->get('file')->getValue();
+                $url      = $mediaForm->get('url')->getValue();
+                $category = $mediaForm->get('category')->getValue();
                 
-                // Temporary file name
-                $temp = tempnam(false, false);
+                if (empty($file) === true && empty($url) === true) {
+                    throw new \Exception(
+                        'File or external URL is required.'
+                    );
+                }
+                else if (empty($file) === true) {
+                    // Temporary file name
+                    $temp = tempnam(false, false);
+
+                    // Copy image from URL to temporary file
+                    copy($url, $temp);
+
+                    // Image size
+                    $size = getimagesize($temp);
+
+                    $file = new UploadedFile(
+                        $temp,
+                        basename($url),
+                        image_type_to_mime_type($size[2]),
+                        filesize($temp),
+                        $size[0],
+                        $size[1]
+                    );
+                }
+                else {
+                    // Create uploaded file
+                    $file = new UploadedFile(
+                        $file['tmp_name'],
+                        $file['name'],
+                        $file['type'],
+                        $file['size'],
+                        $file['error']
+                    );
+                }
                 
-                // Copy image from URL to temporary file
-                copy($url, $temp);
-                
-                // Image size
-                $size = getimagesize($temp);
-               
-                $file = new UploadedFile(
-                    $temp,
-                    basename($url),
-                    image_type_to_mime_type($size[2]),
-                    filesize($temp),
-                    $size[0],
-                    $size[1]
-                );
-                
-                // Get file information
-                //$fileinfo = $mediaForm->get('file')->getValue();
-                
-                // Create uploaded file
-                /*$file = new UploadedFile(
-                    $fileinfo['tmp_name'],
-                    $fileinfo['name'],
-                    $fileinfo['type'],
-                    $fileinfo['size'],
-                    $fileinfo['error']
-                );*/
+                // Get user identifier
+                $userId = $this->zfcuserAuthentication()->getIdentity()->getId();
                 
                 // Media manager
                 $mediaManager = $this->getMediaManager();
-                $mediaManager->uploadFile($file, $name);
+                $mediaManager->uploadFile($file, $name, $userId, $category);
                 
                 return $this->redirect()->toRoute('home');
             }
