@@ -3,7 +3,7 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'MediaController' => 'Media\Controller\MediaController',
+            'IndexController' => 'Media\Controller\IndexController',
         ),
     ),
     'router' => array(
@@ -14,7 +14,7 @@ return array(
                 'options' => array(
                     'route' => '/gag/[:slug]',
                     'defaults' => array(
-                        'controller'  => 'MediaController',
+                        'controller'  => 'IndexController',
                         'action'      => 'details',
                         'constraints' => array(
                             'slug' => '[a-zA-Z][a-zA-Z0-9]*',
@@ -29,7 +29,7 @@ return array(
                 'options' => array(
                     'route' => '/media',
                     'defaults' => array(
-                        'controller' => 'MediaController',
+                        'controller' => 'IndexController',
                         'action'     => 'upload',
                     ),
                 ),

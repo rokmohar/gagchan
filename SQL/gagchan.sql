@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 11. jul 2014 ob 16.27
+-- Čas nastanka: 11. jul 2014 ob 19.29
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -69,14 +69,16 @@ CREATE TABLE IF NOT EXISTS `media` (
   `content_type` varchar(64) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Odloži podatke za tabelo `media`
 --
 
 INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `created_at`, `updated_at`) VALUES
-(5, 'r97o0hqs', 'This is just a meme', 'r97o0hqs.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07');
+(5, 'r97o0hqs', 'This is just a meme', 'r97o0hqs.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
+(9, 'w7d38bwp', 'My another meme', 'w7d38bwp.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
+(10, 'yr1j6x7l', 'Meme loaded from URL address', 'yr1j6x7l.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', '2014-07-11 18:16:38', '2014-07-11 18:16:38');
 
 -- --------------------------------------------------------
 
@@ -91,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
   `comment` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Odloži podatke za tabelo `media_comment`
@@ -100,7 +102,11 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
 INSERT INTO `media_comment` (`id`, `media_id`, `user_id`, `comment`, `created_at`, `updated_at`) VALUES
 (1, 5, 1, 'This is my first comment', '2014-07-11 14:58:44', '2014-07-11 14:58:44'),
 (2, 5, 1, 'Test comment', '2014-07-11 15:43:09', '2014-07-11 15:43:09'),
-(5, 5, 1, 'Another comment', '2014-07-11 15:44:57', '2014-07-11 15:44:57');
+(5, 5, 1, 'Another comment', '2014-07-11 15:44:57', '2014-07-11 15:44:57'),
+(6, 10, 1, 'my first comment for this cute meme', '2014-07-11 18:17:05', '2014-07-11 18:17:05'),
+(7, 10, 1, 'hahha you are an idiot !', '2014-07-11 18:17:18', '2014-07-11 18:17:18'),
+(8, 9, 1, 'fuck you a**hole !', '2014-07-11 18:17:34', '2014-07-11 18:17:34'),
+(9, 9, 1, 'f* too !', '2014-07-11 18:17:42', '2014-07-11 18:17:42');
 
 -- --------------------------------------------------------
 
@@ -234,12 +240,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT tabele `media`
 --
 ALTER TABLE `media`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT tabele `media_comment`
 --
 ALTER TABLE `media_comment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT tabele `newsletter`
 --

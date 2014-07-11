@@ -44,19 +44,39 @@
     <article class="comments">
         <h3 class="comments-title">Comments</h3>
         
-        <?php echo $this->form()->openTag($form) ?>
+        <?php if ($this->zfcUserIdentity()): ?>
         
-            <div style="margin-bottom: 10px;">
-                <?php echo $this->formTextarea($form->get('comment')) ?>
+            <div class="widget">
+                
+                <?php echo $this->form()->openTag($form) ?>
 
-                <?php echo $this->formElementErrors($form->get('comment')) ?>
-            </div>
+                    <div class="form-row">
+                        <?php echo $this->formTextarea($form->get('comment')) ?>
 
-            <div style="margin-bottom: 20px;">
-                <?php echo $this->formButton($form->get('submit')) ?>
+                        <?php echo $this->formElementErrors($form->get('comment')) ?>
+                    </div>
+
+                    <?php echo $this->formButton($form->get('submit')) ?>
+
+                <?php echo $this->form()->closeTag() ?>
+            
             </div>
         
-        <?php echo $this->form()->closeTag() ?>
+        <?php else: ?>
+        
+            <div class="widget">
+                
+                <div class="form-row">
+                    You have to be logged in to post a comment.
+                </div>
+                
+                <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-primary">Log in</a>
+
+            </div>
+        
+        <?php endif ?>
+        
+        <hr />
         
         <?php foreach($this->comments as $comment): ?>
             <div class="comment-widget">

@@ -55,7 +55,7 @@ class CommentForm extends Form
         $this->add(array(
             'name'    => 'submit',
             'options' => array(
-                'label' => 'Upload',
+                'label' => 'Submit',
             ),
             'attributes' => array(
                 'type'  => 'submit',
