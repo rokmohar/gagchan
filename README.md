@@ -11,3 +11,8 @@ Modules (Which we could use)
 - User: https://github.com/ZF-Commons/ZfcUser
 - OAuth: https://github.com/SocalNick/ScnSocialAuth
 - ACL: https://github.com/bjyoungblood/BjyAuthorize
+
+Few guidelines
+================================================================================
+- Signed links for share -> CloudFront service (way faster!) -> CNAME record on host server for prettier URL!
+- Pagination, not scroll to infinity -> Easy ad distribution and less unique ads needed!
