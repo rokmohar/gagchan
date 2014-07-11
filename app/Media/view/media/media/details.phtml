@@ -1,0 +1,141 @@
+<?php
+    $form = $this->commentForm;
+    $form->setAttribute(
+        'action',
+        $this->url('gag', array('slug' => $media['slug']))
+    );
+?>
+<section class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+    <!-- #Meme -->
+    <article class="meme clearfix">
+        <div class="meme-title">
+            <?php echo $this->media['name'] ?>
+        </div>
+        <div class="meme-img">
+            <img src="http://d35c4l01ornghz.cloudfront.net/photo/<?php echo $media['reference'] ?>" alt="" class="img-responsive" />
+        </div>
+        <div class="meme-author">
+            Posted by <strong><?php echo $this->user()->findById($media['user_id'])->getUsername() ?></strong>
+        </div>
+        <ul class="meme-action clearfix">
+            <li class="btn-group">
+                <a href="#" class="btn btn-default">
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </a>
+                <a href="#" class="btn btn-default">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" data-social='{"type":"facebook", "url":"http://gagchan.com<?php echo $this->url('gag', array('slug' => $media['slug'])) ?>", "text": "<?php echo $this->media['name'] ?>", "image": "http://d35c4l01ornghz.cloudfront.net/photo/<?php echo $media['reference'] ?>"}' class="btn btn-facebook">Facebook</a>
+            </li>
+            <li>
+                <a href="#" data-social='{"type":"twitter", "url":"http://gagchan.com<?php echo $this->url('gag', array('slug' => $media['slug'])) ?>", "text": "<?php echo $this->media['name'] ?>", "image": "http://d35c4l01ornghz.cloudfront.net/photo/<?php echo $media['reference'] ?>"}' class="btn btn-twitter">Twitter</a>
+            </li>
+            <li>
+                <a href="#" class="btn btn-default">
+                    <span class="glyphicon glyphicon-link"></span>
+                </a>
+            </li>
+        </ul>
+    </article>
+
+    <!-- #Comments -->
+    <article class="comments">
+        <h3 class="comments-title">Comments</h3>
+        
+        <?php echo $this->form()->openTag($form) ?>
+        
+            <div style="margin-bottom: 10px;">
+                <?php echo $this->formTextarea($form->get('comment')) ?>
+
+                <?php echo $this->formElementErrors($form->get('comment')) ?>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <?php echo $this->formButton($form->get('submit')) ?>
+            </div>
+        
+        <?php echo $this->form()->closeTag() ?>
+        
+        <?php foreach($this->comments as $comment): ?>
+            <?php
+                $date = date_create($comment['created_at']);
+                $diff = date_diff(date_create(), $date);
+                
+                $diffText = '';
+                
+                if (0 < $diff->y) {
+                    $diffText = $diff->y . ' years ago';
+                }
+                else if (0 < $diff->m) {
+                    $diffText = $diff->m . ' months ago';
+                }
+                else if (0 < $diff->m) {
+                    $diffText = $diff->m . ' months ago';
+                }
+                else if (0 < $diff->d) {
+                    $diffText = $diff->d . ' days ago';
+                }
+                else if (0 < $diff->h) {
+                    $diffText = $diff->h . ' hours ago';
+                }
+                else if (0 < $diff->i) {
+                    $diffText = $diff->i . ' mintues ago';
+                }
+                else {
+                    $diffText = 'less than a mintue ago';
+                }
+            ?>
+            
+            <div class="comment-widget">
+                <div class="user-details">
+                    <?php echo $this->user()->findById($comment['user_id'])->getUsername() ?> <small>(<?php echo $diffText ?>)</small>
+                </div>
+                <div class="comment-text">
+                    <?php echo $comment['comment'] ?>
+                </div>
+            </div>
+        <?php endforeach ?>
+    </article>
+</section>
+
+<!-- #Sidebar -->
+<section id="sidebar" class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+    <div class="widget meme-listing">
+        <h3 class="widget-title">Featured</h3>
+
+        <article class="meme">
+            <a href="#" class="meme-img">
+                <img src="images/meme/a092pZX_460s_v1.jpg" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-title">
+                <a href="meme.html">This is a meme with a very very very very long meme name</a>
+            </div>
+        </article>
+
+        <article class="meme">
+            <a href="#" class="meme-img">
+                <img src="images/meme/a092pZX_460s_v1.jpg" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-title">
+                <a href="meme.html">This is a meme with a very very very very long meme name</a>
+            </div>
+        </article>
+
+        <article class="meme">
+            <a href="#" class="meme-img">
+                <img src="images/meme/a092pZX_460s_v1.jpg" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-title">
+                <a href="meme.html">This is a meme with a very very very very long meme name</a>
+            </div>
+        </article>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function(){
+        $(".meme-action a").jqSocialSharer();
+    });  
+  </script>

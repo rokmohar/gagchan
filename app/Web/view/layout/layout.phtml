@@ -28,13 +28,14 @@
     <!-- Scripts -->
     <?php echo $this->headScript()
         ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+        ->prependFile($this->basePath() . '/js/jqSocialSharer.min.js')
         ->prependFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js', 'text/javascript')
         ->prependFile('https://oss.maxcdn.com/respond/1.4.2/respond.min.js',   'text/javascript', array('conditional' => 'lt IE 9'))
         ->prependFile('https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js', 'text/javascript', array('conditional' => 'lt IE 9'))
     ?>
 </head>
 <body>
-       <!-- #Navigation Bar -->
+    <!-- #Navigation Bar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         
         <div class="container">
@@ -60,17 +61,6 @@
                             <?php foreach ($this->category()->getCategories() as $category): ?>
                                 <li><a href="#cute"><?php echo $category['name'] ?></a></li>
                             <?php endforeach ?>
-                                
-                            <!-- <li><a href="#gif">GIF</a></li>
-                            <li><a href="#cute">Cute</a></li>
-                            <li><a href="#geeky">Geeky</a></li>
-                            <li><a href="#cosplay">Cosplay</a></li>
-                            <li><a href="#meme">Meme</a></li>
-                            <li><a href="#timely">Timely</a></li>
-                            <li><a href="#girl">Girl</a></li>
-                            <li><a href="#food">Food</a></li>
-                            <li><a href="#wtf">WTF</a></li>
-                            <li><a href="#comic">Comic</a></li> -->
                         </ul>
                     </li>
                 </ul>

@@ -8,6 +8,21 @@ return array(
     ),
     'router' => array(
         'routes' => array(
+            'gag' => array(
+                'type' => 'Segment',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/gag/[:slug]',
+                    'defaults' => array(
+                        'controller'  => 'MediaController',
+                        'action'      => 'details',
+                        'constraints' => array(
+                            'slug' => '[a-zA-Z][a-zA-Z0-9]*',
+                        ),
+                        'defaults' => array(),
+                    ),
+                ),
+            ),
             'media' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
@@ -18,19 +33,6 @@ return array(
                         'action'     => 'upload',
                     ),
                 ),
-                /*'may_terminate' => true,
-                'child_routes' => array(
-                    'upload' => array(
-                        'type' => 'Literal',
-                        'options' => array(
-                            'route' => '/upload',
-                            'defaults' => array(
-                                'controller' => 'MediaController',
-                                'action'     => 'upload',
-                            ),
-                        ),
-                    ),
-                ),*/
             ),
         ),
     ),

@@ -6,6 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 use Core\File\UploadedFile;
+use Media\Form\CommentForm;
 use Media\Form\MediaForm;
 use Media\Service\MediaManagerInterface;
 
@@ -15,6 +16,16 @@ use Media\Service\MediaManagerInterface;
  */
 class MediaController extends AbstractActionController
 {
+    /**
+     * @var \Media\Form\CommentForm
+     */
+    protected $commentForm;
+    
+    /**
+     * @var \Media\Mapper\CommentMapperInterface
+     */
+    protected $commentMapper;
+    
     /**
      * @var \Media\Form\MediaForm
      */
@@ -26,11 +37,74 @@ class MediaController extends AbstractActionController
     protected $mediaManager;
     
     /**
+     * @var \Media\Mapper\MediaMapperInterface
+     */
+    protected $mediaMapper;
+    
+    /**
+     * @return \Zend\View\Helper\ViewModel
+     */
+    public function detailsAction()
+    {
+        // Get request
+        $request = $this->getRequest();
+        
+        // Get params from URL
+        $slug = $this->params()->fromRoute('slug', null);
+        
+        // Select media by identifier
+        $media = $this->getMediaMapper()->selectOneBySlug($slug);
+        
+        // Check if media is found
+        if (empty($media) === true) {
+            // Media not found
+            return $this->notFoundAction();
+        }
+        
+        // Get form
+        $commentForm = $this->getCommentForm();
+        
+        // Check if form is posted
+        if ($request->isPost() === true) {
+            // Set form data
+            $commentForm->setData($request->getPost());
+            
+            // Validate form
+            if ($commentForm->isValid() === true) {
+                // Get posted data
+                $comment = $commentForm->get('comment')->getValue();
+                
+                // Insert comment into DB
+                $this->getCommentMapper()->insertOne(
+                    $media['id'],
+                    $this->zfcuserAuthentication()->getIdentity()->getId(),
+                    $comment
+                );
+            }
+            
+            // Redirect to media page
+            return $this->redirect()->toRoute('gag', array(
+                'slug' => $media['slug'],
+            ));
+        }
+        
+        // Get comments for media
+        $comments = $this->getCommentMapper()->selectAllByMedia($media['id']);
+        
+        // Return view
+        return new ViewModel(array(
+            'commentForm' => $commentForm,
+            'media'       => $media,
+            'comments'    => $comments,
+        ));
+    }
+    
+    /**
      * @return \Zend\View\Helper\ViewModel
      */
     public function uploadAction()
     {
-        // Instance of request
+        // Get request
         $request = $this->getRequest();
         
         // Get an instance of media form
@@ -98,6 +172,36 @@ class MediaController extends AbstractActionController
     }
     
     /**
+     * @return \Media\Form\CommentForm
+     */
+    public function getCommentForm()
+    {
+        if (!$this->commentForm instanceof CommentForm) {
+            // Load from service locator
+            return $this->commentForm = $this->getServiceLocator()->get(
+                'media.form.comment'
+            );
+        }
+        
+        return $this->commentForm;
+    }
+    
+    /**
+     * @return \Media\Mapper\CommentMapperInterface
+     */
+    public function getCommentMapper()
+    {
+        if (!$this->commentMapper instanceof CommentMapperInterface) {
+            // Load from service locator
+            return $this->commentMapper = $this->getServiceLocator()->get(
+                'media.mapper.comment'
+            );
+        }
+        
+        return $this->commentMapper;
+    }
+    
+    /**
      * @return \Media\Form\MediaForm
      */
     public function getMediaForm()
@@ -123,5 +227,20 @@ class MediaController extends AbstractActionController
         }
         
         return $this->mediaManager;
+    }
+    
+    /**
+     * @return \Media\Mapper\MediaMapperInterface
+     */
+    public function getMediaMapper()
+    {
+        if (!$this->mediaMapper instanceof MediaMapperInterface) {
+            // Load from service locator
+            return $this->mediaMapper = $this->getServiceLocator()->get(
+                'media.mapper.media'
+            );
+        }
+        
+        return $this->mediaMapper;
     }
 }

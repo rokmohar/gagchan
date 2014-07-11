@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 10. jul 2014 ob 18.14
+-- Čas nastanka: 11. jul 2014 ob 16.27
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -60,15 +60,23 @@ CREATE TABLE IF NOT EXISTS `media` (
 `id` int(11) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `reference` varchar(255) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `width` int(11) DEFAULT NULL,
   `height` int(11) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
-  `content_type` smallint(64) DEFAULT NULL,
+  `content_type` varchar(64) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Odloži podatke za tabelo `media`
+--
+
+INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `created_at`, `updated_at`) VALUES
+(5, 'r97o0hqs', 'This is just a meme', 'r97o0hqs.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07');
 
 -- --------------------------------------------------------
 
@@ -83,7 +91,16 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
   `comment` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Odloži podatke za tabelo `media_comment`
+--
+
+INSERT INTO `media_comment` (`id`, `media_id`, `user_id`, `comment`, `created_at`, `updated_at`) VALUES
+(1, 5, 1, 'This is my first comment', '2014-07-11 14:58:44', '2014-07-11 14:58:44'),
+(2, 5, 1, 'Test comment', '2014-07-11 15:43:09', '2014-07-11 15:43:09'),
+(5, 5, 1, 'Another comment', '2014-07-11 15:44:57', '2014-07-11 15:44:57');
 
 -- --------------------------------------------------------
 
@@ -217,12 +234,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT tabele `media`
 --
 ALTER TABLE `media`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT tabele `media_comment`
 --
 ALTER TABLE `media_comment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT tabele `newsletter`
 --
@@ -248,15 +265,15 @@ ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` 
 -- Omejitve za tabelo `media_comment`
 --
 ALTER TABLE `media_comment`
-ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
+ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
+ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Omejitve za tabelo `media_response`
 --
 ALTER TABLE `media_response`
-ADD CONSTRAINT `media_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
+ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
+ADD CONSTRAINT `media_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Omejitve za tabelo `newsletter`

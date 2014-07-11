@@ -1,102 +1,40 @@
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12 meme-listing">
-    <article class="meme clearfix">
-        <div class="meme-title">
-            <a href="meme" >This is a meme with a very very very very long meme name</a>
-        </div>
-        <a href="#" class="meme-img">
-            <img src="http://d35c4l01ornghz.cloudfront.net/photo/t9cav18a.jpg" alt="" class="img-responsive" />
-        </a>
-        <div class="meme-author">
-            Posted by <strong>Username</strong>
-        </div>
-        <ul class="meme-action clearfix">
-            <li class="btn-group">
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-chevron-up"></span>
+    <?php foreach ($this->media as $media): ?>
+        <article class="meme clearfix">
+            <div class="meme-title">
+                <a href="<?php echo $this->url('gag', array('slug' => $media['slug'])) ?>">
+                    <?php echo $media['name'] ?>
                 </a>
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-facebook">Facebook</a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-twitter">Twitter</a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-link"></span>
-                </a>
-            </li>
-        </ul>
-    </article>
-
-    <article class="meme clearfix">
-        <div class="meme-title">
-            <a href="#" >This is a meme with a very very very very long meme name</a>
-        </div>
-        <a href="#" class="meme-img">
-            <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
-        </a>
-        <div class="meme-author">
-            Posted by <strong>Username</strong>
-        </div>
-        <ul class="meme-action clearfix">
-            <li class="btn-group">
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-chevron-up"></span>
-                </a>
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-facebook">Facebook</a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-twitter">Twitter</a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-link"></span>
-                </a>
-            </li>
-        </ul>
-    </article>
-
-    <article class="meme clearfix">
-        <div class="meme-title">
-            <a href="#" >This is a meme with a very very very very long meme name</a>
-        </div>
-        <a href="#" class="meme-img">
-            <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
-        </a>
-        <div class="meme-author">
-            Posted by <strong>Username</strong>
-        </div>
-        <ul class="meme-action clearfix">
-            <li class="btn-group">
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-chevron-up"></span>
-                </a>
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-facebook">Facebook</a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-twitter">Twitter</a>
-            </li>
-            <li>
-                <a href="#" class="btn btn-default">
-                    <span class="glyphicon glyphicon-link"></span>
-                </a>
-            </li>
-        </ul>
-    </article>
+            </div>
+            <a href="<?php echo $this->url('gag', array('slug' => $media['slug'])) ?>" class="meme-img">
+                <img src="http://d35c4l01ornghz.cloudfront.net/photo/<?php echo $media['reference'] ?>" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-author">
+                Posted by <strong><?php echo $this->user()->findById($media['user_id'])->getUsername() ?></strong>
+            </div>
+            <ul class="meme-action clearfix">
+                <li class="btn-group">
+                    <a href="#" class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <a href="#" class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-facebook">Facebook</a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-twitter">Twitter</a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-default">
+                        <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                </li>
+            </ul>
+        </article>
+    <?php endforeach ?>
 </section>
 
 <section id="sidebar" class="col-lg-4 col-md-4 col-sm-4 hidden-xs">

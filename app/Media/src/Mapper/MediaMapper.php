@@ -11,6 +11,79 @@ use Core\Mapper\AbstractMapper;
 class MediaMapper extends AbstractMapper implements MediaMapperInterface
 {
     /**
+     * Return a list of media.
+     * 
+     * @return mixed
+     */
+    public function selectAll()
+    {
+        // Get select
+        $select = $this->getSelect();
+        
+        $select
+            ->order('media.created_at DESC')
+        ;
+        
+        // Get SQL
+        $sql = $this->getSql();
+        
+        // Execute statement
+        return $sql->prepareStatementForSqlObject($select)->execute();
+    }
+    
+    /**
+     * Select media from DB.
+     * 
+     * @param Array $where
+     * 
+     * @return mixed
+     */
+    public function selectOne(array $where)
+    {
+        // Get select
+        $select = $this->getSelect();
+        
+        $select
+            ->where($where)
+            ->limit(1)
+        ;
+        
+        // Get SQL
+        $sql = $this->getSql();
+        
+        // Execute statement
+        return $sql->prepareStatementForSqlObject($select)->execute()->current();
+    }
+    
+    /**
+     * Select media from DB.
+     * 
+     * @param Integer $id
+     * 
+     * @return mixed
+     */
+    public function selectOneById($id)
+    {
+        return $this->selectOne(array(
+            'id' => $id,
+        ));
+    }
+    
+    /**
+     * Select media from DB.
+     * 
+     * @param String $slug
+     * 
+     * @return mixed
+     */
+    public function selectOneBySlug($slug)
+    {
+        return $this->selectOne(array(
+            'slug' => $slug,
+        ));
+    }
+    
+    /**
      * @param String  $slug
      * @param String  $name
      * @param String  $reference
