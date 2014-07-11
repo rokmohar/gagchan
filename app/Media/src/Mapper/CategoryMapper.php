@@ -11,14 +11,62 @@ use Core\Mapper\AbstractMapper;
 class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 {
     /**
+     * Select a single category.
+     * 
+     * @param Array $where
+     * 
      * @return mixed
      */
-    public function getCategories()
+    public function selectOne(array $where = array())
     {
         // Get select
         $select = $this->getSelect();
         
         $select
+            ->where($where)
+            ->order('created_at ASC')
+            ->limit(1)
+        ;
+        
+        // Get SQL
+        $sql = $this->getSql();
+        
+        // Execute statement
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        // Return result
+        return $result->current();
+    }
+    
+    /**
+     * Select a single category by identifier.
+     * 
+     * @param Integer $id
+     * 
+     * @return mixed
+     */
+    public function selectOneById($id)
+    {
+        return $this->selectOne(array(
+            'id' => $id,
+        ));
+    }
+    
+    
+    /**
+     * Select all categories.
+     * 
+     * @param Array $where
+     * 
+     * @return mixed
+     */
+    public function selectAll(array $where = array())
+    {
+        // Get select
+        $select = $this->getSelect();
+        
+        $select
+            ->where($where)
             ->order('created_at ASC')
         ;
         

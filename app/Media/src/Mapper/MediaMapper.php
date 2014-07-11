@@ -61,24 +61,30 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             ))
         ;
         
-        // Execute statemet
-        $result = $this->getSql()->prepareStatementForSqlObject($select)->execute();
+        // Get SQL
+        $sql = $this->getSql();
         
-        // Return true if slug does not exist
+        // Execute statemet
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        // Check if no entry exists
         return ($result->count() === 0);
     }
     
     /**
      * Return a list of media.
      * 
+     * @param Array $where
+     * 
      * @return mixed
      */
-    public function selectAll()
+    public function selectAll(array $where = array())
     {
         // Get select
         $select = $this->getSelect();
         
         $select
+            ->where($where)
             ->order('media.created_at DESC')
         ;
         
@@ -90,13 +96,27 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
+     * Return a list of media by category identifier.
+     * 
+     * @param Integer $categoryId
+     * 
+     * @return mixed
+     */
+    public function selectAllByCategory($categoryId)
+    {
+        return $this->selectAll(array(
+            'category_id' => $categoryId,
+        ));
+    }
+    
+    /**
      * Select media from DB.
      * 
      * @param Array $where
      * 
      * @return mixed
      */
-    public function selectOne(array $where)
+    public function selectOne(array $where = array())
     {
         // Get select
         $select = $this->getSelect();
@@ -110,7 +130,10 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         $sql = $this->getSql();
         
         // Execute statement
-        return $sql->prepareStatementForSqlObject($select)->execute()->current();
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        // Return result
+        return $result->current();
     }
     
     /**

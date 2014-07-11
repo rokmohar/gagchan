@@ -114,7 +114,7 @@ class MediaForm extends Form
     protected function addCategory()
     {
         $values = array();
-        $result = $this->categoryMapper->getCategories();
+        $result = $this->categoryMapper->selectAll();
         
         foreach ($result as $category) {
             $values[$category['id']] = $category['name'];

@@ -6,10 +6,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 use Core\File\UploadedFile;
-use Media\Form\CommentForm;
-use Media\Form\MediaForm;
-use Media\Service\MediaManagerInterface;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -192,7 +188,8 @@ class IndexController extends AbstractActionController
      */
     public function getCommentForm()
     {
-        if (!$this->commentForm instanceof CommentForm) {
+        // Check if service is loaded
+        if ($this->commentForm === null) {
             // Load from service locator
             return $this->commentForm = $this->getServiceLocator()->get(
                 'media.form.comment'
@@ -207,7 +204,8 @@ class IndexController extends AbstractActionController
      */
     public function getCommentMapper()
     {
-        if (!$this->commentMapper instanceof CommentMapperInterface) {
+        // Check if service is loaded
+        if ($this->commentMapper === null) {
             // Load from service locator
             return $this->commentMapper = $this->getServiceLocator()->get(
                 'media.mapper.comment'
@@ -222,7 +220,9 @@ class IndexController extends AbstractActionController
      */
     public function getMediaForm()
     {
-        if (!$this->mediaForm instanceof MediaForm) {
+        // Check if service is loaded
+        if ($this->mediaForm === null) {
+            // Load from service locator
             return $this->mediaForm = $this->getServiceLocator()->get(
                 'media.form.media'
             );
@@ -236,7 +236,9 @@ class IndexController extends AbstractActionController
      */
     public function getMediaManager()
     {
-        if (!$this->mediaManager instanceof MediaManagerInterface) {
+        // Check if service is loaded
+        if ($this->mediaManager === null) {
+            // Load from service locator
             return $this->mediaManager = $this->getServiceLocator()->get(
                 'media.service.media_manager'
             );
@@ -250,7 +252,8 @@ class IndexController extends AbstractActionController
      */
     public function getMediaMapper()
     {
-        if (!$this->mediaMapper instanceof MediaMapperInterface) {
+        // Check if service is loaded
+        if ($this->mediaMapper === null) {
             // Load from service locator
             return $this->mediaMapper = $this->getServiceLocator()->get(
                 'media.mapper.media'

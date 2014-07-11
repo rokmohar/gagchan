@@ -9,7 +9,8 @@ use Core\Mapper\AbstractMapper;
  * @author Rok Založnik <tugamer@gmail.com>
  */
 class CommentMapper extends AbstractMapper implements CommentMapperInterface
-{/**
+{
+    /**
      * @param Integer $mediaId
      * @param Integer $userId
      * @param String  $comment

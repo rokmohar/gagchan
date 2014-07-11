@@ -3,14 +3,27 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'IndexController' => 'Media\Controller\IndexController',
+            'CategoryController' => 'Media\Controller\CategoryController',
+            'IndexController'    => 'Media\Controller\IndexController',
         ),
     ),
     'router' => array(
         'routes' => array(
+            'category' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/category/[:id]',
+                    'defaults' => array(
+                        'controller'  => 'CategoryController',
+                        'action'      => 'index',
+                        'constraints' => array(
+                            'id' => '[0-9]*',
+                        ),
+                    ),
+                ),
+            ),
             'gag' => array(
                 'type' => 'Segment',
-                'priority' => 1000,
                 'options' => array(
                     'route' => '/gag/[:slug]',
                     'defaults' => array(
@@ -19,13 +32,11 @@ return array(
                         'constraints' => array(
                             'slug' => '[a-zA-Z][a-zA-Z0-9]*',
                         ),
-                        'defaults' => array(),
                     ),
                 ),
             ),
             'upload' => array(
                 'type' => 'Literal',
-                'priority' => 1000,
                 'options' => array(
                     'route' => '/upload',
                     'defaults' => array(

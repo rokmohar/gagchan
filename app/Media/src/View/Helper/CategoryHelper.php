@@ -41,6 +41,6 @@ class CategoryHelper extends AbstractHelper
      */
     public function getCategories()
     {
-        return $this->categoryMapper->getCategories();
+        return $this->categoryMapper->selectAll();
     }
 }

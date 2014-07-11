@@ -1,0 +1,83 @@
+<section class="col-lg-8 col-md-8 col-sm-8 col-xs-12 meme-listing">
+    
+    <h3 class="category-name"><?php echo $category['name'] ?></h3>
+    
+    <?php if (count($media) === 0): ?>
+    
+        There is no media in this category.
+        
+    <?php endif ?>
+    
+    <?php foreach ($media as $m): ?>
+        
+        <article class="meme clearfix" data-slug="<?php echo $m['slug'] ?>">
+            <div class="meme-title">
+                <a href="<?php echo $this->url('gag', array('slug' => $m['slug'])) ?>">
+                    <?php echo $m['name'] ?>
+                </a>
+            </div>
+            <a href="<?php echo $this->url('gag', array('slug' => $m['slug'])) ?>" class="meme-img">
+                <img src="<?php echo $this->media()->url($m) ?>" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-author">
+                Posted by <strong><?php echo $this->user()->findById($m['user_id'])->getUsername() ?></strong>
+            </div>
+            <ul class="meme-action clearfix">
+                <li class="btn-group">
+                    <a href="#" class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                    <a href="#" class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-type="facebook" data-url="http://gagchan.com<?php echo $this->url('gag', array('slug' => $m['slug'])) ?>" data-description="Click to see the pic and write a comment ..." data-title="<?php echo $m['name'] ?>" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-facebook">Facebook</a>
+                </li>
+                <li>
+                    <a href="#" data-type="twitter" data-url="http://gagchan.com<?php echo $this->url('gag', array('slug' => $m['slug'])) ?>" data-description="<?php echo $m['name'] ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-twitter">Twitter</a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-default zclip" data-zclip-text="Testing 1-2-3!">
+                        <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                </li>
+            </ul>
+        </article>
+        
+    <?php endforeach ?>
+        
+</section>
+
+<section id="sidebar" class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+    <div class="widget meme-listing">
+        <h3 class="widget-title">Featured</h3>
+
+        <article class="meme">
+            <a href="#" class="meme-img">
+                <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-title">
+                <a href="#">This is a meme with a very very very very long meme name</a>
+            </div>
+        </article>
+
+        <article class="meme">
+            <a href="#" class="meme-img">
+                <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-title">
+                <a href="#">This is a meme with a very very very very long meme name</a>
+            </div>
+        </article>
+
+        <article class="meme">
+            <a href="#" class="meme-img">
+                <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
+            </a>
+            <div class="meme-title">
+                <a href="#">This is a meme with a very very very very long meme name</a>
+            </div>
+        </article>
+    </div>
+</section>
