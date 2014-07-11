@@ -23,11 +23,11 @@ return array(
                     ),
                 ),
             ),
-            'media' => array(
+            'upload' => array(
                 'type' => 'Literal',
                 'priority' => 1000,
                 'options' => array(
-                    'route' => '/media',
+                    'route' => '/upload',
                     'defaults' => array(
                         'controller' => 'IndexController',
                         'action'     => 'upload',
