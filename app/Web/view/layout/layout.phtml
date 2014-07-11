@@ -74,7 +74,9 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse by category <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <?php foreach ($this->category()->getCategories() as $category): ?>
-                                <li><a href="#cute"><?php echo $category['name'] ?></a></li>
+                                <li>
+                                    <a href="<?php echo $this->url('category', array('slug' => $category['slug'])) ?>"><?php echo $category['name'] ?></a>
+                                </li>
                             <?php endforeach ?>
                         </ul>
                     </li>

@@ -12,12 +12,12 @@ return array(
             'category' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/category/[:id]',
+                    'route' => '/category/[:slug]',
                     'defaults' => array(
                         'controller'  => 'CategoryController',
                         'action'      => 'index',
                         'constraints' => array(
-                            'id' => '[0-9]*',
+                            'slug' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         ),
                     ),
                 ),

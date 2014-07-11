@@ -101,7 +101,7 @@ class IndexController extends AbstractActionController
     public function uploadAction()
     {
         // Check is user is logged in
-        if ($this->zfcuserAuthentication()->hasIdentity() === false) {
+        if ($this->zfcUserAuthentication()->hasIdentity() === false) {
             // Redirect user to the login page
             return $this->redirect()->toRoute('zfcuser/login');
         }

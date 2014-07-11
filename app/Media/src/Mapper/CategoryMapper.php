@@ -52,6 +52,19 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
         ));
     }
     
+    /**
+     * Select a single category by identifier.
+     * 
+     * @param String $slug
+     * 
+     * @return mixed
+     */
+    public function selectOneBySlug($slug)
+    {
+        return $this->selectOne(array(
+            'slug' => $slug,
+        ));
+    }
     
     /**
      * Select all categories.

@@ -27,10 +27,10 @@ class CategoryController extends AbstractActionController
     public function indexAction()
     {
         // Get params from route
-        $categoryId = $this->params()->fromRoute('id', null);
+        $slug = $this->params()->fromRoute('slug', null);
         
         // Get category
-        $category = $this->getCategoryMapper()->selectOneById($categoryId);
+        $category = $this->getCategoryMapper()->selectOneBySlug($slug);
         
         // Check if category exists
         if ($category === false) {
@@ -39,7 +39,7 @@ class CategoryController extends AbstractActionController
         }
         
         // Get media by category
-        $media = $this->getMediaMapper()->selectAllByCategory($categoryId);
+        $media = $this->getMediaMapper()->selectAllByCategory($category['id']);
         
         // Return view
         return new ViewModel(array(
