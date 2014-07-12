@@ -260,9 +260,9 @@ h1, h2, h3, h4, h5, h6 {
     color: #333333;
 }
 
-.meme > .meme-action > li > .zeroclip-selected,
-.meme > .meme-action > li > .zeroclip-selected:hover
-.meme > .meme-action > li > .zeroclip-selected:focus {
+.meme > .meme-action > li > .zeroclipboard-selected,
+.meme > .meme-action > li > .zeroclipboard-selected:hover
+.meme > .meme-action > li > .zeroclipboard-selected:focus {
     background-color: #fcfeda;
     border-color: #a8bf12;
     

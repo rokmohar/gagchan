@@ -47,7 +47,11 @@
             // Add class to copy button to change appearance
             $(function() { 
                 $('.zeroclipboard').click(function() {  
-                    $(this).addClass("zeroclip-selected");      
+                    // Remove selected class from others
+                    $('.zeroclipboard').removeClass('zeroclipboard-selected');
+                    
+                    // Add class to this element
+                    $(this).addClass('zeroclipboard-selected');      
                 });
             });
 
