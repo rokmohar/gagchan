@@ -5,6 +5,15 @@ Needs to be done:
 - Design a database (DONE)
 - Create Zend Framework 2 application (DONE)
 
+To do
+================================================================================
+- Pagination
+- Input filters for image upload
+- Input filters for external url
+- Entity, hydrator and mapper for response (like/dislike)
+- Ajax for response (like/dislike)
+- Featured functionality (add DB column)
+
 Modules (Which we could use)
 ================================================================================
 - AWS: https://github.com/aws/aws-sdk-php-zf2

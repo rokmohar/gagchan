@@ -20,7 +20,13 @@ class CategoryMapperFactory implements FactoryInterface
         // Database adapter
         $dbAdapter = $serviceLocator->get('db.adapter');
         
+        // Entity class
+        $entityClass = new \Media\Entity\CategoryEntity();
+        
+        // Hydrator
+        $hydrator = new \Media\Hydrator\CategoryHydrator();
+        
         // Return mapper
-        return new CategoryMapper($dbAdapter, 'category');
+        return new CategoryMapper($dbAdapter, 'category', $entityClass, $hydrator);
     }
 }

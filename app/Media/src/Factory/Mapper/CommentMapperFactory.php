@@ -20,6 +20,12 @@ class CommentMapperFactory implements FactoryInterface
         // Database adapter
         $dbAdapter = $serviceLocator->get('db.adapter');
         
-        return new CommentMapper($dbAdapter, 'media_comment');
+        // Entity class
+        $entityClass = new \Media\Entity\CommentEntity();
+        
+        // Hydrator
+        $hydrator = new \Media\Hydrator\CommentHydrator();
+        
+        return new CommentMapper($dbAdapter, 'media_comment', $entityClass, $hydrator);
     }
 }

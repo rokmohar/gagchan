@@ -90,7 +90,7 @@ class MediaManager implements MediaManagerInterface
         $mediaMapper->insertOne(
             $slug,
             $name,
-            sprintf("%s.%s", $slug, $file->guessExtension()),
+            sprintf("photo/%s.%s", $slug, $file->guessExtension()),
             $userId,
             $categoryId,
             $size->getWidth(),
@@ -117,6 +117,12 @@ class MediaManager implements MediaManagerInterface
         
         // Get image sizes
         $size = $image->getSize();
+        
+        // Check if width is alredy 460px
+        if ($size->getWidth() === 460) {
+            // Skip resizing
+            return $this;
+        }
         
         // Calculate new width and height
         $width  = 460;

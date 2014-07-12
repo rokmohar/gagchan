@@ -88,7 +88,7 @@ class IndexController extends AbstractActionController
         }
         
         // Get comments for media
-        $comments = $this->getCommentMapper()->selectAllByMedia($media->getId());
+        $comments = $this->getCommentMapper()->selectByMedia($media->getId());
         
         // Return view
         return new ViewModel(array(
@@ -167,8 +167,6 @@ class IndexController extends AbstractActionController
                 else {
                     throw new \Exception('File or external URL is required.');
                 }
-                
-                die("STOP");
                 
                 // Get user identifier
                 $userId = $this->zfcuserAuthentication()->getIdentity()->getId();

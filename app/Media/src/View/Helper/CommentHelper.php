@@ -37,13 +37,13 @@ class CommentHelper extends AbstractHelper
     /**
      * Return time passed.
      * 
-     * @param mixed $date
+     * @param \DateTime $date
      * 
      * @return String
      */
-    public function dateDiff($date)
+    public function dateDiff(\DateTime $date)
     {
-        $diff = date_diff(date_create(), date_create($date));
+        $diff = date_diff(date_create(), $date);
 
         if (1 == $diff->y) {
             return '1 year ago';

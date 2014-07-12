@@ -25,7 +25,6 @@ class MediaMapperFactory implements FactoryInterface
         $entityClass = new \Media\Entity\MediaEntity();
         
         // Hydrator
-        //$hydrator = new ClassMethods();
         $hydrator = new \Media\Hydrator\MediaHydrator();
         
         return new MediaMapper($dbAdapter, 'media', $entityClass, $hydrator);

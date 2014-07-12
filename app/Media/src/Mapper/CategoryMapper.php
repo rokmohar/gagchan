@@ -2,6 +2,8 @@
 
 namespace Media\Mapper;
 
+use Zend\Db\ResultSet\HydratingResultSet;
+
 use Core\Mapper\AbstractMapper;
 
 /**
@@ -28,14 +30,19 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
             ->limit(1)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Execute statement
-        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        // Execute the statement
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
         
         // Return result
-        return $result->current();
+        return $resultSet->current();
     }
     
     /**
@@ -83,10 +90,18 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
             ->order('created_at ASC')
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Execute statement
-        return $sql->prepareStatementForSqlObject($select)->execute();
+        // Execute the statement
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
+        
+        // Return result
+        return $resultSet;
     }
 }

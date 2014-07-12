@@ -2,6 +2,8 @@
 
 namespace Media\Mapper;
 
+use Zend\Db\ResultSet\HydratingResultSet;
+
 use Core\Mapper\AbstractMapper;
 
 /**
@@ -28,10 +30,19 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
             ))
         ;
         
-        // Prepare SQL statement
-        $this->getSql()->prepareStatementForSqlObject($insert)->execute();
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        return $this;
+        // Execute the statement
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
+        
+        // Return result
+        return $resultSet->current();
     }
     
     /**
@@ -41,7 +52,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
      * 
      * @return mixed
      */
-    public function selectAllBy(array $where)
+    public function selectAll(array $where)
     {
         // Get select
         $select = $this->getSelect();
@@ -51,11 +62,19 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
             ->order('media_comment.created_at DESC')
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Execute statement
-        return $sql->prepareStatementForSqlObject($select)->execute();
+        // Execute the statement
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
+        
+        // Return result
+        return $resultSet;
     }
     
     /**
@@ -65,9 +84,9 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
      * 
      * @return mixed
      */
-    public function selectAllByMedia($mediaId)
+    public function selectByMedia($mediaId)
     {
-        return $this->selectAllBy(array(
+        return $this->selectAll(array(
             'media_id' => $mediaId,
         ));
     }

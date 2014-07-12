@@ -39,7 +39,7 @@ class CategoryController extends AbstractActionController
         }
         
         // Get media by category
-        $media = $this->getMediaMapper()->selectAllByCategory($category['id']);
+        $media = $this->getMediaMapper()->selectAllByCategory($category->getId());
         
         // Return view
         return new ViewModel(array(

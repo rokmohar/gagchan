@@ -8,7 +8,7 @@ use Zend\Stdlib\Hydrator\ClassMethods;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class MediaHydrator extends ClassMethods
+class CategoryHydrator extends ClassMethods
 {
     /**
      * {@inheritDoc}
@@ -35,19 +35,6 @@ class MediaHydrator extends ClassMethods
      */
     public function hydrate(array $data, $object)
     {
-        if (!isset($data['category_id']) && isset($data['category'])) {
-            // Merge category identifier
-            $data['category_id'] = $data['category'];
-        }
-        
-        if (!isset($data['user_id']) && isset($data['user'])) {
-            // Merge category identifier
-            $data['user_id'] = $data['user'];
-        }
-
-        unset($data['category']);
-        unset($data['user']);
-        
         if (isset($data['created_at']) && !$data['created_at'] instanceof \DateTime) {
             // Convert to date
             $data['created_at'] = new \DateTime($data['created_at']);

@@ -72,7 +72,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <?php foreach ($this->category()->getCategories() as $category): ?>
                                 <li>
-                                    <a href="<?php echo $this->url('category', array('slug' => $category['slug'])) ?>"><?php echo $category['name'] ?></a>
+                                    <a href="<?php echo $this->url('category', array('slug' => $category->getSlug())) ?>"><?php echo $category->getName() ?></a>
                                 </li>
                             <?php endforeach ?>
                         </ul>

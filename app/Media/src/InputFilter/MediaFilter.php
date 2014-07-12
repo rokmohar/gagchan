@@ -35,14 +35,6 @@ class MediaFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'Alnum',
-                    'options' => array(
-                        'allowWhiteSpace' => true,
-                        
-                        'break_chain_on_failure' => true,
-                    ),
-                ),
-                array(
                     'name'    => 'StringLength',
                     'options' => array(
                         'min' => 8,
@@ -69,7 +61,7 @@ class MediaFilter extends InputFilter
     {
         $this->add(array(
             'name'     => 'file',
-            'required' => true,
+            'required' => false,
             'validators' => array(
                 array(
                     'name'    => 'Zend\Validator\File\Extension',
@@ -90,20 +82,22 @@ class MediaFilter extends InputFilter
                         'break_chain_on_failure' => true,
                     ),
                 ),
-                array(
+                // Mime type error
+                /*array(
                     'name' => 'Zend\Validator\File\IsImage',
                     'options' => array(
                         'break_chain_on_failure' => true,
                     ),
-                ),
-                array(
+                ),*/
+                // Mime type error
+                /*array(
                     'name'    => 'Zend\Validator\File\MimeType',
                     'options' => array(
                         'mimeType'  => array('image/jpeg', 'image/jpg'),
                         
                         'break_chain_on_failure' => true,
                     ),
-                ),
+                ),*/
                 array(
                     'name'    => 'Zend\Validator\File\Size',
                     'options' => array(
@@ -134,7 +128,7 @@ class MediaFilter extends InputFilter
     {
         $this->add(array(
             'name'       => 'url',
-            'required'   => true,
+            'required'   => false,
             'validators' => array(
                 array(
                     'name' => 'Media\Validator\ImageValidator',

@@ -81,10 +81,10 @@
         <?php foreach($this->comments as $comment): ?>
             <div class="comment-widget">
                 <div class="user-details">
-                    <?php echo $this->user()->findById($comment['user_id'])->getUsername() ?> <small>(<?php echo $this->comment()->dateDiff($comment['created_at']) ?>)</small>
+                    <?php echo $this->user()->findById($comment->getUserId())->getUsername() ?> <small>(<?php echo $this->comment()->dateDiff($comment->getCreatedAt()) ?>)</small>
                 </div>
                 <div class="comment-text">
-                    <?php echo $comment['comment'] ?>
+                    <?php echo $comment->getComment() ?>
                 </div>
             </div>
         <?php endforeach ?>
