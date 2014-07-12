@@ -11,8 +11,7 @@ return array(
         // Our modules
         'Core',
         'Media',
-        //'Web',
-        'User', // Must be loaded after ZfcUser
+        'User',
     ),
 
     // These are various options for the listeners attached to the ModuleManager
