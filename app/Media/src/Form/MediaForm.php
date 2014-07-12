@@ -24,12 +24,15 @@ class MediaForm extends Form
     {
         parent::__construct($name);
         
+        // Set category mapper
         $this->categoryMapper = $categoryMapper;
         
+        // Set form attributes
         $this
             ->setAttribute('enctype', 'multipart/form-data')
         ;
         
+        // Add form elements
         $this
             ->addName()
             ->addFile()
