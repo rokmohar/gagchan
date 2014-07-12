@@ -30,7 +30,6 @@
         ->prependFile($this->basePath() . '/js/bootstrap.min.js')
         ->prependFile($this->basePath() . '/js/jquery.prettySocial.min.js')
         ->prependFile($this->basePath() . '/js/ZeroClipboard.js')
-        ->prependFile($this->basePath() . '/js/main.js')
         ->prependFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js', 'text/javascript')
         ->prependFile('https://oss.maxcdn.com/respond/1.4.2/respond.min.js',   'text/javascript', array('conditional' => 'lt IE 9'))
         ->prependFile('https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js', 'text/javascript', array('conditional' => 'lt IE 9'))
@@ -41,30 +40,9 @@
             $(".btn-facebook, .btn-twitter").prettySocial();
 
             // Copy to clipboard             
-            var client = new ZeroClipboard($(
-               '#copy-btn-1,\n\
-                #copy-btn-2,\n\
-                #copy-btn-3,\n\
-                #copy-btn-4,\n\
-                #copy-btn-5,\n\
-                #copy-btn-6,\n\
-                #copy-btn-7,\n\
-                #copy-btn-8,\n\
-                #copy-btn-9,\n\
-                #copy-btn-10,\n\
-                #copy-btn-11,\n\
-                #copy-btn-12,\n\
-                #copy-btn-13,\n\
-                #copy-btn-14,\n\
-                #copy-btn-15,\n\
-                #copy-btn-16,\n\
-                #copy-btn-17,\n\
-                #copy-btn-18,\n\
-                #copy-btn-19,\n\
-                #copy-btn-20'         
-            ), {moviePath : 'js/ZeroClipboard.swf'}
-            ); 
-
+            new ZeroClipboard($('.zcopy'), {
+                moviePath : 'js/ZeroClipboard.swf'
+            }); 
         });
     </script>
 </head>
