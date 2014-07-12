@@ -41,8 +41,16 @@
 
             // Copy to clipboard             
             new ZeroClipboard($('.zeroclipboard'), {
-                moviePath : 'js/ZeroClipboard.swf'
+                moviePath : 'js/jquery.zeroclipboard.swf'
+            }); 
+            
+            // Add class to copy button to change appearance
+            $(function() { 
+                $('.zeroclipboard').click(function() {  
+                    $(this).addClass("zeroclip-selected");      
+                });
             });
+
         });
     </script>
 </head>

@@ -477,3 +477,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     float: none;
 }
+
+.zeroclip-selected {
+    background-color: #A8BF12;
+}
