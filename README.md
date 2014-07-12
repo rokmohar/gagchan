@@ -8,11 +8,11 @@ Needs to be done:
 To do
 ================================================================================
 - Pagination
-- Input filters for image upload
-- Input filters for external url
-- Entity, hydrator and mapper for response (like/dislike)
-- Ajax for response (like/dislike)
-- Featured functionality (add DB column)
+- Input filters for upload
+- Input filters for external resource
+- Entity, hydrator and mapper for response
+- Ajax for response
+- Featured side bar functionality
 
 Modules (Which we could use)
 ================================================================================
