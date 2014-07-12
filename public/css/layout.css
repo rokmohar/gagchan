@@ -260,6 +260,14 @@ h1, h2, h3, h4, h5, h6 {
     color: #333333;
 }
 
+.meme > .meme-action > li > .zeroclip-selected,
+.meme > .meme-action > li > .zeroclip-selected:hover
+.meme > .meme-action > li > .zeroclip-selected:focus {
+    background-color: #fcfeda;
+    border-color: #a8bf12;
+    
+    color: #a8bf12;
+}
 /**
  * =============================================================================
  * #Widget Style
@@ -476,8 +484,4 @@ h1, h2, h3, h4, h5, h6 {
 .btn-social-group > li > a {
     display: block;
     float: none;
-}
-
-.zeroclip-selected {
-    background-color: #A8BF12;
 }
