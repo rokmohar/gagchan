@@ -56,6 +56,8 @@ class MediaFilter extends InputFilter
                 array('name' => 'StringTrim'),
             ),
         ));
+        
+        return $this;
     }
     
     /**
@@ -119,6 +121,8 @@ class MediaFilter extends InputFilter
                 ),
             ),
         ));
+        
+        return $this;
     }
     
     /**
@@ -143,6 +147,8 @@ class MediaFilter extends InputFilter
                 array('name' => 'StringTrim'),
             ),
         ));
+        
+        return $this;
     }
     
     /**
@@ -156,5 +162,7 @@ class MediaFilter extends InputFilter
             'name'     => 'category',
             'required' => true,
         ));
+        
+        return $this;
     }
 }
