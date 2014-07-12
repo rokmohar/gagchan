@@ -286,12 +286,12 @@
     }
   };
   /**
- * The presumed location of the "ZeroClipboard.swf" file, based on the location
- * of the executing JavaScript file (e.g. "ZeroClipboard.js", etc.).
+ * The presumed location of the "jquery.zeroclipboard.swf" file, based on the location
+ * of the executing JavaScript file (e.g. "jquery.zeroclipboard.js", etc.).
  * @private
  */
   var _swfPath = function() {
-    var i, jsDir, tmpJsPath, jsPath, swfPath = "ZeroClipboard.swf";
+    var i, jsDir, tmpJsPath, jsPath, swfPath = "jquery.zeroclipboard.swf";
     if (!(_document.currentScript && (jsPath = _document.currentScript.src))) {
       var scripts = _document.getElementsByTagName("script");
       if ("readyState" in scripts[0]) {
