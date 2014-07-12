@@ -6,7 +6,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 use Core\File\UploadedFile;
+
 /**
+ * Ne urejaj! Upload deluje, vendar ga je potrebno še uskladiti s hydratorjem.
+ * 
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
@@ -114,7 +117,10 @@ class IndexController extends AbstractActionController
         
         // Check if form is posted
         if ($request->isPost() === true) {
-            // Set posted data
+            // Bind entity class
+            $mediaForm->bind(new \Media\Entity\MediaEntity());
+            
+            // Merge posted data and files
             $mediaForm->setData(array_merge(
                 $request->getPost()->toArray(),
                 $request->getFiles()->toArray()
@@ -123,26 +129,34 @@ class IndexController extends AbstractActionController
             // Validate form
             if ($mediaForm->isValid() === true) {
                 // Get posted data
-                $name     = $mediaForm->get('name')->getValue();
-                $file     = $mediaForm->get('file')->getValue();
-                $url      = $mediaForm->get('url')->getValue();
-                $category = $mediaForm->get('category')->getValue();
+                $data = $mediaForm->getData();
                 
-                if (empty($file) === true && empty($url) === true) {
-                    throw new \Exception(
-                        'File or external URL is required.'
-                    );
-                }
-                else if (empty($file) === true) {
+                // Get posted data
+                $file = $mediaForm->get('file')->getValue();
+                $url  = $mediaForm->get('url')->getValue();
+                
+                if (empty($url) === false) {
                     // Temporary file name
                     $temp = tempnam(false, false);
+                    
+                    // Check if given resource is not a file
+                    if (is_file($url) === false) {
+                        // Resource is not a file
+                        throw new \Exception('Provided resource is not a file.');
+                    }
 
-                    // Copy image from URL to temporary file
+                    // Copy file from provided URL
                     copy($url, $temp);
 
-                    // Image size
+                    // Image size (ignore error)
                     $size = getimagesize($temp);
-
+                    
+                    // Check if file is an image
+                    if (count($size) < 3) {
+                        // File is not an image
+                        throw new \Exception('Provided file is not an image.');
+                    }
+                    
                     $file = new UploadedFile(
                         $temp,
                         basename($url),
@@ -151,8 +165,10 @@ class IndexController extends AbstractActionController
                         $size[0],
                         $size[1]
                     );
+                    
+                    die("COPIED");
                 }
-                else {
+                else if (empty($file) === false) {
                     // Create uploaded file
                     $file = new UploadedFile(
                         $file['tmp_name'],
@@ -161,15 +177,23 @@ class IndexController extends AbstractActionController
                         $file['size'],
                         $file['error']
                     );
+                    
+                    die("UPLOADED");
                 }
+                else {
+                    throw new \Exception('File or external URL is required.');
+                }
+                
+                die("STOP");
                 
                 // Get user identifier
                 $userId = $this->zfcuserAuthentication()->getIdentity()->getId();
                 
                 // Media manager
                 $mediaManager = $this->getMediaManager();
-                $mediaManager->uploadFile($file, $name, $userId, $category);
+                $mediaManager->uploadFile($file, $data->getName(), $userId, $data->getCategoryId());
                 
+                // Redirect to route
                 return $this->redirect()->toRoute('home');
             }
         }
