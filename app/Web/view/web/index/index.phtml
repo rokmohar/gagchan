@@ -28,7 +28,7 @@
                     <a href="#" data-type="twitter" data-url="http://gagchan.com<?php echo $this->url('gag', array('slug' => $m->getSlug())) ?>" data-description="<?php echo $m->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-twitter">Twitter</a>
                 </li>
                 <li>
-                    <a href="#" class="btn btn-default zclip" data-zclip-text="Testing 1-2-3!">
+                    <a id="copy-btn" data-clipboard-text="<?php echo "http://gagchan.com" . $this->url('gag', array('slug' => $m->getSlug())) ?>"  class="btn btn-default zclip">
                         <span class="glyphicon glyphicon-link"></span>
                     </a>
                 </li>
