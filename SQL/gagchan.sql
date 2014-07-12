@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 11. jul 2014 ob 19.29
+-- Čas nastanka: 12. jul 2014 ob 21.48
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -69,16 +69,17 @@ CREATE TABLE IF NOT EXISTS `media` (
   `content_type` varchar(64) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Odloži podatke za tabelo `media`
 --
 
 INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `created_at`, `updated_at`) VALUES
-(5, 'r97o0hqs', 'This is just a meme', 'r97o0hqs.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
-(9, 'w7d38bwp', 'My another meme', 'w7d38bwp.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
-(10, 'yr1j6x7l', 'Meme loaded from URL address', 'yr1j6x7l.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', '2014-07-11 18:16:38', '2014-07-11 18:16:38');
+(5, 'r97o0hqs', 'This is just a meme', 'photo/r97o0hqs.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
+(9, 'w7d38bwp', 'My another meme', 'photo/w7d38bwp.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
+(10, 'yr1j6x7l', 'Meme loaded from URL address', 'photo/yr1j6x7l.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', '2014-07-11 18:16:38', '2014-07-11 18:16:38'),
+(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', 'photo/w2l0n54l.jpg', 4, 2, 460, 460, 74335, 'image/jpeg', '2014-07-12 20:56:17', '2014-07-12 20:56:17');
 
 -- --------------------------------------------------------
 
@@ -160,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
 (1, 'rokm92', NULL, 'nekdo@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
 (2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 1, '2014-07-07 23:29:26', '2014-07-07 23:29:26'),
-(4, NULL, 'Rok Mohar', 'rok.mohar@gmail.com', 'googleToLocalUser', 1, '2014-07-08 19:50:29', '2014-07-08 19:50:29');
+(4, 'rok.mohar', NULL, 'rok.mohar@gmail.com', NULL, 1, '2014-07-08 19:50:29', '2014-07-08 19:50:29');
 
 -- --------------------------------------------------------
 
@@ -179,7 +180,8 @@ CREATE TABLE IF NOT EXISTS `user_provider` (
 --
 
 INSERT INTO `user_provider` (`user_id`, `provider_id`, `provider`) VALUES
-(4, '113884234906240529364', 'google');
+(4, '113884234906240529364', 'google'),
+(4, '1513677385514321', 'facebook');
 
 --
 -- Indeksi zavrženih tabel
@@ -240,7 +242,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT tabele `media`
 --
 ALTER TABLE `media`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT tabele `media_comment`
 --
