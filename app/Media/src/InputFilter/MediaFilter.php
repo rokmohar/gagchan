@@ -41,18 +41,18 @@ class MediaFilter extends InputFilter
         // Upload media
         $this->add(array(
             'name'     => 'file',
-            'required' => false, // optional
+            'required' => false,
         ));
         
         // Media URL
         $this->add(array(
             'name'       => 'url',
-            'required'   => false, // optional
-            /*'validators' => array(
+            'required'   => false,
+            'validators' => array(
                 array(
-                    'name' => 'Hostname',
+                    'name' => 'Media\Validator\ImageValidator',
                 ),
-            ),*/
+            ),
             'filters'   => array(
                 array('name' => 'StringTrim'),
             ),

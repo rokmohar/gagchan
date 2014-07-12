@@ -137,25 +137,13 @@ class IndexController extends AbstractActionController
                 
                 if (empty($url) === false) {
                     // Temporary file name
-                    $temp = tempnam(false, false);
+                    $temp = tempnam(sys_get_temp_dir(), '');
                     
-                    // Check if given resource is not a file
-                    if (is_file($url) === false) {
-                        // Resource is not a file
-                        throw new \Exception('Provided resource is not a file.');
-                    }
-
                     // Copy file from provided URL
                     copy($url, $temp);
 
                     // Image size (ignore error)
                     $size = getimagesize($temp);
-                    
-                    // Check if file is an image
-                    if (count($size) < 3) {
-                        // File is not an image
-                        throw new \Exception('Provided file is not an image.');
-                    }
                     
                     $file = new UploadedFile(
                         $temp,
@@ -165,8 +153,6 @@ class IndexController extends AbstractActionController
                         $size[0],
                         $size[1]
                     );
-                    
-                    die("COPIED");
                 }
                 else if (empty($file) === false) {
                     // Create uploaded file
@@ -177,8 +163,6 @@ class IndexController extends AbstractActionController
                         $file['size'],
                         $file['error']
                     );
-                    
-                    die("UPLOADED");
                 }
                 else {
                     throw new \Exception('File or external URL is required.');
