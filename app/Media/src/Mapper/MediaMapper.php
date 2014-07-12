@@ -3,6 +3,8 @@
 namespace Media\Mapper;
 
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\DbSelect;
 
 use Core\Mapper\AbstractMapper;
 
@@ -93,7 +95,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         // Prepare a statement
         $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Execute statement and hydrate result set
+        // Get hydrating result set
         $resultSet = new HydratingResultSet(
             $this->getHydrator(),
             $this->getEntityClass()
@@ -112,11 +114,40 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
      * 
      * @return mixed
      */
-    public function selectAllByCategory($categoryId)
+    public function selectByCategory($categoryId)
     {
         return $this->selectAll(array(
             'category_id' => $categoryId,
         ));
+    }
+    
+    /**
+     * Select results for pagination.
+     * 
+     * @param Array $where
+     * 
+     * @return mixed
+     */
+    public function selectPagination(array $where = array())
+    {
+        // Get select
+        $select = $this->getSelect();
+        
+        $select
+            ->where($where)
+        ;
+        
+        // Get hydrating result set
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        // Get paginator select adapter
+        $adapter = new DbSelect($select, $this->getDbAdapter(), $resultSet);
+        
+        // Return paginator
+        return new Paginator($adapter); 
     }
     
     /**
@@ -139,7 +170,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         // Prepare a statement
         $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Execute statement and hydrate result set
+        // Get hydrating result set
         $resultSet = new HydratingResultSet(
             $this->getHydrator(),
             $this->getEntityClass()

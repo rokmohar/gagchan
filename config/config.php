@@ -11,7 +11,7 @@ return array(
         // Our modules
         'Core',
         'Media',
-        'Web',
+        //'Web',
         'User', // Must be loaded after ZfcUser
     ),
 

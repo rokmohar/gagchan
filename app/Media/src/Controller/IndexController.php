@@ -43,6 +43,27 @@ class IndexController extends AbstractActionController
     /**
      * @return \Zend\View\Helper\ViewModel
      */
+    public function indexAction()
+    {
+        // Get params from route
+        $page = (int) $this->params()->fromRoute('page', 1);
+        
+        // Select from database
+        $media = $this->getMediaMapper()->selectPagination();
+        $media->setCurrentPageNumber($page);
+        
+        // Set items per page
+        //$media->setItemCountPerPage(2);
+        
+        // Retun view
+        return new ViewModel(array(
+            'media' => $media,
+        ));
+    }
+    
+    /**
+     * @return \Zend\View\Helper\ViewModel
+     */
     public function detailsAction()
     {
         // Get request
