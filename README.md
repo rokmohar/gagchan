@@ -7,6 +7,10 @@ To do
 - Ajax for response
 - Featured side bar functionality
 - Import error designs
+- Remember me functionality
+- Confirm account functionality
+- Change email / password page
+- Simple profile page with uploaded media history
 
 Modules (Which we could use)
 ================================================================================
