@@ -263,7 +263,7 @@ h1, h2, h3, h4, h5, h6 {
 .meme > .meme-action > li > .zeroclipboard-selected,
 .meme > .meme-action > li > .zeroclipboard-selected:hover
 .meme > .meme-action > li > .zeroclipboard-selected:focus {
-    background-color: #fcfeda;
+    background-color: #ffffff;
     border-color: #a8bf12;
     
     color: #a8bf12;

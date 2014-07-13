@@ -76,11 +76,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Return a list of media.
-     * 
-     * @param Array $where
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
     public function selectAll(array $where = array())
     {
@@ -89,7 +85,6 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         
         $select
             ->where($where)
-            ->order('media.created_at DESC')
         ;
         
         // Prepare a statement
@@ -151,11 +146,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Select media from DB.
-     * 
-     * @param Array $where
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
     public function selectOne(array $where = array())
     {
@@ -164,7 +155,6 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         
         $select
             ->where($where)
-            ->limit(1)
         ;
         
         // Prepare a statement

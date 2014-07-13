@@ -5,12 +5,12 @@ namespace Media\Factory\Mapper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Media\Mapper\MediaMapper;
+use Media\Mapper\ResponseMapper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-class MediaMapperFactory implements FactoryInterface
+class ResponseMapperFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -21,11 +21,11 @@ class MediaMapperFactory implements FactoryInterface
         $dbAdapter = $serviceLocator->get('db.adapter');
         
         // Entity class
-        $entityClass = new \Media\Entity\MediaEntity();
+        $entityClass = new \Media\Entity\ResponseEntity();
         
         // Hydrator
-        $hydrator = new \Media\Hydrator\MediaHydrator();
+        $hydrator = new \Media\Hydrator\ResponseHydrator();
         
-        return new MediaMapper($dbAdapter, 'media', $entityClass, $hydrator);
+        return new ResponseMapper($dbAdapter, 'response', $entityClass, $hydrator);
     }
 }

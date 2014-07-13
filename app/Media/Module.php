@@ -50,6 +50,7 @@ class Module implements
                 'media.mapper.category'         => 'Media\Factory\Mapper\CategoryMapperFactory',
                 'media.mapper.comment'          => 'Media\Factory\Mapper\CommentMapperFactory',
                 'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',
+                'media.mapper.response'         => 'Media\Factory\Mapper\ResponseMapperFactory',
                 'media.service.media_manager'   => 'Media\Factory\Service\MediaManagerFactory',
                 'media.storage.storage_manager' => 'Media\Factory\Storage\StorageManagerFactory',
             ),
