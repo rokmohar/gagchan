@@ -8,7 +8,7 @@ use Zend\Stdlib\Hydrator\ClassMethods;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class CommentHydrator extends ClassMethods
+class MediaHydrator extends ClassMethods
 {
     /**
      * {@inheritDoc}
@@ -36,7 +36,7 @@ class CommentHydrator extends ClassMethods
     public function hydrate(array $data, $object)
     {
         if (!isset($data['media_id']) && isset($data['media'])) {
-            // Merge media identifier
+            // Merge category identifier
             $data['media_id'] = $data['media'];
         }
         

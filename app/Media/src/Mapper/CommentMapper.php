@@ -46,11 +46,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
     }
     
     /**
-     * Return a list of media.
-     * 
-     * @param Array $where
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
     public function selectAll(array $where)
     {
@@ -59,7 +55,6 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
         
         $select
             ->where($where)
-            ->order('media_comment.created_at DESC')
         ;
         
         // Prepare a statement
@@ -89,5 +84,32 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
         return $this->selectAll(array(
             'media_id' => $mediaId,
         ));
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function selectOne(array $where)
+    {
+        // Get select
+        $select = $this->getSelect();
+        
+        $select
+            ->where($where)
+        ;
+        
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
+        
+        // Execute the statement
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
+        
+        // Return result
+        return $resultSet->current();;
     }
 }

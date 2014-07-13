@@ -8,5 +8,17 @@ namespace Media\Mapper;
  */
 interface CategoryMapperInterface
 {
+    /**
+     * Select and return all rows.
+     * 
+     * @return mixed
+     */
+    public function selectAll(array $where);
     
+    /**
+     * Select and return one row.
+     * 
+     * @return mixed
+     */
+    public function selectOne(array $where);
 }
