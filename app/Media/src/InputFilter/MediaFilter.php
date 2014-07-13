@@ -45,7 +45,9 @@ class MediaFilter extends InputFilter
                 ),
             ),
             'filters'   => array(
+                array('name' => 'HtmlEntities'),
                 array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
             ),
         ));
         
@@ -139,6 +141,7 @@ class MediaFilter extends InputFilter
             ),
             'filters'   => array(
                 array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
             ),
         ));
         

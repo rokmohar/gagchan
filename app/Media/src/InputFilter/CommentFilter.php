@@ -14,6 +14,7 @@ class CommentFilter extends InputFilter
      */
     public function __construct()
     {
+        // Add form elements
         $this
             ->addComment()
         ;
@@ -37,7 +38,9 @@ class CommentFilter extends InputFilter
                 ),
             ),
             'filters'   => array(
+                array('name' => 'HtmlEntities'),
                 array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
             ),
         ));
     }

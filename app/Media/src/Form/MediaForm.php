@@ -8,6 +8,7 @@ use Media\Mapper\CategoryMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class MediaForm extends Form
 {

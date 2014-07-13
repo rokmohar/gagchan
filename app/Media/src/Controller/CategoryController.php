@@ -38,8 +38,15 @@ class CategoryController extends AbstractActionController
             return $this->notFoundAction();
         }
         
-        // Get media by category
+        // Get params from query
+        $page = (int) $this->params()->fromQuery('page', 1);
+        
+        // Select from database
         $media = $this->getMediaMapper()->selectByCategory($category->getId());
+        $media->setCurrentPageNumber($page);
+        
+        // Set items per page
+        $media->setItemCountPerPage(20);
         
         // Return view
         return new ViewModel(array(

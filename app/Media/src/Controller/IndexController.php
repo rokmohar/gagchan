@@ -8,8 +8,6 @@ use Zend\View\Model\ViewModel;
 use Core\File\UploadedFile;
 
 /**
- * Ne urejaj! Upload deluje, vendar ga je potrebno še uskladiti s hydratorjem.
- * 
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
@@ -45,15 +43,15 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        // Get params from route
-        $page = (int) $this->params()->fromRoute('page', 1);
+        // Get params from query
+        $page = (int) $this->params()->fromQuery('page', 1);
         
         // Select from database
-        $media = $this->getMediaMapper()->selectPagination();
+        $media = $this->getMediaMapper()->selectAll();
         $media->setCurrentPageNumber($page);
         
         // Set items per page
-        //$media->setItemCountPerPage(2);
+        $media->setItemCountPerPage(20);
         
         // Retun view
         return new ViewModel(array(

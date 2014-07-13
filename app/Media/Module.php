@@ -47,6 +47,7 @@ class Module implements
             'factories' => array(
                 'media.form.comment'            => 'Media\Factory\Form\CommentFormFactory',
                 'media.form.media'              => 'Media\Factory\Form\MediaFormFactory',
+                'media.form.response'           => 'Media\Factory\Form\ResponseFormFactory',
                 'media.mapper.category'         => 'Media\Factory\Mapper\CategoryMapperFactory',
                 'media.mapper.comment'          => 'Media\Factory\Mapper\CommentMapperFactory',
                 'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',

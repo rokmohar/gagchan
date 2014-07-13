@@ -1,5 +1,7 @@
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12 meme-listing">
+    
     <?php foreach ($media as $m): ?>
+    
         <article class="meme clearfix" data-slug="<?php echo $m->getSlug() ?>">
             <div class="meme-title">
                 <a href="<?php echo $this->url('gag', array('slug' => $m->getSlug())) ?>">
@@ -34,7 +36,11 @@
                 </li>
             </ul>
         </article>
+    
     <?php endforeach ?>
+    
+    <?php echo $this->paginationControl($media, 'sliding', array('partial/paginator.phtml', 'Media'), array('route' => 'home')) ?>
+    
 </section>
 
 <section id="sidebar" class="col-lg-4 col-md-4 col-sm-4 hidden-xs">

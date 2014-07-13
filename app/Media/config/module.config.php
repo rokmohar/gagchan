@@ -5,12 +5,13 @@ return array(
         'invokables' => array(
             'CategoryController' => 'Media\Controller\CategoryController',
             'IndexController'    => 'Media\Controller\IndexController',
+            'ResponseController' => 'Media\Controller\ResponseController',
         ),
     ),
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
@@ -20,9 +21,9 @@ return array(
                 ),
             ),
             'category' => array(
-                'type' => 'Segment',
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/category/[:slug]',
+                    'route'    => '/category/[:slug]',
                     'defaults' => array(
                         'controller'  => 'CategoryController',
                         'action'      => 'index',
@@ -33,9 +34,9 @@ return array(
                 ),
             ),
             'gag' => array(
-                'type' => 'Segment',
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/gag/[:slug]',
+                    'route'    => '/gag/[:slug]',
                     'defaults' => array(
                         'controller'  => 'IndexController',
                         'action'      => 'details',
@@ -44,11 +45,24 @@ return array(
                         ),
                     ),
                 ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'response' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/response',
+                            'defaults' => array(
+                                'controller' => 'ResponseController',
+                                'action'     => 'index',
+                            ),
+                        ),
+                    ),
+                ),
             ),
             'upload' => array(
-                'type' => 'Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/upload',
+                    'route'    => '/upload',
                     'defaults' => array(
                         'controller' => 'IndexController',
                         'action'     => 'upload',
@@ -58,6 +72,9 @@ return array(
         ),
     ),
     'view_manager' => array(
+        'strategies' => array(
+            'json' => 'ViewJsonStrategy',
+        ),
         'template_path_stack' => array(
             'media' => __DIR__ . '/../view',
         ),

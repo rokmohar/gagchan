@@ -27,7 +27,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
      */
     public function insertOne($slug, $name, $reference, $userId, $categoryId, $width, $height, $size, $contentType)
     {
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert
@@ -44,10 +44,14 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             ))
         ;
         
-        // Prepare SQL statement
-        $this->getSql()->prepareStatementForSqlObject($insert)->execute();
+        // Get SQL
+        $sql = $this->getSql();
         
-        return $this;
+        // Prepare and execute statement
+        $result = $sql->prepareStatementForSqlObject($insert)->execute();
+        
+        // Return result
+        return $result;
     }
         
     /**
@@ -55,7 +59,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
      */
     public function isUniqueSlug($slug)
     {
-        // Get SQL select
+        // Get select
         $select = $this->getSelect();
         
         $select
@@ -68,38 +72,37 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         // Get SQL
         $sql = $this->getSql();
         
-        // Execute statemet
+        // Prepare and execute statement
         $result = $sql->prepareStatementForSqlObject($select)->execute();
         
         // Check if no entry exists
-        return ($result->count() === 0);
+        return (count($result) === 0);
     }
     
     /**
      * {@inheritDoc}
      */
-    public function selectAll(array $where = array())
+    public function selectAll(array $where = array(), $order = array())
     {
         // Get select
         $select = $this->getSelect();
         
         $select
             ->where($where)
+            ->order($order)
         ;
         
-        // Prepare a statement
-        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
-        
-        // Get hydrating result set
+        // Get result set
         $resultSet = new HydratingResultSet(
             $this->getHydrator(),
             $this->getEntityClass()
         );
         
-        $resultSet->initialize($stmt->execute());
+        // Get select for paginator
+        $adapter = new DbSelect($select, $this->getDbAdapter(), $resultSet);
         
-        // Return result
-        return $resultSet;
+        // Return paginator
+        return new Paginator($adapter); 
     }
     
     /**
@@ -114,35 +117,6 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         return $this->selectAll(array(
             'category_id' => $categoryId,
         ));
-    }
-    
-    /**
-     * Select results for pagination.
-     * 
-     * @param Array $where
-     * 
-     * @return mixed
-     */
-    public function selectPagination(array $where = array())
-    {
-        // Get select
-        $select = $this->getSelect();
-        
-        $select
-            ->where($where)
-        ;
-        
-        // Get hydrating result set
-        $resultSet = new HydratingResultSet(
-            $this->getHydrator(),
-            $this->getEntityClass()
-        );
-        
-        // Get paginator select adapter
-        $adapter = new DbSelect($select, $this->getDbAdapter(), $resultSet);
-        
-        // Return paginator
-        return new Paginator($adapter); 
     }
     
     /**
@@ -173,7 +147,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Select media from DB.
+     * Select media by identifier.
      * 
      * @param Integer $id
      * 
@@ -187,7 +161,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Select media from DB.
+     * Select media by unique slug.
      * 
      * @param String $slug
      * 
