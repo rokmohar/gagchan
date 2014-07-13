@@ -110,17 +110,18 @@ class MediaForm extends Form
     }
     
     /**
-     * Add media category select field.
+     * Add category dropdown.
+     * 
+     * @param Array $values
      * 
      * @return \Media\Form\MediaForm
      */
-    protected function addCategory()
+    protected function addCategory(array $values = array())
     {
-        $values = array();
         $result = $this->categoryMapper->selectAll();
         
         foreach ($result as $category) {
-            $values[$category['id']] = $category['name'];
+            $values[$category->getId()] = $category->getName();
         }
         
         $this->add(array(
