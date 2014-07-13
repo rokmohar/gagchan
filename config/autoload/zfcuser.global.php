@@ -17,7 +17,7 @@ return array(
          * instead of the default one provided. Default is ZfcUser\Entity\User.
          * The entity class should implement ZfcUser\Entity\UserInterface
          */
-        'user_entity_class' => 'ZfcUser\Entity\User',
+        'user_entity_class' => 'User\Entity\User',
 
         /**
          * Enable registration
@@ -69,9 +69,7 @@ return array(
          * Default value: array containing 'email'
          * Accepted values: array containing one or more of: email, username
          */
-        'auth_identity_fields' => array(
-            'email',
-        ),
+        'auth_identity_fields' => array('email'),
 
         /**
          * Login form timeout
@@ -142,7 +140,7 @@ return array(
          * Default value: 'zfc-user/user/login.phtml'
          * Accepted values: string path to a view script
          */
-        'user_login_widget_view_template' => 'zfc-user/user/login.phtml',
+        'user_login_widget_view_template' => 'user/user/login.phtml',
 
         /**
          * Login Redirect Route
@@ -154,7 +152,7 @@ return array(
          *                  If callback used, it will receive the identity as the param
          *
          */
-        'login_redirect_route' => 'zfcuser',
+        'login_redirect_route' => 'home',
 
         /**
          * Logout Redirect Route
@@ -181,7 +179,7 @@ return array(
          * 
          * Should user's state be used in the registration/login process?
          */
-        'enable_user_state' => true,
+        'enable_user_state' => false,
 
         /**
          * Default user state upon registration

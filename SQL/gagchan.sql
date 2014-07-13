@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 12. jul 2014 ob 21.48
+-- Čas nastanka: 13. jul 2014 ob 13.16
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -79,7 +79,7 @@ INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`
 (5, 'r97o0hqs', 'This is just a meme', 'photo/r97o0hqs.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
 (9, 'w7d38bwp', 'My another meme', 'photo/w7d38bwp.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
 (10, 'yr1j6x7l', 'Meme loaded from URL address', 'photo/yr1j6x7l.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', '2014-07-11 18:16:38', '2014-07-11 18:16:38'),
-(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', 'photo/w2l0n54l.jpg', 4, 2, 460, 460, 74335, 'image/jpeg', '2014-07-12 20:56:17', '2014-07-12 20:56:17');
+(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', 'photo/w2l0n54l.jpg', 2, 2, 460, 460, 74335, 'image/jpeg', '2014-07-12 20:56:17', '2014-07-12 20:56:17');
 
 -- --------------------------------------------------------
 
@@ -116,25 +116,12 @@ INSERT INTO `media_comment` (`id`, `media_id`, `user_id`, `comment`, `created_at
 --
 
 CREATE TABLE IF NOT EXISTS `media_response` (
+`id` int(11) NOT NULL,
   `media_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `type` set('up','down') NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struktura tabele `newsletter`
---
-
-CREATE TABLE IF NOT EXISTS `newsletter` (
-`id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -149,19 +136,19 @@ CREATE TABLE IF NOT EXISTS `user` (
   `display_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(128) DEFAULT NULL,
-  `state` smallint(4) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Odloži podatke za tabelo `user`
 --
 
 INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
-(1, 'rokm92', NULL, 'nekdo@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
-(2, 'roky994', NULL, 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', 1, '2014-07-07 23:29:26', '2014-07-07 23:29:26'),
-(4, 'rok.mohar', NULL, 'rok.mohar@gmail.com', NULL, 1, '2014-07-08 19:50:29', '2014-07-08 19:50:29');
+(1, 'rokm92', 'rokm92', 'no.powersupply@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', NULL, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
+(2, 'roky994', 'roky994', 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', NULL, '2014-07-07 23:29:26', '2014-07-07 23:29:26'),
+(9, 'rok.mohar', 'rok.mohar', 'rok.mohar@gmail.com', NULL, NULL, '2014-07-13 13:16:10', '2014-07-13 13:16:10');
 
 -- --------------------------------------------------------
 
@@ -180,8 +167,8 @@ CREATE TABLE IF NOT EXISTS `user_provider` (
 --
 
 INSERT INTO `user_provider` (`user_id`, `provider_id`, `provider`) VALUES
-(4, '113884234906240529364', 'google'),
-(4, '1513677385514321', 'facebook');
+(9, '113884234906240529364', 'google'),
+(9, '1513677385514321', 'facebook');
 
 --
 -- Indeksi zavrženih tabel
@@ -209,13 +196,7 @@ ALTER TABLE `media_comment`
 -- Indeksi tabele `media_response`
 --
 ALTER TABLE `media_response`
- ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
-
---
--- Indeksi tabele `newsletter`
---
-ALTER TABLE `newsletter`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeksi tabele `user`
@@ -249,15 +230,15 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 ALTER TABLE `media_comment`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT tabele `newsletter`
+-- AUTO_INCREMENT tabele `media_response`
 --
-ALTER TABLE `newsletter`
+ALTER TABLE `media_response`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT tabele `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- Omejitve tabel za povzetek stanja
 --
@@ -282,12 +263,6 @@ ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` 
 ALTER TABLE `media_response`
 ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
 ADD CONSTRAINT `media_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
---
--- Omejitve za tabelo `newsletter`
---
-ALTER TABLE `newsletter`
-ADD CONSTRAINT `newsletter_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Omejitve za tabelo `user_provider`
