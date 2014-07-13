@@ -52,7 +52,7 @@ class AmazonStorage implements StorageInterface
         
         return $client->putObject(array(
             'Bucket'      => 'gagchan/photo',
-            'Key'         => sprintf("%s.%s", $key, $file->guessExtension()),
+            'Key'         => sprintf("%s_460b.%s", $key, $file->guessExtension()),
             'Body'        => fopen($file->getPathname(), 'r'),
             'ContentType' => $file->getMimeType(),
             'ACL'         => 'public-read',

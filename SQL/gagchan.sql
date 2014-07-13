@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 13. jul 2014 ob 13.16
+-- Čas nastanka: 13. jul 2014 ob 15.17
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -76,10 +76,10 @@ CREATE TABLE IF NOT EXISTS `media` (
 --
 
 INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `created_at`, `updated_at`) VALUES
-(5, 'r97o0hqs', 'This is just a meme', 'photo/r97o0hqs.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
-(9, 'w7d38bwp', 'My another meme', 'photo/w7d38bwp.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
-(10, 'yr1j6x7l', 'Meme loaded from URL address', 'photo/yr1j6x7l.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', '2014-07-11 18:16:38', '2014-07-11 18:16:38'),
-(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', 'photo/w2l0n54l.jpg', 2, 2, 460, 460, 74335, 'image/jpeg', '2014-07-12 20:56:17', '2014-07-12 20:56:17');
+(5, 'r97o0hqs', 'This is just a meme', '/photo/r97o0hqs_460b.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
+(9, 'w7d38bwp', 'My another meme', '/photo/w7d38bwp_460b.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
+(10, 'yr1j6x7l', 'Meme loaded from URL address', '/photo/yr1j6x7l_460b.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', '2014-07-11 18:16:38', '2014-07-11 18:16:38'),
+(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', '/photo/w2l0n54l_460b.jpg', 2, 2, 460, 460, 74335, 'image/jpeg', '2014-07-12 20:56:17', '2014-07-12 20:56:17');
 
 -- --------------------------------------------------------
 

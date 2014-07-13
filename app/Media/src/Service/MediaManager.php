@@ -90,7 +90,7 @@ class MediaManager implements MediaManagerInterface
         $mediaMapper->insertOne(
             $slug,
             $name,
-            sprintf("photo/%s.%s", $slug, $file->guessExtension()),
+            sprintf("/photo/%s_460b.%s", $slug, $file->guessExtension()),
             $userId,
             $categoryId,
             $size->getWidth(),
