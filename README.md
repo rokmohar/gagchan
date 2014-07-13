@@ -6,6 +6,7 @@ To do
 - Entity, hydrator and mapper for response
 - Ajax for response
 - Featured side bar functionality
+- Import error design - 404 and others
 
 Modules (Which we could use)
 ================================================================================
