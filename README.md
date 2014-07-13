@@ -1,12 +1,12 @@
 To do
 ================================================================================
-- Pagination
-- Input filters for upload
-- Input filters for external resource
-- Entity, hydrator and mapper for response
+- Pagination (DONE)
+- Fix input filters for upload
+- Add input filters for external resource
+- Entity, hydrator and mapper for response (DONE)
 - Ajax for response
 - Featured side bar functionality
-- Import error design - 404 and others
+- Import error designs
 
 Modules (Which we could use)
 ================================================================================
