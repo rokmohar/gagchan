@@ -29,9 +29,18 @@ class CategoryEntity implements CategoryEntityInterface
     protected $createdAt;
     
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     protected $updatedAt;
+    
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
     
     /**
      * {@inheritDoc}

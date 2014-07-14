@@ -23,3 +23,6 @@ Few guidelines
 ================================================================================
 - Signed links for share -> CloudFront service (way faster!) -> CNAME record on host server for prettier URL!
 - Pagination, not scroll to infinity -> Easy ad distribution and less unique ads needed!
+
+MySQL user: acmoharc_gagch
+MySQL password: ctEFw^01J?l#

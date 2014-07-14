@@ -73,6 +73,15 @@ class MediaEntity implements MediaEntityInterface
     protected $updatedAt;
     
     /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public function getId()

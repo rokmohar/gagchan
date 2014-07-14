@@ -35,6 +35,25 @@ class User implements UserInterface
      * @var Integer
      */
     protected $state;
+    
+    /**
+     * @var \DateTime
+     */
+    protected $createdAt;
+    
+    /**
+     * @var \DateTime
+     */
+    protected $updatedAt;
+    
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
     /**
      * {@inheritDoc}
