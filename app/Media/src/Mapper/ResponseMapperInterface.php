@@ -21,4 +21,5 @@ interface ResponseMapperInterface
      * @return mixed
      */
     public function selectOne(array $where);
+        
 }

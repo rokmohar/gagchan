@@ -115,4 +115,16 @@ class MediaHelper extends AbstractHelper
     {
         return $this->bucketUrl . $media->getReference();
     }
+    
+    /**
+     * Return points for media.
+     * 
+     * @param \Media\Entity\MediaEntityInterface $media
+     * 
+     * @return Integer
+     */    
+    public function getPoints(MediaEntityInterface $media)
+    {
+       return $this->responseMapper->countByMedia($media->getId()); 
+    }
 }
