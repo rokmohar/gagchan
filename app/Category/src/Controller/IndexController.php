@@ -42,7 +42,7 @@ class IndexController extends AbstractActionController
         $page = (int) $this->params()->fromQuery('page', 1);
         
         // Select from database
-        $media = $this->getMediaMapper()->selectByCategory($category->getId());
+        $media = $this->getMediaMapper()->selectLatestByCategory($category->getId());
         $media->setCurrentPageNumber($page);
         
         // Set items per page

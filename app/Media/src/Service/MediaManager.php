@@ -87,7 +87,7 @@ class MediaManager implements MediaManagerInterface
         $size  = $image->getSize();
         
         // Insert media into DB
-        $mediaMapper->insertOne(
+        $mediaMapper->insertRow(
             $slug,
             $name,
             sprintf("/photo/%s_460b.%s", $slug, $file->guessExtension()),

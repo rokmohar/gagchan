@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 13. jul 2014 ob 15.17
+-- Čas nastanka: 14. jul 2014 ob 22.41
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `media` (
   `height` int(11) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `content_type` varchar(64) DEFAULT NULL,
+  `is_featured` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
@@ -75,11 +76,11 @@ CREATE TABLE IF NOT EXISTS `media` (
 -- Odloži podatke za tabelo `media`
 --
 
-INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `created_at`, `updated_at`) VALUES
-(5, 'r97o0hqs', 'This is just a meme', '/photo/r97o0hqs_460b.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
-(9, 'w7d38bwp', 'My another meme', '/photo/w7d38bwp_460b.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
-(10, 'yr1j6x7l', 'Meme loaded from URL address', '/photo/yr1j6x7l_460b.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', '2014-07-11 18:16:38', '2014-07-11 18:16:38'),
-(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', '/photo/w2l0n54l_460b.jpg', 2, 2, 460, 460, 74335, 'image/jpeg', '2014-07-12 20:56:17', '2014-07-12 20:56:17');
+INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `is_featured`, `created_at`, `updated_at`) VALUES
+(5, 'r97o0hqs', 'This is just a meme', '/photo/r97o0hqs_460b.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', 0, '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
+(9, 'w7d38bwp', 'My another meme', '/photo/w7d38bwp_460b.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', 1, '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
+(10, 'yr1j6x7l', 'Meme loaded from URL address', '/photo/yr1j6x7l_460b.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', 0, '2014-07-11 18:16:38', '2014-07-11 18:16:38'),
+(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', '/photo/w2l0n54l_460b.jpg', 2, 2, 460, 460, 74335, 'image/jpeg', 1, '2014-07-12 20:56:17', '2014-07-12 20:56:17');
 
 -- --------------------------------------------------------
 
@@ -112,17 +113,27 @@ INSERT INTO `media_comment` (`id`, `media_id`, `user_id`, `comment`, `created_at
 -- --------------------------------------------------------
 
 --
--- Struktura tabele `media_response`
+-- Struktura tabele `media_vote`
 --
 
-CREATE TABLE IF NOT EXISTS `media_response` (
+CREATE TABLE IF NOT EXISTS `media_vote` (
 `id` int(11) NOT NULL,
   `media_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `type` set('up','down') NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Odloži podatke za tabelo `media_vote`
+--
+
+INSERT INTO `media_vote` (`id`, `media_id`, `user_id`, `type`, `created_at`, `updated_at`) VALUES
+(4, 5, 9, 'down', '2014-07-14 15:11:23', '2014-07-14 15:11:23'),
+(5, 10, 9, 'down', '2014-07-14 15:44:40', '2014-07-14 15:44:40'),
+(6, 9, 9, 'up', '2014-07-14 15:44:51', '2014-07-14 15:44:51'),
+(7, 11, 9, 'up', '2014-07-14 15:44:55', '2014-07-14 15:44:55');
 
 -- --------------------------------------------------------
 
@@ -193,9 +204,9 @@ ALTER TABLE `media_comment`
  ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
 
 --
--- Indeksi tabele `media_response`
+-- Indeksi tabele `media_vote`
 --
-ALTER TABLE `media_response`
+ALTER TABLE `media_vote`
  ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
 
 --
@@ -230,10 +241,10 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 ALTER TABLE `media_comment`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT tabele `media_response`
+-- AUTO_INCREMENT tabele `media_vote`
 --
-ALTER TABLE `media_response`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `media_vote`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT tabele `user`
 --
@@ -258,11 +269,11 @@ ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media
 ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Omejitve za tabelo `media_response`
+-- Omejitve za tabelo `media_vote`
 --
-ALTER TABLE `media_response`
-ADD CONSTRAINT `media_response_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
-ADD CONSTRAINT `media_response_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ALTER TABLE `media_vote`
+ADD CONSTRAINT `media_vote_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
+ADD CONSTRAINT `media_vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Omejitve za tabelo `user_provider`

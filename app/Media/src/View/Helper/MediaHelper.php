@@ -5,6 +5,7 @@ namespace Media\View\Helper;
 use Zend\Authentication\AuthenticationService;
 use Zend\View\Helper\AbstractHelper;
 
+use Category\Entity\CategoryEntityInterface;
 use Media\Entity\MediaEntityInterface;
 use Media\Entity\VoteEntityInterface;
 use Media\Mapper\CommentMapperInterface;
@@ -120,6 +121,17 @@ class MediaHelper extends AbstractHelper
     public function url(MediaEntityInterface $media)
     {
         return $this->bucketUrl . $media->getReference();
+    }
+    
+    /**
+     * Return featured media.
+     * 
+     * @return Integer
+     */    
+    public function getFeatured()
+    {
+        // Return featured media
+        return $this->mediaMapper->selectFeatured();
     }
     
     /**

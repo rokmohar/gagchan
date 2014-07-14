@@ -17,6 +17,11 @@ class MediaHydrator extends ClassMethods
     {
         $data = parent::extract($object);
         
+        if (isset($data['is_featured']) && is_bool($data['is_featured'])) {
+            // Set to boolean
+            $data['is_featured'] = (Integer) $data['is_featured'];
+        }
+        
         if (isset($data['created_at']) && $data['created_at'] instanceof \DateTime) {
             // Convert from date
             $data['created_at'] = $data['created_at']->format('Y-m-d H:i:s');
@@ -47,6 +52,11 @@ class MediaHydrator extends ClassMethods
 
         unset($data['category']);
         unset($data['user']);
+        
+        if (isset($data['is_featured']) && !is_bool($data['is_featured'])) {
+            // Set to boolean
+            $data['is_featured'] = (Boolean) $data['is_featured'];
+        }
         
         if (isset($data['created_at']) && !$data['created_at'] instanceof \DateTime) {
             // Convert to date

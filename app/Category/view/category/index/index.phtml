@@ -92,31 +92,20 @@
     <div class="widget meme-listing">
         <h3 class="widget-title">Featured</h3>
 
+        <?php foreach ($this->media()->getFeatured() as $featured): ?>
+        
         <article class="meme">
-            <a href="#" class="meme-img">
-                <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
+            <a href="<?php echo $this->url('gag', array('slug' => $featured->getSlug())) ?>" class="meme-img">
+                <img src="<?php echo $this->media()->url($featured) ?>" alt="" class="img-responsive" />
             </a>
             <div class="meme-title">
-                <a href="#">This is a meme with a very very very very long meme name</a>
+                <a href="<?php echo $this->url('gag', array('slug' => $featured->getSlug())) ?>">
+                    <?php echo $featured->getName() ?>
+                </a>
             </div>
         </article>
-
-        <article class="meme">
-            <a href="#" class="meme-img">
-                <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
-            </a>
-            <div class="meme-title">
-                <a href="#">This is a meme with a very very very very long meme name</a>
-            </div>
-        </article>
-
-        <article class="meme">
-            <a href="#" class="meme-img">
-                <img src="http://d3dsacqprgcsqh.cloudfront.net/photo/aKzR036_460s.jpg" alt="" class="img-responsive" />
-            </a>
-            <div class="meme-title">
-                <a href="#">This is a meme with a very very very very long meme name</a>
-            </div>
-        </article>
+        
+        <?php endforeach ?>
+        
     </div>
 </section>

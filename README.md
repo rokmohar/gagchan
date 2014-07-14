@@ -5,7 +5,7 @@ To do
 - Add input filters for external resource
 - Entity, hydrator and mapper for response (DONE)
 - Ajax for response (DONE)
-- Featured side bar functionality
+- Featured side bar functionality (DONE)
 - Import error designs
 - Remember me functionality
 - Confirm account functionality

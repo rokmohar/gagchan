@@ -58,6 +58,11 @@ class MediaEntity implements MediaEntityInterface
     protected $contentType;
     
     /**
+     * @var Boolean
+     */
+    protected $isFeatured;
+    
+    /**
      * @var \DateTime
      */
     protected $createdAt;
@@ -243,6 +248,24 @@ class MediaEntity implements MediaEntityInterface
     public function setContentType($contentType)
     {
         $this->contentType = $contentType;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function isFeatured()
+    {
+        return $this->isFeatured;
+    }
+    
+    /**
+     * @param Boolean $isFeatured
+     */
+    public function setFeatured($isFeatured)
+    {
+        $this->isFeatured = $isFeatured;
         
         return $this;
     }

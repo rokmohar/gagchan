@@ -11,14 +11,21 @@ interface MediaMapperInterface
     /**
      * Select and return all rows.
      * 
+     * @param Array   $where
+     * @param Array   $order
+     * @param Integer $limit
+     * 
      * @return mixed
      */
-    public function selectAll(array $where);
+    public function selectAll(array $where, array $order, $limit);
     
     /**
      * Select and return one row.
      * 
+     * @param Array $where
+     * @param Array $order
+     * 
      * @return mixed
      */
-    public function selectRow(array $where);
+    public function selectRow(array $where, array $order);
 }

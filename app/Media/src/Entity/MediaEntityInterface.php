@@ -8,10 +8,9 @@ namespace Media\Entity;
 interface MediaEntityInterface
 {
     /**
-     * @return Integer
+     * {@inheritDoc}
      */
     public function getId();
-    
     
     /**
      * {@inheritDoc}
@@ -58,6 +57,11 @@ interface MediaEntityInterface
      */
     public function getContentType();
     
+    /**
+     * {@inheritDoc}
+     */
+    public function isFeatured();
+            
     /**
      * @return \DateTime
      */

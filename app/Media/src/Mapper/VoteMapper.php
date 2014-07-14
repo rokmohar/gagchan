@@ -46,7 +46,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
      * 
      * @return mixed
      */
-    public function insertOne($mediaId, $userId, $type)
+    public function insertRow($mediaId, $userId, $type)
     {
         // Get insert
         $insert = $this->getInsert();
@@ -92,7 +92,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
         // Check if row exists
         if (empty($row) === true) {
             // Insert new row
-            return $this->insertOne($mediaId, $userId, $type);
+            return $this->insertRow($mediaId, $userId, $type);
         }
         
         // Check if type has not changed
@@ -102,7 +102,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
         }
         
         // Update row
-        return $this->updateOne(
+        return $this->updateRow(
             array(
                 'user_id' => $userId,
                 'type'    => $type,
@@ -189,7 +189,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
      * 
      * @return mixed
      */
-    public function updateOne(array $values, array $where = array())
+    public function updateRow(array $values, array $where = array())
     {
         // Get update
         $update = $this->getUpdate();

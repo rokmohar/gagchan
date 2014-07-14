@@ -47,7 +47,7 @@ class IndexController extends AbstractActionController
         $page = (int) $this->params()->fromQuery('page', 1);
         
         // Select from database
-        $media = $this->getMediaMapper()->selectAll();
+        $media = $this->getMediaMapper()->selectLatest();
         $media->setCurrentPageNumber($page);
         
         // Set items per page
@@ -93,7 +93,7 @@ class IndexController extends AbstractActionController
                 $comment = $commentForm->get('comment')->getValue();
                 
                 // Insert comment
-                $this->getCommentMapper()->insertOne(
+                $this->getCommentMapper()->insertRow(
                     $media->getId(),
                     $this->zfcuserAuthentication()->getIdentity()->getId(),
                     $comment

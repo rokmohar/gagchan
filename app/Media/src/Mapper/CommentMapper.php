@@ -35,7 +35,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
      * @param Integer $userId
      * @param String  $comment
      */
-    public function insertOne($mediaId, $userId, $comment)
+    public function insertRow($mediaId, $userId, $comment)
     {
         // Get SQL insert
         $insert = $this->getInsert();

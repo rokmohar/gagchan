@@ -15,6 +15,8 @@ use Core\Mapper\AbstractMapper;
 class MediaMapper extends AbstractMapper implements MediaMapperInterface
 {
     /**
+     * Insert a row.
+     * 
      * @param String  $slug
      * @param String  $name
      * @param String  $reference
@@ -25,7 +27,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
      * @param Integer $size
      * @param String  $contentType
      */
-    public function insertOne($slug, $name, $reference, $userId, $categoryId, $width, $height, $size, $contentType)
+    public function insertRow($slug, $name, $reference, $userId, $categoryId, $width, $height, $size, $contentType)
     {
         // Get insert
         $insert = $this->getInsert();
@@ -82,7 +84,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectAll(array $where = array(), $order = array())
+    public function selectAll(array $where = array(), array $order = array(), $limit = false)
     {
         // Get select
         $select = $this->getSelect();
@@ -91,6 +93,12 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             ->where($where)
             ->order($order)
         ;
+        
+        // Check if limit given
+        if (is_int($limit)) {
+            // Add limit
+            $select->limit($limit);
+        }
         
         // Get result set
         $resultSet = new HydratingResultSet(
@@ -103,6 +111,49 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         
         // Return paginator
         return new Paginator($adapter); 
+    }
+    
+    /**
+     * Select featured media.
+     * 
+     * @return mixed
+     */
+    public function selectFeatured()
+    {
+        return $this->selectAll(
+            array(
+                'is_featured' => 1,
+            ),
+            array('created_at DESC'),
+            10
+        );
+    }
+    
+    /**
+     * Select latest media.
+     * 
+     * @return mixed
+     */
+    public function selectLatest()
+    {
+        return $this->selectAll(array(), array('created_at DESC'));
+    }
+    
+    /**
+     * Select latest media.
+     * 
+     * @param Integer $categoryId
+     * 
+     * @return mixed
+     */
+    public function selectLatestByCategory($categoryId)
+    {
+        return $this->selectAll(
+            array(
+                'category_id' => $categoryId,
+            ),
+            array('created_at DESC')
+        );
     }
     
     /**
@@ -122,13 +173,15 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectRow(array $where = array())
+    public function selectRow(array $where = array(), array $order = array())
     {
         // Get select
         $select = $this->getSelect();
         
         $select
             ->where($where)
+            ->order($order)
+            ->limit(1)
         ;
         
         // Prepare a statement
