@@ -3,7 +3,7 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'IndexController' => 'Category\Controller\IndexController',
+            'Category\Index' => 'Category\Controller\IndexController',
         ),
     ),
     'router' => array(
@@ -13,7 +13,7 @@ return array(
                 'options' => array(
                     'route'    => '/category/[:slug]',
                     'defaults' => array(
-                        'controller'  => 'IndexController',
+                        'controller'  => 'Category\Index',
                         'action'      => 'index',
                         'constraints' => array(
                             'slug' => '[a-zA-Z][a-zA-Z0-9_-]*',

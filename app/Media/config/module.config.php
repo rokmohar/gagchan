@@ -3,8 +3,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'IndexController' => 'Media\Controller\IndexController',
-            'VoteController'  => 'Media\Controller\VoteController',
+            'Media\Index' => 'Media\Controller\IndexController',
+            'Media\Vote'  => 'Media\Controller\VoteController',
         ),
     ),
     'router' => array(
@@ -14,7 +14,7 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'IndexController',
+                        'controller' => 'Media\Index',
                         'action'     => 'index',
                     ),
                 ),
@@ -24,7 +24,7 @@ return array(
                 'options' => array(
                     'route'    => '/gag/[:slug]',
                     'defaults' => array(
-                        'controller' => 'IndexController',
+                        'controller' => 'Media\Index',
                         'action'      => 'details',
                         'constraints' => array(
                             'slug' => '[a-zA-Z][a-zA-Z0-9]*',
@@ -37,7 +37,7 @@ return array(
                 'options' => array(
                     'route'    => '/gag/vote',
                     'defaults' => array(
-                        'controller' => 'VoteController',
+                        'controller' => 'Media\Vote',
                         'action'     => 'index',
                     ),
                 ),
@@ -47,7 +47,7 @@ return array(
                 'options' => array(
                     'route'    => '/upload',
                     'defaults' => array(
-                        'controller' => 'IndexController',
+                        'controller' => 'Media\Index',
                         'action'     => 'upload',
                     ),
                 ),
