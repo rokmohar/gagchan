@@ -38,6 +38,24 @@ class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
     }
     
     /**
+     * Count comments for given mediaidentifier.
+     * 
+     * @param Integer $media_id
+     * 
+     * @return Integer
+     */
+    public function commentsByMedia($media_id)
+    {
+        // Comments for given media
+        $result = $this->selectAll(array(
+            'media_id' => $media_id,
+        ));
+        
+        // Return number of comments
+        return count($result);
+    }    
+    
+    /**
      * Insert response to database.
      * 
      * @param Integer $mediaId

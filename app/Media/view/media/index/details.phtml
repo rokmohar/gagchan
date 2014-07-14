@@ -11,9 +11,10 @@
         <div class="meme-title">
             <?php echo $media->getName() ?>
         </div>
-        <div class="meme-points">
-            Points: <?php echo $this->media()->getPoints($media) ?>
-        </div>        
+            <div class="meme-points">
+                Points: <?php echo $this->media()->getPoints($media) ?>,
+                Comments: <?php echo $this->media()->getComments($media) ?>
+            </div>      
         <div class="meme-img">
             <img src="<?php echo $this->media()->url($media) ?>" alt="" class="img-responsive" />
         </div>
