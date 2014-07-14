@@ -2,6 +2,7 @@
 
 namespace Media\View\Helper;
 
+use Zend\Authentication\AuthenticationService;
 use Zend\View\Helper\AbstractHelper;
 
 use Media\Entity\MediaEntityInterface;
@@ -14,6 +15,11 @@ use Media\Mapper\ResponseMapperInterface;
  */
 class MediaHelper extends AbstractHelper
 {
+    /**
+     * @var \Zend\Authentication\AuthenticationService
+     */
+    protected $authService;
+    
     /**
      * @var String
      */
@@ -30,15 +36,22 @@ class MediaHelper extends AbstractHelper
     protected $responseMapper;
     
     /**
-     * @param \Media\Mapper\MediaMapperInterface    $mediaMapper
-     * @param \Media\Mapper\ResponseMapperInterface $responseMapper
+     * 
+     */
+    
+    /**
+     * @param \Media\Mapper\MediaMapperInterface         $mediaMapper
+     * @param \Media\Mapper\ResponseMapperInterface      $responseMapper
+     * @param \Zend\Authentication\AuthenticationService $authService
      */
     public function __construct(
         MediaMapperInterface $mediaMapper,
-        ResponseMapperInterface $responseMapper
+        ResponseMapperInterface $responseMapper,
+        AuthenticationService $authService
     ) {
         $this->mediaMapper    = $mediaMapper;
         $this->responseMapper = $responseMapper;
+        $this->authService    = $authService;
     }
     
     /**
@@ -60,7 +73,11 @@ class MediaHelper extends AbstractHelper
      */
     public function getResponse(MediaEntityInterface $media)
     {
-        return $this->responseMapper->selectOneByMedia($media->getId());
+        // Get user
+        $user = $this->authService->getIdentity();
+        
+        // Return response
+        return ($user !== null) ? $this->responseMapper->selectOneByMedia($media->getId(), $user->getId()) : null;
     }
     
     /**

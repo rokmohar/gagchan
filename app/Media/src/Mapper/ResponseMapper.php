@@ -145,13 +145,15 @@ class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
      * Select response by media identitifer.
      * 
      * @param Integer $mediaId
+     * @param Integer $userId
      * 
      * @return mixed
      */
-    public function selectOneByMedia($mediaId)
+    public function selectOneByMedia($mediaId, $userId)
     {
         return $this->selectOne(array(
             'media_id' => $mediaId,
+            'user_id'  => $userId,
         ));
     }
     
