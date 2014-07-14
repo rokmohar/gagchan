@@ -73,13 +73,13 @@ class IndexController extends AbstractActionController
         // Select media by identifier
         $media = $this->getMediaMapper()->selectOneBySlug($slug);
         
-        // Check if media is found
-        if (empty($media) === true) {
-            // Media not found
+        // Check if media is not found
+        if (empty($media)) {
+            // Show not found page
             return $this->notFoundAction();
         }
         
-        // Get form
+        // Get comment form
         $commentForm = $this->getCommentForm();
         
         // Check if form is posted
@@ -92,7 +92,7 @@ class IndexController extends AbstractActionController
                 // Get posted data
                 $comment = $commentForm->get('comment')->getValue();
                 
-                // Insert comment into DB
+                // Insert comment
                 $this->getCommentMapper()->insertOne(
                     $media->getId(),
                     $this->zfcuserAuthentication()->getIdentity()->getId(),
@@ -100,13 +100,13 @@ class IndexController extends AbstractActionController
                 );
             }
             
-            // Redirect to media page
+            // Redirect to route
             return $this->redirect()->toRoute('gag', array(
                 'slug' => $media->getSlug(),
             ));
         }
         
-        // Get comments for media
+        // Get comments
         $comments = $this->getCommentMapper()->selectByMedia($media->getId());
         
         // Return view
@@ -154,7 +154,17 @@ class IndexController extends AbstractActionController
                 $file = $mediaForm->get('file')->getValue();
                 $url  = $mediaForm->get('url')->getValue();
                 
-                if (empty($url) === false) {
+                if (!empty($file)) {
+                    // Create uploaded file
+                    $file = new UploadedFile(
+                        $file['tmp_name'],
+                        $file['name'],
+                        $file['type'],
+                        $file['size'],
+                        $file['error']
+                    );
+                }
+                else if (!empty($url)) {
                     // Temporary file name
                     $temp = tempnam(sys_get_temp_dir(), '');
                     
@@ -171,16 +181,6 @@ class IndexController extends AbstractActionController
                         filesize($temp),
                         $size[0],
                         $size[1]
-                    );
-                }
-                else if (empty($file) === false) {
-                    // Create uploaded file
-                    $file = new UploadedFile(
-                        $file['tmp_name'],
-                        $file['name'],
-                        $file['type'],
-                        $file['size'],
-                        $file['error']
                     );
                 }
                 else {

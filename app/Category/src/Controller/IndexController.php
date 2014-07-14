@@ -1,6 +1,6 @@
 <?php
 
-namespace Media\Controller;
+namespace Category\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -9,7 +9,7 @@ use Zend\View\Model\ViewModel;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class CategoryController extends AbstractActionController
+class IndexController extends AbstractActionController
 {
     /**
      * @var \Media\Mapper\CategoryMapperInterface
@@ -64,7 +64,7 @@ class CategoryController extends AbstractActionController
         if ($this->categoryMapper === null) {
             // Load from service locator
             return $this->categoryMapper = $this->getServiceLocator()->get(
-                'media.mapper.category'
+                'category.mapper.category'
             );
         }
         

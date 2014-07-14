@@ -1,6 +1,6 @@
 <?php
 
-namespace Media\Hydrator;
+namespace Category\Hydrator;
 
 use Zend\Stdlib\Hydrator\ClassMethods;
 

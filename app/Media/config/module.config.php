@@ -3,7 +3,6 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'CategoryController' => 'Media\Controller\CategoryController',
             'IndexController'    => 'Media\Controller\IndexController',
             'ResponseController' => 'Media\Controller\ResponseController',
         ),
@@ -17,19 +16,6 @@ return array(
                     'defaults' => array(
                         'controller' => 'IndexController',
                         'action'     => 'index',
-                    ),
-                ),
-            ),
-            'category' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
-                    'route'    => '/category/[:slug]',
-                    'defaults' => array(
-                        'controller'  => 'CategoryController',
-                        'action'      => 'index',
-                        'constraints' => array(
-                            'slug' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        ),
                     ),
                 ),
             ),
