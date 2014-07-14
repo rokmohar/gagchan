@@ -15,6 +15,9 @@
                 <a href="<?php echo $this->url('gag/details', array('slug' => $m->getSlug())) ?>">
                     <?php echo $m->getName() ?>
                 </a>
+                <div class="meme-points">
+                    Points: <?php echo $this->media()->getPoints($m) ?>
+                </div>                
             </div>
             <a href="<?php echo $this->url('gag/details', array('slug' => $m->getSlug())) ?>" class="meme-img">
                 <img src="<?php echo $this->media()->url($m) ?>" alt="" class="img-responsive" />
