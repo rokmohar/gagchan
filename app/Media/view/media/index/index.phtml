@@ -15,11 +15,16 @@
                 Posted by <strong><?php echo $this->user()->findById($m->getUserId())->getUsername() ?></strong>
             </div>
             <ul class="meme-action clearfix">
-                
                 <?php $response = $this->media()->getResponse($m) ?>
-                
                 <li class="btn-group" data-trigger="response">
-                    <?php if ($response !== false && $this->media()->isResponseDown($response)): ?>
+                    <?php if(!$this->zfcUserIdentity()): ?>
+                        <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-default" data-type="up">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </a>
+                        <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-default response-selected" data-type="down">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    <?php elseif ($response !== false && $this->media()->isResponseDown($response)): ?>
                         <a href="#" class="btn btn-default" data-type="up">
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>

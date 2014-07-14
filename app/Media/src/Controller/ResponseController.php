@@ -44,7 +44,7 @@ class ResponseController extends AbstractActionController
         if ($request->isPost() === false) {
             // Return JSON
             return new JsonModel(array(
-                'result' => false,
+                'result' => 'notPost',
             ));
         }
         // Get form
@@ -57,7 +57,8 @@ class ResponseController extends AbstractActionController
         if ($form->isValid() === false) {
             // Return JSON
             return new JsonModel(array(
-                'result' => false,
+                'result' => 'notValid',
+                'post' => $form->getData(),
             ));
         }
 
@@ -72,8 +73,7 @@ class ResponseController extends AbstractActionController
         if (empty($user) === true) {
             // Return JSON
             return new JsonModel(array(
-                'result' => false,
-                'msg'    => 'User not logged in.',
+                'result' => 'notLoggedIn',
             ));
         }
         
