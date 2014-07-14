@@ -101,6 +101,11 @@ class IndexController extends AbstractActionController
                     $comment
                 );
             }
+            
+            // Redirect to route
+            return $this->redirect()->toRoute('gag', array(
+                'slug' => $media->getSlug(),
+            ));
         }
         
         // Get comments

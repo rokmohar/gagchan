@@ -6,6 +6,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Media\Form\CommentForm;
+use Media\Hydrator\CommentHydrator;
 use Media\InputFilter\CommentFilter;
 
 /**
@@ -20,6 +21,9 @@ class CommentFormFactory implements FactoryInterface
     {
         // Create form
         $form = new CommentForm('comment');
+        
+        // Set hydrator
+        $form->setHydrator(new CommentHydrator());
         
         // Set input filter
         $form->setInputFilter(new CommentFilter());

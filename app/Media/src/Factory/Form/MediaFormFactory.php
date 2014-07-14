@@ -5,7 +5,6 @@ namespace Media\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-//use Media\Entity\MediaEntity;
 use Media\Form\MediaForm;
 use Media\Hydrator\MediaHydrator;
 use Media\InputFilter\MediaFilter;
@@ -28,7 +27,6 @@ class MediaFormFactory implements FactoryInterface
         
         // Set hydrator
         $form->setHydrator(new MediaHydrator());
-        //$form->bind(new MediaEntity());
         
         // Set input filter
         $form->setInputFilter(new MediaFilter());
