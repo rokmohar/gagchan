@@ -12,6 +12,30 @@ use Core\Mapper\AbstractMapper;
  */
 class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
 {
+    /**
+     * Count points for given mediaidentifier.
+     * 
+     * @param Integer $media_id
+     * 
+     * @return Integer
+     */
+    public function countByMedia($media_id)
+    {
+        // Positive points
+        $up = $this->selectAll(array(
+            'media_id' => $media_id,
+            'type'     => 'up',
+        ));
+        
+        // Negative points
+        $down = $this->selectAll(array(
+            'media_id' => $media_id,
+            'type'     => 'down',
+        ));
+        
+        // Return difference of points
+        return count($up) - count($down);
+    }
     
     /**
      * Insert response to database.
@@ -183,32 +207,5 @@ class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
         
         // Return result
         return $result;
-    }
-    
-    /**
-     * Count points for given media id (from user responses)
-     * 
-     * @param Integer $media_id
-     * @return Integer
-     */
-    public function countByMedia($media_id)
-    {
-        // Select given media responses
-        $up = $this->selectAll(array(
-            'media_id' => $media_id,
-            'type'     => 'up',
-        ));
-        
-        $down = $this->selectOne(array(
-            'media_id' => $media_id,
-            'type'     => 'down',
-        ));
-        
-        echo count($up); echo count($down);  die();
-        
-        $points = count($up) - count($down);
-       
-        // Return points
-        return $points;
     }
 }
