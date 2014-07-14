@@ -48,19 +48,14 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
             ))
         ;
         
-        // Prepare a statement
-        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
+        // Get SQL
+        $sql = $this->getSql();
         
-        // Execute the statement
-        $resultSet = new HydratingResultSet(
-            $this->getHydrator(),
-            $this->getEntityClass()
-        );
-        
-        $resultSet->initialize($stmt->execute());
+        // Prepare and execute statement
+        $result = $sql->prepareStatementForSqlObject($insert)->execute();
         
         // Return result
-        return $resultSet->current();
+        return $result;
     }
     
     /**

@@ -84,6 +84,8 @@ class IndexController extends AbstractActionController
         
         // Check if form is posted
         if ($request->isPost() === true) {
+            // Bind entity class
+            $commentForm->bind(new \Media\Entity\CommentEntity());
             // Set form data
             $commentForm->setData($request->getPost());
             
@@ -99,11 +101,6 @@ class IndexController extends AbstractActionController
                     $comment
                 );
             }
-            
-            // Redirect to route
-            return $this->redirect()->toRoute('gag', array(
-                'slug' => $media->getSlug(),
-            ));
         }
         
         // Get comments
