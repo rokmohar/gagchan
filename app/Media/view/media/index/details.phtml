@@ -133,15 +133,21 @@
     <div class="widget meme-listing">
         <h3 class="widget-title">Featured</h3>
 
-        <?php foreach ($this->media()->getFeatured() as $featured): ?>
+        <?php $featured = $this->media()->getFeatured() ?>
+        
+        <?php if (count($featured) === 0): ?>
+            There is no media right now.
+        <?php endif ?>
+        
+        <?php foreach ($featured as $f): ?>
         
         <article class="meme">
-            <a href="<?php echo $this->url('gag', array('slug' => $featured->getSlug())) ?>" class="meme-img">
-                <img src="<?php echo $this->media()->url($featured) ?>" alt="" class="img-responsive" />
+            <a href="<?php echo $this->url('gag', array('slug' => $f->getSlug())) ?>" class="meme-img">
+                <img src="<?php echo $this->media()->url($f) ?>" alt="" class="img-responsive" />
             </a>
             <div class="meme-title">
-                <a href="<?php echo $this->url('gag', array('slug' => $featured->getSlug())) ?>">
-                    <?php echo $featured->getName() ?>
+                <a href="<?php echo $this->url('gag', array('slug' => $f->getSlug())) ?>">
+                    <?php echo $f->getName() ?>
                 </a>
             </div>
         </article>
