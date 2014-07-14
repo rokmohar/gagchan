@@ -128,4 +128,16 @@ class MediaHelper extends AbstractHelper
     {
        return $this->voteMapper->countByMedia($media->getId()); 
     }
+    
+    /**
+     * Return number of comments for media.
+     * 
+     * @param \Media\Entity\MediaEntityInterface $media
+     * 
+     * @return Integer
+     */    
+    public function getComments(MediaEntityInterface $media)
+    {
+       return $this->responseMapper->countByMedia($media->getId()); 
+    }
 }
