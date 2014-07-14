@@ -4,7 +4,7 @@ namespace Media\Form;
 
 use Zend\Form\Form;
 
-use Media\Mapper\CategoryMapperInterface;
+use Category\Mapper\CategoryMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
