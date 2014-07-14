@@ -1,6 +1,6 @@
 <?php
 
-namespace Media\Mapper;
+namespace Category\Mapper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>

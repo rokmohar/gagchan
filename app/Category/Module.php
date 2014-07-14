@@ -1,6 +1,6 @@
 <?php
 
-namespace Media;
+namespace Category;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -46,14 +46,7 @@ class Module implements
     {
         return array(
             'factories' => array(
-                'media.form.comment'            => 'Media\Factory\Form\CommentFormFactory',
-                'media.form.media'              => 'Media\Factory\Form\MediaFormFactory',
-                'media.form.response'           => 'Media\Factory\Form\ResponseFormFactory',
-                'media.mapper.comment'          => 'Media\Factory\Mapper\CommentMapperFactory',
-                'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',
-                'media.mapper.response'         => 'Media\Factory\Mapper\ResponseMapperFactory',
-                'media.service.media_manager'   => 'Media\Factory\Service\MediaManagerFactory',
-                'media.storage.storage_manager' => 'Media\Factory\Storage\StorageManagerFactory',
+                'category.mapper.category' => 'Category\Factory\Mapper\CategoryMapperFactory',
             ),
         );
     }
@@ -65,8 +58,7 @@ class Module implements
     {
         return array(
             'factories' => array(
-                'comment'  => 'Media\Factory\View\Helper\CommentHelperFactory',
-                'media'    => 'Media\Factory\View\Helper\MediaHelperFactory',
+                'category' => 'Category\Factory\View\Helper\CategoryHelperFactory',
             ),
         );
     }

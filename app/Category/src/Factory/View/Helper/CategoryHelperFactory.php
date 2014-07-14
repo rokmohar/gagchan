@@ -1,11 +1,11 @@
 <?php
 
-namespace Media\Factory\View\Helper;
+namespace Category\Factory\View\Helper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Media\View\Helper\CategoryHelper;
+use Category\View\Helper\CategoryHelper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -22,7 +22,7 @@ class CategoryHelperFactory implements FactoryInterface
         $serviceLocator = $pluginManager->getServiceLocator();
 
         // Category mapper
-        $categoryMapper = $serviceLocator->get('media.mapper.category');
+        $categoryMapper = $serviceLocator->get('category.mapper.category');
 
         // Create and return helper
         return new CategoryHelper($categoryMapper);

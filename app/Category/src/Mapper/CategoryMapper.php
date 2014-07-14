@@ -1,6 +1,6 @@
 <?php
 
-namespace Media\Mapper;
+namespace Category\Mapper;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 

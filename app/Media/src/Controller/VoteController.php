@@ -9,7 +9,7 @@ use Zend\View\Model\JsonModel;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResponseController extends AbstractActionController
+class VoteController extends AbstractActionController
 {
     /**
      * @var \Media\Mapper\MediaMapperInterface

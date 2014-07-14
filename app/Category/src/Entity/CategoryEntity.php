@@ -1,6 +1,6 @@
 <?php
 
-namespace Media\Entity;
+namespace Category\Entity;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>

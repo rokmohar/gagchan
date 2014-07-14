@@ -21,7 +21,7 @@ class MediaFormFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         // Category mapper
-        $categoryMapper = $serviceLocator->get('media.mapper.category');
+        $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
         $form = new MediaForm('media', $categoryMapper);

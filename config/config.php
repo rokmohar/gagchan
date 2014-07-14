@@ -9,6 +9,7 @@ return array(
         'ZfcUser',
         
         // Our modules
+        'Category',
         'Core',
         'Media',
         'User',
