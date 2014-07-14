@@ -26,6 +26,6 @@ class ResponseMapperFactory implements FactoryInterface
         // Hydrator
         $hydrator = new \Media\Hydrator\ResponseHydrator();
         
-        return new ResponseMapper($dbAdapter, 'response', $entityClass, $hydrator);
+        return new ResponseMapper($dbAdapter, 'media_response', $entityClass, $hydrator);
     }
 }

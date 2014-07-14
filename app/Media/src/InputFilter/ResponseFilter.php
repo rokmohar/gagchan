@@ -16,12 +16,28 @@ class ResponseFilter extends InputFilter
     {
         // Add input filters
         $this
+            ->addSlug()
             ->addType()
         ;
     }
     
     /**
-     * Add filter for form element.
+     * Add slug input filter.
+     * 
+     * @return \Media\InputFilter\MediaFilter
+     */
+    public function addSlug()
+    {
+        $this->add(array(
+            'name'     => 'slug',
+            'required' => true,
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add type input filter.
      * 
      * @return \Media\InputFilter\MediaFilter
      */

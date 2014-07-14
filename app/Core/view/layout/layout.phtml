@@ -39,22 +39,58 @@
             // Share on social networks
             $(".btn-facebook, .btn-twitter").prettySocial();
 
-            // Copy to clipboard             
+            // Copy to clipboard
             new ZeroClipboard($('.zeroclipboard'), {
                 moviePath : 'js/jquery.zeroclipboard.swf'
-            }); 
+            });
             
-            // Add class to copy button to change appearance
-            $(function() { 
-                $('.zeroclipboard').click(function() {  
+            $(function() {
+                $('[data-trigger="response"] > a').click(function(e) {
+                    // Element parameters
+                    var $this = $(this);
+                    var $type = $this.data('type');
+                    
+                    // Check if item is not selected
+                    if (!$this.hasClass('response-selected')) {
+                        // Article parameters
+                        var $article = $this.parents('.meme');
+                        var $slug    = $article.data('slug');
+
+                        // Ajax request
+                        $.ajax({
+                            data: { slug: $slug, type: $type },
+                            type: 'POST',
+                            url:  '<?php echo $this->url('gag/response') ?>'
+                        }).done(function(data) {
+                            // Check if action was successful
+                            if (data.result === true) {
+                                // Parent parameters
+                                var $parent = $this.parent();
+
+                                // Remove class from others
+                                $parent.find('a').removeClass('response-selected');
+
+                                // Add class
+                                $this.addClass('response-selected');
+                            }
+                        });
+                    }
+                    
+                    // Prevent default action
+                    e.preventDefault();
+                });
+                
+                $('.zeroclipboard').click(function() {
+                    // Current element
+                    var $this = $(this);
+                    
                     // Remove selected class from others
                     $('.zeroclipboard').removeClass('zeroclipboard-selected');
                     
-                    // Add class to this element
-                    $(this).addClass('zeroclipboard-selected');      
+                    // Add class to current element
+                    $this.addClass('zeroclipboard-selected');
                 });
             });
-
         });
     </script>
 </head>

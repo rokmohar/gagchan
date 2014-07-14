@@ -34,19 +34,26 @@ return array(
                 ),
             ),
             'gag' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/gag/[:slug]',
-                    'defaults' => array(
-                        'controller'  => 'IndexController',
-                        'action'      => 'details',
-                        'constraints' => array(
-                            'slug' => '[a-zA-Z][a-zA-Z0-9]*',
-                        ),
-                    ),
+                    'route'    => '/gag',
+                    'defaults' => array(),
                 ),
                 'may_terminate' => true,
                 'child_routes'  => array(
+                    'details' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/[:slug]',
+                            'defaults' => array(
+                                'controller' => 'IndexController',
+                                'action'      => 'details',
+                                'constraints' => array(
+                                    'slug' => '[a-zA-Z][a-zA-Z0-9]*',
+                                ),
+                            ),
+                        ),
+                    ),
                     'response' => array(
                         'type'    => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(

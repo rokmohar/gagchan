@@ -1,36 +1,55 @@
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12 meme-listing">
     
     <?php foreach ($media as $m): ?>
-    
+        
         <article class="meme clearfix" data-slug="<?php echo $m->getSlug() ?>">
             <div class="meme-title">
-                <a href="<?php echo $this->url('gag', array('slug' => $m->getSlug())) ?>">
+                <a href="<?php echo $this->url('gag/details', array('slug' => $m->getSlug())) ?>">
                     <?php echo $m->getName() ?>
                 </a>
             </div>
-            <a href="<?php echo $this->url('gag', array('slug' => $m->getSlug())) ?>" class="meme-img">
+            <a href="<?php echo $this->url('gag/details', array('slug' => $m->getSlug())) ?>" class="meme-img">
                 <img src="<?php echo $this->media()->url($m) ?>" alt="" class="img-responsive" />
             </a>
             <div class="meme-author">
                 Posted by <strong><?php echo $this->user()->findById($m->getUserId())->getUsername() ?></strong>
             </div>
             <ul class="meme-action clearfix">
-                <li class="btn-group">
-                    <a href="#" class="btn btn-default">
-                        <span class="glyphicon glyphicon-chevron-up"></span>
-                    </a>
-                    <a href="#" class="btn btn-default">
-                        <span class="glyphicon glyphicon-chevron-down"></span>
-                    </a>
+                
+                <?php $response = $this->media()->getResponse($m) ?>
+                
+                <li class="btn-group" data-trigger="response">
+                    <?php if ($response !== false && $this->media()->isResponseDown($response)): ?>
+                        <a href="#" class="btn btn-default" data-type="up">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </a>
+                        <a href="#" class="btn btn-default response-selected" data-type="down">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    <?php elseif ($response !== false && $this->media()->isResponseUp($response)): ?>
+                        <a href="#" class="btn btn-default response-selected" data-type="up">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </a>
+                        <a href="#" class="btn btn-default" data-type="down">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    <?php else: ?>
+                        <a href="#" class="btn btn-default" data-type="up">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </a>
+                        <a href="#" class="btn btn-default" data-type="down">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    <?php endif ?>
                 </li>
                 <li>
-                    <a href="#" data-type="facebook" data-url="<?php echo $this->basePath() . $this->url('gag', array('slug' => $m->getSlug())) ?>" data-description="Click to see the pic and write a comment ..." data-title="<?php echo $m->getName() ?>" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-facebook">Facebook</a>
+                    <a href="#" data-type="facebook" data-url="<?php echo $this->basePath() . $this->url('gag/details', array('slug' => $m->getSlug())) ?>" data-description="Click to see the pic and write a comment ..." data-title="<?php echo $m->getName() ?>" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-facebook">Facebook</a>
                 </li>
                 <li>
-                    <a href="#" data-type="twitter" data-url="<?php echo $this->basePath() . $this->url('gag', array('slug' => $m->getSlug())) ?>" data-description="<?php echo $m->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-twitter">Twitter</a>
+                    <a href="#" data-type="twitter" data-url="<?php echo $this->basePath() . $this->url('gag/details', array('slug' => $m->getSlug())) ?>" data-description="<?php echo $m->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-twitter">Twitter</a>
                 </li>
                 <li>
-                    <a data-clipboard-text="<?php echo $this->basePath() . $this->url('gag', array('slug' => $m->getSlug())) ?>"  class="btn btn-default zeroclipboard">
+                    <a data-clipboard-text="<?php echo $this->basePath() . $this->url('gag/details', array('slug' => $m->getSlug())) ?>"  class="btn btn-default zeroclipboard">
                         <span class="glyphicon glyphicon-link"></span>
                     </a>
                 </li>

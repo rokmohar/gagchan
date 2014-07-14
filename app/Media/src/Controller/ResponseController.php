@@ -17,6 +17,11 @@ class ResponseController extends AbstractActionController
     protected $mediaMapper;
     
     /**
+     * @var \Media\Mapper\ResponseMapperInterface
+     */
+    protected $responseMapper;
+    
+    /**
      * @var \Media\Form\ResponseForm
      */
     protected $responseForm;
@@ -29,26 +34,62 @@ class ResponseController extends AbstractActionController
         // Get request
         $request = $this->getRequest();
         
-        // Check if page is posted
-        if ($request->isPost() === true) {
-            // Get form
-            $form = $this->getResponseForm();
-
-            // Set form data
-            $form->setData($request->getPost());
-            
-            // Check if form is valid
-            if ($form->isValid() === true) {
-                // Return JSON
-                return new JsonModel(array(
-                    'result' => true,
-                ));
-            }
+        // Check if request is not JSON
+        if ($request->isXmlHttpRequest() === false) {
+            // Redirect user to home
+            return $this->redirect()->toRoute('home');
         }
         
+        // Check if page is not posted
+        if ($request->isPost() === false) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => false,
+            ));
+        }
+        // Get form
+        $form = $this->getResponseForm();
+
+        // Set form data
+        $form->setData($request->getPost());
+
+        // Validate form
+        if ($form->isValid() === false) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => false,
+            ));
+        }
+
+        // Get form data
+        $slug = $form->get('slug')->getValue();
+        $type = $form->get('type')->getValue();
+
+        // Get user data
+        $user = $this->zfcUserAuthentication()->getIdentity();
+
+        // Check if user is provided
+        if (empty($user) === true) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => false,
+                'msg'    => 'User not logged in.',
+            ));
+        }
+        
+        // Get media
+        $media = $this->getMediaMapper()->selectOneBySlug($slug);
+
+        // Insert or update response
+        $this->getResponseMapper()->insertOrUpdate(
+            $media->getId(),
+            $user->getId(),
+            $type
+        );
+
         // Return JSON
         return new JsonModel(array(
-            'result' => false,
+            'result' => true,
         ));
     }
     
@@ -65,6 +106,21 @@ class ResponseController extends AbstractActionController
         }
         
         return $this->mediaMapper;
+    }
+    
+    /**
+     * @return \Media\Mapper\ResponseMapperInterface
+     */
+    public function getResponseMapper()
+    {
+        if ($this->responseMapper === null) {
+            // Load from service locator
+            return $this->responseMapper = $this->getServiceLocator()->get(
+                'media.mapper.response'
+            );
+        }
+        
+        return $this->responseMapper;
     }
     
     /**

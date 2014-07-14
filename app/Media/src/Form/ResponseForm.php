@@ -19,12 +19,32 @@ class ResponseForm extends Form
         
         // Add form elements
         $this
+            ->addSlug()
             ->addType()
         ;
     }
     
     /**
-     * Add type dropdown.
+     * Add slug form element.
+     * 
+     * @return \Media\Form\MediaForm
+     */
+    protected function addSlug()
+    {
+        $this->add(array(
+            'name'    => 'slug',
+            'options' => array(
+                'label' => 'Slug',
+            ),
+            'attributes' => array(
+                'type' => 'text',
+            ),
+        ));
+        
+        return $this;
+    }
+    /**
+     * Add type form element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -42,5 +62,4 @@ class ResponseForm extends Form
         
         return $this;
     }
-    
 }

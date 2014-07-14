@@ -4,7 +4,7 @@ To do
 - Fix input filters for upload
 - Add input filters for external resource
 - Entity, hydrator and mapper for response (DONE)
-- Ajax for response
+- Ajax for response (DONE)
 - Featured side bar functionality
 - Import error designs
 - Remember me functionality

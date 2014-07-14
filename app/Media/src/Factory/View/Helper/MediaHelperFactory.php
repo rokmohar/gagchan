@@ -24,7 +24,10 @@ class MediaHelperFactory implements FactoryInterface
         // Media mapper
         $mediaMapper = $serviceLocator->get('media.mapper.media');
 
-        // Create and return helper
-        return new MediaHelper($mediaMapper);
+        // Response mapper
+        $responseMapper = $serviceLocator->get('media.mapper.response');
+        
+        // Return helper
+        return new MediaHelper($mediaMapper, $responseMapper);
     }
 }

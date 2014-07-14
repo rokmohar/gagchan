@@ -5,7 +5,9 @@ namespace Media\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 
 use Media\Entity\MediaEntityInterface;
+use Media\Entity\ResponseEntityInterface;
 use Media\Mapper\MediaMapperInterface;
+use Media\Mapper\ResponseMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -23,11 +25,20 @@ class MediaHelper extends AbstractHelper
     protected $mediaMapper;
     
     /**
-     * @param \Media\Mapper\MediaMapperInterface $mediaMapper
+     * @var \Media\Mapper\ResponseMapperInterface
      */
-    public function __construct(MediaMapperInterface $mediaMapper)
-    {
-        $this->mediaMapper = $mediaMapper;
+    protected $responseMapper;
+    
+    /**
+     * @param \Media\Mapper\MediaMapperInterface    $mediaMapper
+     * @param \Media\Mapper\ResponseMapperInterface $responseMapper
+     */
+    public function __construct(
+        MediaMapperInterface $mediaMapper,
+        ResponseMapperInterface $responseMapper
+    ) {
+        $this->mediaMapper    = $mediaMapper;
+        $this->responseMapper = $responseMapper;
     }
     
     /**
@@ -41,9 +52,45 @@ class MediaHelper extends AbstractHelper
     }
     
     /**
+     * Get response for media.
+     * 
+     * @param \Media\Entity\MediaEntityInterface $media
+     * 
+     * @return mixed
+     */
+    public function getResponse(MediaEntityInterface $media)
+    {
+        return $this->responseMapper->selectOneByMedia($media->getId());
+    }
+    
+    /**
+     * Check if response type is down.
+     * 
+     * @param \Media\Entity\ResponseEntityInterface $response
+     * 
+     * @return Boolean
+     */
+    public function isResponseDown(ResponseEntityInterface $response)
+    {
+        return ($response->getType() === 'down');
+    }
+    
+    /**
+     * Check if response type is up.
+     * 
+     * @param \Media\Entity\ResponseEntityInterface $response
+     * 
+     * @return Boolean
+     */
+    public function isResponseUp(ResponseEntityInterface $response)
+    {
+        return ($response->getType() === 'up');
+    }
+    
+    /**
      * Generate URL for media.
      * 
-     * @param mixed
+     * @param \Media\Entity\MediaEntityInterface $media
      * 
      * @return String
      */
