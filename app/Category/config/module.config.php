@@ -3,7 +3,7 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'IndexController' => 'Media\Controller\IndexController',
+            'IndexController' => 'Category\Controller\IndexController',
         ),
     ),
     'router' => array(
