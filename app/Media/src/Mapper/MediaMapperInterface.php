@@ -20,5 +20,5 @@ interface MediaMapperInterface
      * 
      * @return mixed
      */
-    public function selectOne(array $where);
+    public function selectRow(array $where);
 }

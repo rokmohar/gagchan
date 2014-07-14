@@ -20,5 +20,5 @@ interface CommentMapperInterface
      * 
      * @return mixed
      */
-    public function selectOne(array $where);
+    public function selectRow(array $where);
 }

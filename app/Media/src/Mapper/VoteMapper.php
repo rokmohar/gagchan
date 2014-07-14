@@ -87,7 +87,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
         );
         
         // Get row
-        $row = $this->selectOne($where);
+        $row = $this->selectRow($where);
         
         // Check if row exists
         if (empty($row) === true) {
@@ -141,7 +141,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectOne(array $where = array())
+    public function selectRow(array $where = array())
     {
         // Get select
         $select = $this->getSelect();
@@ -173,9 +173,9 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
      * 
      * @return mixed
      */
-    public function selectOneByMedia($mediaId, $userId)
+    public function selectRowByMedia($mediaId, $userId)
     {
-        return $this->selectOne(array(
+        return $this->selectRow(array(
             'media_id' => $mediaId,
             'user_id'  => $userId,
         ));

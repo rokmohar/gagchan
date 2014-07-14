@@ -30,7 +30,7 @@ class IndexController extends AbstractActionController
         $slug = $this->params()->fromRoute('slug', null);
         
         // Get category
-        $category = $this->getCategoryMapper()->selectOneBySlug($slug);
+        $category = $this->getCategoryMapper()->selectRowBySlug($slug);
         
         // Check if category exists
         if ($category === false) {

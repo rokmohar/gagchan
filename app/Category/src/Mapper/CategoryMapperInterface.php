@@ -20,5 +20,5 @@ interface CategoryMapperInterface
      * 
      * @return mixed
      */
-    public function selectOne(array $where);
+    public function selectRow(array $where);
 }

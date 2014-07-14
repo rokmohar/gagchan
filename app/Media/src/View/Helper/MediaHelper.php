@@ -7,6 +7,7 @@ use Zend\View\Helper\AbstractHelper;
 
 use Media\Entity\MediaEntityInterface;
 use Media\Entity\VoteEntityInterface;
+use Media\Mapper\CommentMapperInterface;
 use Media\Mapper\MediaMapperInterface;
 use Media\Mapper\VoteMapperInterface;
 
@@ -27,6 +28,11 @@ class MediaHelper extends AbstractHelper
     protected $bucketUrl = 'http://cdn.gagchan.com';
     
     /**
+     * @var \Media\Mapper\CommentMapperInterface
+     */
+    protected $commentMapper;
+    
+    /**
      * @var \Media\Mapper\MediaMapperInterface
      */
     protected $mediaMapper;
@@ -37,22 +43,21 @@ class MediaHelper extends AbstractHelper
     protected $voteMapper;
     
     /**
-     * 
-     */
-    
-    /**
      * @param \Media\Mapper\MediaMapperInterface         $mediaMapper
+     * @param \Media\Mapper\CommentMapperInterface       $commentMapper
      * @param \Media\Mapper\VoteMapperInterface          $voteMapper
      * @param \Zend\Authentication\AuthenticationService $authService
      */
     public function __construct(
         MediaMapperInterface $mediaMapper,
+        CommentMapperInterface $commentMapper,
         VoteMapperInterface $voteMapper,
         AuthenticationService $authService
     ) {
-        $this->mediaMapper    = $mediaMapper;
-        $this->voteMapper     = $voteMapper;
-        $this->authService    = $authService;
+        $this->mediaMapper   = $mediaMapper;
+        $this->commentMapper = $commentMapper;
+        $this->voteMapper    = $voteMapper;
+        $this->authService   = $authService;
     }
     
     /**
@@ -138,6 +143,6 @@ class MediaHelper extends AbstractHelper
      */    
     public function getComments(MediaEntityInterface $media)
     {
-       return $this->responseMapper->countByMedia($media->getId()); 
+       return $this->commentMapper->countByMedia($media->getId()); 
     }
 }

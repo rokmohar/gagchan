@@ -13,6 +13,24 @@ use Core\Mapper\AbstractMapper;
 class CommentMapper extends AbstractMapper implements CommentMapperInterface
 {
     /**
+     * Count comments for given media.
+     * 
+     * @param Integer $media_id
+     * 
+     * @return Integer
+     */
+    public function countByMedia($media_id)
+    {
+        // Select comments
+        $result = $this->selectAll(array(
+            'media_id' => $media_id,
+        ));
+        
+        // Return number of comments
+        return count($result);
+    }
+    
+    /**
      * @param Integer $mediaId
      * @param Integer $userId
      * @param String  $comment
@@ -89,7 +107,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectOne(array $where)
+    public function selectRow(array $where)
     {
         // Get select
         $select = $this->getSelect();

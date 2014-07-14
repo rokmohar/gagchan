@@ -78,7 +78,7 @@ class VoteController extends AbstractActionController
         }
         
         // Get media
-        $media = $this->getMediaMapper()->selectOneBySlug($slug);
+        $media = $this->getMediaMapper()->selectRowBySlug($slug);
 
         // Insert or update vote
         $this->getVoteMapper()->insertOrUpdate(

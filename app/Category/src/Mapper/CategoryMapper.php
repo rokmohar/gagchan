@@ -42,7 +42,7 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectOne(array $where = array())
+    public function selectRow(array $where = array())
     {
         // Get select
         $select = $this->getSelect();
@@ -73,9 +73,9 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
      * 
      * @return mixed
      */
-    public function selectOneById($id)
+    public function selectRowById($id)
     {
-        return $this->selectOne(array(
+        return $this->selectRow(array(
             'id' => $id,
         ));
     }
@@ -87,9 +87,9 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
      * 
      * @return mixed
      */
-    public function selectOneBySlug($slug)
+    public function selectRowBySlug($slug)
     {
-        return $this->selectOne(array(
+        return $this->selectRow(array(
             'slug' => $slug,
         ));
     }

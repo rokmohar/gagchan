@@ -71,7 +71,7 @@ class IndexController extends AbstractActionController
         $slug = $this->params()->fromRoute('slug', null);
         
         // Select media by identifier
-        $media = $this->getMediaMapper()->selectOneBySlug($slug);
+        $media = $this->getMediaMapper()->selectRowBySlug($slug);
         
         // Check if media is not found
         if (empty($media)) {
