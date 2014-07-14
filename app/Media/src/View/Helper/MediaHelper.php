@@ -83,7 +83,7 @@ class MediaHelper extends AbstractHelper
         $user = $this->authService->getIdentity();
         
         // Return vote
-        return ($user !== null) ? $this->voteMapper->selectOneByMedia($media->getId(), $user->getId()) : null;
+        return ($user !== null) ? $this->voteMapper->selectRowByMedia($media->getId(), $user->getId()) : null;
     }
     
     /**
