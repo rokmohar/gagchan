@@ -60,7 +60,7 @@
                         $.ajax({
                             data: { slug: $slug, type: $type },
                             type: 'POST',
-                            url:  '<?php echo $this->url('gag/response') ?>'
+                            url:  '<?php echo $this->url('vote') ?>'
                         }).done(function(data) {
                             // Check if action was successful
                             if (data.result === true) {

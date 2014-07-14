@@ -10,7 +10,7 @@ use Core\Mapper\AbstractMapper;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
+class VoteMapper extends AbstractMapper implements VoteMapperInterface
 {
     /**
      * Count points for given mediaidentifier.
@@ -38,7 +38,7 @@ class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
     }
     
     /**
-     * Insert response to database.
+     * Insert vote to database.
      * 
      * @param Integer $mediaId
      * @param Integer $userId
@@ -70,7 +70,7 @@ class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
     }
     
     /**
-     * Insert or update response.
+     * Insert or update vote.
      * 
      * @param Integer $mediaId
      * @param Integer $userId
@@ -166,7 +166,7 @@ class ResponseMapper extends AbstractMapper implements ResponseMapperInterface
     }
     
     /**
-     * Select response by media identitifer.
+     * Select vote by media identitifer.
      * 
      * @param Integer $mediaId
      * @param Integer $userId

@@ -9,7 +9,7 @@ use Zend\View\Model\JsonModel;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResponseController extends AbstractActionController
+class VoteController extends AbstractActionController
 {
     /**
      * @var \Media\Mapper\MediaMapperInterface
@@ -17,14 +17,14 @@ class ResponseController extends AbstractActionController
     protected $mediaMapper;
     
     /**
-     * @var \Media\Mapper\ResponseMapperInterface
+     * @var \Media\Mapper\VoteMapperInterface
      */
-    protected $responseMapper;
+    protected $voteMapper;
     
     /**
-     * @var \Media\Form\ResponseForm
+     * @var \Media\Form\VoteForm
      */
-    protected $responseForm;
+    protected $voteForm;
     
     /**
      * @return \Zend\View\Helper\ViewModel
@@ -48,7 +48,7 @@ class ResponseController extends AbstractActionController
             ));
         }
         // Get form
-        $form = $this->getResponseForm();
+        $form = $this->getVoteForm();
 
         // Set form data
         $form->setData($request->getPost());
@@ -80,8 +80,8 @@ class ResponseController extends AbstractActionController
         // Get media
         $media = $this->getMediaMapper()->selectOneBySlug($slug);
 
-        // Insert or update response
-        $this->getResponseMapper()->insertOrUpdate(
+        // Insert or update vote
+        $this->getVoteMapper()->insertOrUpdate(
             $media->getId(),
             $user->getId(),
             $type
@@ -109,32 +109,32 @@ class ResponseController extends AbstractActionController
     }
     
     /**
-     * @return \Media\Mapper\ResponseMapperInterface
+     * @return \Media\Mapper\VoteMapperInterface
      */
-    public function getResponseMapper()
+    public function getVoteMapper()
     {
-        if ($this->responseMapper === null) {
+        if ($this->voteMapper === null) {
             // Load from service locator
-            return $this->responseMapper = $this->getServiceLocator()->get(
-                'media.mapper.response'
+            return $this->voteMapper = $this->getServiceLocator()->get(
+                'media.mapper.vote'
             );
         }
         
-        return $this->responseMapper;
+        return $this->voteMapper;
     }
     
     /**
-     * @return \Media\Form\ResponseForm
+     * @return \Media\Form\VoteForm
      */
-    public function getResponseForm()
+    public function getVoteForm()
     {
-        if ($this->responseForm === null) {
+        if ($this->voteForm === null) {
             // Load from service locator
-            return $this->responseForm = $this->getServiceLocator()->get(
-                'media.form.response'
+            return $this->voteForm = $this->getServiceLocator()->get(
+                'media.form.vote'
             );
         }
         
-        return $this->responseForm;
+        return $this->voteForm;
     }
 }

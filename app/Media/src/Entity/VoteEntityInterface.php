@@ -5,7 +5,7 @@ namespace Media\Entity;
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-interface ResponseEntityInterface
+interface VoteEntityInterface
 {
     /**
      * Return the identifier.
@@ -29,7 +29,7 @@ interface ResponseEntityInterface
     public function getUserId();
     
     /**
-     * Return the response type.
+     * Return the vote type.
      * 
      * @return String
      */

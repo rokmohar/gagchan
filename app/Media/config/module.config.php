@@ -3,8 +3,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'IndexController'    => 'Media\Controller\IndexController',
-            'ResponseController' => 'Media\Controller\ResponseController',
+            'IndexController' => 'Media\Controller\IndexController',
+            'VoteController'  => 'Media\Controller\VoteController',
         ),
     ),
     'router' => array(
@@ -20,35 +20,25 @@ return array(
                 ),
             ),
             'gag' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'    => '/gag',
-                    'defaults' => array(),
-                ),
-                'may_terminate' => true,
-                'child_routes'  => array(
-                    'details' => array(
-                        'type'    => 'Zend\Mvc\Router\Http\Segment',
-                        'options' => array(
-                            'route'    => '/[:slug]',
-                            'defaults' => array(
-                                'controller' => 'IndexController',
-                                'action'      => 'details',
-                                'constraints' => array(
-                                    'slug' => '[a-zA-Z][a-zA-Z0-9]*',
-                                ),
-                            ),
+                    'route'    => '/gag/[:slug]',
+                    'defaults' => array(
+                        'controller' => 'IndexController',
+                        'action'      => 'details',
+                        'constraints' => array(
+                            'slug' => '[a-zA-Z][a-zA-Z0-9]*',
                         ),
                     ),
-                    'response' => array(
-                        'type'    => 'Zend\Mvc\Router\Http\Literal',
-                        'options' => array(
-                            'route'    => '/response',
-                            'defaults' => array(
-                                'controller' => 'ResponseController',
-                                'action'     => 'index',
-                            ),
-                        ),
+                ),
+            ),
+            'vote' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/gag/vote',
+                    'defaults' => array(
+                        'controller' => 'VoteController',
+                        'action'     => 'index',
                     ),
                 ),
             ),

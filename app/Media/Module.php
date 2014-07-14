@@ -48,10 +48,10 @@ class Module implements
             'factories' => array(
                 'media.form.comment'            => 'Media\Factory\Form\CommentFormFactory',
                 'media.form.media'              => 'Media\Factory\Form\MediaFormFactory',
-                'media.form.response'           => 'Media\Factory\Form\ResponseFormFactory',
+                'media.form.vote'               => 'Media\Factory\Form\VoteFormFactory',
                 'media.mapper.comment'          => 'Media\Factory\Mapper\CommentMapperFactory',
                 'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',
-                'media.mapper.response'         => 'Media\Factory\Mapper\ResponseMapperFactory',
+                'media.mapper.vote'             => 'Media\Factory\Mapper\VoteMapperFactory',
                 'media.service.media_manager'   => 'Media\Factory\Service\MediaManagerFactory',
                 'media.storage.storage_manager' => 'Media\Factory\Storage\StorageManagerFactory',
             ),

@@ -6,8 +6,9 @@ use Zend\InputFilter\InputFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResponseFilter extends InputFilter
+class VoteFilter extends InputFilter
 {
     /**
      * {@inheritDoc}

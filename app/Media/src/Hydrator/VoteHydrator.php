@@ -8,7 +8,7 @@ use Zend\Stdlib\Hydrator\ClassMethods;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResponseHydrator extends ClassMethods
+class VoteHydrator extends ClassMethods
 {
     /**
      * {@inheritDoc}

@@ -8,7 +8,7 @@ use Zend\Form\Form;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResponseForm extends Form
+class VoteForm extends Form
 {
     /**
      * @param String $name

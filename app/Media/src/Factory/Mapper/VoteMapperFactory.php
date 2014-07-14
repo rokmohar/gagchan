@@ -5,12 +5,12 @@ namespace Media\Factory\Mapper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Media\Mapper\ResponseMapper;
+use Media\Mapper\VoteMapper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-class ResponseMapperFactory implements FactoryInterface
+class VoteMapperFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -21,11 +21,11 @@ class ResponseMapperFactory implements FactoryInterface
         $dbAdapter = $serviceLocator->get('db.adapter');
         
         // Entity class
-        $entityClass = new \Media\Entity\ResponseEntity();
+        $entityClass = new \Media\Entity\VoteEntity();
         
         // Hydrator
-        $hydrator = new \Media\Hydrator\ResponseHydrator();
+        $hydrator = new \Media\Hydrator\VoteHydrator();
         
-        return new ResponseMapper($dbAdapter, 'media_vote', $entityClass, $hydrator);
+        return new VoteMapper($dbAdapter, 'media_vote', $entityClass, $hydrator);
     }
 }

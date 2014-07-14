@@ -25,7 +25,7 @@ class MediaHelperFactory implements FactoryInterface
         $mediaMapper = $serviceLocator->get('media.mapper.media');
 
         // Response mapper
-        $responseMapper = $serviceLocator->get('media.mapper.response');
+        $responseMapper = $serviceLocator->get('media.mapper.vote');
         
         // Auth service
         $authService = $serviceLocator->get('zfcuser_auth_service');

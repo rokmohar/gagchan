@@ -6,12 +6,13 @@ use Zend\Authentication\AuthenticationService;
 use Zend\View\Helper\AbstractHelper;
 
 use Media\Entity\MediaEntityInterface;
-use Media\Entity\ResponseEntityInterface;
+use Media\Entity\VoteEntityInterface;
 use Media\Mapper\MediaMapperInterface;
-use Media\Mapper\ResponseMapperInterface;
+use Media\Mapper\VoteMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class MediaHelper extends AbstractHelper
 {
@@ -31,9 +32,9 @@ class MediaHelper extends AbstractHelper
     protected $mediaMapper;
     
     /**
-     * @var \Media\Mapper\ResponseMapperInterface
+     * @var \Media\Mapper\VoteMapperInterface
      */
-    protected $responseMapper;
+    protected $voteMapper;
     
     /**
      * 
@@ -41,16 +42,16 @@ class MediaHelper extends AbstractHelper
     
     /**
      * @param \Media\Mapper\MediaMapperInterface         $mediaMapper
-     * @param \Media\Mapper\ResponseMapperInterface      $responseMapper
+     * @param \Media\Mapper\VoteMapperInterface          $voteMapper
      * @param \Zend\Authentication\AuthenticationService $authService
      */
     public function __construct(
         MediaMapperInterface $mediaMapper,
-        ResponseMapperInterface $responseMapper,
+        VoteMapperInterface $voteMapper,
         AuthenticationService $authService
     ) {
         $this->mediaMapper    = $mediaMapper;
-        $this->responseMapper = $responseMapper;
+        $this->voteMapper     = $voteMapper;
         $this->authService    = $authService;
     }
     
@@ -65,43 +66,43 @@ class MediaHelper extends AbstractHelper
     }
     
     /**
-     * Get response for media.
+     * Get vote entity for media.
      * 
      * @param \Media\Entity\MediaEntityInterface $media
      * 
      * @return mixed
      */
-    public function getResponse(MediaEntityInterface $media)
+    public function getVote(MediaEntityInterface $media)
     {
         // Get user
         $user = $this->authService->getIdentity();
         
-        // Return response
-        return ($user !== null) ? $this->responseMapper->selectOneByMedia($media->getId(), $user->getId()) : null;
+        // Return vote
+        return ($user !== null) ? $this->voteMapper->selectOneByMedia($media->getId(), $user->getId()) : null;
     }
     
     /**
-     * Check if response type is down.
+     * Check if vote type is down.
      * 
-     * @param \Media\Entity\ResponseEntityInterface $response
+     * @param \Media\Entity\VoteEntityInterface $vote
      * 
      * @return Boolean
      */
-    public function isResponseDown(ResponseEntityInterface $response)
+    public function isVoteDown(VoteEntityInterface $vote)
     {
-        return ($response->getType() === 'down');
+        return ($vote->getType() === 'down');
     }
     
     /**
-     * Check if response type is up.
+     * Check if vote type is up.
      * 
-     * @param \Media\Entity\ResponseEntityInterface $response
+     * @param \Media\Entity\VoteEntityInterface $vote
      * 
      * @return Boolean
      */
-    public function isResponseUp(ResponseEntityInterface $response)
+    public function isVoteUp(VoteEntityInterface $vote)
     {
-        return ($response->getType() === 'up');
+        return ($vote->getType() === 'up');
     }
     
     /**
@@ -125,6 +126,6 @@ class MediaHelper extends AbstractHelper
      */    
     public function getPoints(MediaEntityInterface $media)
     {
-       return $this->responseMapper->countByMedia($media->getId()); 
+       return $this->voteMapper->countByMedia($media->getId()); 
     }
 }
