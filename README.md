@@ -12,7 +12,7 @@ To do
 - Change email / password page
 - Simple profile page with uploaded media history
 
-Modules (Which we could use)
+Modules
 ================================================================================
 - AWS: https://github.com/aws/aws-sdk-php-zf2
 - User: https://github.com/ZF-Commons/ZfcUser
@@ -24,5 +24,13 @@ Few guidelines
 - Signed links for share -> CloudFront service (way faster!) -> CNAME record on host server for prettier URL!
 - Pagination, not scroll to infinity -> Easy ad distribution and less unique ads needed!
 
-MySQL user: acmoharc_gagch
-MySQL password: ctEFw^01J?l#
+Access details
+================================================================================
+MySQL user: root
+MySQL pass: ctEFw^01J?l#
+
+MySQL ftpd user: proftpd
+MySQL ftpd pass: mSH?j6yzT#tN
+
+FTP user: gagchan
+FTP pass: jGVYjrX#TYjz
