@@ -141,4 +141,25 @@ class CategoryEntity implements CategoryEntityInterface
         
         return $this;
     }
+    
+    /**
+     * Pre-insert initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preInsert()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+    
+    /**
+     * Pre-update initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
 }

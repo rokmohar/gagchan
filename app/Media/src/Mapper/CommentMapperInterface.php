@@ -2,6 +2,8 @@
 
 namespace Media\Mapper;
 
+use Media\Entity\CommentEntityInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -9,16 +11,36 @@ namespace Media\Mapper;
 interface CommentMapperInterface
 {
     /**
-     * Select and return all rows.
+     * Insert a row.
      * 
-     * @return mixed
+     * @param \Media\Entity\CommentEntityInterface $comment
      */
-    public function selectAll(array $where);
+    public function insertRow(CommentEntityInterface $comment);
     
     /**
-     * Select and return one row.
+     * Select all rows.
+     * 
+     * @param Array $where
+     * @param Array $order
      * 
      * @return mixed
      */
-    public function selectRow(array $where);
+    public function selectAll(array $where, array $order);
+    
+    /**
+     * Select a row.
+     * 
+     * @param Array $where
+     * @param Array $order
+     * 
+     * @return mixed
+     */
+    public function selectRow(array $where, array $order);
+    
+    /**
+     * Update a row.
+     * 
+     * @param \Media\Entity\CommentEntityInterface $comment
+     */
+    public function updateRow(CommentEntityInterface $comment);
 }

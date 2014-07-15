@@ -2,6 +2,8 @@
 
 namespace Media\Mapper;
 
+use Media\Entity\MediaEntityInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -9,18 +11,24 @@ namespace Media\Mapper;
 interface MediaMapperInterface
 {
     /**
-     * Select and return all rows.
+     * Insert a row.
      * 
-     * @param Array   $where
-     * @param Array   $order
-     * @param Integer $limit
+     * @param \Media\Entity\MediaEntityInterface $media
+     */
+    public function insertRow(MediaEntityInterface $media);
+    
+    /**
+     * Select all rows.
+     * 
+     * @param Array $where
+     * @param Array $order
      * 
      * @return mixed
      */
-    public function selectAll(array $where, array $order, $limit);
+    public function selectAll(array $where, array $order);
     
     /**
-     * Select and return one row.
+     * Select a row.
      * 
      * @param Array $where
      * @param Array $order
@@ -28,4 +36,11 @@ interface MediaMapperInterface
      * @return mixed
      */
     public function selectRow(array $where, array $order);
+    
+    /**
+     * Update a row.
+     * 
+     * @param \Media\Entity\MediaEntityInterface $media
+     */
+    public function updateRow(MediaEntityInterface $media);
 }

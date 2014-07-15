@@ -39,15 +39,6 @@ class CommentEntity implements CommentEntityInterface
     protected $updatedAt;
     
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
-    }
-    
-    /**
      * {@inheritDoc}
      */
     public function getId()
@@ -165,5 +156,26 @@ class CommentEntity implements CommentEntityInterface
         $this->updatedAt = $updatedAt;
         
         return $this;
+    }
+    
+    /**
+     * Pre-insert initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preInsert()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+    
+    /**
+     * Pre-update initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

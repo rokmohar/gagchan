@@ -32,7 +32,7 @@ class IndexController extends AbstractActionController
         // Get category
         $category = $this->getCategoryMapper()->selectRowBySlug($slug);
         
-        // Check if category exists
+        // Check if not match exists
         if ($category === false) {
             // Category not found
             return $this->notFoundAction();
@@ -42,7 +42,7 @@ class IndexController extends AbstractActionController
         $page = (int) $this->params()->fromQuery('page', 1);
         
         // Select from database
-        $media = $this->getMediaMapper()->selectLatestByCategory($category->getId());
+        $media = $this->getMediaMapper()->selectLatestByCategory($category);
         $media->setCurrentPageNumber($page);
         
         // Set items per page

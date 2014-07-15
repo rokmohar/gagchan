@@ -2,7 +2,6 @@
 
 namespace Media\Storage;
 
-use Aws\Common\Aws;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Core\File\UploadedFile;
@@ -64,8 +63,7 @@ class AmazonStorage implements StorageInterface
      */
     public function getAws()
     {
-        // Check if service is loaded
-        if (!$this->aws instanceof Aws) {
+        if ($this->aws === null) {
             // Load from service locator
             return $this->aws = $this->serviceLocator->get('aws');
         }

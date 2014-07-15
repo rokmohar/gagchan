@@ -17,19 +17,16 @@ class MediaHydrator extends ClassMethods
     {
         $data = parent::extract($object);
         
-        if (isset($data['is_featured']) && is_bool($data['is_featured'])) {
-            // Set to boolean
-            $data['is_featured'] = (Integer) $data['is_featured'];
-        }
-        
-        if (isset($data['created_at']) && $data['created_at'] instanceof \DateTime) {
-            // Convert from date
-            $data['created_at'] = $data['created_at']->format('Y-m-d H:i:s');
-        }
-        
-        if (isset($data['updated_at']) && $data['updated_at'] instanceof \DateTime) {
-            // Convert from date
-            $data['updated_at'] = $data['updated_at']->format('Y-m-d H:i:s');
+        foreach ($data as $d) {
+            // Check if it needs a conversion
+            if (is_bool($d) === true) {
+                // Convert to integer
+                $d = (Integer) $d;
+            }
+            else if ($d instanceof \DateTime) {
+                // Format a string
+                $d = $d->format('Y-m-d H:i:s');
+            }
         }
         
         return $data;
@@ -41,29 +38,29 @@ class MediaHydrator extends ClassMethods
     public function hydrate(array $data, $object)
     {
         if (!isset($data['category_id']) && isset($data['category'])) {
-            // Merge category identifier
+            // Merge identifier
             $data['category_id'] = $data['category'];
         }
         
         if (!isset($data['user_id']) && isset($data['user'])) {
-            // Merge category identifier
+            // Merge identifier
             $data['user_id'] = $data['user'];
         }
 
         unset($data['category']);
         unset($data['user']);
         
-        if (isset($data['is_featured']) && !is_bool($data['is_featured'])) {
-            // Set to boolean
+        if (isset($data['is_featured']) === true) {
+            // Convert to boolean
             $data['is_featured'] = (Boolean) $data['is_featured'];
         }
         
-        if (isset($data['created_at']) && !$data['created_at'] instanceof \DateTime) {
+        if (isset($data['created_at']) === true) {
             // Convert to date
             $data['created_at'] = new \DateTime($data['created_at']);
         }
         
-        if (isset($data['updated_at']) && !$data['updated_at'] instanceof \DateTime) {
+        if (isset($data['updated_at']) === true) {
             // Convert to date
             $data['updated_at'] = new \DateTime($data['updated_at']);
         }

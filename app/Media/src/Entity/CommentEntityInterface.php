@@ -37,14 +37,14 @@ interface CommentEntityInterface
     public function getComment();
     
     /**
-     * Return created at datetime.
+     * Return created at date.
      * 
      * @return \DateTime
      */
     public function getCreatedAt();
     
     /**
-     * Return updated at datetime.
+     * Return updated at date.
      * 
      * @return \DateTime
      */

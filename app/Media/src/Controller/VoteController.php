@@ -49,6 +49,7 @@ class VoteController extends AbstractActionController
         }
         // Get form
         $form = $this->getVoteForm();
+        $form->bind(new \Media\Entity\VoteEntity());
 
         // Set form data
         $form->setData($request->getPost());
@@ -58,17 +59,15 @@ class VoteController extends AbstractActionController
             // Return JSON
             return new JsonModel(array(
                 'result' => 'notValid',
-                'post' => $form->getData(),
             ));
         }
 
         // Get form data
-        $slug = $form->get('slug')->getValue();
-        $type = $form->get('type')->getValue();
-
-        // Get user data
-        $user = $this->zfcUserAuthentication()->getIdentity();
-
+        $data = $form->getData();
+        
+        // Get user
+        $user = $this->zfcuserAuthentication()->getIdentity();
+        
         // Check if user is provided
         if (empty($user) === true) {
             // Return JSON
@@ -78,14 +77,16 @@ class VoteController extends AbstractActionController
         }
         
         // Get media
-        $media = $this->getMediaMapper()->selectRowBySlug($slug);
+        $media = $this->getMediaMapper()->selectRowBySlug(
+            $form->get('slug')->getValue()
+        );
+        
+        // Set identifier
+        $data->setMediaId($media->getId());
+        $data->setUserId($user->getId());
 
         // Insert or update vote
-        $this->getVoteMapper()->insertOrUpdate(
-            $media->getId(),
-            $user->getId(),
-            $type
-        );
+        $this->getVoteMapper()->insertOrUpdate($data);
 
         // Return JSON
         return new JsonModel(array(
