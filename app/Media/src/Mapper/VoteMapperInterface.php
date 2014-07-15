@@ -2,6 +2,8 @@
 
 namespace Media\Mapper;
 
+use Media\Entity\VoteEntityInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -9,17 +11,37 @@ namespace Media\Mapper;
 interface VoteMapperInterface
 {
     /**
-     * Select and return all rows.
+     * Insert a row.
      * 
-     * @return mixed
+     * @param \Media\Entity\VoteEntityInterface $vote
      */
-    public function selectAll(array $where);
+    public function insertRow(VoteEntityInterface $vote);
     
     /**
-     * Select and return one row.
+     * Select all rows.
+     * 
+     * @param Array $where
+     * @param Array $order
      * 
      * @return mixed
      */
-    public function selectRow(array $where);
+    public function selectAll(array $where, array $order);
+    
+    /**
+     * Select a row.
+     * 
+     * @param Array $where
+     * @param Array $order
+     * 
+     * @return mixed
+     */
+    public function selectRow(array $where, array $order);
+    
+    /**
+     * Update a row.
+     * 
+     * @param \Media\Entity\VoteEntityInterface $vote
+     */
+    public function updateRow(VoteEntityInterface $vote);
         
 }

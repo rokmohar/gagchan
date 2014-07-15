@@ -5,7 +5,6 @@ namespace Media\View\Helper;
 use Zend\Authentication\AuthenticationService;
 use Zend\View\Helper\AbstractHelper;
 
-use Category\Entity\CategoryEntityInterface;
 use Media\Entity\MediaEntityInterface;
 use Media\Entity\VoteEntityInterface;
 use Media\Mapper\CommentMapperInterface;
@@ -83,8 +82,14 @@ class MediaHelper extends AbstractHelper
         // Get user
         $user = $this->authService->getIdentity();
         
+        // Check if user is empty
+        if (empty($user) === true) {
+            // Return void
+            return null;
+        }
+        
         // Return vote
-        return ($user !== null) ? $this->voteMapper->selectRowByMedia($media->getId(), $user->getId()) : null;
+        return $this->voteMapper->selectRowByMedia($media, $user);
     }
     
     /**
@@ -143,7 +148,7 @@ class MediaHelper extends AbstractHelper
      */    
     public function getPoints(MediaEntityInterface $media)
     {
-       return $this->voteMapper->countByMedia($media->getId()); 
+       return $this->voteMapper->countByMedia($media); 
     }
     
     /**
@@ -155,6 +160,6 @@ class MediaHelper extends AbstractHelper
      */    
     public function getComments(MediaEntityInterface $media)
     {
-       return $this->commentMapper->countByMedia($media->getId()); 
+       return $this->commentMapper->countByMedia($media); 
     }
 }

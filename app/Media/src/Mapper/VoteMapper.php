@@ -5,6 +5,9 @@ namespace Media\Mapper;
 use Zend\Db\ResultSet\HydratingResultSet;
 
 use Core\Mapper\AbstractMapper;
+use Media\Entity\MediaEntityInterface;
+use Media\Entity\VoteEntityInterface;
+use ZfcUser\Entity\UserInterface as UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -13,23 +16,23 @@ use Core\Mapper\AbstractMapper;
 class VoteMapper extends AbstractMapper implements VoteMapperInterface
 {
     /**
-     * Count points for given mediaidentifier.
+     * Count points for given media.
      * 
-     * @param Integer $media_id
+     * @param \Media\Entity\MediaEntityInterface $media
      * 
      * @return Integer
      */
-    public function countByMedia($media_id)
+    public function countByMedia(MediaEntityInterface $media)
     {
-        // Positive points
+        // Up points
         $up = $this->selectAll(array(
-            'media_id' => $media_id,
+            'media_id' => $media->getId(),
             'type'     => 'up',
         ));
         
-        // Negative points
+        // Down points
         $down = $this->selectAll(array(
-            'media_id' => $media_id,
+            'media_id' => $media->getId(),
             'type'     => 'down',
         ));
         
@@ -38,24 +41,26 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
     }
     
     /**
-     * Insert vote to database.
-     * 
-     * @param Integer $mediaId
-     * @param Integer $userId
-     * @param String  $type
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function insertRow($mediaId, $userId, $type)
+    public function insertRow(VoteEntityInterface $vote)
     {
+        // Check if entity has pre-insert method
+        if (method_exists($vote, 'preInsert')) {
+            // Call a method
+            call_user_func(array($vote, 'preInsert'));
+        }
+        
         // Get insert
         $insert = $this->getInsert();
         
         $insert
             ->values(array(
-                'media_id' => $mediaId,
-                'user_id'  => $userId,
-                'type'     => $type,
+                'media_id'   => $vote->getMediaId(),
+                'user_id'    => $vote->getUserId(),
+                'type'       => $vote->getType(),
+                'created_at' => $vote->getCreatedAt()->format('Y-m-d H:i:s'),
+                'updated_at' => $vote->getUpdatedAt()->format('Y-m-d H:i:s'),
             ))
         ;
         
@@ -72,61 +77,53 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
     /**
      * Insert or update vote.
      * 
-     * @param Integer $mediaId
-     * @param Integer $userId
-     * @param String  $type
+     * @param \Media\Entity\MediaEntityInterface $media
+     * @param \ZfcUser\Entity\UserInterface      $user
+     * @param String                             $type
      * 
      * @return mixed
      */
-    public function insertOrUpdate($mediaId, $userId, $type)
+    public function insertOrUpdate(VoteEntityInterface $vote)
     {
         // Set where
         $where = array(
-            'media_id' => $mediaId,
-            'user_id'  => $userId,
+            'media_id' => $vote->getMediaId(),
+            'user_id'  => $vote->getUserId(),
         );
         
-        // Get row
+        // Get a row
         $row = $this->selectRow($where);
         
-        // Check if row exists
+        // Check if no match exists
         if (empty($row) === true) {
-            // Insert new row
-            return $this->insertRow($mediaId, $userId, $type);
+            // Insert a row
+            return $this->insertRow($vote);
         }
         
-        // Check if type has not changed
-        if ($row->getType() === $type) {
-            // Return row
-            return $row;
-        }
+        // Change row data
+        $row->setType($vote->getType());
         
-        // Update row
-        return $this->updateRow(
-            array(
-                'user_id' => $userId,
-                'type'    => $type,
-            ),
-            $where
-        );
+        // Update a row
+        return $this->updateRow($row);
     }
     
     /**
      * {@inheritDoc}
      */
-    public function selectAll(array $where = array())
+    public function selectAll(array $where = array(), array $order = array())
     {
         // Get select
         $select = $this->getSelect();
         
         $select
             ->where($where)
+            ->order($order)
         ;
         
         // Prepare a statement
         $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Get hydrating result set
+        // Get result set
         $resultSet = new HydratingResultSet(
             $this->getHydrator(),
             $this->getEntityClass()
@@ -141,19 +138,21 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectRow(array $where = array())
+    public function selectRow(array $where = array(), array $order = array())
     {
         // Get select
         $select = $this->getSelect();
         
         $select
             ->where($where)
+            ->order($order)
+            ->limit(1)
         ;
         
         // Prepare a statement
         $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
-        // Get hydrating result set
+        // Get result set
         $resultSet = new HydratingResultSet(
             $this->getHydrator(),
             $this->getEntityClass()
@@ -166,37 +165,51 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
     }
     
     /**
-     * Select vote by media identitifer.
+     * Select vote by media.
      * 
-     * @param Integer $mediaId
-     * @param Integer $userId
+     * @param \Media\Entity\MediaEntityInterface $media
+     * @param \ZfcUser\Entity\UserInterface      $user
      * 
      * @return mixed
      */
-    public function selectRowByMedia($mediaId, $userId)
+    public function selectRowByMedia(MediaEntityInterface $media, UserEntityInterface $user)
     {
         return $this->selectRow(array(
-            'media_id' => $mediaId,
-            'user_id'  => $userId,
+            'media_id' => $media->getId(),
+            'user_id'  => $user->getId(),
         ));
     }
     
     /**
-     * Update row.
+     * Update a row.
      * 
      * @param Array $values
      * @param Array $where
      * 
      * @return mixed
      */
-    public function updateRow(array $values, array $where = array())
+    public function updateRow(VoteEntityInterface $vote)
     {
+        // Check if entity has pre-update method
+        if (method_exists($vote, 'preUpdate')) {
+            // Call a method
+            call_user_func(array($vote, 'preUpdate'));
+        }
+        
         // Get update
         $update = $this->getUpdate();
         
         $update
-            ->set($values)
-            ->where($where)
+            ->set(array(
+                'media_id'   => $vote->getMediaId(),
+                'user_id'    => $vote->getUserId(),
+                'type'       => $vote->getType(),
+                'created_at' => $vote->getCreatedAt()->format('Y-m-d H:i:s'),
+                'updated_at' => $vote->getUpdatedAt()->format('Y-m-d H:i:s'),
+            ))
+            ->where(array(
+                'id' => $vote->getId(),
+            ))
         ;
         
         // Get SQL

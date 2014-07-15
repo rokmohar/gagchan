@@ -7,6 +7,8 @@ use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\DbSelect;
 
 use Core\Mapper\AbstractMapper;
+use Category\Entity\CategoryEntityInterface;
+use Media\Entity\MediaEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -15,34 +17,32 @@ use Core\Mapper\AbstractMapper;
 class MediaMapper extends AbstractMapper implements MediaMapperInterface
 {
     /**
-     * Insert a row.
-     * 
-     * @param String  $slug
-     * @param String  $name
-     * @param String  $reference
-     * @param Integer $userId
-     * @param Integer $categoryId
-     * @param Integer $width
-     * @param Integer $height
-     * @param Integer $size
-     * @param String  $contentType
+     * {@inheritDoc}
      */
-    public function insertRow($slug, $name, $reference, $userId, $categoryId, $width, $height, $size, $contentType)
+    public function insertRow(MediaEntityInterface $media)
     {
+        // Check if entity has pre-insert method
+        if (method_exists($media, 'preInsert')) {
+            // Call a method
+            call_user_func(array($media, 'preInsert'));
+        }
+        
         // Get insert
         $insert = $this->getInsert();
         
         $insert
             ->values(array(
-                'slug'         => $slug,
-                'name'         => $name,
-                'reference'    => $reference,
-                'user_id'      => $userId,
-                'category_id'  => $categoryId,
-                'width'        => $width,
-                'height'       => $height,
-                'size'         => $size,
-                'content_type' => $contentType,
+                'slug'         => $media->getSlug(),
+                'name'         => $media->getName(),
+                'reference'    => $media->getReference(),
+                'user_id'      => $media->getUserId(),
+                'category_id'  => $media->getCategoryId(),
+                'width'        => $media->getWidth(),
+                'height'       => $media->getheight(),
+                'size'         => $media->getSize(),
+                'content_type' => $media->getContentType(),
+                'created_at'   => $media->getCreatedAt()->format('Y-m-d H:i:s'),
+                'updated_at'   => $media->getUpdatedAt()->format('Y-m-d H:i:s'),
             ))
         ;
         
@@ -55,36 +55,32 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         // Return result
         return $result;
     }
-        
+    
     /**
+     * @param \Media\Entity\MediaEntityInterface $media
+     * 
+     * @return Boolean
+     */
+    public function hasUniqueSlug(MediaEntityInterface $media)
+    {
+        return $this->isUniqueSlug($media->getSlug());
+    }
+    
+    /**
+     * @param String $slug
+     * 
      * @return Boolean
      */
     public function isUniqueSlug($slug)
     {
-        // Get select
-        $select = $this->getSelect();
-        
-        $select
-            ->columns(array('id'))
-            ->where(array(
-                'slug' => $slug,
-            ))
-        ;
-        
-        // Get SQL
-        $sql = $this->getSql();
-        
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($select)->execute();
-        
-        // Check if no entry exists
-        return (count($result) === 0);
+        // Check if no match exists
+        return (empty($this->selectOne(array('slug' => $slug))) === true);
     }
     
     /**
      * {@inheritDoc}
      */
-    public function selectAll(array $where = array(), array $order = array(), $limit = false)
+    public function selectAll(array $where = array(), array $order = array(), $limit = null)
     {
         // Get select
         $select = $this->getSelect();
@@ -95,7 +91,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         ;
         
         // Check if limit given
-        if (is_int($limit)) {
+        if (is_numeric($limit) === true) {
             // Add limit
             $select->limit($limit);
         }
@@ -114,7 +110,21 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Select featured media.
+     * Select rows by category.
+     * 
+     * @param \Category\Entity\CategoryEntityInterface $category
+     * 
+     * @return mixed
+     */
+    public function selectByCategory(CategoryEntityInterface $category)
+    {
+        return $this->selectAll(array(
+            'category_id' => $category->getId(),
+        ));
+    }
+    
+    /**
+     * Select featured rows.
      * 
      * @return mixed
      */
@@ -130,7 +140,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Select latest media.
+     * Select latest rows.
      * 
      * @return mixed
      */
@@ -140,34 +150,20 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Select latest media.
+     * Select latest rows by category.
      * 
-     * @param Integer $categoryId
+     * @param \Category\Entity\CategoryEntityInterface $category
      * 
      * @return mixed
      */
-    public function selectLatestByCategory($categoryId)
+    public function selectLatestByCategory(CategoryEntityInterface $category)
     {
         return $this->selectAll(
             array(
-                'category_id' => $categoryId,
+                'category_id' => $category->getId(),
             ),
             array('created_at DESC')
         );
-    }
-    
-    /**
-     * Return a list of media by category identifier.
-     * 
-     * @param Integer $categoryId
-     * 
-     * @return mixed
-     */
-    public function selectByCategory($categoryId)
-    {
-        return $this->selectAll(array(
-            'category_id' => $categoryId,
-        ));
     }
     
     /**
@@ -200,7 +196,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * Select media by identifier.
+     * Select row by media.
      * 
      * @param Integer $id
      * 
@@ -225,5 +221,47 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         return $this->selectRow(array(
             'slug' => $slug,
         ));
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function updateRow(MediaEntityInterface $media)
+    {
+        // Check if entity has pre-update method
+        if (method_exists($media, 'preUpdate')) {
+            // Call a method
+            call_user_func(array($media, 'preUpdate'));
+        }
+        
+        // Get update
+        $update = $this->getUpdate();
+        
+        $update
+            ->values(array(
+                'slug'         => $media->getSlug(),
+                'name'         => $media->getName(),
+                'reference'    => $media->getReference(),
+                'user_id'      => $media->getUserId(),
+                'category_id'  => $media->getCategoryId(),
+                'width'        => $media->getWidth(),
+                'height'       => $media->getheight(),
+                'size'         => $media->getSize(),
+                'content_type' => $media->getContentType(),
+                'updated_at'   => $media->getUpdatedAt()->format('Y-m-d H:i:s'),
+            ))
+            ->where(array(
+                'id' => $media->getId(),
+            ))
+        ;
+        
+        // Get SQL
+        $sql = $this->getSql();
+        
+        // Prepare and execute statement
+        $result = $sql->prepareStatementForSqlObject($update)->execute();
+        
+        // Return result
+        return $result;
     }
 }

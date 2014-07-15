@@ -4,14 +4,17 @@ namespace Media\Service;
 
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
-use Imagine\Image\ImagineInterface;;
 
 use Core\File\UploadedFile;
+use Category\Entity\CategoryEntityInterface;
+use Media\Entity\MediaEntity;
 use Media\Mapper\MediaMapperInterface;
 use Media\Storage\StorageManagerInterface;
+use ZfcUser\Entity\UserInterface as UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class MediaManager implements MediaManagerInterface
 {
@@ -45,8 +48,12 @@ class MediaManager implements MediaManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function uploadFile(UploadedFile $file, $name, $userId, $categoryId)
-    {
+    public function uploadFile(
+        UploadedFile $file,
+        $name,
+        UserEntityInterface $user,
+        CategoryEntityInterface $category
+    ) {
         // Resize image
         $this->resizeImage($file);
         
@@ -54,7 +61,7 @@ class MediaManager implements MediaManagerInterface
         $slug = $this->getUniqueSlug();
         
         // Insert image data into DB
-        $this->insertData($file, $slug, $name,  $userId, $categoryId);
+        $this->insertData($file, $slug, $name,  $user, $category);
         
         // Storage
         $storage = $this->getStorageManager()->getStorage('amazon');
@@ -66,15 +73,17 @@ class MediaManager implements MediaManagerInterface
     }
     
     /**
-     * @param \Core\File\UploadedFile $file
-     * @param String                  $slug
-     * @param String                  $name
-     * @param Integer                 $userId
-     * @param Integer                 $categoryId
+     * Insert a row to data storage.
+     * 
+     * @param \Core\File\UploadedFile                  $file
+     * @param String                                   $slug
+     * @param String                                   $name
+     * @param \ZfcUser\Entity\UserInterface            $user
+     * @param \Category\Entity\CategoryEntityInterface $category
      * 
      * @return \Media\Service\MediaManager
      */
-    protected function insertData(UploadedFile $file, $slug, $name, $userId, $categoryId)
+    protected function insertData(UploadedFile $file, $slug, $name, UserEntityInterface $user, CategoryEntityInterface $category)
     {
         // Media mapper
         $mediaMapper = $this->getMediaMapper();
@@ -86,23 +95,37 @@ class MediaManager implements MediaManagerInterface
         $image = $imagine->open($file->getPathname());
         $size  = $image->getSize();
         
-        // Insert media into DB
-        $mediaMapper->insertRow(
-            $slug,
-            $name,
-            sprintf("/photo/%s_460b.%s", $slug, $file->guessExtension()),
-            $userId,
-            $categoryId,
-            $size->getWidth(),
-            $size->getHeight(),
-            $file->getSize(),
-            $file->getMimeType()
+        // Create an entity
+        $media = new MediaEntity();
+        
+        // Set data
+        $media->setSlug($slug);
+        $media->setName($name);
+        
+        // Set reference
+        $media->setReference(
+            sprintf("/photo/%s_460b.%s", $slug, $file->guessExtension())
         );
+        
+        // Set identifier
+        $media->setUserId($user->getId());
+        $media->setCategoryId($category->getId());
+        
+        // Set image data
+        $media->setWidth($size->getWidth());
+        $media->setHeight($size->getHeight());
+        $media->setSize($file->getSize());
+        $media->setContentType($file->getMimeType());
+        
+        // Insert a row
+        $mediaMapper->insertRow($media);
         
         return $this;
     }
     
     /**
+     * Resize an image.
+     * 
      * @param \Core\File\UploadedFile $file
      * 
      * @return \Media\Service\MediaManager
@@ -191,7 +214,7 @@ class MediaManager implements MediaManagerInterface
      */
     public function getImagine()
     {
-        if (!$this->imagine instanceof ImagineInterface) {
+        if ($this->imagine === null) {
             return $this->imagine = new Imagine();
         }
         

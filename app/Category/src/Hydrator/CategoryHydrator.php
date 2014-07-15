@@ -17,14 +17,12 @@ class CategoryHydrator extends ClassMethods
     {
         $data = parent::extract($object);
         
-        if (isset($data['created_at']) && $data['created_at'] instanceof \DateTime) {
-            // Convert from date
-            $data['created_at'] = $data['created_at']->format('Y-m-d H:i:s');
-        }
-        
-        if (isset($data['updated_at']) && $data['updated_at'] instanceof \DateTime) {
-            // Convert from date
-            $data['updated_at'] = $data['updated_at']->format('Y-m-d H:i:s');
+        foreach ($data as $d) {
+            // Check if it needs a conversion
+            if ($d instanceof \DateTime) {
+                // Format a string
+                $d = $d->format('Y-m-d H:i:s');
+            }
         }
         
         return $data;
@@ -35,12 +33,12 @@ class CategoryHydrator extends ClassMethods
      */
     public function hydrate(array $data, $object)
     {
-        if (isset($data['created_at']) && !$data['created_at'] instanceof \DateTime) {
+        if (isset($data['created_at']) === true) {
             // Convert to date
             $data['created_at'] = new \DateTime($data['created_at']);
         }
         
-        if (isset($data['updated_at']) && !$data['updated_at'] instanceof \DateTime) {
+        if (isset($data['updated_at']) === true) {
             // Convert to date
             $data['updated_at'] = new \DateTime($data['updated_at']);
         }

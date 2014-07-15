@@ -2,6 +2,8 @@
 
 namespace Category\Mapper;
 
+use Category\Entity\CategoryEntityInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -9,16 +11,36 @@ namespace Category\Mapper;
 interface CategoryMapperInterface
 {
     /**
-     * Select and return all rows.
+     * Insert a row.
      * 
-     * @return mixed
+     * @param \Category\Entity\CategoryEntityInterface $category
      */
-    public function selectAll(array $where);
+    public function insertRow(CategoryEntityInterface $category);
     
     /**
-     * Select and return one row.
+     * Select all rows.
+     * 
+     * @param Array $where
+     * @param Array $order
      * 
      * @return mixed
      */
-    public function selectRow(array $where);
+    public function selectAll(array $where, array $order);
+    
+    /**
+     * Select a row.
+     * 
+     * @param Array $where
+     * @param Array $order
+     * 
+     * @return mixed
+     */
+    public function selectRow(array $where, array $order);
+    
+    /**
+     * Update a row.
+     * 
+     * @param \Category\Entity\CategoryEntityInterface $category
+     */
+    public function updateRow(CategoryEntityInterface $category);
 }

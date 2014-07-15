@@ -73,9 +73,9 @@ class IndexController extends AbstractActionController
         // Select media by identifier
         $media = $this->getMediaMapper()->selectRowBySlug($slug);
         
-        // Check if media is not found
+        // Check if no match exists
         if (empty($media)) {
-            // Show not found page
+            // Media not found
             return $this->notFoundAction();
         }
         
@@ -86,20 +86,23 @@ class IndexController extends AbstractActionController
         if ($request->isPost() === true) {
             // Bind entity class
             $commentForm->bind(new \Media\Entity\CommentEntity());
+            
             // Set form data
             $commentForm->setData($request->getPost());
             
             // Validate form
             if ($commentForm->isValid() === true) {
                 // Get posted data
-                $comment = $commentForm->get('comment')->getValue();
+                $data = $commentForm->getData();
+                
+                // Set entity data
+                $data->setMediaId($media->getId());
+                $data->setUserId(
+                    $this->zfcuserAuthentication()->getIdentity()->getId()
+                );
                 
                 // Insert comment
-                $this->getCommentMapper()->insertRow(
-                    $media->getId(),
-                    $this->zfcuserAuthentication()->getIdentity()->getId(),
-                    $comment
-                );
+                $this->getCommentMapper()->insertRow($data);
             }
             
             // Redirect to route
@@ -109,7 +112,7 @@ class IndexController extends AbstractActionController
         }
         
         // Get comments
-        $comments = $this->getCommentMapper()->selectByMedia($media->getId());
+        $comments = $this->getCommentMapper()->selectByMedia($media);
         
         // Return view
         return new ViewModel(array(
@@ -124,21 +127,21 @@ class IndexController extends AbstractActionController
      */
     public function uploadAction()
     {
-        // Check is user is logged in
+        // Check is user is not logged in
         if ($this->zfcUserAuthentication()->hasIdentity() === false) {
-            // Redirect user to the login page
+            // Redirect to route
             return $this->redirect()->toRoute('zfcuser/login');
         }
         
         // Get request
         $request = $this->getRequest();
         
-        // Get an instance of media form
+        // Get form
         $mediaForm = $this->getMediaForm();
         
         // Check if form is posted
         if ($request->isPost() === true) {
-            // Bind entity class
+            // Set entity class
             $mediaForm->bind(new \Media\Entity\MediaEntity());
             
             // Merge posted data and files
@@ -167,13 +170,13 @@ class IndexController extends AbstractActionController
                     );
                 }
                 else if (!empty($url)) {
-                    // Temporary file name
+                    // Temporary file
                     $temp = tempnam(sys_get_temp_dir(), '');
                     
-                    // Copy file from provided URL
+                    // Copy file from URL
                     copy($url, $temp);
 
-                    // Image size (ignore error)
+                    // Image size
                     $size = getimagesize($temp);
                     
                     $file = new UploadedFile(
