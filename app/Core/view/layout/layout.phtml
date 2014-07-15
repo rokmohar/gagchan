@@ -82,10 +82,13 @@
                             if (data.result === true) {
                                 // Parent parameters
                                 var $parent = $this.parent();
-
+                                
+                                // Change points
+                                $article.find('.meme-points > span').html(data.points);
+                                
                                 // Remove class from others
                                 $parent.find('a').removeClass('response-selected');
-
+                                
                                 // Add class
                                 $this.addClass('response-selected');
                             }

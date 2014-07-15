@@ -87,10 +87,14 @@ class VoteController extends AbstractActionController
 
         // Insert or update vote
         $this->getVoteMapper()->insertOrUpdate($data);
+        
+        // Count points
+        $points = $this->getVoteMapper()->countByMedia($media);
 
         // Return JSON
         return new JsonModel(array(
             'result' => true,
+            'points' => $points,
         ));
     }
     
