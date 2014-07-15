@@ -488,3 +488,18 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     float: none;
 }
+
+.like-box {
+    text-align: center;
+    margin: 10px;
+}
+
+.fb-like{
+    display: inline-block;    
+    float: left; 
+}
+
+.g-plusone {
+    display: inline-block;
+    float: right !important;
+}
