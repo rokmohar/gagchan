@@ -489,17 +489,23 @@ h1, h2, h3, h4, h5, h6 {
     float: none;
 }
 
-.like-box {
-    text-align: center;
-    margin: 10px;
+.like-box > .widget-title {
+    margin-bottom: 20px;  
 }
 
-.fb-like{
-    display: inline-block;    
-    float: left; 
+.like-table {
+    width: 100%;
 }
 
-.g-plusone {
-    display: inline-block;
-    float: right !important;
+.fb-like {
+    float: left;  
+}
+
+.plusone-like {
+   float: right;
+}
+
+.reference {
+    color: #777777;
+    margin: 5px;
 }
