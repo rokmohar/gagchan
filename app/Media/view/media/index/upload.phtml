@@ -10,34 +10,40 @@
             <h3 class="login-title">Upload from computer ...</h3>
 
             <!-- #Name -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-tag"></span>
-                </span>
-                <?php echo $this->formInput($mediaForm->get('name')) ?>
-            </div>
-            
-            <?php echo $this->formElementErrors($mediaForm->get('name')) ?>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-tag"></span>
+                    </span>
+                    <?php echo $this->formInput($mediaForm->get('name')) ?>
+                </div>
 
-            <!-- #File -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-file"></span>
-                </span>
-                <?php echo $this->formFile($mediaForm->get('file')) ?>
+                <?php echo $this->formElementErrors($mediaForm->get('name')) ?>
             </div>
             
-            <?php echo $this->formElementErrors($mediaForm->get('file')) ?>
+            <!-- #File -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-file"></span>
+                    </span>
+                    <?php echo $this->formFile($mediaForm->get('file')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($mediaForm->get('file')) ?>
+            </div>
             
             <!-- #Category -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-flag"></span>
-                </span> 
-                <?php echo $this->formSelect($mediaForm->get('category')) ?>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-flag"></span>
+                    </span> 
+                    <?php echo $this->formSelect($mediaForm->get('category')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($mediaForm->get('category')) ?>
             </div>
-            
-            <?php echo $this->formElementErrors($mediaForm->get('category')) ?>
             
             <div class="input-group">
                 <?php echo $this->formButton($mediaForm->get('submit')) ?>
@@ -56,34 +62,40 @@
             <h3 class="login-title">Or copy from URL ...</h3>
 
             <!-- #Name -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-tag"></span>
-                </span>
-                <?php echo $this->formInput($mediaForm->get('name')) ?>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-tag"></span>
+                    </span>
+                    <?php echo $this->formInput($mediaForm->get('name')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($mediaForm->get('name')) ?>
             </div>
-            
-            <?php echo $this->formElementErrors($mediaForm->get('name')) ?>
 
             <!-- #URL -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-file"></span>
-                </span>
-                <?php echo $this->formInput($mediaForm->get('url')) ?>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-file"></span>
+                    </span>
+                    <?php echo $this->formInput($mediaForm->get('url')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($mediaForm->get('url')) ?>
             </div>
-            
-            <?php echo $this->formElementErrors($mediaForm->get('url')) ?>
             
             <!-- #Category -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-flag"></span>
-                </span>
-                <?php echo $this->formSelect($mediaForm->get('category')) ?>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-flag"></span>
+                    </span>
+                    <?php echo $this->formSelect($mediaForm->get('category')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($mediaForm->get('category')) ?>
             </div>
-            
-            <?php echo $this->formElementErrors($mediaForm->get('category')) ?>
 
             <div class="input-group">
                 <?php echo $this->formButton($mediaForm->get('submit')) ?>

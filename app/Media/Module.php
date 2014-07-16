@@ -52,6 +52,7 @@ class Module implements
                 'media.mapper.comment'          => 'Media\Factory\Mapper\CommentMapperFactory',
                 'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',
                 'media.mapper.vote'             => 'Media\Factory\Mapper\VoteMapperFactory',
+                'media.options.module'          => 'Media\Factory\Options\ModuleOptionsFactory',
                 'media.service.media_manager'   => 'Media\Factory\Service\MediaManagerFactory',
                 'media.storage.storage_manager' => 'Media\Factory\Storage\StorageManagerFactory',
             ),

@@ -6,7 +6,6 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Media\Form\MediaForm;
-use Media\Hydrator\MediaHydrator;
 use Media\InputFilter\MediaFilter;
 
 /**
@@ -19,6 +18,13 @@ class MediaFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        // Module options
+        $options = $serviceLocator->get('media.options.module');
+        
+        // Hydrator
+        $hydratorClass = $options->getMediaHydrator();
+        $hydrator      = new $hydratorClass();
+        
         // Category mapper
         $categoryMapper = $serviceLocator->get('category.mapper.category');
         
@@ -26,7 +32,7 @@ class MediaFormFactory implements FactoryInterface
         $form = new MediaForm('media', $categoryMapper);
         
         // Set hydrator
-        $form->setHydrator(new MediaHydrator());
+        $form->setHydrator($hydrator);
         
         // Set input filter
         $form->setInputFilter(new MediaFilter());

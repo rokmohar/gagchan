@@ -17,16 +17,21 @@ class CategoryMapperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        // Module options
+        $options = $serviceLocator->get('category.options.module');
+        
         // Database adapter
         $dbAdapter = $serviceLocator->get('db.adapter');
         
-        // Entity class
-        $entityClass = new \Category\Entity\CategoryEntity();
+        // Entity
+        $entityClass = $options->getCategoryEntity();
+        $entity      = new $entityClass();
         
         // Hydrator
-        $hydrator = new \Category\Hydrator\CategoryHydrator();
+        $hydratorClass = $options->getCategoryHydrator();
+        $hydrator      = new $hydratorClass();
         
         // Return mapper
-        return new CategoryMapper($dbAdapter, 'category', $entityClass, $hydrator);
+        return new CategoryMapper($dbAdapter, 'category', $entity, $hydrator);
     }
 }

@@ -47,6 +47,7 @@ class Module implements
         return array(
             'factories' => array(
                 'category.mapper.category' => 'Category\Factory\Mapper\CategoryMapperFactory',
+                'category.options.module'  => 'Category\Factory\Options\ModuleOptionsFactory',
             ),
         );
     }

@@ -105,6 +105,12 @@ class IndexController extends AbstractActionController
                 $this->getCommentMapper()->insertRow($data);
             }
             
+            // Flash messenger
+            $fm = $this->flashMessenger()->setNamespace('media.form.comment');
+            
+            // Set messages
+            $fm->addMessage($commentForm->getMessages());
+            
             // Redirect to route
             return $this->redirect()->toRoute('gag', array(
                 'slug' => $media->getSlug(),
@@ -202,6 +208,15 @@ class IndexController extends AbstractActionController
                 // Redirect to route
                 return $this->redirect()->toRoute('home');
             }
+            
+            // Flash messenger
+            $fm = $this->flashMessenger()->setNamespace('media.form.media');
+            
+            // Set messages
+            $fm->addMessage($mediaForm->getMessages());
+            
+            // Redirect to route
+            return $this->redirect()->toRoute('upload');
         }
         
         // Prepare media form
@@ -218,12 +233,26 @@ class IndexController extends AbstractActionController
      */
     public function getCommentForm()
     {
-        // Check if service is loaded
         if ($this->commentForm === null) {
-            // Load from service locator
-            return $this->commentForm = $this->getServiceLocator()->get(
-                'media.form.comment'
-            );
+            // Get form
+            $commentForm = $this->getServiceLocator()->get('media.form.comment');
+            
+            // Flash messenger
+            $fm = $this->flashMessenger()->setNamespace('media.form.comment');
+
+            // Messages
+            $messages = array();
+
+            // Extract messages
+            foreach ($fm->getMessages() as $m) {
+                // Merge messages
+                $messages = array_merge($messages, $m);
+            }
+            
+            // Set erorr messages
+            $commentForm->setMessages($messages);
+            
+            return $this->commentForm = $commentForm;
         }
         
         return $this->commentForm;
@@ -252,10 +281,25 @@ class IndexController extends AbstractActionController
     {
         // Check if service is loaded
         if ($this->mediaForm === null) {
-            // Load from service locator
-            return $this->mediaForm = $this->getServiceLocator()->get(
-                'media.form.media'
-            );
+            // Get form
+            $mediaForm = $this->getServiceLocator()->get('media.form.media');
+            
+            // Flash messenger
+            $fm = $this->flashMessenger()->setNamespace('media.form.media');
+
+            // Messages
+            $messages = array();
+
+            // Extract messages
+            foreach ($fm->getMessages() as $m) {
+                // Merge messages
+                $messages = array_merge($messages, $m);
+            }
+            
+            // Set erorr messages
+            $mediaForm->setMessages($messages);
+            
+            return $this->mediaForm = $mediaForm;
         }
         
         return $this->mediaForm;

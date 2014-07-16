@@ -6,7 +6,6 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Media\Form\VoteForm;
-use Media\Hydrator\VoteHydrator;
 use Media\InputFilter\VoteFilter;
 
 /**
@@ -20,11 +19,18 @@ class VoteFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        // Module options
+        $options = $serviceLocator->get('media.options.module');
+        
+        // Hydrator
+        $hydratorClass = $options->getVoteHydrator();
+        $hydrator      = new $hydratorClass();
+        
         // Create form
         $form = new VoteForm('vote');
         
         // Set hydrator
-        $form->setHydrator(new VoteHydrator());
+        $form->setHydrator($hydrator);
         
         // Set input filter
         $form->setInputFilter(new VoteFilter());
