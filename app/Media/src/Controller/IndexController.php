@@ -5,7 +5,7 @@ namespace Media\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use Core\File\UploadedFile;
+use Core\File\UploadedImage;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>

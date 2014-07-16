@@ -5,7 +5,7 @@ namespace Media\Service;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 
-use Core\File\UploadedFile;
+use Core\File\UploadedImage;
 use Category\Entity\CategoryEntityInterface;
 use Media\Entity\MediaEntity;
 use Media\Mapper\MediaMapperInterface;
@@ -56,7 +56,7 @@ class MediaManager implements MediaManagerInterface
      * {@inheritDoc}
      */
     public function uploadImage(
-        UploadedFile $file,
+        UploadedImage $file,
         $name,
         UserEntityInterface $user,
         CategoryEntityInterface $category
@@ -91,7 +91,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * Upload file to the storage.
      * 
-     * @param \Core\File\UploadedFile                  $file
+     * @param \Core\File\UploadedImage                 $file
      * @param String                                   $name
      * @param \ZfcUser\Entity\UserInterface            $user
      * @param \Category\Entity\CategoryEntityInterface $category
@@ -99,13 +99,13 @@ class MediaManager implements MediaManagerInterface
      * @return \Media\Service\MediaManagerInterface
      */
     protected function uploadAnimation(
-        UploadedFile $file,
+        UploadedImage $file,
         $name,
         UserEntityInterface $user,
         CategoryEntityInterface $category
     ) {
         // Get thumbnail
-        $thumbnail = $this->copyFile($file);
+        $thumbnail = $this->copyImage($file);
         
         // Resize thumbnail
         $this->resizeImage($thumbnail);
@@ -140,32 +140,25 @@ class MediaManager implements MediaManagerInterface
     /**
      * Insert a row to data storage.
      * 
-     * @param \Core\File\UploadedFile                  $file
+     * @param \Core\File\UploadedImage                 $file
      * @param String                                   $slug
      * @param String                                   $name
      * @param \ZfcUser\Entity\UserInterface            $user
      * @param \Category\Entity\CategoryEntityInterface $category
-     * @param \Core\File\UploadedFile                  $thumbnail
+     * @param \Core\File\UploadedImage                 $thumbnail
      * 
      * @return \Media\Service\MediaManager
      */
     protected function insertData(
-        UploadedFile $file,
+        UploadedImage $file,
         $slug,
         $name,
         UserEntityInterface $user,
         CategoryEntityInterface $category,
-        UploadedFile $thumbnail = null
+        UploadedImage $thumbnail = null
     ) {
         // Media mapper
         $mediaMapper = $this->getMediaMapper();
-        
-        // Imagine
-        $imagine = $this->getImagine();
-        
-        // Open image
-        $image = $imagine->open($file->getPathname());
-        $size  = $image->getSize();
         
         // Create an entity
         $media = new MediaEntity();
@@ -198,8 +191,8 @@ class MediaManager implements MediaManagerInterface
         $media->setCategoryId($category->getId());
         
         // Set image data
-        $media->setWidth($size->getWidth());
-        $media->setHeight($size->getHeight());
+        $media->setWidth($file->getWidth());
+        $media->setHeight($file->getHeight());
         $media->setSize($file->getSize());
         $media->setContentType($file->getMimeType());
         
@@ -212,11 +205,11 @@ class MediaManager implements MediaManagerInterface
     /**
      * Copy a file.
      * 
-     * @param \Core\File\UploadedFile $file
+     * @param \Core\File\UploadedImage $file
      * 
-     * @return \Core\File\UploadedFile
+     * @return \Core\File\UploadedImage
      */
-    protected function copyFile(UploadedFile $file)
+    protected function copyImage(UploadedImage $file)
     {
         // Temporary file
         $temp = tempnam(sys_get_temp_dir(), '');
@@ -225,7 +218,7 @@ class MediaManager implements MediaManagerInterface
         copy($file, $temp);
 
         // Return uploaded file
-        return new \Core\File\UploadedFile(
+        return new \Core\File\UploadedImage(
             $temp,
             $file->getOriginalName(),
             $file->getMimeType(),
@@ -236,11 +229,11 @@ class MediaManager implements MediaManagerInterface
     /**
      * Resize an image.
      * 
-     * @param \Core\File\UploadedFile $file
+     * @param \Core\File\UploadedImage $file
      * 
      * @return \Media\Service\MediaManager
      */
-    protected function resizeImage(UploadedFile $file, $width = null, $height = null)
+    protected function resizeImage(UploadedImage $file, $width = null, $height = null)
     {
         // Get image
         $imagine = $this->getImagine();
@@ -279,9 +272,14 @@ class MediaManager implements MediaManagerInterface
             ))
         ;
         
+        // Get size
+        $newSize = $image->getSize();
+        
         $file
             ->setMimeType('image/jpeg')
             ->setSize(filesize($file->getPathname()))
+            ->setWidth($newSize->getWidth())
+            ->setheight($newSize->getHeight())
         ;
         
         return $this;
