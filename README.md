@@ -24,13 +24,17 @@ Few guidelines
 - Signed links for share -> CloudFront service (way faster!) -> CNAME record on host server for prettier URL!
 - Pagination, not scroll to infinity -> Easy ad distribution and less unique ads needed!
 
-Access details
+MySQL access
 ================================================================================
-MySQL user: root
-MySQL pass: ctEFw^01J?l#
+- MySQL user: root
+- MySQL pass: ctEFw^01J?l#
 
-MySQL ftpd user: proftpd
-MySQL ftpd pass: mSH?j6yzT#tN
+MySQL FTPD access
+================================================================================
+- MySQL FTPD user: proftpd
+- MySQL FTPD pass: mSH?j6yzT#tN
 
-FTP user: gagchan
-FTP pass: jGVYjrX#TYjz
+FTP access
+================================================================================
+- FTP user: gagchan
+- FTP pass: jGVYjrX#TYjz
