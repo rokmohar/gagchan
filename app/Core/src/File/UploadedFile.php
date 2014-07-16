@@ -5,6 +5,10 @@ namespace Core\File;
 use Core\File\MimeType\ExtensionGuesserInterface;
 use Core\File\MimeType\MimeTypeExtensionGuesser;
 
+/**
+ * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
+ */
 class UploadedFile extends \SplFileInfo
 {
     /**
@@ -28,25 +32,19 @@ class UploadedFile extends \SplFileInfo
     protected $size;
     
     /**
-     * @var String
-     */
-    protected $error;
-    
-    /**
      * @param String  $filename
      * @param String  $originalName
      * @param String  $mimeType
      * @param Integer $size
      * @param Integer $error
      */
-    public function __construct($filename, $originalName, $mimeType, $size, $error = null)
+    public function __construct($filename, $originalName, $mimeType, $size)
     {
         parent::__construct($filename);
         
         $this->originalName = $originalName;
         $this->mimeType     = $mimeType;
         $this->size         = $size;
-        $this->error        = $error;
     }
     
     /**
@@ -127,24 +125,6 @@ class UploadedFile extends \SplFileInfo
     public function setSize($size)
     {
         $this->size = $size;
-        
-        return $this;
-    }
-    
-    /**
-     * @return Integer
-     */
-    public function getError()
-    {
-        return $this->error;
-    }
-    
-    /**
-     * @param Integer $error
-     */
-    public function setError($error)
-    {
-        $this->error = $error;
         
         return $this;
     }

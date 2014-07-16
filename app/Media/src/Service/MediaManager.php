@@ -55,7 +55,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function uploadFile(
+    public function uploadImage(
         UploadedFile $file,
         $name,
         UserEntityInterface $user,
@@ -66,10 +66,10 @@ class MediaManager implements MediaManagerInterface
             // Upload animation
             return $this->uploadAnimation($file, $name, $user, $category);
         }
-
+        
         // Resize image
         $this->resizeImage($file);
-
+        
         // Get unique slug
         $slug = $this->getUniqueSlug();
         
@@ -81,7 +81,7 @@ class MediaManager implements MediaManagerInterface
         
         // Upload file to the storage
         $storage->putFile(
-            sprintf("photo/%s_460b.%s", $slug, $file->guessExtension()),
+            sprintf("photo/%s_460s.%s", $slug, $file->guessExtension()),
             $file
         );
         
@@ -124,13 +124,13 @@ class MediaManager implements MediaManagerInterface
 
         // Upload file to the storage
         $storage->putFile(
-            sprintf("photo/%s_460g.%s", $slug, $file->guessExtension()),
+            sprintf("photo/%s_460sa.%s", $slug, $file->guessExtension()),
             $file
         );
 
         // Upload thumbnail to the storage
         $storage->putFile(
-            sprintf("photo/%s_460b.%s", $slug, $thumbnail->guessExtension()),
+            sprintf("photo/%s_460s_v1.%s", $slug, $thumbnail->guessExtension()),
             $thumbnail
         );
 
@@ -178,18 +178,18 @@ class MediaManager implements MediaManagerInterface
         if (in_array($file->getMimeType(), $this->animationMimeType)) {
             // Set reference
             $media->setReference(
-                sprintf("/photo/%s_460g.%s", $slug, $file->guessExtension())
+                sprintf("/photo/%s_460sa.%s", $slug, $file->guessExtension())
             );
 
             // Set thumbnail
             $media->setThumbnail(
-                sprintf("/photo/%s_460b.%s", $slug, $thumbnail->guessExtension())
+                sprintf("/photo/%s_460s_v1.%s", $slug, $thumbnail->guessExtension())
             );
         }
         else {
             // Set reference
             $media->setReference(
-                sprintf("/photo/%s_460b.%s", $slug, $file->guessExtension())
+                sprintf("/photo/%s_460s.%s", $slug, $file->guessExtension())
             );
         }
         

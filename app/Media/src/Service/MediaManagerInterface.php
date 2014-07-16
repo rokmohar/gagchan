@@ -20,7 +20,7 @@ interface MediaManagerInterface
      * @param \ZfcUser\Entity\UserInterface            $user
      * @param \Category\Entity\CategoryEntityInterface $category
      */
-    public function uploadFile(
+    public function uploadImage(
         UploadedFile $file,
         $name,
         UserInterface $user,

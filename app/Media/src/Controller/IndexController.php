@@ -164,9 +164,20 @@ class IndexController extends AbstractActionController
                 $file = $mediaForm->get('file')->getValue();
                 $url  = $mediaForm->get('url')->getValue();
                 
+                // Get category
+                $category = $this->getCategoryMapper()->selectRowById(
+                    $data->getCategoryId()
+                );
+                
+                // Get user
+                $user = $this->zfcuserAuthentication()->getIdentity();
+                
+                // Media manager
+                $mediaManager = $this->getMediaManager();
+                
                 if (!empty($file)) {
-                    // Create uploaded file
-                    $file = new UploadedFile(
+                    // Create uploaded image
+                    $file = new UploadedImage(
                         $file['tmp_name'],
                         $file['name'],
                         $file['type'],
@@ -184,28 +195,24 @@ class IndexController extends AbstractActionController
                     // Image size
                     $size = getimagesize($temp);
                     
-                    $file = new UploadedFile(
+                    // Create uploaded image
+                    $file = new UploadedImage(
                         $temp,
                         basename($url),
                         image_type_to_mime_type($size[2]),
                         filesize($temp)
                     );
+                    
+                    // Set size
+                    $file->setWidth($size[0]);
+                    $file->setHeight($size[1]);
                 }
                 else {
                     throw new \Exception('File or external URL is required.');
                 }
                 
-                // Get category
-                $category = $this->getCategoryMapper()->selectRowById(
-                    $data->getCategoryId()
-                );
-                
-                // Get user
-                $user = $this->zfcuserAuthentication()->getIdentity();
-                
-                // Media manager
-                $mediaManager = $this->getMediaManager();
-                $mediaManager->uploadFile($file, $data->getName(), $user, $category);
+                // Upload image
+                $mediaManager->uploadImage($file, $data->getName(), $user, $category);
                 
                 // Redirect to route
                 return $this->redirect()->toRoute('home');
