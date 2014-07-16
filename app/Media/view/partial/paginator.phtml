@@ -1,5 +1,6 @@
 <?php if ($this->pageCount): ?>
-    <ul class="pagination">
+    <ul class="pagination clearfix">
+        
         <!-- Previous page link -->
         <?php if (isset($this->previous)): ?>
             <li>
@@ -9,9 +10,11 @@
             <li class="disabled">
                 <a href="#">&laquo;</a>
             </li>
-        <?php endif; ?>
+        <?php endif ?>
+            
         <!-- Numbered page links -->
         <?php foreach ($this->pagesInRange as $page): ?>
+        
             <?php if ($page != $this->current): ?>
                 <li>
                     <a href="<?php echo $this->url($this->route);?>?page=<?php echo $page; ?>">
@@ -22,8 +25,9 @@
                 <li class="active">
                     <a href="#"><?php echo $page; ?></a>
                 </li>
-            <?php endif; ?>
-        <?php endforeach; ?>
+            <?php endif ?>
+            
+        <?php endforeach ?>
 
         <!-- Next page link -->
         <?php if (isset($this->next)): ?>
@@ -34,6 +38,7 @@
             <li class="disabled">
                 <a href="#">&raquo;</a>
             </li>
-        <?php endif; ?>
+        <?php endif ?>
+            
     </ul>
-<?php endif; ?>
+<?php endif ?>

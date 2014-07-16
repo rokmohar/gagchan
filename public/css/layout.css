@@ -166,10 +166,8 @@ h1, h2, h3, h4, h5, h6 {
  * =============================================================================
  **/
 .category-name {
-    margin: 0;
-    margin-bottom: 20px;;
-    padding-top: 0;
-    padding-bottom: 20px;
+    margin: 0 0 20px;
+    padding: 0 0 20px;
     
     border-bottom: 1px solid #d8d8d8;
     
@@ -202,11 +200,16 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 20px;
 }
 
+.meme > .meme-title {
+    margin-bottom: 10px;
+    
+    font-size: 24px;
+    line-height: 28px;
+}
+
 .meme > .meme-title,
 .meme > .meme-title > a {
     color: #222222;
-    font-size: 24px;
-    line-height: 24px;
     font-family: 'Roboto Slab', serif;
 }
 
@@ -216,37 +219,34 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-.meme > .meme-img {
-    margin-top: 20px;
+.meme > .meme-points {
+    margin-bottom: 10px;
+    
+    color: #999999;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.meme > .meme-img,
+.meme > .meme-img > img {
     display: block;
+    float: none;
+}
+
+.meme > .meme-img {
+    margin-bottom: 20px;
 }
 
 .meme > .meme-img > img {
-    margin: 0;
-    padding: 0;
-    
     width: 100%;
-    display: block;
 }
 
-.meme > .meme-author {
-    margin-top: 20px;
-    float: right;
-    
-    color: #666666;
-    font-size: 12px;;
-    line-height: 34px;
-}
 .meme > .meme-action,
 .meme > .meme-action > li {
-    margin-bottom: 0;
+    margin-bottom: 20;
     padding-left: 0;
     
     display: block;
-}
-
-.meme > .meme-action {
-    margin-top: 20px;
 }
 
 .meme > .meme-action > li {
@@ -254,6 +254,13 @@ h1, h2, h3, h4, h5, h6 {
     float: left;
 }
 
+.meme > .meme-action > .meme-author {
+    float: right;
+    
+    color: #999999;
+    font-size: 12px;;
+    line-height: 34px;
+}
 
 .meme > .meme-action > li > .response-selected,
 .meme > .meme-action > li > .zeroclipboard-is-hover,
@@ -264,11 +271,6 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #adadad;
     color: #333333;
     z-index: 2;
-}
-
-.meme-points {
-    margin-top: 5px;
-    color: #777777;
 }
 
 /**
@@ -294,7 +296,7 @@ h1, h2, h3, h4, h5, h6 {
  * =============================================================================
  **/
 #sidebar > .meme-listing {
-    margin-bottom: 0;
+    margin-bottom: 20px;
 }
 
 #sidebar > .meme-listing > .meme {
@@ -302,19 +304,18 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 20px;
 }
 
-#sidebar > .meme-listing > .meme > .meme-img {
-    margin-top: 0;
+#sidebar > .meme-listing > .meme > .meme-img,
+#sidebar > .meme-listing > .meme > .meme-img > img {
+    margin: 0;
+    padding: 0;
 }
 
 #sidebar > .meme-listing > .meme > .meme-title {
     margin-top: 10px;
-}
-
-#sidebar > .meme-listing > .meme > .meme-title > a,
-#sidebar > .meme-listing > .meme > .meme-title > a:focus,
-#sidebar > .meme-listing > .meme > .meme-title > a:hover {
+    margin-bottom: 0;
+    
     font-size: 14px;
-    line-height: 14px;
+    line-height: 18px;
 }
 
 /**
@@ -489,23 +490,34 @@ h1, h2, h3, h4, h5, h6 {
     float: none;
 }
 
-.like-box > .widget-title {
-    margin-bottom: 20px;  
+.social-share,
+.social-share > li {
+    margin: 0;
+    padding: 0;
+    
+    display: block;
 }
 
-.like-table {
-    width: 100%;
+.social-share > li {
+    margin-right: 20px;
+    
+    float: left;
 }
 
-.fb-like {
-    float: left;  
+/**
+ * =============================================================================
+ * #Pagination Style
+ * =============================================================================
+ **/
+.pagination,
+.pagination > li {
+    margin: 0;
+    padding: 0;
+    
+    display: block;
 }
 
-.plusone-like {
-   float: right;
-}
-
-.reference {
-    color: #777777;
-    margin: 5px;
+.pagination {
+    margin-top: 28px;
+    margin-bottom: 20px;
 }

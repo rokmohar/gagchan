@@ -17,9 +17,6 @@
         <div class="meme-img">
             <img src="<?php echo $this->media()->url($media) ?>" alt="" class="img-responsive" />
         </div>
-        <div class="meme-author">
-            Posted by <strong><?php echo $this->user()->findById($media->getUserId())->getUsername() ?></strong>
-        </div>
         <ul class="meme-action clearfix">
             <?php
                 $vote = $this->media()->getVote($media);
@@ -72,6 +69,9 @@
                 <a data-clipboard-text="<?php echo $this->basePath() . $this->url('gag', array('slug' => $media->getSlug())) ?>"  class="btn btn-default zeroclipboard">
                     <span class="glyphicon glyphicon-link"></span>
                 </a>
+            </li>
+            <li class="meme-author">
+                Posted by <strong><?php echo $this->user()->findById($media->getUserId())->getUsername() ?></strong>
             </li>
         </ul>
     </article>
@@ -155,20 +155,16 @@
         
     </div>
 
-    <div class="like-box">
+    <div class="widget">
         <h3 class="widget-title">Share with your friends</h3>
-        <table class="like-table">
-        <tr> 
-            <td>
+        
+        <ul class="social-share clearfix">
+            <li>
                 <div class="fb-like" data-href="https://www.facebook.com/pages/GAGchan/905727472786344" data-width="100" data-layout="box_count" data-action="like" data-show-faces="false" data-share="false"></div>
-            </td>
-            <td class="reference">
-                Gagchan.com &#169; 2014
-            </td>
-            <td>
+            </li>
+            <li>
                 <div class="g-plusone" data-size="tall"></div>
-            </td>
-        </tr>
-        </table>
-    </div>  
+            </li>
+        </ul>
+    </div>
 </section>
