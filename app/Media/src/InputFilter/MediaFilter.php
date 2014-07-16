@@ -6,6 +6,7 @@ use Zend\InputFilter\InputFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class MediaFilter extends InputFilter
 {
@@ -35,12 +36,10 @@ class MediaFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'StringLength',
+                    'name'    => 'Zend\Validator\StringLength',
                     'options' => array(
                         'min' => 8,
                         'max' => 255,
-                        
-                        'break_chain_on_failure' => true,
                     ),
                 ),
             ),
@@ -68,9 +67,12 @@ class MediaFilter extends InputFilter
                 array(
                     'name'    => 'Zend\Validator\File\Extension',
                     'options' => array(
-                        'extension' => array('jpg', 'jpeg', 'png', 'gif'),
-                        
-                        'break_chain_on_failure' => true,
+                        'extension' => array(
+                            'gif',
+                            'jpg',
+                            'jpeg',
+                            'png'
+                        ),
                     ),
                 ),
                 array(
@@ -80,40 +82,27 @@ class MediaFilter extends InputFilter
                         'minHeight' => 160,
                         'maxWidth'  => 640,
                         'maxHeight' => 1280,
-                        
-                        'break_chain_on_failure' => true,
                     ),
                 ),
-                // Mime type error
-                /*array(
-                    'name' => 'Zend\Validator\File\IsImage',
-                    'options' => array(
-                        'break_chain_on_failure' => true,
-                    ),
-                ),*/
-                // Mime type error
-                /*array(
+                array(
                     'name'    => 'Zend\Validator\File\MimeType',
                     'options' => array(
-                        'mimeType'  => array('image/jpeg', 'image/jpg'),
-                        
-                        'break_chain_on_failure' => true,
+                        'mimeType' => array(
+                            'image/gif',
+                            'image/jpeg',
+                            'image/png',
+                        ),
                     ),
-                ),*/
+                ),
                 array(
                     'name'    => 'Zend\Validator\File\Size',
                     'options' => array(
-                        'min' => '5kB',
+                        'min' => '1kB',
                         'max' => '1MB',
-                        
-                        'break_chain_on_failure' => true,
                     ),
                 ),
                 array(
                     'name' => 'Zend\Validator\File\UploadFile',
-                    'options' => array(
-                        'break_chain_on_failure' => true,
-                    ),
                 ),
             ),
         ));
@@ -133,9 +122,54 @@ class MediaFilter extends InputFilter
             'required'   => false,
             'validators' => array(
                 array(
-                    'name' => 'Media\Validator\ImageValidator',
+                    'name'    => 'Media\Validator\ImageValidator',
                     'options' => array(
-                        'break_chain_on_failure' => true,
+                        'validators' => array(
+                            array(
+                                'name'    => 'Zend\Validator\File\Extension',
+                                'options' => array(
+                                    'extension' => array(
+                                        'gif',
+                                        'jpg',
+                                        'jpeg',
+                                        'png'
+                                    ),
+                                ),
+                            ),
+                            array(
+                                'name'    => 'Zend\Validator\File\ImageSize',
+                                'options' => array(
+                                    'minWidth'  => 160,
+                                    'minHeight' => 160,
+                                    'maxWidth'  => 640,
+                                    'maxHeight' => 1280,
+                                ),
+                            ),
+                            array(
+                                'name'    => 'Zend\Validator\File\MimeType',
+                                'options' => array(
+                                    'mimeType' => array(
+                                        'image/gif',
+                                        'image/jpeg',
+                                        'image/png',
+                                    ),
+                                ),
+                            ),
+                            array(
+                                'name'    => 'Zend\Validator\File\Size',
+                                'options' => array(
+                                    'min' => '1kB',
+                                    'max' => '1MB',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                array(
+                    'name' => 'Zend\Validator\Uri',
+                    'options' => array(
+                        'allow_relative' => false,
+                        'allow_absolute' => true,
                     ),
                 ),
             ),

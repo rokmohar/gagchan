@@ -1,9 +1,10 @@
 To do
 ================================================================================
 - Pagination (DONE)
-- Fix input filters for upload
-- Add input filters for external resource
+- Fix input filters for upload (DONE)
+- Add input filters for external resource (DONE)
 - Entity, hydrator and mapper for response (DONE)
+- Fix conditional required filter for upload/external
 - Ajax for response (DONE)
 - Featured side bar functionality (DONE)
 - Import error designs

@@ -2,6 +2,9 @@
 
 namespace Media\Validator;
 
+Use Guzzle\Http\Client;
+use Guzzle\Http\Exception\RequestException;
+
 use Zend\Validator\AbstractValidator;
 
 /**
@@ -10,82 +13,136 @@ use Zend\Validator\AbstractValidator;
  */
 class ImageValidator extends AbstractValidator
 {
-    /**
-     * Error constants
-     */
-    const ERROR_NOT_FILE  = 'notFile';
-    const ERROR_NOT_IMAGE = 'notImage';
+    /**#@+*/
+    const NOT_READABLE = 'fileNotReadable';
+    /**#@-*/
     
     /**
-     * Error messages
+     * @var Array
      */
     protected $messageTemplates = array(
-        self::ERROR_NOT_FILE  => 'Given resource is not a file',
-        self::ERROR_NOT_IMAGE => 'Given resource is not an image file',
+        self::NOT_READABLE => "File is not readable or does not exist",
     );
+    
+    /**
+     * @var \Guzzle\Http\Client
+     */
+    protected $guzzle;
+    
+    /**
+     * @var Array
+     */
+    protected $options = array();
+    
+    /**
+     * @param Array $options
+     */
+    public function __construct($options = array())
+    {
+        if (isset($options['validators'])) {
+            $this->validators = $options['validators'];
+            
+            unset($options['validators']);
+        }
+        
+        parent::__construct($options);
+    }
     
     /**
      * {@inheritDoc}
      */
     public function isValid($value)
     {
-        // Check if value is a file
-        if ($this->isFile($value) === false) {
-            // Set error message
-            $this->error(self::ERROR_NOT_FILE);
+        // Get file from URI
+        $filename = $this->getFile($value);
+        
+        if ($filename === null) {
+            // Add error
+            $this->error(self::NOT_READABLE);
             
-            // Invalid  resource
             return false;
         }
         
-        // Temporary file
-        $temp = tempnam(sys_get_temp_dir(), '');
-
-        // Copy file from provided URL
-        copy($value, $temp);
+        // Mime type info
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
         
-        // Get image typ if file is an image
-        $isImage = exif_imagetype($temp);
+        // Construct file data
+        $filedata = array(
+            'name'     => basename($value),
+            'tmp_name' => $filename,
+            'type'     => $finfo->file($filename),
+            'size'     => filesize($filename),
+            'error'    => 0,
+        );
         
-        // Delete file
-        unset($temp);
-        
-        // Check if file is an image
-        if ($isImage === false) {
-            // Set error message
-            $this->error(self::ERROR_NOT_IMAGE);
+        foreach ($this->validators as $v) {
+            // Check if name is provided
+            if (!isset($v['name'])) {
+                throw new \InvalidArgumentException(
+                    'Validator name must be provided.'
+                );
+            }
             
-            // Invalid  resource
-            return false;
+            $name    = $v['name'];
+            $options = isset($v['options']) ? $v['options'] : array();
+            
+            $validator = new $name($options);
+            
+            if (!$validator->isValid($filedata)) {
+                // Merge messages
+                $this->abstractOptions['messages'] = array_merge(
+                    $this->abstractOptions['messages'],
+                    $validator->getMessages()
+                );
+                
+                return false;
+            }
         }
         
-        // Valid resource
         return true;
     }
     
+    
     /**
-     * Check if resource is a file.
+     * Retrieve a file.
      * 
-     * @param String $filename
-     * 
-     * @return Boolean
+     * @return mixed
      */
-    protected function isFile($filename)
+    protected function getFile($uri)
     {
-        // Initialize cURL connection
-        $ch = curl_init($filename);
-        
-        // Execute cURL command
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_exec($ch);
-        
-        // Get HTTP code from cURL
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        try {
+            // Temporary file
+            $filename = tempnam(sys_get_temp_dir(), '');
 
-        // Close cURL connection
-        curl_close($ch);
+            // Guzzle
+            $guzzle = $this->getGuzzle();
+
+            $guzzle
+                ->get($uri)
+                ->setResponseBody($filename)
+                ->send()
+            ;
+            
+            return $filename;
+        }
+        catch (RequestException $e) {
+            // Ignore exception
+        }
         
-        // Check if file was retrieved
-        return ($code === 200);
+        return null;
+    }
+    
+    /**
+     * Get the guzzle.
+     * 
+     * @return \Guzzle\Http\Client
+     */
+    protected function getGuzzle()
+    {
+        if ($this->guzzle === null) {
+            return $this->guzzle = new Client();
+        }
+        
+        return $this->guzzle;
     }
 }

@@ -6,6 +6,7 @@ use Zend\InputFilter\InputFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class CommentFilter extends InputFilter
 {
