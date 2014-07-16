@@ -35,6 +35,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
                 'slug'         => $media->getSlug(),
                 'name'         => $media->getName(),
                 'reference'    => $media->getReference(),
+                'thumbnail'    => $media->getThumbnail(),
                 'user_id'      => $media->getUserId(),
                 'category_id'  => $media->getCategoryId(),
                 'width'        => $media->getWidth(),
@@ -74,7 +75,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     public function isUniqueSlug($slug)
     {
         // Check if no match exists
-        return (empty($this->selectOne(array('slug' => $slug))) === true);
+        return (empty($this->selectRow(array('slug' => $slug))) === true);
     }
     
     /**
@@ -242,6 +243,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
                 'slug'         => $media->getSlug(),
                 'name'         => $media->getName(),
                 'reference'    => $media->getReference(),
+                'thumbnail'    => $media->getThumbnail(),
                 'user_id'      => $media->getUserId(),
                 'category_id'  => $media->getCategoryId(),
                 'width'        => $media->getWidth(),

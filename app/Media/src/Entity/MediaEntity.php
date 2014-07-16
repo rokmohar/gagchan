@@ -28,6 +28,16 @@ class MediaEntity implements MediaEntityInterface
     protected $reference;
     
     /**
+     * @var String
+     */
+    protected $thumbnail;
+    
+    /**
+     * @var String
+     */
+    protected $featured;
+    
+    /**
      * @var Integer
      */
     protected $userId;
@@ -149,6 +159,24 @@ class MediaEntity implements MediaEntityInterface
     public function setReference($reference)
     {
         $this->reference = $reference;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+    
+    /**
+     * @param String $thumbnail
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
         
         return $this;
     }

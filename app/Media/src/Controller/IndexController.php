@@ -14,6 +14,11 @@ use Core\File\UploadedFile;
 class IndexController extends AbstractActionController
 {
     /**
+     * @var \Category\Mapper\CategoryMapperInterface
+     */
+    protected $categoryMapper;
+    
+    /**
      * @var \Media\Form\CommentForm
      */
     protected $commentForm;
@@ -103,18 +108,12 @@ class IndexController extends AbstractActionController
                 
                 // Insert comment
                 $this->getCommentMapper()->insertRow($data);
+                
+                // Redirect to route
+                return $this->redirect()->toRoute('gag', array(
+                    'slug' => $media->getSlug(),
+                ));
             }
-            
-            // Flash messenger
-            $fm = $this->flashMessenger()->setNamespace('media.form.comment');
-            
-            // Set messages
-            $fm->addMessage($commentForm->getMessages());
-            
-            // Redirect to route
-            return $this->redirect()->toRoute('gag', array(
-                'slug' => $media->getSlug(),
-            ));
         }
         
         // Get comments
@@ -189,34 +188,28 @@ class IndexController extends AbstractActionController
                         $temp,
                         basename($url),
                         image_type_to_mime_type($size[2]),
-                        filesize($temp),
-                        $size[0],
-                        $size[1]
+                        filesize($temp)
                     );
                 }
                 else {
                     throw new \Exception('File or external URL is required.');
                 }
                 
-                // Get user identifier
-                $userId = $this->zfcuserAuthentication()->getIdentity()->getId();
+                // Get category
+                $category = $this->getCategoryMapper()->selectRowById(
+                    $data->getCategoryId()
+                );
+                
+                // Get user
+                $user = $this->zfcuserAuthentication()->getIdentity();
                 
                 // Media manager
                 $mediaManager = $this->getMediaManager();
-                $mediaManager->uploadFile($file, $data->getName(), $userId, $data->getCategoryId());
+                $mediaManager->uploadFile($file, $data->getName(), $user, $category);
                 
                 // Redirect to route
                 return $this->redirect()->toRoute('home');
             }
-            
-            // Flash messenger
-            $fm = $this->flashMessenger()->setNamespace('media.form.media');
-            
-            // Set messages
-            $fm->addMessage($mediaForm->getMessages());
-            
-            // Redirect to route
-            return $this->redirect()->toRoute('upload');
         }
         
         // Prepare media form
@@ -229,30 +222,28 @@ class IndexController extends AbstractActionController
     }
     
     /**
+     * @return \Category\Service\CategoryManagerInterface
+     */
+    public function getCategoryMapper()
+    {
+        if ($this->categoryMapper === null) {
+            return $this->categoryMapper = $this->getServiceLocator()->get(
+                'category.mapper.category'
+            );
+        }
+        
+        return $this->categoryMapper;
+    }
+    
+    /**
      * @return \Media\Form\CommentForm
      */
     public function getCommentForm()
     {
         if ($this->commentForm === null) {
-            // Get form
-            $commentForm = $this->getServiceLocator()->get('media.form.comment');
-            
-            // Flash messenger
-            $fm = $this->flashMessenger()->setNamespace('media.form.comment');
-
-            // Messages
-            $messages = array();
-
-            // Extract messages
-            foreach ($fm->getMessages() as $m) {
-                // Merge messages
-                $messages = array_merge($messages, $m);
-            }
-            
-            // Set erorr messages
-            $commentForm->setMessages($messages);
-            
-            return $this->commentForm = $commentForm;
+            return $this->commentForm = $this->getServiceLocator()->get(
+                'media.form.comment'
+            );
         }
         
         return $this->commentForm;
@@ -263,9 +254,7 @@ class IndexController extends AbstractActionController
      */
     public function getCommentMapper()
     {
-        // Check if service is loaded
         if ($this->commentMapper === null) {
-            // Load from service locator
             return $this->commentMapper = $this->getServiceLocator()->get(
                 'media.mapper.comment'
             );
@@ -279,27 +268,10 @@ class IndexController extends AbstractActionController
      */
     public function getMediaForm()
     {
-        // Check if service is loaded
         if ($this->mediaForm === null) {
-            // Get form
-            $mediaForm = $this->getServiceLocator()->get('media.form.media');
-            
-            // Flash messenger
-            $fm = $this->flashMessenger()->setNamespace('media.form.media');
-
-            // Messages
-            $messages = array();
-
-            // Extract messages
-            foreach ($fm->getMessages() as $m) {
-                // Merge messages
-                $messages = array_merge($messages, $m);
-            }
-            
-            // Set erorr messages
-            $mediaForm->setMessages($messages);
-            
-            return $this->mediaForm = $mediaForm;
+            return $this->mediaForm = $this->getServiceLocator()->get(
+                'media.form.media'
+            );
         }
         
         return $this->mediaForm;
@@ -310,9 +282,7 @@ class IndexController extends AbstractActionController
      */
     public function getMediaManager()
     {
-        // Check if service is loaded
         if ($this->mediaManager === null) {
-            // Load from service locator
             return $this->mediaManager = $this->getServiceLocator()->get(
                 'media.service.media_manager'
             );
@@ -326,9 +296,7 @@ class IndexController extends AbstractActionController
      */
     public function getMediaMapper()
     {
-        // Check if service is loaded
         if ($this->mediaMapper === null) {
-            // Load from service locator
             return $this->mediaMapper = $this->getServiceLocator()->get(
                 'media.mapper.media'
             );

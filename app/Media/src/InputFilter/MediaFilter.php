@@ -68,7 +68,7 @@ class MediaFilter extends InputFilter
                 array(
                     'name'    => 'Zend\Validator\File\Extension',
                     'options' => array(
-                        'extension' => array('jpg', 'png'),
+                        'extension' => array('jpg', 'jpeg', 'png', 'gif'),
                         
                         'break_chain_on_failure' => true,
                     ),
@@ -79,7 +79,7 @@ class MediaFilter extends InputFilter
                         'minWidth'  => 160,
                         'minHeight' => 160,
                         'maxWidth'  => 640,
-                        'maxHeight' => 640,
+                        'maxHeight' => 1280,
                         
                         'break_chain_on_failure' => true,
                     ),
@@ -103,8 +103,8 @@ class MediaFilter extends InputFilter
                 array(
                     'name'    => 'Zend\Validator\File\Size',
                     'options' => array(
-                        'min' => '10kB',
-                        'max' => '500kB',
+                        'min' => '5kB',
+                        'max' => '1MB',
                         
                         'break_chain_on_failure' => true,
                     ),

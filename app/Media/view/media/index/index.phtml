@@ -16,7 +16,7 @@
                 Points: <span><?php echo $this->media()->getPoints($m) ?></span> &#8226; Comments: <?php echo $this->media()->getComments($m) ?>
             </div>
             <a href="<?php echo $this->url('gag', array('slug' => $m->getSlug())) ?>" class="meme-img">
-                <img src="<?php echo $this->media()->url($m) ?>" alt="" class="img-responsive" />
+                <img src="<?php echo $this->media()->url($m, true) ?>" alt="" class="img-responsive" />
             </a>
             <ul class="meme-action clearfix">
                 <?php
@@ -97,7 +97,7 @@
         
         <article class="meme">
             <a href="<?php echo $this->url('gag', array('slug' => $f->getSlug())) ?>" class="meme-img">
-                <img src="<?php echo $this->media()->url($f) ?>" alt="" class="img-responsive" />
+                <img src="<?php echo $this->media()->url($f, true) ?>" alt="" class="img-responsive" />
             </a>
             <div class="meme-title">
                 <a href="<?php echo $this->url('gag', array('slug' => $f->getSlug())) ?>">

@@ -39,7 +39,7 @@ class UploadedFile extends \SplFileInfo
      * @param Integer $size
      * @param Integer $error
      */
-    public function __construct($filename, $originalName, $mimeType, $size, $error)
+    public function __construct($filename, $originalName, $mimeType, $size, $error = null)
     {
         parent::__construct($filename);
         

@@ -37,7 +37,7 @@ class AmazonStorage implements StorageInterface
         $client = $this->getAws()->get('s3');
         
         return $client->getObject(array(
-            'Bucket' => 'gagchan/photo',
+            'Bucket' => 'gagchan',
             'Key'    => $key,
         ));
     }
@@ -50,8 +50,8 @@ class AmazonStorage implements StorageInterface
         $client = $this->getAws()->get('s3');
         
         return $client->putObject(array(
-            'Bucket'      => 'gagchan/photo',
-            'Key'         => sprintf("%s_460b.%s", $key, $file->guessExtension()),
+            'Bucket'      => 'gagchan',
+            'Key'         => $key,
             'Body'        => fopen($file->getPathname(), 'r'),
             'ContentType' => $file->getMimeType(),
             'ACL'         => 'public-read',

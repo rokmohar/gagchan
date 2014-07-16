@@ -4,6 +4,7 @@ namespace Media\Entity;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 interface MediaEntityInterface
 {
@@ -26,6 +27,11 @@ interface MediaEntityInterface
      * {@inheritDoc}
      */
     public function getReference();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getThumbnail();
     
     /**
      * {@inheritDoc}

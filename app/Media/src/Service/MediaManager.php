@@ -19,6 +19,13 @@ use ZfcUser\Entity\UserInterface as UserEntityInterface;
 class MediaManager implements MediaManagerInterface
 {
     /**
+     * @var Array
+     */
+    protected $animationMimeType = array(
+        'image/gif',
+    );
+    
+    /**
      * @var \Imagine\Gd\Imagine
      */
     protected $imagine;
@@ -54,21 +61,79 @@ class MediaManager implements MediaManagerInterface
         UserEntityInterface $user,
         CategoryEntityInterface $category
     ) {
+        // Check if image is animation
+        if (in_array($file->getMimeType(), $this->animationMimeType)) {
+            // Upload animation
+            return $this->uploadAnimation($file, $name, $user, $category);
+        }
+
         // Resize image
         $this->resizeImage($file);
-        
+
         // Get unique slug
         $slug = $this->getUniqueSlug();
         
         // Insert image data into DB
-        $this->insertData($file, $slug, $name,  $user, $category);
+        $this->insertData($file, $slug, $name, $user, $category);
         
         // Storage
         $storage = $this->getStorageManager()->getStorage('amazon');
         
         // Upload file to the storage
-        $storage->putFile($slug, $file);
+        $storage->putFile(
+            sprintf("photo/%s_460b.%s", $slug, $file->guessExtension()),
+            $file
+        );
         
+        return $this;
+    }
+    
+    /**
+     * Upload file to the storage.
+     * 
+     * @param \Core\File\UploadedFile                  $file
+     * @param String                                   $name
+     * @param \ZfcUser\Entity\UserInterface            $user
+     * @param \Category\Entity\CategoryEntityInterface $category
+     * 
+     * @return \Media\Service\MediaManagerInterface
+     */
+    protected function uploadAnimation(
+        UploadedFile $file,
+        $name,
+        UserEntityInterface $user,
+        CategoryEntityInterface $category
+    ) {
+        // Get thumbnail
+        $thumbnail = $this->copyFile($file);
+        
+        // Resize thumbnail
+        $this->resizeImage($thumbnail);
+
+        // Get unique slug
+        $slug = $this->getUniqueSlug();
+
+        // Insert image data into DB
+        $this->insertData($file, $slug, $name, $user, $category, $thumbnail);
+
+        // Storage
+        $storage = $this->getStorageManager()->getStorage('amazon');
+
+        // Resize thumbnail
+        $this->resizeImage($thumbnail);
+
+        // Upload file to the storage
+        $storage->putFile(
+            sprintf("photo/%s_460g.%s", $slug, $file->guessExtension()),
+            $file
+        );
+
+        // Upload thumbnail to the storage
+        $storage->putFile(
+            sprintf("photo/%s_460b.%s", $slug, $thumbnail->guessExtension()),
+            $thumbnail
+        );
+
         return $this;
     }
     
@@ -80,11 +145,18 @@ class MediaManager implements MediaManagerInterface
      * @param String                                   $name
      * @param \ZfcUser\Entity\UserInterface            $user
      * @param \Category\Entity\CategoryEntityInterface $category
+     * @param \Core\File\UploadedFile                  $thumbnail
      * 
      * @return \Media\Service\MediaManager
      */
-    protected function insertData(UploadedFile $file, $slug, $name, UserEntityInterface $user, CategoryEntityInterface $category)
-    {
+    protected function insertData(
+        UploadedFile $file,
+        $slug,
+        $name,
+        UserEntityInterface $user,
+        CategoryEntityInterface $category,
+        UploadedFile $thumbnail = null
+    ) {
         // Media mapper
         $mediaMapper = $this->getMediaMapper();
         
@@ -102,10 +174,24 @@ class MediaManager implements MediaManagerInterface
         $media->setSlug($slug);
         $media->setName($name);
         
-        // Set reference
-        $media->setReference(
-            sprintf("/photo/%s_460b.%s", $slug, $file->guessExtension())
-        );
+        // Check if image is animation
+        if (in_array($file->getMimeType(), $this->animationMimeType)) {
+            // Set reference
+            $media->setReference(
+                sprintf("/photo/%s_460g.%s", $slug, $file->guessExtension())
+            );
+
+            // Set thumbnail
+            $media->setThumbnail(
+                sprintf("/photo/%s_460b.%s", $slug, $thumbnail->guessExtension())
+            );
+        }
+        else {
+            // Set reference
+            $media->setReference(
+                sprintf("/photo/%s_460b.%s", $slug, $file->guessExtension())
+            );
+        }
         
         // Set identifier
         $media->setUserId($user->getId());
@@ -124,13 +210,37 @@ class MediaManager implements MediaManagerInterface
     }
     
     /**
+     * Copy a file.
+     * 
+     * @param \Core\File\UploadedFile $file
+     * 
+     * @return \Core\File\UploadedFile
+     */
+    protected function copyFile(UploadedFile $file)
+    {
+        // Temporary file
+        $temp = tempnam(sys_get_temp_dir(), '');
+
+        // Copy file contents
+        copy($file, $temp);
+
+        // Return uploaded file
+        return new \Core\File\UploadedFile(
+            $temp,
+            $file->getOriginalName(),
+            $file->getMimeType(),
+            $file->getSize()
+        );
+    }
+    
+    /**
      * Resize an image.
      * 
      * @param \Core\File\UploadedFile $file
      * 
      * @return \Media\Service\MediaManager
      */
-    protected function resizeImage(UploadedFile $file)
+    protected function resizeImage(UploadedFile $file, $width = null, $height = null)
     {
         // Get image
         $imagine = $this->getImagine();
@@ -141,15 +251,25 @@ class MediaManager implements MediaManagerInterface
         // Get image sizes
         $size = $image->getSize();
         
-        // Check if width is alredy 460px
-        if ($size->getWidth() === 460) {
-            // Skip resizing
-            return $this;
+        // Check if width is not given
+        if (!is_integer($width) && is_integer($height)) {
+            // Set new width
+            $width = $size->getWidth() * $height / $size->getHeight();
+        }
+        else if (!is_integer($width)) {
+            // Set to default width
+            $width = 460;
         }
         
-        // Calculate new width and height
-        $width  = 460;
-        $height = $width * $size->getHeight() / $size->getWidth();
+        // Check if height is not given
+        if (!is_integer($height) && is_integer($width)) {
+            // Calculate height
+            $height = $size->getHeight() * $width / $size->getWidth();
+        }
+        else if (!is_integer($height)) {
+            // Set default height
+            $height = 460;
+        }
         
         // Resize image
         $image
@@ -222,7 +342,7 @@ class MediaManager implements MediaManagerInterface
     }
     
     /**
-     * @return \Media\Mapper\MediaMapperInterface
+     * {@inheritDoc}
      */
     public function getMediaMapper()
     {
@@ -230,7 +350,7 @@ class MediaManager implements MediaManagerInterface
     }
     
     /**
-     * @return \Media\Storage\StorageMapperInterface
+     * {@inheritDoc}
      */
     public function getStorageManager()
     {
