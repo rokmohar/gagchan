@@ -2,6 +2,7 @@
 
 namespace User\Entity;
 
+use Core\Utils\Transliterator;
 use ZfcUser\Entity\UserInterface;
 
 /**
@@ -24,7 +25,6 @@ class User implements UserInterface
      * @var String
      */
     protected $email;
-
 
     /**
      * @var String
@@ -123,11 +123,17 @@ class User implements UserInterface
     public function setDisplayName($displayName)
     {
         if ($this->username === null) {
+            // Transliterate string
+            $username = Transliterator::transliterate($displayName);
+            
             // Replace non-alphanum characters
-            $username = preg_replace('/[^a-z\d\s\.]/', '', strtolower($displayName));
+            $username = preg_replace('/[^a-zA-Z\d\s]/', '', strtolower($username));
 
-            // Replace whitespaces with dots
-            $this->username = preg_replace('/[\s]/', '.', trim($username));
+            // Replace whitespaces
+            $username = preg_replace('/[\s]+/', '.', trim($username));
+            
+            // Set username
+            $this->username = $username;
         }
         
         return $this;
