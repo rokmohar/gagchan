@@ -19,7 +19,7 @@ Modules
 - OAuth: https://github.com/SocalNick/ScnSocialAuth
 - ACL: https://github.com/bjyoungblood/BjyAuthorize
 
-Few guidelines
+Guidelines
 ================================================================================
 - Signed links for share -> CloudFront service (way faster!) -> CNAME record on host server for prettier URL!
 - Pagination, not scroll to infinity -> Easy ad distribution and less unique ads needed!
