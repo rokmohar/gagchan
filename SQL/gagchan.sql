@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 14. jul 2014 ob 22.41
+-- Čas nastanka: 17. jul 2014 ob 15.40
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `category` (
 `id` int(11) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
@@ -60,7 +60,8 @@ CREATE TABLE IF NOT EXISTS `media` (
 `id` int(11) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `reference` varchar(255) DEFAULT NULL,
+  `reference` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `width` int(11) DEFAULT NULL,
@@ -68,19 +69,16 @@ CREATE TABLE IF NOT EXISTS `media` (
   `size` int(11) DEFAULT NULL,
   `content_type` varchar(64) DEFAULT NULL,
   `is_featured` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
 
 --
 -- Odloži podatke za tabelo `media`
 --
 
-INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `is_featured`, `created_at`, `updated_at`) VALUES
-(5, 'r97o0hqs', 'This is just a meme', '/photo/r97o0hqs_460b.jpg', 1, 1, 460, 397, 82304, 'image/jpeg', 0, '2014-07-10 23:52:07', '2014-07-10 23:52:07'),
-(9, 'w7d38bwp', 'My another meme', '/photo/w7d38bwp_460b.jpg', 1, 9, 460, 328, 61168, 'image/jpeg', 1, '2014-07-11 18:13:25', '2014-07-11 18:13:25'),
-(10, 'yr1j6x7l', 'Meme loaded from URL address', '/photo/yr1j6x7l_460b.jpg', 1, 2, 460, 460, 46984, 'image/jpeg', 0, '2014-07-11 18:16:38', '2014-07-11 18:16:38'),
-(11, 'w2l0n54l', 'Gave me the keys, a note with the address and said "enjoy!"', '/photo/w2l0n54l_460b.jpg', 2, 2, 460, 460, 74335, 'image/jpeg', 1, '2014-07-12 20:56:17', '2014-07-12 20:56:17');
+INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `thumbnail`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `is_featured`, `created_at`, `updated_at`) VALUES
+(25, 'kl7b8xyt', 'Hell yeah, I&#039;m on diet', '/photo/kl7b8xyt_460s.jpg', NULL, 1, 5, 460, 595, 46601, 'image/jpeg', 0, '2014-07-17 15:29:35', '2014-07-17 15:29:35');
 
 -- --------------------------------------------------------
 
@@ -93,22 +91,9 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
   `media_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `comment` text NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
-
---
--- Odloži podatke za tabelo `media_comment`
---
-
-INSERT INTO `media_comment` (`id`, `media_id`, `user_id`, `comment`, `created_at`, `updated_at`) VALUES
-(1, 5, 1, 'This is my first comment', '2014-07-11 14:58:44', '2014-07-11 14:58:44'),
-(2, 5, 1, 'Test comment', '2014-07-11 15:43:09', '2014-07-11 15:43:09'),
-(5, 5, 1, 'Another comment', '2014-07-11 15:44:57', '2014-07-11 15:44:57'),
-(6, 10, 1, 'my first comment for this cute meme', '2014-07-11 18:17:05', '2014-07-11 18:17:05'),
-(7, 10, 1, 'hahha you are an idiot !', '2014-07-11 18:17:18', '2014-07-11 18:17:18'),
-(8, 9, 1, 'fuck you a**hole !', '2014-07-11 18:17:34', '2014-07-11 18:17:34'),
-(9, 9, 1, 'f* too !', '2014-07-11 18:17:42', '2014-07-11 18:17:42');
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 -- --------------------------------------------------------
 
@@ -121,19 +106,9 @@ CREATE TABLE IF NOT EXISTS `media_vote` (
   `media_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `type` set('up','down') NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
---
--- Odloži podatke za tabelo `media_vote`
---
-
-INSERT INTO `media_vote` (`id`, `media_id`, `user_id`, `type`, `created_at`, `updated_at`) VALUES
-(4, 5, 9, 'down', '2014-07-14 15:11:23', '2014-07-14 15:11:23'),
-(5, 10, 9, 'down', '2014-07-14 15:44:40', '2014-07-14 15:44:40'),
-(6, 9, 9, 'up', '2014-07-14 15:44:51', '2014-07-14 15:44:51'),
-(7, 11, 9, 'up', '2014-07-14 15:44:55', '2014-07-14 15:44:55');
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -148,9 +123,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(128) DEFAULT NULL,
   `state` int(11) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Odloži podatke za tabelo `user`
@@ -159,7 +134,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
 (1, 'rokm92', 'rokm92', 'no.powersupply@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', NULL, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
 (2, 'roky994', 'roky994', 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', NULL, '2014-07-07 23:29:26', '2014-07-07 23:29:26'),
-(9, 'rok.mohar', 'rok.mohar', 'rok.mohar@gmail.com', NULL, NULL, '2014-07-13 13:16:10', '2014-07-13 13:16:10');
+(9, 'rok.mohar', 'rok.mohar', 'rok.mohar@gmail.com', NULL, NULL, '2014-07-13 13:16:10', '2014-07-13 13:16:10'),
+(10, 'test', 'test', 'test@example.org', '$2y$14$hM3BsL05EADJQSEZOCzmXeP84CYg/c2DcAP2LzkPALYmHx8.rgjMu', NULL, '2014-07-17 12:56:46', '2014-07-17 12:56:46');
 
 -- --------------------------------------------------------
 
@@ -234,22 +210,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT tabele `media`
 --
 ALTER TABLE `media`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT tabele `media_comment`
 --
 ALTER TABLE `media_comment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT tabele `media_vote`
 --
 ALTER TABLE `media_vote`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT tabele `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- Omejitve tabel za povzetek stanja
 --
