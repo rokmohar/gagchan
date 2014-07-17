@@ -25,7 +25,8 @@ class MediaHelper extends AbstractHelper
     /**
      * @var String
      */
-    protected $bucketUrl = 'http://cdn.gagchan.com';
+    //protected $bucketUrl = 'http://cdn.gagchan.com';
+    protected $bucketUrl = 'http://gagchan.dev.s3-eu-west-1.amazonaws.com/';
     
     /**
      * @var \Media\Mapper\CommentMapperInterface
