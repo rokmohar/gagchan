@@ -124,7 +124,7 @@ class MediaManager implements MediaManagerInterface
 
         // Upload file to the storage
         $storage->putFile(
-            sprintf("photo/%s_460sa.%s", $slug, $file->guessExtension()),
+            sprintf("photo/%s_460sa_v1.%s", $slug, $file->guessExtension()),
             $file
         );
 
@@ -171,7 +171,7 @@ class MediaManager implements MediaManagerInterface
         if (in_array($file->getMimeType(), $this->animationMimeType)) {
             // Set reference
             $media->setReference(
-                sprintf("/photo/%s_460sa.%s", $slug, $file->guessExtension())
+                sprintf("/photo/%s_460sa_v1.%s", $slug, $file->guessExtension())
             );
 
             // Set thumbnail
