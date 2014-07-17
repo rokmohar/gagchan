@@ -150,13 +150,24 @@ class IndexController extends AbstractActionController
         $externalForm = $this->getExternalMediaForm();
         $uploadForm   = $this->getUploadMediaForm();
         
+        
+        
         // Check if form is posted
         if ($request->isPost() === true) {
             // Set entity class
             $externalForm->bind(new \Media\Entity\MediaEntity());
             
             // Set posted data
-            $externalForm->setData($request->getPost()->toArray());
+            $externalForm->setData($request->getPost());
+            
+            // Set entity class
+            $uploadForm->bind(new \Media\Entity\MediaEntity());
+            
+            // Merge posted data and files
+            $uploadForm->setData(array_merge(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            ));
             
             // Validate form
             if ($externalForm->isValid() === true) {
@@ -204,18 +215,7 @@ class IndexController extends AbstractActionController
                 // Redirect to route
                 return $this->redirect()->toRoute('home');
             }
-            
-            // Set entity class
-            $uploadForm->bind(new \Media\Entity\MediaEntity());
-            
-            // Set posted data
-            $uploadForm->setData(array_merge(
-                $request->getPost()->toArray(),
-                $request->getFiles()->toArray()
-            ));
-            
-            // Validate form
-            if ($uploadForm->isValid() === true) {
+            else if ($uploadForm->isValid() === true) {
                 // Get posted data
                 $data = $uploadForm->getData();
                 
@@ -238,8 +238,7 @@ class IndexController extends AbstractActionController
                     $filedata['tmp_name'],
                     $filedata['name'],
                     $filedata['type'],
-                    $filedata['size'],
-                    $filedata['error']
+                    $filedata['size']
                 );
                 
                 // Upload image
