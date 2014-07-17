@@ -29,9 +29,14 @@ class IndexController extends AbstractActionController
     protected $commentMapper;
     
     /**
-     * @var \Media\Form\MediaForm
+     * @var \Media\Form\ExternalMediaForm
      */
-    protected $mediaForm;
+    protected $externalMediaForm;
+    
+    /**
+     * @var \Media\Form\UploadMediaForm
+     */
+    protected $uploadMediaForm;
     
     /**
      * @var \Media\Service\MediaManagerInterface
@@ -142,27 +147,24 @@ class IndexController extends AbstractActionController
         $request = $this->getRequest();
         
         // Get form
-        $mediaForm = $this->getMediaForm();
+        $externalForm = $this->getExternalMediaForm();
+        $uploadForm   = $this->getUploadMediaForm();
         
         // Check if form is posted
         if ($request->isPost() === true) {
             // Set entity class
-            $mediaForm->bind(new \Media\Entity\MediaEntity());
+            $externalForm->bind(new \Media\Entity\MediaEntity());
             
-            // Merge posted data and files
-            $mediaForm->setData(array_merge(
-                $request->getPost()->toArray(),
-                $request->getFiles()->toArray()
-            ));
+            // Set posted data
+            $externalForm->setData($request->getPost()->toArray());
             
             // Validate form
-            if ($mediaForm->isValid() === true) {
+            if ($externalForm->isValid() === true) {
                 // Get posted data
-                $data = $mediaForm->getData();
+                $data = $externalForm->getData();
                 
                 // Get posted data
-                $file = $mediaForm->get('file')->getValue();
-                $url  = $mediaForm->get('url')->getValue();
+                $url = $externalForm->get('url')->getValue();
                 
                 // Get category
                 $category = $this->getCategoryMapper()->selectRowById(
@@ -175,41 +177,70 @@ class IndexController extends AbstractActionController
                 // Media manager
                 $mediaManager = $this->getMediaManager();
                 
-                if (!empty($file)) {
-                    // Create uploaded image
-                    $file = new UploadedImage(
-                        $file['tmp_name'],
-                        $file['name'],
-                        $file['type'],
-                        $file['size'],
-                        $file['error']
-                    );
-                }
-                else if (!empty($url)) {
-                    // Temporary file
-                    $temp = tempnam(sys_get_temp_dir(), '');
-                    
-                    // Copy file from URL
-                    copy($url, $temp);
+                // Temporary file
+                $temp = tempnam(sys_get_temp_dir(), '');
 
-                    // Image size
-                    $size = getimagesize($temp);
-                    
-                    // Create uploaded image
-                    $file = new UploadedImage(
-                        $temp,
-                        basename($url),
-                        image_type_to_mime_type($size[2]),
-                        filesize($temp)
-                    );
-                    
-                    // Set size
-                    $file->setWidth($size[0]);
-                    $file->setHeight($size[1]);
-                }
-                else {
-                    throw new \Exception('File or external URL is required.');
-                }
+                // Copy file from URL
+                copy($url, $temp);
+
+                // Image size
+                $size = getimagesize($temp);
+
+                // Create uploaded image
+                $file = new UploadedImage(
+                    $temp,
+                    basename($url),
+                    image_type_to_mime_type($size[2]),
+                    filesize($temp)
+                );
+
+                // Set size
+                $file->setWidth($size[0]);
+                $file->setHeight($size[1]);
+                
+                // Upload image
+                $mediaManager->uploadImage($file, $data->getName(), $user, $category);
+                
+                // Redirect to route
+                return $this->redirect()->toRoute('home');
+            }
+            
+            // Set entity class
+            $uploadForm->bind(new \Media\Entity\MediaEntity());
+            
+            // Set posted data
+            $uploadForm->setData(array_merge(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            ));
+            
+            // Validate form
+            if ($uploadForm->isValid() === true) {
+                // Get posted data
+                $data = $uploadForm->getData();
+                
+                // Get posted data
+                $filedata = $uploadForm->get('file')->getValue();
+                
+                // Get category
+                $category = $this->getCategoryMapper()->selectRowById(
+                    $data->getCategoryId()
+                );
+                
+                // Get user
+                $user = $this->zfcuserAuthentication()->getIdentity();
+                
+                // Media manager
+                $mediaManager = $this->getMediaManager();
+                
+                // Create uploaded image
+                $file = new UploadedImage(
+                    $filedata['tmp_name'],
+                    $filedata['name'],
+                    $filedata['type'],
+                    $filedata['size'],
+                    $filedata['error']
+                );
                 
                 // Upload image
                 $mediaManager->uploadImage($file, $data->getName(), $user, $category);
@@ -219,12 +250,10 @@ class IndexController extends AbstractActionController
             }
         }
         
-        // Prepare media form
-        $mediaForm->prepare();
-        
         // Return view
         return new ViewModel(array(
-            'mediaForm' => $mediaForm,
+            'externalForm' => $externalForm,
+            'uploadForm'   => $uploadForm,
         ));
     }
     
@@ -271,17 +300,31 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * @return \Media\Form\MediaForm
+     * @return \Media\Form\ExternalMediaForm
      */
-    public function getMediaForm()
+    public function getExternalMediaForm()
     {
-        if ($this->mediaForm === null) {
-            return $this->mediaForm = $this->getServiceLocator()->get(
-                'media.form.media'
+        if ($this->externalMediaForm === null) {
+            return $this->externalMediaForm = $this->getServiceLocator()->get(
+                'media.form.external_media'
             );
         }
         
-        return $this->mediaForm;
+        return $this->externalMediaForm;
+    }
+    
+    /**
+     * @return \Media\Form\UploadMediaForm
+     */
+    public function getUploadMediaForm()
+    {
+        if ($this->uploadMediaForm === null) {
+            return $this->uploadMediaForm = $this->getServiceLocator()->get(
+                'media.form.upload_media'
+            );
+        }
+        
+        return $this->uploadMediaForm;
     }
     
     /**

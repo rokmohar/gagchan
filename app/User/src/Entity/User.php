@@ -51,8 +51,8 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+        $this->createdAt = date("Y-m-d H:i:s");
+        $this->updatedAt = date("Y-m-d H:i:s");
     }
 
     /**
@@ -178,5 +178,37 @@ class User implements UserInterface
         $this->state = $state;
         
         return $this;
+    }
+    
+    /**
+     * @return String
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+    
+    /**
+     * @param String $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+    
+    /**
+     * @return String
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+    
+    /**
+     * @param String $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

@@ -10,7 +10,7 @@ use Category\Mapper\CategoryMapperInterface;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class MediaForm extends Form
+abstract class AbstractMediaForm extends Form
 {
     /**
      * @var \Media\Mapper\CategoryMapperInterface
@@ -28,16 +28,9 @@ class MediaForm extends Form
         // Set category mapper
         $this->categoryMapper = $categoryMapper;
         
-        // Set form attributes
-        $this
-            ->setAttribute('enctype', 'multipart/form-data')
-        ;
-        
         // Add form elements
         $this
             ->addName()
-            ->addFile()
-            ->addUrl()
             ->addCategory()
             ->addSubmit()
         ;
@@ -60,50 +53,6 @@ class MediaForm extends Form
                 'type'        => 'text',
                 'class'       => 'form-control',
                 'placeholder' => 'Name',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add media file input field.
-     * 
-     * @return \Media\Form\MediaForm
-     */
-    protected function addFile()
-    {
-        $this->add(array(
-            'name'    => 'file',
-            'options' => array(
-                'label' => 'Upload',
-            ),
-            'attributes' => array(
-                'type'        => 'file',
-                'class'       => 'form-control',
-                'placeholder' => 'Upload',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add media URL input field.
-     * 
-     * @return \Media\Form\MediaForm
-     */
-    protected function addUrl()
-    {
-        $this->add(array(
-            'name'    => 'url',
-            'options' => array(
-                'label' => 'URL',
-            ),
-            'attributes' => array(
-                'type'        => 'text',
-                'class'       => 'form-control',
-                'placeholder' => 'URL',
             ),
         ));
         

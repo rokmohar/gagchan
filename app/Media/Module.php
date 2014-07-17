@@ -47,7 +47,8 @@ class Module implements
         return array(
             'factories' => array(
                 'media.form.comment'            => 'Media\Factory\Form\CommentFormFactory',
-                'media.form.media'              => 'Media\Factory\Form\MediaFormFactory',
+                'media.form.external_media'     => 'Media\Factory\Form\ExternalMediaFormFactory',
+                'media.form.upload_media'       => 'Media\Factory\Form\UploadMediaFormFactory',
                 'media.form.vote'               => 'Media\Factory\Form\VoteFormFactory',
                 'media.mapper.comment'          => 'Media\Factory\Mapper\CommentMapperFactory',
                 'media.mapper.media'            => 'Media\Factory\Mapper\MediaMapperFactory',

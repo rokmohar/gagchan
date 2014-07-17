@@ -11,7 +11,7 @@ use Zend\Validator\AbstractValidator;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ImageValidator extends AbstractValidator
+class ValidatorChain extends AbstractValidator
 {
     /**#@+*/
     const NOT_READABLE = 'fileNotReadable';
@@ -35,14 +35,22 @@ class ImageValidator extends AbstractValidator
     protected $options = array();
     
     /**
+     * @var Array
+     */
+    protected $validators = array();
+    
+    /**
      * @param Array $options
      */
     public function __construct($options = array())
     {
-        if (isset($options['validators'])) {
-            $this->validators = $options['validators'];
-            
-            unset($options['validators']);
+        foreach ($options as $k => $v) {
+            // Check if value is validator
+            if (is_array($v) && isset($v['name'])) {
+                $this->validators[] = $v;
+                
+                unset($options[$k]);
+            }
         }
         
         parent::__construct($options);
@@ -101,7 +109,6 @@ class ImageValidator extends AbstractValidator
         
         return true;
     }
-    
     
     /**
      * Retrieve a file.

@@ -1,11 +1,15 @@
 <?php
-    $mediaForm = $this->mediaForm;
+    $externalForm = $this->externalForm;
+    $externalForm->prepare();
+    
+    $uploadForm = $this->uploadForm;
+    $uploadForm->prepare();
 ?>
 
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
     <div class="widget">
-        <?php echo $this->form()->openTag($mediaForm) ?>
+        <?php echo $this->form()->openTag($uploadForm) ?>
             
             <h3 class="login-title">Upload from computer ...</h3>
 
@@ -15,10 +19,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-tag"></span>
                     </span>
-                    <?php echo $this->formInput($mediaForm->get('name')) ?>
+                    <?php echo $this->formInput($uploadForm->get('name')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($mediaForm->get('name')) ?>
+                <?php echo $this->formElementErrors($uploadForm->get('name')) ?>
             </div>
             
             <!-- #File -->
@@ -27,10 +31,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-file"></span>
                     </span>
-                    <?php echo $this->formFile($mediaForm->get('file')) ?>
+                    <?php echo $this->formFile($uploadForm->get('file')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($mediaForm->get('file')) ?>
+                <?php echo $this->formElementErrors($uploadForm->get('file')) ?>
             </div>
             
             <!-- #Category -->
@@ -39,14 +43,14 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-flag"></span>
                     </span> 
-                    <?php echo $this->formSelect($mediaForm->get('category')) ?>
+                    <?php echo $this->formSelect($uploadForm->get('category')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($mediaForm->get('category')) ?>
+                <?php echo $this->formElementErrors($uploadForm->get('category')) ?>
             </div>
             
             <div class="input-group">
-                <?php echo $this->formButton($mediaForm->get('submit')) ?>
+                <?php echo $this->formButton($uploadForm->get('submit')) ?>
             </div>
             
         <?php echo $this->form()->closeTag() ?>
@@ -57,7 +61,7 @@
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
     <div class="widget">
-        <?php echo $this->form()->openTag($mediaForm) ?>
+        <?php echo $this->form()->openTag($externalForm) ?>
 
             <h3 class="login-title">Or copy from URL ...</h3>
 
@@ -67,10 +71,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-tag"></span>
                     </span>
-                    <?php echo $this->formInput($mediaForm->get('name')) ?>
+                    <?php echo $this->formInput($externalForm->get('name')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($mediaForm->get('name')) ?>
+                <?php echo $this->formElementErrors($externalForm->get('name')) ?>
             </div>
 
             <!-- #URL -->
@@ -79,10 +83,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-file"></span>
                     </span>
-                    <?php echo $this->formInput($mediaForm->get('url')) ?>
+                    <?php echo $this->formInput($externalForm->get('url')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($mediaForm->get('url')) ?>
+                <?php echo $this->formElementErrors($externalForm->get('url')) ?>
             </div>
             
             <!-- #Category -->
@@ -91,14 +95,14 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-flag"></span>
                     </span>
-                    <?php echo $this->formSelect($mediaForm->get('category')) ?>
+                    <?php echo $this->formSelect($externalForm->get('category')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($mediaForm->get('category')) ?>
+                <?php echo $this->formElementErrors($externalForm->get('category')) ?>
             </div>
 
             <div class="input-group">
-                <?php echo $this->formButton($mediaForm->get('submit')) ?>
+                <?php echo $this->formButton($externalForm->get('submit')) ?>
             </div>
             
         <?php echo $this->form()->closeTag() ?>

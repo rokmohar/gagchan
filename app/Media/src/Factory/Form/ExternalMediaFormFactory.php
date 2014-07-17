@@ -5,13 +5,13 @@ namespace Media\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Media\Form\MediaForm;
-use Media\InputFilter\MediaFilter;
+use Media\Form\ExternalMediaForm;
+use Media\InputFilter\ExternalMediaFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-class MediaFormFactory implements FactoryInterface
+class ExternalMediaFormFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -29,13 +29,13 @@ class MediaFormFactory implements FactoryInterface
         $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
-        $form = new MediaForm('media', $categoryMapper);
+        $form = new ExternalMediaForm('media', $categoryMapper);
         
         // Set hydrator
         $form->setHydrator($hydrator);
         
         // Set input filter
-        $form->setInputFilter(new MediaFilter());
+        $form->setInputFilter(new ExternalMediaFilter());
 
         // Return form
         return $form;
