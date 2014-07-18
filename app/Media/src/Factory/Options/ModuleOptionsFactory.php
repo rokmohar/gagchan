@@ -20,7 +20,10 @@ class ModuleOptionsFactory implements FactoryInterface
         // Config
         $config = $serviceLocator->get('Config');
         
+        // Module config
+        $moduleConfig = isset($config['media']) ? $config['media'] : array();
+        
         // Return mapper
-        return new ModuleOptions($config);
+        return new ModuleOptions($moduleConfig);
     }
 }

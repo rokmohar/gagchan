@@ -17,6 +17,11 @@ class AmazonStorage implements StorageInterface
     protected $aws;
     
     /**
+     * @var \Media\Options\ModuleOptions
+     */
+    protected $options;
+    
+    /**
      * @var \Zend\ServiceManager\ServiceLocatorInterface
      */
     protected $serviceLocator;
@@ -37,7 +42,7 @@ class AmazonStorage implements StorageInterface
         $client = $this->getAws()->get('s3');
         
         $client->getObject(array(
-            'Bucket' => 'gagchan.dev',
+            'Bucket' => $this->getOptions()->getBucket(),
             'Key'    => $key,
         ));
         
@@ -52,7 +57,7 @@ class AmazonStorage implements StorageInterface
         $client = $this->getAws()->get('s3');
         
         $client->putObject(array(
-            'Bucket'      => 'gagchan.dev',
+            'Bucket'      => $this->getOptions()->getBucket(),
             'Key'         => $key,
             'Body'        => fopen($file->getPathname(), 'r'),
             'ContentType' => $file->getMimeType(),
@@ -68,11 +73,24 @@ class AmazonStorage implements StorageInterface
     public function getAws()
     {
         if ($this->aws === null) {
-            // Load from service locator
             return $this->aws = $this->serviceLocator->get('aws');
         }
         
         return $this->aws;
+    }
+    
+    /**
+     * @return \Media\Options\ModuleOptions
+     */
+    public function getOptions()
+    {
+        if ($this->options === null) {
+            return $this->options = $this->serviceLocator->get(
+                'media.options.module'
+            );
+        }
+        
+        return $this->options;
     }
     
     /**

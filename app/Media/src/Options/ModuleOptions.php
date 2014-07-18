@@ -18,6 +18,16 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var String
      */
+    protected $bucket = 'gagchan';
+    
+    /**
+     * @var String
+     */
+    protected $bucketUrl = 'http://cdn.gagchan.com';
+    
+    /**
+     * @var String
+     */
     protected $commentEntity = 'Media\Entity\CommentEntity';
     
     /**
@@ -63,9 +73,55 @@ class ModuleOptions extends AbstractOptions
     /**
      * @return String
      */
+    public function getBucket()
+    {
+        return $this->bucket;
+    }
+    
+    /**
+     * @param String $bucket
+     */
+    public function setBucket($bucket)
+    {
+        $this->bucket = $bucket;
+        
+        return $this;
+    }
+    
+    /**
+     * @return String
+     */
+    public function getBucketUrl()
+    {
+        return $this->bucketUrl;
+    }
+    
+    /**
+     * @param String $bucketUrl
+     */
+    public function setBucketUrl($bucketUrl)
+    {
+        $this->bucketUrl = $bucketUrl;
+        
+        return $this;
+    }
+    
+    /**
+     * @return String
+     */
     public function getCommentEntity()
     {
         return $this->commentEntity;
+    }
+    
+    /**
+     * @param String $commentEntity
+     */
+    public function setCommentEntity($commentEntity)
+    {
+        $this->commentEntity = $commentEntity;
+        
+        return $this;
     }
     
     /**
@@ -77,11 +133,31 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
+     * @param String $commentHydrator
+     */
+    public function setCommentHydrator($commentHydrator)
+    {
+        $this->commentHydrator = $commentHydrator;
+        
+        return $this;
+    }
+    
+    /**
      * @return String
      */
     public function getCommentMapper()
     {
         return $this->commentMapper;
+    }
+    
+    /**
+     * @param String $commentMapper
+     */
+    public function setCommentMapper($commentMapper)
+    {
+        $this->commentMapper = $commentMapper;
+        
+        return $this;
     }
     
     /**
@@ -93,11 +169,31 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
+     * @param String $mediaEntity
+     */
+    public function setMediaEntity($mediaEntity)
+    {
+        $this->mediaEntity = $mediaEntity;
+        
+        return $this;
+    }
+    
+    /**
      * @return String
      */
     public function getMediaHydrator()
     {
         return $this->mediaHydrator;
+    }
+    
+    /**
+     * @param String $mediaHydrator
+     */
+    public function setMediaHydrator($mediaHydrator)
+    {
+        $this->mediaHydrator = $mediaHydrator;
+        
+        return $this;
     }
     
     /**
@@ -109,11 +205,31 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
+     * @param String $mediaMapper
+     */
+    public function setMediaMapper($mediaMapper)
+    {
+        $this->mediaMapper = $mediaMapper;
+        
+        return $this;
+    }
+    
+    /**
      * @return String
      */
     public function getVoteEntity()
     {
         return $this->voteEntity;
+    }
+    
+    /**
+     * @param String $voteEntity
+     */
+    public function setVoteEntity($voteEntity)
+    {
+        $this->voteEntity = $voteEntity;
+        
+        return $this;
     }
     
     /**
@@ -125,10 +241,30 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
+     * @param String $voteHydrator
+     */
+    public function setVoteHydrator($voteHydrator)
+    {
+        $this->voteHydrator = $voteHydrator;
+        
+        return $this;
+    }
+    
+    /**
      * @return String
      */
     public function getVoteMapper()
     {
         return $this->voteMapper;
+    }
+    
+    /**
+     * @param String $voteMapper
+     */
+    public function setVoteMapper($voteMapper)
+    {
+        $this->voteMapper = $voteMapper;
+        
+        return $this;
     }
 }

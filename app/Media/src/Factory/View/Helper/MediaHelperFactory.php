@@ -32,8 +32,17 @@ class MediaHelperFactory implements FactoryInterface
         
         // Auth service
         $authService = $serviceLocator->get('zfcuser_auth_service');
+        
+        // Module options
+        $options = $serviceLocator->get('media.options.module');
 
         // Return helper
-        return new MediaHelper($mediaMapper, $commentMapper, $voteMapper, $authService);
+        return new MediaHelper(
+            $mediaMapper,
+            $commentMapper,
+            $voteMapper,
+            $authService,
+            $options
+        );
     }
 }
