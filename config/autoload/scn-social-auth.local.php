@@ -6,14 +6,14 @@ $settings = array(
      *
      * Please specify a Facebook Client ID
      */
-    'facebook_client_id' => '782048061815836',
+    'facebook_client_id' => '786792028008106',
 
     /**
      * Facebook Secret
      *
      * Please specify a Facebook Secret
      */
-    'facebook_secret' => '14d4df5afc72f3e6939aa3972e75a254',
+    'facebook_secret' => '56ffa7c4bf4be09bc61b0cdc408bf685',
 
     /**
      * Foursquare Client ID
@@ -48,14 +48,14 @@ $settings = array(
      *
      * Please specify a Google Client ID
      */
-    'google_client_id' => '258529240079-fhim90p68mj3k5q0ha5r52m5jtgtb4g5.apps.googleusercontent.com',
+    'google_client_id' => '93393983104-j9q4vgn3drbosrcenpr87fg6tn04uqte.apps.googleusercontent.com',
 
     /**
      * Google Secret
      *
      * Please specify a Google Secret
      */
-    'google_secret' => 'GlIzpXvGIM8kCEoY-G1PfJH8',
+    'google_secret' => '9-gljVIu75VIMWdvj44ZBlKZ',
 
     /**
      * Google Hosted Domain
