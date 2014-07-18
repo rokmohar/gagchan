@@ -29,6 +29,8 @@
     ;
 ?>
 
+<?php #echo $this->formCaptcha($element) . $this->formElementErrors($element) ?>
+
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
     <div class="widget">
@@ -37,43 +39,57 @@
         <?php echo $this->form()->openTag($form) ?>
         
             <!-- #Username -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-user"></span>
-                </span>
-                <?php echo $this->formInput($form->get('username')) ?>
-            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('username')) ?>
+                </div>
 
-            <?php echo $this->formElementErrors($form->get('username')) ?>
+                <?php echo $this->formElementErrors($form->get('username')) ?>
+            </div>
             
             <!-- #Email -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-envelope"></span>
-                </span>
-                <?php echo $this->formInput($form->get('email')) ?>
-            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('email')) ?>
+                </div>
 
-            <?php echo $this->formElementErrors($form->get('email')) ?>
+                <?php echo $this->formElementErrors($form->get('email')) ?>
+            </div>
             
             <!-- #Password -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-lock"></span>
-                </span>
-                <?php echo $this->formInput($form->get('password')) ?>
-            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('password')) ?>
+                </div>
 
-            <?php echo $this->formElementErrors($form->get('password')) ?>
-            
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-lock"></span>
-                </span>
-                <?php echo $this->formInput($form->get('passwordVerify')) ?>
+                <?php echo $this->formElementErrors($form->get('password')) ?>
             </div>
             
-            <?php echo $this->formElementErrors($form->get('passwordVerify')) ?>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('passwordVerify')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($form->get('passwordVerify')) ?>
+            </div>
+            
+            <div class="form-row">
+                <?php echo $this->formCaptcha($form->get('captcha')) ?>
+                
+                <?php echo $this->formElementErrors($form->get('captcha')) ?>
+            </div>
             
             <?php if ($this->redirect): ?>
                 <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />

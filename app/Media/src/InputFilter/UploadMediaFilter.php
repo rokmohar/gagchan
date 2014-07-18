@@ -2,6 +2,8 @@
 
 namespace Media\InputFilter;
 
+use Zend\Validator\File\MimeType;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -32,7 +34,7 @@ class UploadMediaFilter extends AbstractMediaFilter
             'name'       => 'file',
             'required'   => true,
             'validators' => array(
-                array(
+               array(
                     'name'    => 'Zend\Validator\File\Extension',
                     'options' => array(
                         'extension' => array(
@@ -49,15 +51,16 @@ class UploadMediaFilter extends AbstractMediaFilter
                     'options' => array(
                         'minWidth'  => 160,
                         'minHeight' => 160,
-                        'maxWidth'  => 640,
-                        'maxHeight' => 1280,
+                        'maxWidth'  => 1280,
+                        'maxHeight' => 2560,
                     ),
                     'break_chain_on_failure' => true,
                 ),
                 array(
                     'name'    => 'Zend\Validator\File\MimeType',
                     'options' => array(
-                        'mimeType' => array(
+                        'magicFile' => false,
+                        'mimeType'  => array(
                             'image/gif',
                             'image/jpeg',
                             'image/png',
@@ -68,8 +71,8 @@ class UploadMediaFilter extends AbstractMediaFilter
                 array(
                     'name'    => 'Zend\Validator\File\Size',
                     'options' => array(
-                        'min' => '1kB',
-                        'max' => '1MB',
+                        'min' => '4kB',
+                        'max' => '4MB',
                     ),
                     'break_chain_on_failure' => true,
                 ),

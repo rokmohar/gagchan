@@ -59,14 +59,15 @@ class ExternalMediaFilter extends AbstractMediaFilter
                             'options' => array(
                                 'minWidth'  => 160,
                                 'minHeight' => 160,
-                                'maxWidth'  => 640,
-                                'maxHeight' => 1280,
+                                'maxWidth'  => 1280,
+                                'maxHeight' => 2560,
                             ),
                         ),
                         array(
                             'name'    => 'Zend\Validator\File\MimeType',
                             'options' => array(
-                                'mimeType' => array(
+                                'magicFile' => false,
+                                'mimeType'  => array(
                                     'image/gif',
                                     'image/jpeg',
                                     'image/png',
@@ -76,11 +77,12 @@ class ExternalMediaFilter extends AbstractMediaFilter
                         array(
                             'name'    => 'Zend\Validator\File\Size',
                             'options' => array(
-                                'min' => '1kB',
-                                'max' => '1MB',
+                                'min' => '4kB',
+                                'max' => '4MB',
                             ),
                         ),
                     ),
+                    'break_chain_on_failure' => true,
                 ),
             ),
             'filters'   => array(

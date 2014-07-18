@@ -27,22 +27,28 @@
         <?php echo $this->form()->openTag($form) ?>
             
             <!-- #Email -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-envelope"></span>
-                </span>
-                <?php echo $this->formInput($form->get('identity')) ?>
-                <!-- <input type="text" class="form-control" placeholder="Email"> -->
-            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('identity')) ?>
+                    <!-- <input type="text" class="form-control" placeholder="Email"> -->
+                </div>
 
-            <?php echo $this->formElementErrors($form->get('identity')) ?>
-        
+                <?php echo $this->formElementErrors($form->get('identity')) ?>
+            </div>
+            
             <!-- #Password -->
-            <div class="form-row input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-lock"></span>
-                </span>
-                <?php echo $this->formInput($form->get('credential')) ?>
+            <div class="form-row">
+                <div class="form-row input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('credential')) ?>
+                </div>
+                
+                <?php echo $this->formElementErrors($form->get('credential')) ?>
             </div>
 
             <?php if ($this->redirect): ?>

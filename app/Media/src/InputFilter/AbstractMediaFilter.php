@@ -36,7 +36,7 @@ abstract class AbstractMediaFilter extends InputFilter
                 array(
                     'name'    => 'Zend\Validator\StringLength',
                     'options' => array(
-                        'min' => 8,
+                        'min' => 4,
                         'max' => 255,
                     ),
                 ),

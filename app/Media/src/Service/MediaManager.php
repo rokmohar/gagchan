@@ -119,9 +119,6 @@ class MediaManager implements MediaManagerInterface
         // Storage
         $storage = $this->getStorageManager()->getStorage('amazon');
 
-        // Resize thumbnail
-        $this->resizeImage($thumbnail);
-
         // Upload file to the storage
         $storage->putFile(
             sprintf("photo/%s_460sa_v1.%s", $slug, $file->guessExtension()),
