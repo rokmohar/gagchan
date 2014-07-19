@@ -18,6 +18,7 @@ class PasswordSettingsForm extends AbstractUserForm
         // Add elements
         $this
             ->addPasswordVerify()
+            ->addSubmit('Save')
         ;
         
         // Set validation group
@@ -26,27 +27,5 @@ class PasswordSettingsForm extends AbstractUserForm
             'password',
             'password_verify',
         ));
-    }
-    
-    /**
-     * Add the password verify form element.
-     * 
-     * @return \User\Form\AbstractForm
-     */
-    protected function addPasswordVerify()
-    {
-        $this->add(array(
-            'name'    => 'password_verify',
-            'options' => array(
-                'label' => 'Password verify',
-            ),
-            'attributes' => array(
-                'type'        => 'password',
-                'class'       => 'form-control',
-                'placeholder' => 'Password verify',
-            ),
-        ));
-        
-        return $this;
     }
 }

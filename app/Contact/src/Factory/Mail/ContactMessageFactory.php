@@ -1,6 +1,6 @@
 <?php
 
-namespace Contact\Service;
+namespace Contact\Factory\Mail;
 
 use Traversable;
 use Zend\Mail\Message;
@@ -12,14 +12,16 @@ use Zend\Stdlib\ArrayUtils;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <rok.zaloznik@gmail.com>
  */
-class ContactMailMessageFactory implements FactoryInterface
+class ContactMessageFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $services)
     {
         $config = $services->get('config');
+        
         if ($config instanceof Traversable) {
             $config = ArrayUtils::iteratorToArray($config);
         }
+        
         $config = $config['contact']['message'];
 
         $message = new Message();

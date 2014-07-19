@@ -2,8 +2,6 @@
 
 namespace Contact\Form;
 
-use Zend\Captcha\AdapterInterface as CaptchaAdapter;
-use Zend\Form\Element;
 use Zend\Form\Form;
 
 /**
@@ -13,57 +11,52 @@ use Zend\Form\Form;
 class ContactForm extends Form
 {
     /**
-    * @var \Contact\Form\
-    */    
-    protected $captchaAdapter;
-    
-    /**
-     * @var \Contact\Form\
-     */        
-    protected $csrfToken;
-
-    /**
-     * @param String     $name
-     * @param           $captchaAdapter
+     * @param String $name
+     * @param array  $options
      */    
-    public function __construct($name = null, CaptchaAdapter $captchaAdapter = null)
+    public function __construct($name, array $options = array())
     {
-        parent::__construct($name);
-
-        if (null !== $captchaAdapter) {
-            $this->captchaAdapter = $captchaAdapter;
-        }
-        
-        $name = $this->getName();
-        
-        if (null === $name) {
-            $this->setName('contact');
-        }
+        parent::__construct($name, $options);
 
         // Add elements
         $this
+            ->addCsrf()
             ->addFrom()
             ->addSubject()
             ->addBody()
             ->addSubmit()
-            ->addCaptcha()
         ;
     }
     
     /**
-     * Add the from form element.
+     * Add the CSRF form element.
+     * 
+     * @return \User\Form\AbstractForm
+     */
+    public function addCsrf()
+    {
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the email address form element.
      * 
      * @return \Contact\Form
      */
     protected function addFrom()
     {
         $this->add(array(
-            'name' => 'from',
+            'name'    => 'from',
             'options' => array(
-                'label' => 'From:',
+                'label' => 'From',
             ),
             'attributes' => array(
-                'type' => 'Zend\Form\Element\Text',
+                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Your email',
             ),
@@ -80,12 +73,12 @@ class ContactForm extends Form
     protected function addSubject()
     {
         $this->add(array(
-            'name' => 'subject',
+            'name'    => 'subject',
             'options' => array(
-                'label' => 'Subject:',
+                'label' => 'Subject',
             ),
             'attributes' => array(
-                'type' => 'Zend\Form\Element\Text',
+                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Subject',
             ),            
@@ -102,15 +95,15 @@ class ContactForm extends Form
     protected function addBody()
     {
         $this->add(array(
-            'name' => 'body',
+            'name'    => 'body',
             'options' => array(
-                'label' => 'Your message:',
+                'label' => 'Your message',
             ),
             'attributes' => array(
                 'type'        => 'Zend\Form\Element\Textarea',
                 'class'       => 'form-control',
                 'style'       => 'resize: vertical;',                
-                'placeholder' => 'Your question',
+                'placeholder' => 'Your message',
             ),            
         ));
         
@@ -126,32 +119,16 @@ class ContactForm extends Form
     {
         $this->add(array(
             'name' => 'Send',
+            'options' => array(
+                'label' => 'Send',
+            ),
             'attributes' => array(
-                'type' => 'Zend\Form\Element\Submit',
-                'value' => 'Send',
+                'type'  => 'Zend\Form\Element\Submit',
                 'class' => 'btn btn-primary',
+                'value' => 'Send',
             ),
         ));
         
         return $this;
     }    
-    
-    /**
-     * Add the Captcha
-     * 
-     * @return \Contact\Form
-     */
-    public function addCaptcha()
-    {
-        // Create Captcha element
-        $captcha = new Element\Captcha('captcha');
-        
-        $captcha->setCaptcha($this->captchaAdapter);
-        $captcha->setOptions(array('label' => 'Please verify you are human.'));
-        
-        // Add captcha
-        $this->add($captcha);
-        // Add csrf (Cross Site Request Forgery attack)
-        $this->add(new Element\Csrf('csrf'));
-    }
 }

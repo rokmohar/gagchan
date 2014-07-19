@@ -2,11 +2,16 @@
 
 namespace Contact;
 
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <rok.zaloznik@gmail.com>
  */
-class Module
+class Module implements
+    AutoloaderProviderInterface,
+    ServiceProviderInterface
 {
     /**
      * @return array
@@ -37,7 +42,9 @@ class Module
     {
         return array(
             'factories' => array(
-                'db.adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
+                'contact.form.contact'   => 'Contact\Factory\Form\ContactFormFactory',
+                'contact.mail.message'   => 'Contact\Factory\Mail\ContactMessageFactory',
+                'contact.mail.transport' => 'Contact\Factory\Mail\ContactTransportFactory',
             ),
         );
     }

@@ -3,7 +3,7 @@
 namespace Contact\InputFilter;
 
 use Zend\InputFilter\InputFilter;
-use Zend\Validator\Hostname as HostnameValidator;
+use Zend\Validator\Hostname;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -25,23 +25,27 @@ class ContactFilter extends InputFilter
     }
     
     /**
-     * Add filter for "From" field
+     * Add filter for email address.
      *      
-     * @return \Contact\InputFilter
+     * @return \Contact\InputFilter\ContactFilter
      */
     protected function addFrom() 
     {
         $this->add(array(
-            'name' => 'from',
-            'required' => true,
+            'name'       => 'from',
+            'required'   => true,
             'validators' => array(
                 array(
                     'name' => 'EmailAddress',
                     'options' => array(
-                        'allow' => HostnameValidator::ALLOW_DNS,
+                        'allow'  => Hostname::ALLOW_DNS,
                         'domain' => true,
                     ),
                 ),
+            ),
+            'filters' => array(
+                array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
             ),
         ));        
         
@@ -49,29 +53,27 @@ class ContactFilter extends InputFilter
     }
     
     /**
-     * Add filter for subject field
+     * Add filter for subject.
      *      
-     * @return \Contact\InputFilter 
+     * @return \Contact\InputFilter\ContactFilter
      */
     protected function addSubject()
     {
         $this->add(array(
             'name' => 'subject',
             'required' => true,
-            'filters' => array(
-                array(
-                    'name' => 'StripTags',
-                ),
-            ),
             'validators' => array(
                 array(
                     'name' => 'StringLength',
                     'options' => array(
-                        'encoding' => 'UTF-8',
-                        'min' => 2,
-                        'max' => 140,
+                        'min' => 4,
+                        'max' => 32,
                     ),
                 ),
+            ),
+            'filters' => array(
+                array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
             ),
         ));      
         
@@ -79,15 +81,28 @@ class ContactFilter extends InputFilter
     }
     
     /**
-     * Add filter for body text area
+     * Add filter for body.
      *      
-     * @return \Contact\InputFilter
+     * @return \Contact\InputFilter\ContactFilter
      */
     protected function addBody()
     {
         $this->add(array(
-            'name' => 'body',
-            'required' => true,
+            'name'       => 'body',
+            'required'   => true,
+            'validators' => array(
+                array(
+                    'name' => 'StringLength',
+                    'options' => array(
+                        'min' => 16,
+                        'max' => 4096,
+                    ),
+                ),
+            ),
+            'filters' => array(
+                array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
+            ),
         ));     
         
         return $this;        

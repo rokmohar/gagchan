@@ -1,8 +1,6 @@
 <?php
-$form = $this->form;
-$form->prepare();
-$form->setAttribute('action', $this->url('contact/process'));
-$form->setAttribute('method', 'post');
+    $form = $this->form;
+    $form->prepare();
 ?>
 
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -44,13 +42,6 @@ $form->setAttribute('method', 'post');
                 
             </div>         
             
-            <!-- #Captcha -->
-            <div class="form-row">
-                <?php echo $this->formCaptcha($form->get('captcha')) ?>
-                
-                <?php echo $this->formElementErrors($form->get('captcha')) ?>
-            </div>                 
-        
             <div class="input-group">
                 <?php 
                 echo $this->formElement($form->get('csrf'));

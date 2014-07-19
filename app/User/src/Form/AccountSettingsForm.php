@@ -12,6 +12,11 @@ class AccountSettingsForm extends AbstractUserForm
     {
         parent::__construct($name, $options);
         
+        // Add elements
+        $this
+            ->addSubmit('Save')
+        ;
+        
         // Set validation group
         $this->setValidationGroup(array(
             'csrf',

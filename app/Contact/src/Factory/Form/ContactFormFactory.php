@@ -1,13 +1,11 @@
 <?php
 
-namespace Contact\Service;
+namespace Contact\Factory\Form;
 
-use Traversable;
 use Contact\Form\ContactForm;
 use Contact\InputFilter\ContactFilter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\ArrayUtils;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -20,15 +18,8 @@ class ContactFormFactory implements FactoryInterface
      */    
     public function createService(ServiceLocatorInterface $services)
     {
-        $config = $services->get('config');
-        if ($config instanceof Traversable) {
-            $config = ArrayUtils::iteratorToArray($config);
-        }
-        $name = $config['contact']['form']['name'];
-        $captcha = $services->get('ContactCaptcha');
-                
         // Create form
-        $form = new ContactForm($name, $captcha);
+        $form = new ContactForm('contact');
         
         // Set input filter 
         $form->setInputFilter(new ContactFilter());

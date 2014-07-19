@@ -7,8 +7,8 @@ return array(
         
         // Our modules
         'Category',
-        'Core',
         'Contact',
+        'Core',
         'Media',
         'User',
     ),

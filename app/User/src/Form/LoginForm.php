@@ -12,6 +12,12 @@ class LoginForm extends AbstractUserForm
     {
         parent::__construct($name, $options);
         
+        // Add elements
+        $this
+            ->addPasswordVerify()
+            ->addSubmit('Log in')
+        ;
+        
         // Set validation group
         $this->setValidationGroup(array(
             'csrf',
