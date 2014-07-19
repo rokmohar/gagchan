@@ -45,6 +45,7 @@ class Module implements
                 'contact.form.contact'   => 'Contact\Factory\Form\ContactFormFactory',
                 'contact.mail.message'   => 'Contact\Factory\Mail\ContactMessageFactory',
                 'contact.mail.transport' => 'Contact\Factory\Mail\ContactTransportFactory',
+                'contact.options.module' => 'Contact\Factory\Options\ModuleOptionsFactory',
             ),
         );
     }
