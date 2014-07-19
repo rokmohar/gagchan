@@ -58,7 +58,7 @@ class IndexController extends AbstractActionController
         }
         
         // Send email
-        //$this->sendEmail($contactForm->getData());
+        $this->sendEmail($contactForm->getData());
         
         // Create view
         $view = new ViewModel();
@@ -71,7 +71,7 @@ class IndexController extends AbstractActionController
     }
 
     /**
-     * Send email
+     * Send the email message.
      * 
      * @param array $data
      */
@@ -92,6 +92,8 @@ class IndexController extends AbstractActionController
         
         // Send email
         $this->transport->send($mail);
+        
+        return $this;
     }
     
     /**
