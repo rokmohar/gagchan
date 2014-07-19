@@ -1,7 +1,7 @@
 <?php
     $form = $this->loginForm;
     $form->prepare();
-    $form->setAttribute('action', $this->url('zfcuser/login'));
+    $form->setAttribute('action', $this->url('login'));
     $form->setAttribute('method', 'post');
     
     $form->get('identity')
@@ -33,7 +33,6 @@
                         <span class="glyphicon glyphicon-envelope"></span>
                     </span>
                     <?php echo $this->formInput($form->get('identity')) ?>
-                    <!-- <input type="text" class="form-control" placeholder="Email"> -->
                 </div>
 
                 <?php echo $this->formElementErrors($form->get('identity')) ?>

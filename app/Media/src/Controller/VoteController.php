@@ -66,7 +66,7 @@ class VoteController extends AbstractActionController
         $data = $form->getData();
         
         // Get user
-        $user = $this->zfcuserAuthentication()->getIdentity();
+        $user = $this->user()->getIdentity();
         
         // Check if user is provided
         if (empty($user) === true) {

@@ -7,7 +7,7 @@ use Zend\Db\ResultSet\HydratingResultSet;
 use Core\Mapper\AbstractMapper;
 use Media\Entity\CommentEntityInterface;
 use Media\Entity\MediaEntityInterface;
-use ZfcUser\Entity\UserInterface as UserEntityInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -36,7 +36,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
     /**
      * Count comments for user.
      * 
-     * @param \ZfcUser\Entity\UserInterface $user
+     * @param \User\Entity\UserEntityInterface $user
      * 
      * @return Integer
      */

@@ -24,40 +24,22 @@
                 <?php
                     $vote = $this->media()->getVote($m);
                     
-                    /*if(!$this->zfcUserIdentity()):
+                    if(!$this->user()->hasIdentity()):
                 ?>
                     <li class="btn-group">
-                        <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-default" data-type="up">
+                        <a href="<?php echo $this->url('login') ?>" class="btn btn-default" data-type="up">
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
-                        <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-default" data-type="down">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </a>
-                    </li>
-                <?php else */ if (!empty($vote) && $this->media()->isVoteDown($vote)): ?>
-                    <li class="btn-group" data-trigger="response">
-                        <a href="javascript:void(0);" class="btn btn-default" data-type="up">
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                        </a>
-                        <a href="javascript:void(0);" class="btn btn-default response-selected" data-type="down">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </a>
-                    </li>
-                <?php elseif (!empty($vote) && $this->media()->isVoteUp($vote)): ?>
-                    <li class="btn-group" data-trigger="response">
-                        <a href="javascript:void(0);" class="btn btn-default response-selected" data-type="up">
-                            <span class="glyphicon glyphicon-chevron-up"></span>
-                        </a>
-                        <a href="javascript:void(0);" class="btn btn-default" data-type="down">
+                        <a href="<?php echo $this->url('login') ?>" class="btn btn-default" data-type="down">
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </a>
                     </li>
                 <?php else: ?>
                     <li class="btn-group" data-trigger="response">
-                        <a href="javascript:void(0);" class="btn btn-default" data-type="up">
+                        <a href="javascript:void(0);" class="btn btn-default<?php echo $this->media()->isVoteUp($vote) ? ' response-selected' : '' ?>" data-type="up">
                             <span class="glyphicon glyphicon-chevron-up"></span>
                         </a>
-                        <a href="javascript:void(0);" class="btn btn-default" data-type="down">
+                        <a href="javascript:void(0);" class="btn btn-default<?php echo $this->media()->isVoteDown($vote) ? ' response-selected' : '' ?>" data-type="down">
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </a>
                     </li>

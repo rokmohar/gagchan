@@ -7,7 +7,7 @@ use Zend\Db\ResultSet\HydratingResultSet;
 use Core\Mapper\AbstractMapper;
 use Media\Entity\MediaEntityInterface;
 use Media\Entity\VoteEntityInterface;
-use ZfcUser\Entity\UserInterface as UserEntityInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -78,7 +78,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
      * Insert or update vote.
      * 
      * @param \Media\Entity\MediaEntityInterface $media
-     * @param \ZfcUser\Entity\UserInterface      $user
+     * @param \User\Entity\UserEntityInterface   $user
      * @param String                             $type
      * 
      * @return mixed
@@ -168,7 +168,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
      * Select vote by media.
      * 
      * @param \Media\Entity\MediaEntityInterface $media
-     * @param \ZfcUser\Entity\UserInterface      $user
+     * @param \User\Entity\UserEntityInterface   $user
      * 
      * @return mixed
      */

@@ -107,9 +107,7 @@ class IndexController extends AbstractActionController
                 
                 // Set entity data
                 $data->setMediaId($media->getId());
-                $data->setUserId(
-                    $this->zfcuserAuthentication()->getIdentity()->getId()
-                );
+                $data->setUserId($this->user()->getIdentity()->getId());
                 
                 // Insert comment
                 $this->getCommentMapper()->insertRow($data);
@@ -138,9 +136,9 @@ class IndexController extends AbstractActionController
     public function uploadAction()
     {
         // Check is user is not logged in
-        if ($this->zfcUserAuthentication()->hasIdentity() === false) {
+        if ($this->user()->hasIdentity() === false) {
             // Redirect to route
-            return $this->redirect()->toRoute('zfcuser/login');
+            return $this->redirect()->toRoute('login');
         }
         
         // Get request
@@ -183,7 +181,7 @@ class IndexController extends AbstractActionController
                 );
                 
                 // Get user
-                $user = $this->zfcuserAuthentication()->getIdentity();
+                $user = $this->user()->getIdentity();
                 
                 // Media manager
                 $mediaManager = $this->getMediaManager();
@@ -228,7 +226,7 @@ class IndexController extends AbstractActionController
                 );
                 
                 // Get user
-                $user = $this->zfcuserAuthentication()->getIdentity();
+                $user = $this->user()->getIdentity();
                 
                 // Media manager
                 $mediaManager = $this->getMediaManager();

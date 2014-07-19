@@ -4,7 +4,7 @@ namespace Media\Service;
 
 use Core\File\UploadedImage;
 use Category\Entity\CategoryEntityInterface;
-use ZfcUser\Entity\UserInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -17,7 +17,7 @@ interface MediaManagerInterface
      * 
      * @param \Core\File\UploadedImage                 $file
      * @param String                                   $name
-     * @param \ZfcUser\Entity\UserInterface            $user
+     * @param \User\Entity\UserEntityInterface         $user
      * @param \Category\Entity\CategoryEntityInterface $category
      */
     public function uploadImage(

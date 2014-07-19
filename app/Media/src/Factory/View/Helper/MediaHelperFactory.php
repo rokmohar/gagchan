@@ -21,6 +21,9 @@ class MediaHelperFactory implements FactoryInterface
         // Service locator
         $serviceLocator = $pluginManager->getServiceLocator();
 
+        // Authentication service
+        $authService = $serviceLocator->get('user.auth.service');
+        
         // Media mapper
         $mediaMapper = $serviceLocator->get('media.mapper.media');
 
@@ -35,8 +38,9 @@ class MediaHelperFactory implements FactoryInterface
 
         // Return helper
         return new MediaHelper(
-            $mediaMapper,
+            $authService,
             $commentMapper,
+            $mediaMapper,
             $voteMapper,
             $options
         );

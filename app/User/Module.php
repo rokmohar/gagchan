@@ -2,9 +2,7 @@
 
 namespace User;
 
-use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
@@ -16,7 +14,6 @@ use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
  */
 class Module implements
     AutoloaderProviderInterface,
-    BootstrapListenerInterface,
     ConfigProviderInterface,
     ControllerPluginProviderInterface,
     ServiceProviderInterface,
@@ -85,27 +82,5 @@ class Module implements
                 'user' => 'User\Factory\View\Helper\UserHelperFactory',
             ),
         );
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function onBootstrap(EventInterface $e)
-    {
-        $events = $e->getApplication()->getEventManager()->getSharedManager();
-        
-        $events->attach('ZfcUser\Form\RegisterFilter','init', function($e) {
-            $form = $e->getTarget();
-            
-            $form->get('username')->getValidatorChain()->addValidator(
-                new \Zend\Validator\Regex(array(
-                    'pattern'  => '/^[a-zA-Z\d\.]*$/',
-                    'messages' => array(
-                        \Zend\Validator\Regex::NOT_MATCH => 'Value can only contain letters, numbers and dot',
-                        \Zend\Validator\Regex::ERROROUS  => 'There was an internal error while validating value',
-                    ),
-                ))
-            );
-        });
     }
 }

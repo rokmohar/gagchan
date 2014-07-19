@@ -2,7 +2,6 @@
 
 namespace Media\View\Helper;
 
-use Zend\Authentication\AuthenticationService;
 use Zend\View\Helper\AbstractHelper;
 
 use Media\Entity\MediaEntityInterface;
@@ -11,6 +10,7 @@ use Media\Mapper\CommentMapperInterface;
 use Media\Mapper\MediaMapperInterface;
 use Media\Mapper\VoteMapperInterface;
 use Media\Options\ModuleOptions;
+use User\Authentication\AuthenticationService;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -19,7 +19,7 @@ use Media\Options\ModuleOptions;
 class MediaHelper extends AbstractHelper
 {
     /**
-     * @var \Zend\Authentication\AuthenticationService
+     * @var \User\Authentication\AuthenticationService
      */
     protected $authService;
     
@@ -44,30 +44,28 @@ class MediaHelper extends AbstractHelper
     protected $options;
     
     /**
-     * @param \Media\Mapper\MediaMapperInterface         $mediaMapper
+     * @param \User\Authentication\AuthenticationService $authService
      * @param \Media\Mapper\CommentMapperInterface       $commentMapper
+     * @param \Media\Mapper\MediaMapperInterface         $mediaMapper
      * @param \Media\Mapper\VoteMapperInterface          $voteMapper
-     * @param \Zend\Authentication\AuthenticationService $authService
      * @param \Media\Options\ModuleOptions               $options
      */
     public function __construct(
-        MediaMapperInterface $mediaMapper,
+        AuthenticationService $authService,
         CommentMapperInterface $commentMapper,
+        MediaMapperInterface $mediaMapper,
         VoteMapperInterface $voteMapper,
-        //AuthenticationService $authService,
         ModuleOptions $options
     ) {
-        $this->mediaMapper   = $mediaMapper;
+        $this->authService   = $authService;
         $this->commentMapper = $commentMapper;
+        $this->mediaMapper   = $mediaMapper;
         $this->voteMapper    = $voteMapper;
-        //$this->authService   = $authService;
         $this->options       = $options;
     }
     
     /**
-     * __invoke
-     *
-     * @return \ZfcUser\Entity\UserInterface
+     * {@inheritDoc}
      */
     public function __invoke()
     {
@@ -83,19 +81,19 @@ class MediaHelper extends AbstractHelper
      */
     public function getVote(MediaEntityInterface $media)
     {
-        return null;
-        
         // Get user
-        /*$user = $this->authService->getIdentity();
+        $user = $this->authService->getIdentity();
         
-        // Check if user is empty
-        if (empty($user) === true) {
-            // Return void
-            return null;
+        // Check if user is not empty
+        if (empty($user) === false) {
+            // Select row from database
+            $result = $this->voteMapper->selectRowByMedia($media, $user);
+            
+            // Return result
+            return (empty($result) === false) ? $result : null;
         }
         
-        // Return vote
-        return $this->voteMapper->selectRowByMedia($media, $user*/
+        return null;
     }
     
     /**
@@ -103,11 +101,11 @@ class MediaHelper extends AbstractHelper
      * 
      * @param \Media\Entity\VoteEntityInterface $vote
      * 
-     * @return Boolean
+     * @return bool
      */
-    public function isVoteDown(VoteEntityInterface $vote)
+    public function isVoteDown(VoteEntityInterface $vote = null)
     {
-        return ($vote->getType() === 'down');
+        return ($vote !== null) ? ($vote->getType() === 'down') : false;
     }
     
     /**
@@ -115,11 +113,11 @@ class MediaHelper extends AbstractHelper
      * 
      * @param \Media\Entity\VoteEntityInterface $vote
      * 
-     * @return Boolean
+     * @return bool
      */
-    public function isVoteUp(VoteEntityInterface $vote)
+    public function isVoteUp(VoteEntityInterface $vote = null)
     {
-        return ($vote->getType() === 'up');
+        return ($vote !== null) ? ($vote->getType() === 'up') : false;
     }
     
     /**

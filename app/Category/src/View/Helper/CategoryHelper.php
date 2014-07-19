@@ -26,9 +26,7 @@ class CategoryHelper extends AbstractHelper
     }
     
     /**
-     * __invoke
-     *
-     * @return \ZfcUser\Entity\UserInterface
+     * {@inheritDoc}
      */
     public function __invoke()
     {

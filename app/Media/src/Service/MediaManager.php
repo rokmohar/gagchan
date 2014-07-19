@@ -10,7 +10,7 @@ use Category\Entity\CategoryEntityInterface;
 use Media\Entity\MediaEntity;
 use Media\Mapper\MediaMapperInterface;
 use Media\Storage\StorageManagerInterface;
-use ZfcUser\Entity\UserInterface as UserEntityInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -93,7 +93,7 @@ class MediaManager implements MediaManagerInterface
      * 
      * @param \Core\File\UploadedImage                 $file
      * @param String                                   $name
-     * @param \ZfcUser\Entity\UserInterface            $user
+     * @param \User\Entity\UserEntityInterface         $user
      * @param \Category\Entity\CategoryEntityInterface $category
      * 
      * @return \Media\Service\MediaManagerInterface
@@ -140,7 +140,7 @@ class MediaManager implements MediaManagerInterface
      * @param \Core\File\UploadedImage                 $file
      * @param String                                   $slug
      * @param String                                   $name
-     * @param \ZfcUser\Entity\UserInterface            $user
+     * @param \User\Entity\UserEntityInterface         $user
      * @param \Category\Entity\CategoryEntityInterface $category
      * @param \Core\File\UploadedImage                 $thumbnail
      * 
