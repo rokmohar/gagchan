@@ -35,8 +35,11 @@ class Module
     public function getServiceConfig()
     {
         return array(
-            'aliases' => array(
+            /*'aliases' => array(
                 'db.adapter' => 'Zend\Db\Adapter\Adapter',
+            ),*/
+            'factories' => array(
+                'db.adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
             ),
         );
     }

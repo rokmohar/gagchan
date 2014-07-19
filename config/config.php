@@ -4,9 +4,6 @@ return array(
     'modules' => array(
         // 3rd party modules
         'Aws',
-        'ScnSocialAuth',
-        'ZfcBase',
-        'ZfcUser',
         
         // Our modules
         'Category',

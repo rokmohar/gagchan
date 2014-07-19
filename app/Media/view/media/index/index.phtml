@@ -22,7 +22,7 @@
                 <?php
                     $vote = $this->media()->getVote($m);
                     
-                    if(!$this->zfcUserIdentity()):
+                    /* if(!$this->zfcUserIdentity()):
                 ?>
                     <li class="btn-group">
                         <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-default" data-type="up">
@@ -32,7 +32,7 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </a>
                     </li>
-                <?php elseif ($vote !== false && $this->media()->isVoteDown($vote)): ?>
+                <?php else */ if (!empty($vote) && $this->media()->isVoteDown($vote)): ?>
                     <li class="btn-group" data-trigger="response">
                         <a href="javascript:void(0);" class="btn btn-default" data-type="up">
                             <span class="glyphicon glyphicon-chevron-up"></span>
@@ -41,7 +41,7 @@
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </a>
                     </li>
-                <?php elseif ($vote !== false && $this->media()->isVoteUp($vote)): ?>
+                <?php elseif (!empty($vote) && $this->media()->isVoteUp($vote)): ?>
                     <li class="btn-group" data-trigger="response">
                         <a href="javascript:void(0);" class="btn btn-default response-selected" data-type="up">
                             <span class="glyphicon glyphicon-chevron-up"></span>
@@ -72,7 +72,7 @@
                     </a>
                 </li>
                 <li class="meme-author">
-                    Posted by <strong><?php echo $this->user()->findById($m->getUserId())->getUsername() ?></strong>
+                    Posted by <strong><?php echo null #$this->user()->findById($m->getUserId())->getUsername() ?></strong>
                 </li>
             </ul>
         </article>

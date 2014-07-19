@@ -1,33 +1,30 @@
 <?php
 
-namespace User\Factory\View\Helper;
+namespace User\Factory\Controller\Plugin;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\View\Helper\UserHelper;
+use User\Controller\Plugin\UserPlugin;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserHelperFactory implements FactoryInterface
+class UserPluginFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
      */
     public function createService(ServiceLocatorInterface $pluginManager)
     {
-        // Service locator
+        // Get service locator
         $serviceLocator = $pluginManager->getServiceLocator();
 
-        // Authentication service
+        // Get authentication service
         $authService = $serviceLocator->get('user.auth.service');
-        
-        // User mapper
-        $userMapper = $serviceLocator->get('user.mapper.user');
 
-        // Create user helper
-        return new UserHelper($authService, $userMapper);
+        // Create user plugin
+        return new UserPlugin($authService);
     }
 }

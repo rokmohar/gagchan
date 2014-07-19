@@ -54,13 +54,13 @@ class MediaHelper extends AbstractHelper
         MediaMapperInterface $mediaMapper,
         CommentMapperInterface $commentMapper,
         VoteMapperInterface $voteMapper,
-        AuthenticationService $authService,
+        //AuthenticationService $authService,
         ModuleOptions $options
     ) {
         $this->mediaMapper   = $mediaMapper;
         $this->commentMapper = $commentMapper;
         $this->voteMapper    = $voteMapper;
-        $this->authService   = $authService;
+        //$this->authService   = $authService;
         $this->options       = $options;
     }
     
@@ -83,8 +83,10 @@ class MediaHelper extends AbstractHelper
      */
     public function getVote(MediaEntityInterface $media)
     {
+        return null;
+        
         // Get user
-        $user = $this->authService->getIdentity();
+        /*$user = $this->authService->getIdentity();
         
         // Check if user is empty
         if (empty($user) === true) {
@@ -93,7 +95,7 @@ class MediaHelper extends AbstractHelper
         }
         
         // Return vote
-        return $this->voteMapper->selectRowByMedia($media, $user);
+        return $this->voteMapper->selectRowByMedia($media, $user*/
     }
     
     /**

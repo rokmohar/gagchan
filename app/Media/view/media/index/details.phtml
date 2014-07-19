@@ -21,7 +21,7 @@
             <?php
                 $vote = $this->media()->getVote($media);
 
-                if(!$this->zfcUserIdentity()):
+                /*if(!$this->zfcUserIdentity()):
             ?>
                 <li class="btn-group">
                     <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-default" data-type="up">
@@ -31,7 +31,7 @@
                         <span class="glyphicon glyphicon-chevron-down"></span>
                     </a>
                 </li>
-            <?php elseif ($vote !== false && $this->media()->isVoteDown($vote)): ?>
+            <?php else */ if (!empty($vote) && $this->media()->isVoteDown($vote)): ?>
                 <li class="btn-group" data-trigger="response">
                     <a href="javascript:void(0);" class="btn btn-default" data-type="up">
                         <span class="glyphicon glyphicon-chevron-up"></span>
@@ -40,7 +40,7 @@
                         <span class="glyphicon glyphicon-chevron-down"></span>
                     </a>
                 </li>
-            <?php elseif ($vote !== false && $this->media()->isVoteUp($vote)): ?>
+            <?php elseif (!empty($vote) && $this->media()->isVoteUp($vote)): ?>
                 <li class="btn-group" data-trigger="response">
                     <a href="javascript:void(0);" class="btn btn-default response-selected" data-type="up">
                         <span class="glyphicon glyphicon-chevron-up"></span>
@@ -71,7 +71,7 @@
                 </a>
             </li>
             <li class="meme-author">
-                Posted by <strong><?php echo $this->user()->findById($media->getUserId())->getUsername() ?></strong>
+                Posted by <strong><?php echo null # $this->user()->findById($media->getUserId())->getUsername() ?></strong>
             </li>
         </ul>
     </article>
@@ -80,7 +80,7 @@
     <article class="comments">
         <h3 class="comments-title">Comments</h3>
         
-        <?php if ($this->zfcUserIdentity()): ?>
+        <?php /* if ($this->zfcUserIdentity()): ?>
         
             <div class="widget">
                 
@@ -98,7 +98,7 @@
             
             </div>
         
-        <?php else: ?>
+        <?php else: */ ?>
         
             <div class="widget">
                 
@@ -106,11 +106,11 @@
                     You have to be logged in to post a comment.
                 </div>
                 
-                <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-primary">Log in</a>
+                <a href="#" class="btn btn-primary">Log in</a>
 
             </div>
         
-        <?php endif ?>
+        <?php # endif ?>
         
         <hr />
         

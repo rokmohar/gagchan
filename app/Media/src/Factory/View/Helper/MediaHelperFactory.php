@@ -30,9 +30,6 @@ class MediaHelperFactory implements FactoryInterface
         // Vote mapper
         $voteMapper = $serviceLocator->get('media.mapper.vote');
         
-        // Auth service
-        $authService = $serviceLocator->get('zfcuser_auth_service');
-        
         // Module options
         $options = $serviceLocator->get('media.options.module');
 
@@ -41,7 +38,6 @@ class MediaHelperFactory implements FactoryInterface
             $mediaMapper,
             $commentMapper,
             $voteMapper,
-            $authService,
             $options
         );
     }

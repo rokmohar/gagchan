@@ -1,0 +1,81 @@
+<?php
+    $form = $this->loginForm;
+    $form->prepare();
+?>
+
+<section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    
+    <div class="widget">
+        <h3 class="login-title">Login</h3>
+        
+        <?php echo $this->form()->openTag($form) ?>
+            
+            <!-- #CSRF -->
+            <?php echo $this->formHidden($form->get('csrf')) ?>
+            
+            <!-- #Email -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('email')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($form->get('email')) ?>
+            </div>
+            
+            <!-- #Password -->
+            <div class="form-row">
+                <div class="form-row input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-lock"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('password')) ?>
+                </div>
+                
+                <?php echo $this->formElementErrors($form->get('password')) ?>
+            </div>
+
+            <!-- #Submit -->
+            <div class="input-group">
+                <?php echo $this->formSubmit($form->get('submit')) ?>
+            </div>
+            
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+
+    <div class="widget">
+        <div class="login-title">
+            <h3 class="login-title">Or login with ...</h3>
+        </div>
+
+        <div class="hidden-overflow">
+            <ul class="btn-social-group clearfix">
+                <li>
+                    <a href="#" class="btn btn-facebook">Facebook</a>
+                </li>
+
+                <li>
+                    <a href="#" class="btn btn-google">Google</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</section>
+
+<section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">          
+
+    <div class="widget">
+        <h3 class="login-title">No account yet?</h3>
+
+        <div style="padding: 20px; background: #e8e8e8; border-radius: 4px; text-align: center;">
+            Join us now for free!
+            <div style="margin-top: 20px;">
+             <a href="#" class="btn btn-primary">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -149,24 +149,24 @@
                 </ul>
                 
                 <ul class="nav navbar-nav navbar-right">
-                    <?php if(!$this->zfcUserIdentity()): ?>
+                    <?php if(!$this->user()->hasIdentity()): ?>
                         <li>
-                            <a href="<?php echo $this->url('zfcuser/login') ?>">Log in</a>
+                            <a href="<?php echo $this->url('login') ?>">Log in</a>
                         </li>
                         <li>
-                            <a href="<?php echo $this->url('zfcuser/register') ?>">Sign up</a>
+                            <a href="#">Sign up</a>
                         </li>
                     <?php else: ?>
                         <li class="dropdown">
-                            <a href="<?php echo $this->url('zfcuser/register') ?>"  class="dropdown-toggle" data-toggle="dropdown">
-                                <?php echo $this->zfcUserIdentity()->getUsername(); ?> <span class="caret"></span>
+                            <a href="#"  class="dropdown-toggle" data-toggle="dropdown">
+                                <?php echo $this->user()->getIdentity()->getUsername(); ?> <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="<?php echo $this->url('zfcuser') ?>">Profile</a></li>
-                                <li><a href="<?php echo $this->url('zfcuser/logout') ?>">Logout</a></li>
+                                <li><a href="#">Profile</a></li>
+                                <li><a href="<?php echo $this->url('logout') ?>">Logout</a></li>
                             </ul>
                         </li>
-                    <?php endif?>
+                    <?php endif ?>
                     <li>
                         <a href="<?php echo $this->url('upload') ?>" class="strong">Upload</a>
                     </li>

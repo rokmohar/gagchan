@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 17. jul 2014 ob 15.40
+-- Čas nastanka: 19. jul 2014 ob 04.49
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -71,14 +71,14 @@ CREATE TABLE IF NOT EXISTS `media` (
   `is_featured` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Odloži podatke za tabelo `media`
 --
 
 INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `thumbnail`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `is_featured`, `created_at`, `updated_at`) VALUES
-(25, 'kl7b8xyt', 'Hell yeah, I&#039;m on diet', '/photo/kl7b8xyt_460s.jpg', NULL, 1, 5, 460, 595, 46601, 'image/jpeg', 0, '2014-07-17 15:29:35', '2014-07-17 15:29:35');
+(1, 'kl7b8xyt', 'Hell yeah, I&#039;m on diet', '/photo/kl7b8xyt_460s.jpg', NULL, 1, 5, 460, 595, 46601, 'image/jpeg', 0, '2014-07-17 15:29:35', '2014-07-17 15:29:35');
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
   `comment` text NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `media_vote` (
   `type` set('up','down') NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -117,45 +117,21 @@ CREATE TABLE IF NOT EXISTS `media_vote` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-`user_id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
-  `display_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(128) DEFAULT NULL,
-  `state` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Odloži podatke za tabelo `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `display_name`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
-(1, 'rokm92', 'rokm92', 'no.powersupply@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', NULL, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
-(2, 'roky994', 'roky994', 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', NULL, '2014-07-07 23:29:26', '2014-07-07 23:29:26'),
-(9, 'rok.mohar', 'rok.mohar', 'rok.mohar@gmail.com', NULL, NULL, '2014-07-13 13:16:10', '2014-07-13 13:16:10'),
-(10, 'test', 'test', 'test@example.org', '$2y$14$hM3BsL05EADJQSEZOCzmXeP84CYg/c2DcAP2LzkPALYmHx8.rgjMu', NULL, '2014-07-17 12:56:46', '2014-07-17 12:56:46');
-
--- --------------------------------------------------------
-
---
--- Struktura tabele `user_provider`
---
-
-CREATE TABLE IF NOT EXISTS `user_provider` (
-  `user_id` int(11) NOT NULL,
-  `provider_id` varchar(50) NOT NULL,
-  `provider` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Odloži podatke za tabelo `user_provider`
---
-
-INSERT INTO `user_provider` (`user_id`, `provider_id`, `provider`) VALUES
-(9, '113884234906240529364', 'google'),
-(9, '1513677385514321', 'facebook');
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `created_at`, `updated_at`) VALUES
+(1, 'rokm92', 'no.powersupply@gmail.com', '$2y$14$qJSoy9FCiQbQY8q2PHMHneqmbs6XhWXJ83JXXpCI2WiYGUa2E.EnK', '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
+(2, 'roky994', 'tugamer@gmail.com', '$2y$14$QNkjsmnKJ3Ic1rU.EG9JI.qD0vFX.Q7rU3ZYt0KWzfYZOmIowAjsu', '2014-07-07 23:29:26', '2014-07-07 23:29:26');
 
 --
 -- Indeksi zavrženih tabel
@@ -189,13 +165,7 @@ ALTER TABLE `media_vote`
 -- Indeksi tabele `user`
 --
 ALTER TABLE `user`
- ADD PRIMARY KEY (`user_id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
-
---
--- Indeksi tabele `user_provider`
---
-ALTER TABLE `user_provider`
- ADD PRIMARY KEY (`user_id`,`provider_id`), ADD UNIQUE KEY `provider_id` (`provider_id`,`provider`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT zavrženih tabel
@@ -210,22 +180,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT tabele `media`
 --
 ALTER TABLE `media`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT tabele `media_comment`
 --
 ALTER TABLE `media_comment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT tabele `media_vote`
 --
 ALTER TABLE `media_vote`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT tabele `user`
 --
 ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Omejitve tabel za povzetek stanja
 --
@@ -234,28 +204,22 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- Omejitve za tabelo `media`
 --
 ALTER TABLE `media`
-ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Omejitve za tabelo `media_comment`
 --
 ALTER TABLE `media_comment`
-ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
-ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 --
 -- Omejitve za tabelo `media_vote`
 --
 ALTER TABLE `media_vote`
-ADD CONSTRAINT `media_vote_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
-ADD CONSTRAINT `media_vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
---
--- Omejitve za tabelo `user_provider`
---
-ALTER TABLE `user_provider`
-ADD CONSTRAINT `user_provider_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+ADD CONSTRAINT `media_vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+ADD CONSTRAINT `media_vote_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

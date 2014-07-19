@@ -6,6 +6,8 @@ use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 
 /**
@@ -16,6 +18,8 @@ class Module implements
     AutoloaderProviderInterface,
     BootstrapListenerInterface,
     ConfigProviderInterface,
+    ControllerPluginProviderInterface,
+    ServiceProviderInterface,
     ViewHelperProviderInterface
 {
     /**
@@ -33,11 +37,42 @@ class Module implements
     }
     
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getControllerPluginConfig()
+    {
+        return array(
+            'factories' => array(
+                'user' => 'User\Factory\Controller\Plugin\UserPluginFactory',
+            ),
+        );
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceConfig()
+    {
+        return array(
+            'invokables' => array(
+                'user.auth.adapter.db' => 'User\Authentication\Adapter\DbAdapter',
+                'user.auth.storage.db' => 'User\Authentication\Storage\DbStorage',
+                'user.hydrator.user'   => 'User\Hydrator\UserHydrator',
+            ),
+            'factories' => array(
+                'user.auth.service'  => 'User\Factory\Authentication\AuthenticationServiceFactory',
+                'user.form.login'    => 'User\Factory\Form\LoginFormFactory',
+                'user.mapper.user'   => 'User\Factory\Mapper\UserMapperFactory',
+            ),
+        );
     }
     
     /**

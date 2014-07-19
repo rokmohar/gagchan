@@ -4,7 +4,8 @@ namespace User\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-use ZfcUser\Mapper\UserInterface;
+use User\Authentication\AuthenticationService;
+use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -12,22 +13,27 @@ use ZfcUser\Mapper\UserInterface;
 class UserHelper extends AbstractHelper
 {
     /**
-     * @var \ZfcUser\Mapper\UserInterface
+     * @var \User\Authentication\AuthenticationService
+     */
+    protected $authService;
+    
+    /**
+     * @var \User\Mapper\UserMapperInterface
      */
     protected $userMapper;
     
     /**
-     * @param \ZfcUser\Mapper\UserInterface $userMapper
+     * @param \User\Authentication\AuthenticationService $authService
+     * @param \User\Mapper\UserMapperInterface           $userMapper
      */
-    public function __construct(UserInterface $userMapper)
+    public function __construct(AuthenticationService $authService, UserMapperInterface $userMapper)
     {
-        $this->userMapper = $userMapper;
+        $this->authService = $authService;
+        $this->userMapper  = $userMapper;
     }
     
     /**
-     * __invoke
-     *
-     * @return \ZfcUser\Entity\UserInterface
+     * {@inheritDoc}
      */
     public function __invoke()
     {
@@ -35,12 +41,28 @@ class UserHelper extends AbstractHelper
     }
     
     /**
-     * Return user details.
+     * Return the user.
      * 
      * @return mixed
      */
     public function findById($id)
     {
-        return $this->userMapper->findById($id);
+        return $this->userMapper->selectRowById($id);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function hasIdentity()
+    {
+        return $this->authService->hasIdentity();
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getIdentity()
+    {
+        return $this->authService->getIdentity();
     }
 }

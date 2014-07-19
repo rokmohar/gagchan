@@ -27,7 +27,7 @@ abstract class AbstractMediaFilter extends InputFilter
      * 
      * @return \Media\InputFilter\MediaFilter
      */
-    public function addName()
+    protected function addName()
     {
         $this->add(array(
             'name'       => 'name',
@@ -56,7 +56,7 @@ abstract class AbstractMediaFilter extends InputFilter
      * 
      * @return \Media\InputFilter\MediaFilter
      */
-    public function addCategory()
+    protected function addCategory()
     {
         $this->add(array(
             'name'     => 'category',
