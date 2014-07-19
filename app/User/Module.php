@@ -65,10 +65,12 @@ class Module implements
                 'user.hydrator.user'   => 'User\Hydrator\UserHydrator',
             ),
             'factories' => array(
-                'user.auth.service'  => 'User\Factory\Authentication\AuthenticationServiceFactory',
-                'user.form.login'    => 'User\Factory\Form\LoginFormFactory',
-                'user.form.signup'   => 'User\Factory\Form\SignupFormFactory',
-                'user.mapper.user'   => 'User\Factory\Mapper\UserMapperFactory',
+                'user.auth.service'           => 'User\Factory\Authentication\AuthenticationServiceFactory',
+                'user.form.account_settings'  => 'User\Factory\Form\AccountSettingsFormFactory',
+                'user.form.login'             => 'User\Factory\Form\LoginFormFactory',
+                'user.form.password_settings' => 'User\Factory\Form\PasswordSettingsFormFactory',
+                'user.form.signup'            => 'User\Factory\Form\SignupFormFactory',
+                'user.mapper.user'            => 'User\Factory\Mapper\UserMapperFactory',
             ),
         );
     }

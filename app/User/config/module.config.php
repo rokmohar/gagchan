@@ -3,8 +3,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'User\IndexController' => 'User\Controller\IndexController',
-            'User\UserController'  => 'User\Controller\UserController',
+            'User\IndexController'    => 'User\Controller\IndexController',
+            'User\SettingsController' => 'User\Controller\SettingsController',
         ),
     ),
     'router' => array(
@@ -39,24 +39,24 @@ return array(
                     ),
                 ),
             ),
-            'signup' => array(
+            'settings' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/user',
+                    'route'    => '/settings',
                     'defaults' => array(
-                        'controller' => 'User\UserController',
+                        'controller' => 'User\SettingsController',
                         'action'     => 'index',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes'  => array(
-                    'change_password' => array(
+                    'password' => array(
                         'type'    => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
-                            'route'    => '/change-password',
+                            'route'    => '/password',
                             'defaults' => array(
-                                'controller' => 'User\UserController',
-                                'action'     => 'changePassword',
+                                'controller' => 'User\SettingsController',
+                                'action'     => 'password',
                             ),
                         ),
                     ),

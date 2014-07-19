@@ -1,17 +1,11 @@
 To do
 ================================================================================
-- Pagination (DONE)
-- Fix input filters for upload (DONE)
-- Add input filters for external resource (DONE)
-- Entity, hydrator and mapper for response (DONE)
-- Fix conditional required filter for upload/external (DONE)
-- Ajax for response (DONE)
-- Featured side bar functionality (DONE)
-- Import error designs
-- Remember me functionality
-- Confirm account functionality
-- Change email / password page
-- Simple profile page with uploaded media history
+- No record exists validation
+- Registration confirmation
+- Forgot password
+- Remember me
+- Social network log in/sign up
+- Import error template
 
 Modules
 ================================================================================

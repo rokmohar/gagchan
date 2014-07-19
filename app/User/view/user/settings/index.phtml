@@ -1,0 +1,60 @@
+<?php
+    $form = $this->settingsForm;
+    $form->prepare();
+?>
+
+<section class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    
+    <ul>
+        <li>
+            <a href="<?php echo $this->url('settings') ?>">Account</a>
+        </li>
+        <li>
+            <a href="<?php echo $this->url('settings/password') ?>">Password</a>
+        </li>
+    </ul>
+    
+</section>
+
+<section class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+    <div class="widget">
+        <h3 class="login-title">Account settings</h3>
+        
+        <?php echo $this->form()->openTag($form) ?>
+        
+            <!-- #CSRF -->
+            <?php echo $this->formHidden($form->get('csrf')) ?>
+        
+            <!-- #Username -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('username')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($form->get('username')) ?>
+            </div>
+            
+            <!-- #Email -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    <?php echo $this->formInput($form->get('email')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($form->get('email')) ?>
+            </div>
+
+            <div class="input-group">
+                <?php echo $this->formButton($form->get('submit')) ?>
+            </div>
+            
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+
+</section>

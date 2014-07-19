@@ -24,7 +24,6 @@ abstract class AbstractUserForm extends Form
             ->addUsername()
             ->addEmail()
             ->addPassword()
-            ->addPasswordVerify()
             ->addSubmit()
         ;
     }
@@ -104,28 +103,6 @@ abstract class AbstractUserForm extends Form
                 'type'        => 'password',
                 'class'       => 'form-control',
                 'placeholder' => 'Password',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the password verify form element.
-     * 
-     * @return \User\Form\AbstractForm
-     */
-    protected function addPasswordVerify()
-    {
-        $this->add(array(
-            'name'    => 'password_verify',
-            'options' => array(
-                'label' => 'Password verify',
-            ),
-            'attributes' => array(
-                'type'        => 'password',
-                'class'       => 'form-control',
-                'placeholder' => 'Password verify',
             ),
         ));
         

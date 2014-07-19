@@ -6,7 +6,7 @@ namespace User\Form;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <rok.zaloznik@gmail.com>
  */
-class SignupForm extends AbstractUserForm
+class PasswordSettingsForm extends AbstractUserForm
 {
     /**
      * {@inheritDoc}
@@ -23,8 +23,6 @@ class SignupForm extends AbstractUserForm
         // Set validation group
         $this->setValidationGroup(array(
             'csrf',
-            'username',
-            'email',
             'password',
             'password_verify',
         ));
