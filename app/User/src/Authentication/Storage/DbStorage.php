@@ -85,7 +85,7 @@ class DbStorage implements StorageInterface, ServiceManagerAwareInterface
             // Resolve identity
             $identity = $this->getUserMapper()->selectRowById($identifier);
             
-            // Return resolved identity
+            // Return identity
             return $this->identity = $identity;
         }
         

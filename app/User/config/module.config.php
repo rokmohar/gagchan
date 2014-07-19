@@ -3,7 +3,8 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'User\Index' => 'User\Controller\IndexController',
+            'User\IndexController' => 'User\Controller\IndexController',
+            'User\UserController'  => 'User\Controller\UserController',
         ),
     ),
     'router' => array(
@@ -13,7 +14,7 @@ return array(
                 'options' => array(
                     'route'    => '/login',
                     'defaults' => array(
-                        'controller' => 'User\Index',
+                        'controller' => 'User\IndexController',
                         'action'     => 'login',
                     ),
                 ),
@@ -23,7 +24,7 @@ return array(
                 'options' => array(
                     'route'    => '/logout',
                     'defaults' => array(
-                        'controller' => 'User\Index',
+                        'controller' => 'User\IndexController',
                         'action'     => 'logout',
                     ),
                 ),
@@ -33,8 +34,31 @@ return array(
                 'options' => array(
                     'route'    => '/signup',
                     'defaults' => array(
-                        'controller' => 'User\Index',
+                        'controller' => 'User\IndexController',
                         'action'     => 'signup',
+                    ),
+                ),
+            ),
+            'signup' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/user',
+                    'defaults' => array(
+                        'controller' => 'User\UserController',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'change_password' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/change-password',
+                            'defaults' => array(
+                                'controller' => 'User\UserController',
+                                'action'     => 'changePassword',
+                            ),
+                        ),
                     ),
                 ),
             ),
