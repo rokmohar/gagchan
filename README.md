@@ -3,9 +3,10 @@ To do
 - No record exists validation
 - Registration confirmation
 - Forgot password
-- Remember me
+- Remember me (by default)
 - Social network log in/sign up
 - Import error template
+- Play/pause GIF and dynamic loading
 
 Modules
 ================================================================================
