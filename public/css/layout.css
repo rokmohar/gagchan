@@ -254,14 +254,6 @@ h1, h2, h3, h4, h5, h6 {
     float: left;
 }
 
-.meme > .meme-action > .meme-author {
-    float: right;
-    
-    color: #999999;
-    font-size: 12px;;
-    line-height: 34px;
-}
-
 .meme > .meme-action > li > .response-selected,
 .meme > .meme-action > li > .zeroclipboard-is-hover,
 .meme > .meme-action > li > .zeroclipboard-selected,

@@ -6,7 +6,7 @@ namespace User\Form;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <rok.zaloznik@gmail.com>
  */
-class LoginForm extends AbstractUserForm
+class SignupForm extends AbstractUserForm
 {
     public function __construct($name, array $options = array())
     {
@@ -15,8 +15,10 @@ class LoginForm extends AbstractUserForm
         // Set validation group
         $this->setValidationGroup(array(
             'csrf',
+            'username',
             'email',
             'password',
+            'password_verify',
         ));
     }
 }

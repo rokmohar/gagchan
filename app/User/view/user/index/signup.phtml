@@ -1,35 +1,7 @@
 <?php
-    $form = $this->registerForm;
+    $form = $this->signupForm;
     $form->prepare();
-    $form->setAttribute('action', $this->url('register'));
-    $form->setAttribute('method', 'post');
-    
-    $form->get('username')
-        ->setAttribute('class', 'form-control')
-        ->setAttribute('placeholder', $form->get('username')->getLabel())
-    ;
-    
-    $form->get('email')
-        ->setAttribute('class', 'form-control')
-        ->setAttribute('placeholder', $form->get('email')->getLabel())
-    ;
-    
-    $form->get('password')
-        ->setAttribute('class', 'form-control')
-        ->setAttribute('placeholder', $form->get('password')->getLabel())
-    ;
-    
-    $form->get('passwordVerify')
-        ->setAttribute('class', 'form-control')
-        ->setAttribute('placeholder', $form->get('passwordVerify')->getLabel())
-    ;
-    
-    $form->get('submit')
-        ->setAttribute('class', 'btn btn-primary')
-    ;
 ?>
-
-<?php #echo $this->formCaptcha($element) . $this->formElementErrors($element) ?>
 
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
@@ -37,6 +9,9 @@
         <h3 class="login-title">Sign up</h3>
         
         <?php echo $this->form()->openTag($form) ?>
+        
+            <!-- #CSRF -->
+            <?php echo $this->formHidden($form->get('csrf')) ?>
         
             <!-- #Username -->
             <div class="form-row">
@@ -79,22 +54,18 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('passwordVerify')) ?>
+                    <?php echo $this->formInput($form->get('password_verify')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($form->get('passwordVerify')) ?>
+                <?php echo $this->formElementErrors($form->get('password_verify')) ?>
             </div>
             
-            <div class="form-row">
+            <?php /* <div class="form-row">
                 <?php echo $this->formCaptcha($form->get('captcha')) ?>
                 
                 <?php echo $this->formElementErrors($form->get('captcha')) ?>
-            </div>
+            </div> */ ?>
             
-            <?php if ($this->redirect): ?>
-                <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($this->redirect) ?>" />
-            <?php endif ?>
-                
             <div class="input-group">
                 <?php echo $this->formButton($form->get('submit')) ?>
             </div>
@@ -110,11 +81,11 @@
         <div class="hidden-overflow">
             <ul class="btn-social-group clearfix">
                 <li>
-                    <a href="<?php echo $this->url('scn-social-auth-user/login/provider', array('provider' => 'facebook')) ?>" class="btn btn-facebook">Facebook</a>
+                    <a href="#" class="btn btn-facebook">Facebook</a>
                 </li>
 
                 <li>
-                    <a href="<?php echo $this->url('scn-social-auth-user/login/provider', array('provider' => 'google')) ?>" class="btn btn-google">Google</a>
+                    <a href="#" class="btn btn-google">Google</a>
                 </li>
             </ul>
         </div>
@@ -130,7 +101,7 @@
         <div style="padding: 20px; background: #e8e8e8; border-radius: 4px; text-align: center;">
             Log in now and upload your meme for free!
             <div style="margin-top: 20px;">
-             <a href="<?php echo $this->url('zfcuser/login') ?>" class="btn btn-primary">Log in</a>
+             <a href="<?php echo $this->url('login') ?>" class="btn btn-primary">Log in</a>
             </div>
         </div>
     </div>

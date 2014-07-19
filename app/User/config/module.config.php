@@ -28,6 +28,16 @@ return array(
                     ),
                 ),
             ),
+            'signup' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/signup',
+                    'defaults' => array(
+                        'controller' => 'User\Index',
+                        'action'     => 'signup',
+                    ),
+                ),
+            ),
         ),
     ),
     'view_manager' => array(

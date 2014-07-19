@@ -2,6 +2,7 @@
 
 namespace User\Controller;
 
+use Zend\Crypt\Password\Bcrypt;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -15,6 +16,15 @@ class IndexController extends AbstractActionController
      * @var \User\Form\LoginForm
      */
     protected $loginForm;
+    
+    /**
+     * @var \User\Form\SignupForm
+     */
+    protected $signupForm;
+    /**
+     * @var \User\Mapper\UserMapperInterface
+     */
+    protected $userMapper;
     
     /**
      * @return \Zend\View\Model\ViewModel
@@ -49,9 +59,6 @@ class IndexController extends AbstractActionController
 
         // Check if form is not valid
         if ($loginForm->isValid() === false) {
-            // @todo: remove for production
-            var_dump($loginForm->getMessages()); die();
-            
             // Return view
             return new ViewModel(array(
                 'loginForm' => $loginForm,
@@ -98,6 +105,59 @@ class IndexController extends AbstractActionController
     }
     
     /**
+     * @return 
+     */
+    public function signupAction()
+    {
+        // Get request
+        $request = $this->getRequest();
+        
+        // Get form
+        $signupForm = $this->getSignupForm();
+        
+        // Check if page is not posted
+        if ($request->isPost() === false) {
+            // Return view
+            return new ViewModel(array(
+                'signupForm' => $signupForm,
+            ));
+        }
+        
+        // Set entity prototype
+        $signupForm->bind(new \User\Entity\UserEntity());
+
+        // Set posted data
+        $signupForm->setData($request->getPost());
+
+        // Check if form is not valid
+        if ($signupForm->isValid() === false) {
+            // Return view
+            return new ViewModel(array(
+                'signupForm' => $signupForm,
+            ));
+        }
+        
+        // Get posted data
+        $data = $signupForm->getData();
+        
+        // Encryption service
+        $crypt = new Bcrypt(array(
+            'cost' => 14,
+        ));
+        
+        // Encrypt password
+        $data->setPassword(
+            $crypt->create($data->getPassword())
+        );
+        
+        // Insert data
+        $this->getUserMapper()->insertRow($data);
+        
+        // Redirect to route
+        return $this->redirect()->toRoute('login');
+    }
+    
+    /**
      * Return the login form.
      * 
      * @return \User\Form\LoginForm
@@ -111,5 +171,37 @@ class IndexController extends AbstractActionController
         }
         
         return $this->loginForm;
+    }
+    
+    /**
+     * Return the signup form.
+     * 
+     * @return \User\Form\LoginForm
+     */
+    public function getSignupForm()
+    {
+        if ($this->signupForm === null) {
+            return $this->signupForm = $this->getServiceLocator()->get(
+                'user.form.signup'
+            );
+        }
+        
+        return $this->signupForm;
+    }
+    
+    /**
+     * Return the user mapper.
+     * 
+     * @return \User\Mapper\UserMapperInterface
+     */
+    public function getUserMapper()
+    {
+        if ($this->userMapper === null) {
+            return $this->userMapper = $this->getServiceLocator()->get(
+                'user.mapper.user'
+            );
+        }
+        
+        return $this->userMapper;
     }
 }

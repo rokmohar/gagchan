@@ -75,8 +75,9 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         }
         
         // Encryption service
-        $crypt = new Bcrypt();
-        $crypt->setCost(14);
+        $crypt = new Bcrypt(array(
+            'cost' => 14,
+        ));
         
         // Verify if a password is correct
         if ($crypt->verify($password, $user->getPassword()) === false) {

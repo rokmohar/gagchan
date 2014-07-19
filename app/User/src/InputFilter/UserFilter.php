@@ -21,6 +21,7 @@ class UserFilter extends InputFilter
             ->addUsername()
             ->addEmail()
             ->addPassword()
+            ->addPasswordVerify()
         ;
     }
     
@@ -36,7 +37,7 @@ class UserFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'Zend\Validator\Csrf',
+                    'name' => 'Zend\Validator\Csrf',
                 ),
             ),
         ));
@@ -93,6 +94,13 @@ class UserFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
+                    'name'    => 'Zend\Validator\StringLength',
+                    'options' => array(
+                        //'min' => 6,
+                        'max' => 255,
+                    ),
+                ),
+                array(
                     'name' => 'Zend\Validator\EmailAddress',
                 ),
             ),
@@ -121,6 +129,40 @@ class UserFilter extends InputFilter
                     'options' => array(
                         'min' => 6,
                         'max' => 255,
+                    ),
+                ),
+            ),
+            'filters' => array(
+                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\StripTags'),
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the password verify input filter.
+     * 
+     * @return \User\InputFilter\AbstractFilter
+     */
+    protected function addPasswordVerify()
+    {
+        $this->add(array(
+            'name'       => 'password_verify',
+            'required'   => true,
+            'validators' => array(
+                array(
+                    'name'    => 'Zend\Validator\StringLength',
+                    'options' => array(
+                        'min' => 6,
+                        'max' => 255,
+                    ),
+                    array(
+                        'name'    => 'Zend\Validator\Identical',
+                        'options' => array(
+                            'token' => 'password',
+                        ),
                     ),
                 ),
             ),

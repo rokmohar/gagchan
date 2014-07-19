@@ -67,6 +67,7 @@ class Module implements
             'factories' => array(
                 'user.auth.service'  => 'User\Factory\Authentication\AuthenticationServiceFactory',
                 'user.form.login'    => 'User\Factory\Form\LoginFormFactory',
+                'user.form.signup'   => 'User\Factory\Form\SignupFormFactory',
                 'user.mapper.user'   => 'User\Factory\Mapper\UserMapperFactory',
             ),
         );
