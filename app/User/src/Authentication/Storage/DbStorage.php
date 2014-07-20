@@ -2,8 +2,7 @@
 
 namespace User\Authentication\Storage;
 
-use Zend\Authentication\Storage\Session;
-use Zend\Authentication\Storage\StorageInterface;
+use Zend\Authentication\Storage\StorageInterface as ZendStorageInterface;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 
@@ -11,7 +10,7 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class DbStorage implements StorageInterface, ServiceManagerAwareInterface
+class DbStorage implements ServiceManagerAwareInterface, ZendStorageInterface
 {
     /**
      * @var \User\Entity\UserEntityInterface
@@ -92,7 +91,7 @@ class DbStorage implements StorageInterface, ServiceManagerAwareInterface
         // Unable to resolve
         return null;
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -103,6 +102,9 @@ class DbStorage implements StorageInterface, ServiceManagerAwareInterface
         
         // Write to storage
         $this->getStorage()->write($contents);
+        
+        // Remember this session
+        $this->getStorage()->rememberMe(604800);
         
         return $this;
     }

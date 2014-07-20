@@ -16,7 +16,7 @@ return array(
                         'controller'  => 'Category\Index',
                         'action'      => 'index',
                         'constraints' => array(
-                            'slug' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'slug' => '[a-zA-Z][a-zA-Z0-9]*',
                         ),
                     ),
                 ),

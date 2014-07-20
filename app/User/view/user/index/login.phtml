@@ -27,6 +27,9 @@
                         <span class="glyphicon glyphicon-lock"></span>
                     </span>
                     <?php echo $this->formInput($loginForm->get('password')) ?>
+                    <a href="<?php echo $this->url('recover') ?>" class="input-group-addon btn btn-default">
+                        Forgot password
+                    </a>
                 </div>
                 
                 <?php echo $this->formElementErrors($loginForm->get('password')) ?>

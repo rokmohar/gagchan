@@ -4,6 +4,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'User\IndexController'    => 'User\Controller\IndexController',
+            'User\RecoverController'  => 'User\Controller\RecoverController',
             'User\SettingsController' => 'User\Controller\SettingsController',
         ),
     ),
@@ -29,13 +30,29 @@ return array(
                     ),
                 ),
             ),
-            'signup' => array(
+            'recover' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/signup',
+                    'route'    => '/recover',
                     'defaults' => array(
-                        'controller' => 'User\IndexController',
-                        'action'     => 'signup',
+                        'controller' => 'User\RecoverController',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'choose' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/[:id]/[:token]',
+                            'defaults' => array(
+                                'controller'  => 'User\RecoverController',
+                                'action'      => 'choose',
+                                'constraints' => array(
+                                    'token' => '[a-zA-Z0-9]*',
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -59,6 +76,16 @@ return array(
                                 'action'     => 'password',
                             ),
                         ),
+                    ),
+                ),
+            ),
+            'signup' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/signup',
+                    'defaults' => array(
+                        'controller' => 'User\IndexController',
+                        'action'     => 'signup',
                     ),
                 ),
             ),

@@ -1,9 +1,10 @@
 To do
 ================================================================================
-- No record exists validation
+- Unique validation - DONE
+- Add re-captcha (cross-platform service)
 - Registration confirmation
 - Forgot password
-- Remember me (by default)
+- Remember me - DONE
 - Social network log in/sign up
 - Import error template
 - Play/pause GIF and dynamic loading
@@ -11,14 +12,9 @@ To do
 Modules
 ================================================================================
 - AWS: https://github.com/aws/aws-sdk-php-zf2
-- User: https://github.com/ZF-Commons/ZfcUser
-- OAuth: https://github.com/SocalNick/ScnSocialAuth
-- ACL: https://github.com/bjyoungblood/BjyAuthorize
-
-Guidelines
-================================================================================
-- Signed links for share -> CloudFront service (way faster!) -> CNAME record on host server for prettier URL!
-- Pagination, not scroll to infinity -> Easy ad distribution and less unique ads needed!
+- User: https://github.com/ZF-Commons/ZfcUser (DEPRECATED)
+- OAuth: https://github.com/SocalNick/ScnSocialAuth (DEPRECATED)
+- ACL: https://github.com/bjyoungblood/BjyAuthorize (DEPRECATED)
 
 MySQL access
 ================================================================================
