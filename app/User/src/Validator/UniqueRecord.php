@@ -4,14 +4,14 @@ namespace User\Validator;
 
 use Zend\Validator\AbstractValidator;
 
-use User\Entity\UserEntityInterface ;
+use User\Entity\UserEntityInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class Unique extends AbstractValidator
+class UniqueRecord extends AbstractValidator
 {
     /**#@+*/
     const ERROR_RECORD_FOUND = 'recordFound';

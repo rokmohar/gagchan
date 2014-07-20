@@ -23,7 +23,7 @@ interface MediaManagerInterface
     public function uploadImage(
         UploadedImage $file,
         $name,
-        UserInterface $user,
+        UserEntityInterface $user,
         CategoryEntityInterface $category
     );
     

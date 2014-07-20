@@ -13,6 +13,11 @@ use Zend\View\Model\ViewModel;
 class RecoverController extends AbstractActionController
 {
     /**
+     * @var \User\Form\RecoverForm
+     */
+    protected $recoverForm;
+    
+    /**
      * @var \User\Mapper\UserMapperInterface
      */
     protected $userMapper;
@@ -22,7 +27,75 @@ class RecoverController extends AbstractActionController
      */
     public function indexAction()
     {
-        // Return view
-        return new ViewModel();
+        // Check if user has identity
+        if ($this->user()->hasIdentity() === true) {
+            // Redirect to route
+            return $this->redirect()->toRoute('home');
+        }
+        
+        // Get request
+        $request = $this->getRequest();
+        
+        // Get form
+        $recoverForm = $this->getRecoverForm();
+        
+        // Check if page is not posted
+        if ($request->isPost() === false) {
+            // Return view
+            return new ViewModel(array(
+                'recoverForm' => $recoverForm,
+            ));
+        }
+        
+        // Set entity prototype
+        $recoverForm->bind(new \User\Entity\UserEntity());
+
+        // Set posted data
+        $recoverForm->setData($request->getPost());
+
+        // Check if form is not valid
+        if ($recoverForm->isValid() === false) {
+            // Return view
+            return new ViewModel(array(
+                'recoverForm' => $recoverForm,
+            ));
+        }
+        
+        // Get data
+        $data = $recoverForm->getData();
+        
+        var_dump($data); die();
+    }
+    
+    /**
+     * Return the user mapper.
+     * 
+     * @return \User\Mapper\UserMapperInterface
+     */
+    public function getUserMapper()
+    {
+        if ($this->userMapper === null) {
+            return $this->userMapper = $this->getServiceLocator()->get(
+                'user.mapper.user'
+            );
+        }
+        
+        return $this->userMapper;
+    }
+    
+    /**
+     * Return the recover form.
+     * 
+     * @return \User\Form\RecoverForm
+     */
+    public function getRecoverForm()
+    {
+        if ($this->recoverForm === null) {
+            return $this->recoverForm = $this->getServiceLocator()->get(
+                'user.form.recover'
+            );
+        }
+        
+        return $this->recoverForm;
     }
 }

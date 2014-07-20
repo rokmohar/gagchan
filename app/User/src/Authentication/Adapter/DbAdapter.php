@@ -66,7 +66,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_IDENTITY_NOT_FOUND)
                 ->setMessages(array(
-                    'A record with the supplied identity could not be found.',
+                    'A record with the supplied combination could not be found.',
                 ))
             ;
             
@@ -86,7 +86,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_CREDENTIAL_INVALID)
                 ->setMessages(array(
-                    'A record with the supplied identity could not be found.',
+                    'A record with the supplied combination could not be found.',
                 ))
             ;
             

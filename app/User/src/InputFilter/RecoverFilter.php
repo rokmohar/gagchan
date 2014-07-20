@@ -6,7 +6,7 @@ namespace User\InputFilter;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class LoginFilter extends UserFilter
+class RecoverFilter extends UserFilter
 {
     /**
      * Add the email address input filter.
@@ -19,6 +19,13 @@ class LoginFilter extends UserFilter
             'name'       => 'email',
             'required'   => true,
             'validators' => array(
+                array(
+                    'name'    => 'User\Validator\RecordExists',
+                    'options' => array(
+                        'field'  => 'email',
+                        'mapper' => $this->userMapper,
+                    ),
+                ),
                 array(
                     'name' => 'Zend\Validator\EmailAddress',
                 ),

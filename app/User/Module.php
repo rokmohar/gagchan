@@ -69,6 +69,7 @@ class Module implements
                 'user.form.account_settings'  => 'User\Factory\Form\AccountSettingsFormFactory',
                 'user.form.login'             => 'User\Factory\Form\LoginFormFactory',
                 'user.form.password_settings' => 'User\Factory\Form\PasswordSettingsFormFactory',
+                'user.form.recover'           => 'User\Factory\Form\RecoverFormFactory',
                 'user.form.signup'            => 'User\Factory\Form\SignupFormFactory',
                 'user.mapper.user'            => 'User\Factory\Mapper\UserMapperFactory',
             ),

@@ -3,7 +3,29 @@
     <div class="widget">
         <h3 class="login-title">Recover password</h3>
         
-        Test
+         <?php echo $this->form()->openTag($recoverForm) ?>
+            
+            <!-- #CSRF -->
+            <?php echo $this->formHidden($recoverForm->get('csrf')) ?>
+            
+            <!-- #Email -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    <?php echo $this->formInput($recoverForm->get('email')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($recoverForm->get('email')) ?>
+            </div>
+            
+            <!-- #Submit -->
+            <div class="input-group">
+                <?php echo $this->formSubmit($recoverForm->get('submit')) ?>
+            </div>
+            
+        <?php echo $this->form()->closeTag() ?>
     </div>
 
 </section>

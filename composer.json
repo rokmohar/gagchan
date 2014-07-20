@@ -7,6 +7,7 @@
         "zendframework/zendframework": "2.3.*",
         "zendframework/zendservice-recaptcha": "2.*",
         "aws/aws-sdk-php-zf2": "1.2.*",
-        "imagine/imagine": "0.6.*"
+        "imagine/imagine": "0.6.*",
+        "hybridauth/hybridauth": "2.2.*"
     }
 }

@@ -67,7 +67,7 @@ class UserFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'User\Validator\Unique',
+                    'name'    => 'User\Validator\UniqueRecord',
                     'options' => array(
                         'field'  => 'username',
                         'mapper' => $this->userMapper,
@@ -78,7 +78,7 @@ class UserFilter extends InputFilter
                     'options' => array(
                         'pattern'  => '/^[a-zA-Z\d\.\_]*$/',
                         'messages' => array(
-                            \Zend\Validator\Regex::NOT_MATCH => 'Value can only contain letters, numbers, dot and underscore.',
+                            \Zend\Validator\Regex::NOT_MATCH => 'Value can only contain letters, numbers, dots and underscores.',
                         ),
                     ),
                 ),
@@ -111,21 +111,20 @@ class UserFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'User\Validator\Unique',
+                    'name'    => 'User\Validator\UniqueRecord',
                     'options' => array(
                         'field'  => 'email',
                         'mapper' => $this->userMapper,
                     ),
                 ),
                 array(
-                    'name'    => 'Zend\Validator\StringLength',
-                    'options' => array(
-                        //'min' => 6,
-                        'max' => 255,
-                    ),
+                    'name' => 'Zend\Validator\EmailAddress',
                 ),
                 array(
-                    'name' => 'Zend\Validator\EmailAddress',
+                    'name'    => 'Zend\Validator\StringLength',
+                    'options' => array(
+                        'max' => 255,
+                    ),
                 ),
             ),
             'filters' => array(
