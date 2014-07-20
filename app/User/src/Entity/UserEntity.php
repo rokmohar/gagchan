@@ -2,8 +2,6 @@
 
 namespace User\Entity;
 
-use Core\Utils\Transliterator;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -159,5 +157,26 @@ class UserEntity implements UserEntityInterface
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+    
+    /**
+     * Pre-insert initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preInsert()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+    
+    /**
+     * Pre-update initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

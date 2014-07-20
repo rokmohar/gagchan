@@ -1,21 +1,21 @@
 <?php
 
-namespace User\Mapper;
+namespace OAuth\Mapper;
 
-use User\Entity\UserEntityInterface;
+use OAuth\Entity\OAuthEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-interface UserMapperInterface
+interface OAuthMapperInterface
 {
     /**
      * Insert a row.
      * 
-     * @param \User\Entity\UserEntityInterface $user
+     * @param \OAuth\Entity\OAuthEntityInterface $oauth
      */
-    public function insertRow(UserEntityInterface $user);
+    public function insertRow(OAuthEntityInterface $oauth);
     
     /**
      * Select all rows.
@@ -40,7 +40,7 @@ interface UserMapperInterface
     /**
      * Update a row.
      * 
-     * @param \User\Entity\UserEntityInterface $user
+     * @param \OAuth\Entity\OAuthEntityInterface $oauth
      */
-    public function updateRow(UserEntityInterface $user);
+    public function updateRow(OAuthEntityInterface $oauth);
 }

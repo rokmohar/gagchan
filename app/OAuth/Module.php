@@ -4,6 +4,7 @@ namespace OAuth;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -11,7 +12,8 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
  */
 class Module implements
     AutoloaderProviderInterface,
-    ConfigProviderInterface
+    ConfigProviderInterface,
+    ServiceProviderInterface
 {
     /**
      * @return array
@@ -34,4 +36,22 @@ class Module implements
     {
         return include __DIR__ . '/config/module.config.php';
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceConfig()
+    {
+        return array(
+            'invokables' => array(
+                'oauth.auth.adapter.oauth' => 'OAuth\Authentication\Adapter\OAuthAdapter',
+            ),
+            'factories' => array(
+                'oauth.hybridauth'     => 'OAuth\Factory\HybridAuthFactory',
+                'oauth.mapper.oauth'   => 'OAuth\Factory\Mapper\OAuthMapperFactory',
+                'oauth.options.module' => 'OAuth\Factory\Options\ModuleOptionsFactory'
+            ),
+        );
+    }
+    
 }

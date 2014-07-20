@@ -27,6 +27,7 @@ class AuthenticationServiceFactory implements FactoryInterface
         // @todo: put this to configuration
         $authAdapters = array(
             100 => 'user.auth.adapter.db',
+            200 => 'oauth.auth.adapter.oauth',
         );
         
         // Attach multiple adapters and events

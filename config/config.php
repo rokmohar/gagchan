@@ -10,6 +10,7 @@ return array(
         'Contact',
         'Core',
         'Media',
+        'OAuth',
         'User',
     ),
 

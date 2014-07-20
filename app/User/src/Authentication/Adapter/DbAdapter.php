@@ -23,11 +23,6 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
     protected $serviceManager;
     
     /**
-     * @var \User\Hydrator\UserHydrator
-     */
-    protected $userHydrator;
-    
-    /**
      * @var \User\Mapper\UserMapperInterface
      */
     protected $userMapper;
@@ -49,12 +44,27 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         // Check if request is empty
         if (empty($request) === true) {
             // Throw an exception
-            throw new \RuntimeException('Request was not provided.');
+            throw new \RuntimeException('Request is not provided.');
         }
         
         // Get posted data
         $email    = $request->getPost()->get('email');
         $password = $request->getPost()->get('password');
+        
+        // Check if data is empty
+        if (empty($email) || empty($password)) {
+            // Set event parameters
+            $event
+                ->setSatisfied(false)
+                ->setCode(Result::FAILURE_UNCATEGORIZED)
+                ->setMessages(array(
+                    'Email or password is not provided.',
+                ))
+            ;
+            
+            // Authentication not successful
+            return false;
+        }
         
         // Get user
         $user = $this->getUserMapper()->selectRowByEmail($email);
@@ -154,21 +164,6 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         $this->serviceManager = $serviceManager;
         
         return $this;
-    }
-    
-    /**
-     * Get the user hydrator.
-     *
-     * @return \User\Hydrator\UserHydrator
-     */
-    public function getUserHydrator()
-    {
-        if ($this->userHydrator === null) {
-            return $this->userHydrator = $this->serviceManager->get(
-                'user.hydrator.user'
-            );
-        }
-        return $this->userHydrator;
     }
     
     /**

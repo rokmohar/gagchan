@@ -1,27 +1,27 @@
 <?php
 
-namespace User\Mapper;
+namespace OAuth\Mapper;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 
 use Core\Mapper\AbstractMapper;
-use User\Entity\UserEntityInterface;
+use OAuth\Entity\OAuthEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserMapper extends AbstractMapper implements UserMapperInterface
+class OAuthMapper extends AbstractMapper implements OAuthMapperInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function insertRow(UserEntityInterface $user)
+    public function insertRow(OAuthEntityInterface $oauth)
     {
         // Check if entity has pre-insert method
-        if (method_exists($user, 'preInsert')) {
+        if (method_exists($oauth, 'preInsert')) {
             // Call a method
-            call_user_func(array($user, 'preInsert'));
+            call_user_func(array($oauth, 'preInsert'));
         }
         
         // Get SQL insert
@@ -29,11 +29,11 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
         
         $insert
             ->values(array(
-                'username'   => $user->getUsername(),
-                'email'      => $user->getEmail(),               
-                'password'   => $user->getPassword(),
-                'created_at' => $user->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $user->getUpdatedAt()->format('Y-m-d H:i:s'),
+                'user_id'     => $oauth->getUserId(),
+                'provider'    => $oauth->getProvider(),
+                'provider_id' => $oauth->getProviderId(),
+                'created_at'  => $oauth->getCreatedAt()->format('Y-m-d H:i:s'),
+                'updated_at'  => $oauth->getUpdatedAt()->format('Y-m-d H:i:s'),
             ))
         ;
         
@@ -46,8 +46,8 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
         // Execute statement
         $result = $statement->execute();
         
-        // Set identifier
-        $user->setId($result->getGeneratedValue());
+        // Set generated value
+        $oauth->setId($result->getGeneratedValue());
         
         // Return result
         return $result;
@@ -110,52 +110,29 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
         return $resultSet->current();
     }
     
-    
     /**
-     * Select user by the identifier.
+     * Select row by the provider identifier.
      * 
-     * @param string $id
+     * @param string $provider
+     * @param string $providerId
      */
-    public function selectRowById($id)
+    public function selectRowByProviderId($provider, $providerId)
     {
         return $this->selectRow(array(
-            'id' => $id,
-        ));
-    }
-    
-    /**
-     * Select user by the username.
-     * 
-     * @param string $username
-     */
-    public function selectRowByUsername($username)
-    {
-        return $this->selectRow(array(
-            'username' => $username,
-        ));
-    }
-    
-    /**
-     * Select user by the email address.
-     * 
-     * @param string $email
-     */
-    public function selectRowByEmail($email)
-    {
-        return $this->selectRow(array(
-            'email' => $email,
+            'provider'    => $provider,
+            'provider_id' => $providerId,
         ));
     }
     
     /**
      * {@inheritDoc}
      */
-    public function updateRow(UserEntityInterface $user)
+    public function updateRow(OAuthEntityInterface $oauth)
     {
         // Check if entity has pre-update method
-        if (method_exists($user, 'preUpdate')) {
+        if (method_exists($oauth, 'preUpdate')) {
             // Call a method
-            call_user_func(array($user, 'preUpdate'));
+            call_user_func(array($oauth, 'preUpdate'));
         }
         
         // Get update
@@ -163,13 +140,13 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
         
         $update
             ->set(array(
-                'username'   => $user->getUsername(),
-                'email'      => $user->getEmail(),
-                'password'   => $user->getPassword(),
-                'updated_at' => $user->getUpdatedAt()->format('Y-m-d H:i:s'),
+                'user_id'     => $oauth->getUserId(),
+                'provider'    => $oauth->getProvider(),
+                'provider_id' => $oauth->getProviderId(),
+                'updated_at'  => $oauth->getUpdatedAt()->format('Y-m-d H:i:s'),
             ))
             ->where(array(
-                'id' => $user->getId(),
+                'id' => $oauth->getId(),
             ))
         ;
         

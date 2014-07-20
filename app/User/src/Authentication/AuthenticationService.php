@@ -94,7 +94,7 @@ class AuthenticationService implements
     public function logout()
     {
         // Trigger logout event
-        //$this->getEventManager()->trigger('logout', $this->getEvent());
+        $this->getEventManager()->trigger('logout', $this->getEvent());
         
         // Clear the identity
         $this->clearIdentity();
@@ -107,9 +107,6 @@ class AuthenticationService implements
      */
     public function clearIdentity()
     {
-        // Trigger logout event
-        //$this->getEventManager()->trigger('logout', $this->getEvent());
-        
         // Clear the storage
         $this->getStorage()->clear();
         

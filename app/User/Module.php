@@ -62,7 +62,6 @@ class Module implements
             'invokables' => array(
                 'user.auth.adapter.db' => 'User\Authentication\Adapter\DbAdapter',
                 'user.auth.storage.db' => 'User\Authentication\Storage\DbStorage',
-                'user.hydrator.user'   => 'User\Hydrator\UserHydrator',
             ),
             'factories' => array(
                 'user.auth.service'           => 'User\Factory\Authentication\AuthenticationServiceFactory',
