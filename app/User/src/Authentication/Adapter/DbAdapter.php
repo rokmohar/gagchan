@@ -116,7 +116,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
      * Update password hash if the cost has changed
      * 
      * @param \User\Entity\UserEntityInterface $user
-     * @param String                           $password
+     * @param string                           $password
      * @param \Zend\Crypt\Password\Bcrypt      $bcrypt
      */
     protected function updatePasswordHash(UserEntityInterface $user, $password, Bcrypt $bcrypt)

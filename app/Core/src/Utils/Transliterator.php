@@ -11,7 +11,7 @@ class Transliterator
     /**
      * Transliterate a string to UTF-8.
      * 
-     * @param String $string
+     * @param string $string
      * 
      * @return String
      */

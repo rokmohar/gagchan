@@ -49,7 +49,7 @@ class CommentEntity implements CommentEntityInterface
     /**
      * Set the identifier.
      * 
-     * @param Integer $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -69,7 +69,7 @@ class CommentEntity implements CommentEntityInterface
     /**
      * Set the media identifier.
      * 
-     * @param Integer $mediaId
+     * @param int $mediaId
      */
     public function setMediaId($mediaId)
     {
@@ -89,7 +89,7 @@ class CommentEntity implements CommentEntityInterface
     /**
      * Set the user identifier.
      * 
-     * @param Integer $userId
+     * @param int $userId
      */
     public function setUserId($userId)
     {
@@ -109,7 +109,7 @@ class CommentEntity implements CommentEntityInterface
     /**
      * Set the comment text.
      * 
-     * @param String $comment
+     * @param string $comment
      */
     public function setComment($comment)
     {

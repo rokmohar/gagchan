@@ -11,8 +11,8 @@ use Zend\Form\Form;
 abstract class AbstractUserForm extends Form
 {
     /**
-     * @param String $name
-     * @param Array  $options
+     * @param string $name
+     * @param array  $options
      */
     public function __construct($name, array $options = array())
     {
@@ -21,6 +21,7 @@ abstract class AbstractUserForm extends Form
         // Add elements
         $this
             ->addCsrf()
+            ->addId()
             ->addUsername()
             ->addEmail()
             ->addPassword()
@@ -28,7 +29,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the CSRF form element.
+     * Add the CSRF element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -43,7 +44,22 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the username form element.
+     * Add the identifier element.
+     * 
+     * @return \User\Form\AbstractForm
+     */
+    public function addId()
+    {
+        $this->add(array(
+            'name' => 'id',
+            'type' => 'Zend\Form\Element\Hidden',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the username element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -51,11 +67,11 @@ abstract class AbstractUserForm extends Form
     {
         $this->add(array(
             'name'    => 'username',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Username',
             ),
             'attributes' => array(
-                'type'        => 'text',
                 'class'       => 'form-control',
                 'placeholder' => 'Username',
             ),
@@ -65,7 +81,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the email address form element.
+     * Add the email address element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -73,11 +89,11 @@ abstract class AbstractUserForm extends Form
     {
         $this->add(array(
             'name'    => 'email',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Email address',
             ),
             'attributes' => array(
-                'type'        => 'text',
                 'class'       => 'form-control',
                 'placeholder' => 'Email address',
             ),
@@ -87,7 +103,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the password form element.
+     * Add the password element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -95,11 +111,11 @@ abstract class AbstractUserForm extends Form
     {
         $this->add(array(
             'name'    => 'password',
+            'type'    => 'Zend\Form\Element\Password',
             'options' => array(
                 'label' => 'Password',
             ),
             'attributes' => array(
-                'type'        => 'password',
                 'class'       => 'form-control',
                 'placeholder' => 'Password',
             ),
@@ -109,7 +125,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the password verify form element.
+     * Add the password verify element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -117,11 +133,11 @@ abstract class AbstractUserForm extends Form
     {
         $this->add(array(
             'name'    => 'password_verify',
+            'type'    => 'Zend\Form\Element\Password',
             'options' => array(
                 'label' => 'Password verify',
             ),
             'attributes' => array(
-                'type'        => 'password',
                 'class'       => 'form-control',
                 'placeholder' => 'Password verify',
             ),
@@ -131,9 +147,9 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the submit form element.
+     * Add the submit element.
      * 
-     * @param String $label
+     * @param string $label
      * 
      * @return \User\Form\AbstractForm
      */
@@ -141,11 +157,11 @@ abstract class AbstractUserForm extends Form
     {
         $this->add(array(
             'name'    => 'submit',
+            'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
                 'label' => $label,
             ),
             'attributes' => array(
-                'type'  => 'submit',
                 'class' => 'btn btn-primary',
                 'value' => $label,
             ),

@@ -18,7 +18,7 @@ class ValidatorChain extends AbstractValidator
     /**#@-*/
     
     /**
-     * @var Array
+     * @var array
      */
     protected $messageTemplates = array(
         self::NOT_READABLE => "File is not readable or does not exist",
@@ -40,7 +40,7 @@ class ValidatorChain extends AbstractValidator
     protected $validators = array();
     
     /**
-     * @param Array $options
+     * @param array $options
      */
     public function __construct($options = array())
     {

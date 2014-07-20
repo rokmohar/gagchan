@@ -17,14 +17,14 @@ interface StorageManagerInterface
     /**
      * Check if collection contains a storage.
      * 
-     * @param String $name
+     * @param string $name
      */
     public function hasStorage($name);
     
     /**
      * Return storage by name.
      * 
-     * @param String $name
+     * @param string $name
      */
     public function getStorage($name);
     

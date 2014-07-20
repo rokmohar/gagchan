@@ -7,7 +7,7 @@ interface ExtensionGuesserInterface
     /**
      * Makes a best guess for a file extension, given a mime type.
      *
-     * @param String $mimeType
+     * @param string $mimeType
      * 
      * @return String
      */

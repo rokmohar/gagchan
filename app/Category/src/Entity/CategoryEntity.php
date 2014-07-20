@@ -53,7 +53,7 @@ class CategoryEntity implements CategoryEntityInterface
     /**
      * Set the identifier.
      * 
-     * @param Integer $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -73,7 +73,7 @@ class CategoryEntity implements CategoryEntityInterface
     /**
      * Set the unique slug.
      * 
-     * @param String $slug
+     * @param string $slug
      */
     public function setSlug($slug)
     {
@@ -93,7 +93,7 @@ class CategoryEntity implements CategoryEntityInterface
     /**
      * Set the name.
      * 
-     * @param String $name
+     * @param string $name
      */
     public function setName($name)
     {

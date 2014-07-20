@@ -20,8 +20,8 @@ interface CategoryMapperInterface
     /**
      * Select all rows.
      * 
-     * @param Array $where
-     * @param Array $order
+     * @param array $where
+     * @param array $order
      * 
      * @return mixed
      */
@@ -30,8 +30,8 @@ interface CategoryMapperInterface
     /**
      * Select a row.
      * 
-     * @param Array $where
-     * @param Array $order
+     * @param array $where
+     * @param array $order
      * 
      * @return mixed
      */

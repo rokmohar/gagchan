@@ -11,7 +11,7 @@ use Category\Mapper\CategoryMapperInterface;
 class UploadMediaForm extends AbstractMediaForm
 {
     /**
-     * @param String                                $name
+     * @param string                                $name
      * @param \Media\Mapper\CategoryMapperInterface $categoryMapper
      */
     public function __construct($name, CategoryMapperInterface $categoryMapper)

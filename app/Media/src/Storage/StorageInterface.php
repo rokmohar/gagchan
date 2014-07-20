@@ -12,14 +12,14 @@ interface StorageInterface
     /**
      * Retrieve a file from the storage..
      * 
-     * @param String $key
+     * @param string $key
      */
     public function getFile($key);
     
     /**
      * Save file to the storage.
      * 
-     * @param String                  $key
+     * @param string                  $key
      * @param \Core\File\UploadedFile $file
      */
     public function putFile($key, UploadedFile $filekey);

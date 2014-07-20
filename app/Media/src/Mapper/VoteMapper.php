@@ -79,7 +79,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
      * 
      * @param \Media\Entity\MediaEntityInterface $media
      * @param \User\Entity\UserEntityInterface   $user
-     * @param String                             $type
+     * @param string                             $type
      * 
      * @return mixed
      */
@@ -183,8 +183,8 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
     /**
      * Update a row.
      * 
-     * @param Array $values
-     * @param Array $where
+     * @param array $values
+     * @param array $where
      * 
      * @return mixed
      */

@@ -11,7 +11,7 @@ use Zend\Form\Form;
 class VoteForm extends Form
 {
     /**
-     * @param String $name
+     * @param string $name
      */
     public function __construct($name)
     {

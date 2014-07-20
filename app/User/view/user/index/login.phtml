@@ -1,17 +1,12 @@
-<?php
-    $form = $this->loginForm;
-    $form->prepare();
-?>
-
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     
     <div class="widget">
         <h3 class="login-title">Login</h3>
         
-        <?php echo $this->form()->openTag($form) ?>
+        <?php echo $this->form()->openTag($loginForm) ?>
             
             <!-- #CSRF -->
-            <?php echo $this->formHidden($form->get('csrf')) ?>
+            <?php echo $this->formHidden($loginForm->get('csrf')) ?>
             
             <!-- #Email -->
             <div class="form-row">
@@ -19,10 +14,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-envelope"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('email')) ?>
+                    <?php echo $this->formInput($loginForm->get('email')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($form->get('email')) ?>
+                <?php echo $this->formElementErrors($loginForm->get('email')) ?>
             </div>
             
             <!-- #Password -->
@@ -31,15 +26,15 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('password')) ?>
+                    <?php echo $this->formInput($loginForm->get('password')) ?>
                 </div>
                 
-                <?php echo $this->formElementErrors($form->get('password')) ?>
+                <?php echo $this->formElementErrors($loginForm->get('password')) ?>
             </div>
 
             <!-- #Submit -->
             <div class="input-group">
-                <?php echo $this->formSubmit($form->get('submit')) ?>
+                <?php echo $this->formSubmit($loginForm->get('submit')) ?>
             </div>
             
         <?php echo $this->form()->closeTag() ?>

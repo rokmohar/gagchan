@@ -18,6 +18,10 @@
 
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 
+    <?php foreach ($messages as $m): ?>
+        <div class="alert alert-success" role="alert"><?php echo $m ?></div>
+    <?php endforeach ?>
+
     <div class="widget">
         <h3 class="login-title">Account settings</h3>
         

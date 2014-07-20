@@ -16,7 +16,7 @@ interface MediaManagerInterface
      * Upload file to the storage.
      * 
      * @param \Core\File\UploadedImage                 $file
-     * @param String                                   $name
+     * @param string                                   $name
      * @param \User\Entity\UserEntityInterface         $user
      * @param \Category\Entity\CategoryEntityInterface $category
      */

@@ -11,7 +11,7 @@ use Zend\Form\Form;
 class ContactForm extends Form
 {
     /**
-     * @param String $name
+     * @param string $name
      * @param array  $options
      */    
     public function __construct($name, array $options = array())

@@ -27,7 +27,7 @@ class UploadedImage extends UploadedFile
     }
     
     /**
-     * @param Integer $width
+     * @param int $width
      */
     public function setWidth($width)
     {
@@ -45,7 +45,7 @@ class UploadedImage extends UploadedFile
     }
     
     /**
-     * @param Integer $height
+     * @param int $height
      */
     public function setHeight($height)
     {

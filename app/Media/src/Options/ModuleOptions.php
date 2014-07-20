@@ -79,7 +79,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $bucket
+     * @param string $bucket
      */
     public function setBucket($bucket)
     {
@@ -97,7 +97,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $bucketUrl
+     * @param string $bucketUrl
      */
     public function setBucketUrl($bucketUrl)
     {
@@ -115,7 +115,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $commentEntity
+     * @param string $commentEntity
      */
     public function setCommentEntity($commentEntity)
     {
@@ -133,7 +133,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $commentHydrator
+     * @param string $commentHydrator
      */
     public function setCommentHydrator($commentHydrator)
     {
@@ -151,7 +151,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $commentMapper
+     * @param string $commentMapper
      */
     public function setCommentMapper($commentMapper)
     {
@@ -169,7 +169,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $mediaEntity
+     * @param string $mediaEntity
      */
     public function setMediaEntity($mediaEntity)
     {
@@ -187,7 +187,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $mediaHydrator
+     * @param string $mediaHydrator
      */
     public function setMediaHydrator($mediaHydrator)
     {
@@ -205,7 +205,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $mediaMapper
+     * @param string $mediaMapper
      */
     public function setMediaMapper($mediaMapper)
     {
@@ -223,7 +223,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $voteEntity
+     * @param string $voteEntity
      */
     public function setVoteEntity($voteEntity)
     {
@@ -241,7 +241,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $voteHydrator
+     * @param string $voteHydrator
      */
     public function setVoteHydrator($voteHydrator)
     {
@@ -259,7 +259,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @param String $voteMapper
+     * @param string $voteMapper
      */
     public function setVoteMapper($voteMapper)
     {

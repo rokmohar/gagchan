@@ -92,7 +92,7 @@ class MediaManager implements MediaManagerInterface
      * Upload file to the storage.
      * 
      * @param \Core\File\UploadedImage                 $file
-     * @param String                                   $name
+     * @param string                                   $name
      * @param \User\Entity\UserEntityInterface         $user
      * @param \Category\Entity\CategoryEntityInterface $category
      * 
@@ -138,8 +138,8 @@ class MediaManager implements MediaManagerInterface
      * Insert a row to data storage.
      * 
      * @param \Core\File\UploadedImage                 $file
-     * @param String                                   $slug
-     * @param String                                   $name
+     * @param string                                   $slug
+     * @param string                                   $name
      * @param \User\Entity\UserEntityInterface         $user
      * @param \Category\Entity\CategoryEntityInterface $category
      * @param \Core\File\UploadedImage                 $thumbnail
@@ -308,7 +308,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * Generate a random string.
      * 
-     * @param Integer $length
+     * @param int $length
      * 
      * @return String
      */

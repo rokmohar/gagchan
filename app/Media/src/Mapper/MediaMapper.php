@@ -68,7 +68,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * @param String $slug
+     * @param string $slug
      * 
      * @return Boolean
      */
@@ -199,7 +199,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     /**
      * Select row by media.
      * 
-     * @param Integer $id
+     * @param int $id
      * 
      * @return mixed
      */
@@ -213,7 +213,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     /**
      * Select media by unique slug.
      * 
-     * @param String $slug
+     * @param string $slug
      * 
      * @return mixed
      */
@@ -239,7 +239,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         $update = $this->getUpdate();
         
         $update
-            ->values(array(
+            ->set(array(
                 'slug'         => $media->getSlug(),
                 'name'         => $media->getName(),
                 'reference'    => $media->getReference(),

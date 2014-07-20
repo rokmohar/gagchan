@@ -4,6 +4,8 @@ namespace User\InputFilter;
 
 use Zend\InputFilter\InputFilter;
 
+use User\Mapper\UserMapperInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -11,10 +13,18 @@ use Zend\InputFilter\InputFilter;
 class UserFilter extends InputFilter
 {
     /**
-     * Constructor.
+     * @var \User\Mapper\UserMapperInterface
      */
-    public function __construct()
+    protected $userMapper;
+    
+    /**
+     * @param \User\Mapper\UserMapperInterface $userMapper
+     */
+    public function __construct(UserMapperInterface $userMapper)
     {
+        // Set user mapper
+        $this->userMapper = $userMapper;
+        
         // Add filters
         $this
             ->addCsrf()
@@ -57,6 +67,13 @@ class UserFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
+                    'name'    => 'User\Validator\Unique',
+                    'options' => array(
+                        'field'  => 'username',
+                        'mapper' => $this->userMapper,
+                    ),
+                ),
+                array(
                     'name'    => 'Zend\Validator\Regex',
                     'options' => array(
                         'pattern'  => '/^[a-zA-Z\d\.\_]*$/',
@@ -93,6 +110,13 @@ class UserFilter extends InputFilter
             'name'       => 'email',
             'required'   => true,
             'validators' => array(
+                array(
+                    'name'    => 'User\Validator\Unique',
+                    'options' => array(
+                        'field'  => 'email',
+                        'mapper' => $this->userMapper,
+                    ),
+                ),
                 array(
                     'name'    => 'Zend\Validator\StringLength',
                     'options' => array(
@@ -153,16 +177,9 @@ class UserFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'Zend\Validator\StringLength',
+                    'name'    => 'Zend\Validator\Identical',
                     'options' => array(
-                        'min' => 6,
-                        'max' => 255,
-                    ),
-                    array(
-                        'name'    => 'Zend\Validator\Identical',
-                        'options' => array(
-                            'token' => 'password',
-                        ),
+                        'token' => 'password',
                     ),
                 ),
             ),

@@ -1,17 +1,12 @@
-<?php
-    $form = $this->signupForm;
-    $form->prepare();
-?>
-
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
     <div class="widget">
         <h3 class="login-title">Sign up</h3>
         
-        <?php echo $this->form()->openTag($form) ?>
+        <?php echo $this->form()->openTag($signupForm) ?>
         
             <!-- #CSRF -->
-            <?php echo $this->formHidden($form->get('csrf')) ?>
+            <?php echo $this->formHidden($signupForm->get('csrf')) ?>
         
             <!-- #Username -->
             <div class="form-row">
@@ -19,10 +14,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('username')) ?>
+                    <?php echo $this->formInput($signupForm->get('username')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($form->get('username')) ?>
+                <?php echo $this->formElementErrors($signupForm->get('username')) ?>
             </div>
             
             <!-- #Email -->
@@ -31,10 +26,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-envelope"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('email')) ?>
+                    <?php echo $this->formInput($signupForm->get('email')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($form->get('email')) ?>
+                <?php echo $this->formElementErrors($signupForm->get('email')) ?>
             </div>
             
             <!-- #Password -->
@@ -43,10 +38,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('password')) ?>
+                    <?php echo $this->formInput($signupForm->get('password')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($form->get('password')) ?>
+                <?php echo $this->formElementErrors($signupForm->get('password')) ?>
             </div>
             
             <div class="form-row">
@@ -54,20 +49,14 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('password_verify')) ?>
+                    <?php echo $this->formInput($signupForm->get('password_verify')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($form->get('password_verify')) ?>
+                <?php echo $this->formElementErrors($signupForm->get('password_verify')) ?>
             </div>
             
-            <?php /* <div class="form-row">
-                <?php echo $this->formCaptcha($form->get('captcha')) ?>
-                
-                <?php echo $this->formElementErrors($form->get('captcha')) ?>
-            </div> */ ?>
-            
             <div class="input-group">
-                <?php echo $this->formButton($form->get('submit')) ?>
+                <?php echo $this->formButton($signupForm->get('submit')) ?>
             </div>
             
         <?php echo $this->form()->closeTag() ?>

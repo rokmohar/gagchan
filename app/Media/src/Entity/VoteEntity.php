@@ -57,7 +57,7 @@ class VoteEntity implements VoteEntityInterface
     /**
      * Set the identifier.
      * 
-     * @param Integer $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -77,7 +77,7 @@ class VoteEntity implements VoteEntityInterface
     /**
      * Set the media identifier.
      * 
-     * @param Integer $mediaId
+     * @param int $mediaId
      */
     public function setMediaId($mediaId)
     {
@@ -97,7 +97,7 @@ class VoteEntity implements VoteEntityInterface
     /**
      * Set the user identifier.
      * 
-     * @param Integer $userId
+     * @param int $userId
      */
     public function setUserId($userId)
     {
@@ -117,7 +117,7 @@ class VoteEntity implements VoteEntityInterface
     /**
      * Set the type.
      * 
-     * @param String $type
+     * @param string $type
      */
     public function setType($type)
     {

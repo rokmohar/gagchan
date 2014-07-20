@@ -18,7 +18,7 @@ abstract class AbstractMediaForm extends Form
     protected $categoryMapper;
     
     /**
-     * @param String                                $name
+     * @param string                                $name
      * @param \Media\Mapper\CategoryMapperInterface $categoryMapper
      */
     public function __construct($name, CategoryMapperInterface $categoryMapper)
@@ -62,7 +62,7 @@ abstract class AbstractMediaForm extends Form
     /**
      * Add category dropdown.
      * 
-     * @param Array $values
+     * @param array $values
      * 
      * @return \Media\Form\MediaForm
      */

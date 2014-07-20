@@ -171,7 +171,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
         $update = $this->getUpdate();
         
         $update
-            ->values(array(
+            ->set(array(
                 'media_id'   => $comment->getMediaId(),
                 'user_id'    => $comment->getUserId(),
                 'comment'    => $comment->getComment(),

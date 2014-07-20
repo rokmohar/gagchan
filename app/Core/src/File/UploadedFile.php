@@ -32,11 +32,11 @@ class UploadedFile extends \SplFileInfo
     protected $size;
     
     /**
-     * @param String  $filename
-     * @param String  $originalName
-     * @param String  $mimeType
-     * @param Integer $size
-     * @param Integer $error
+     * @param string  $filename
+     * @param string  $originalName
+     * @param string  $mimeType
+     * @param int $size
+     * @param int $error
      */
     public function __construct($filename, $originalName, $mimeType, $size)
     {
@@ -84,7 +84,7 @@ class UploadedFile extends \SplFileInfo
     }
     
     /**
-     * @param String $originalName
+     * @param string $originalName
      */
     public function setOriginalName($originalName)
     {
@@ -102,7 +102,7 @@ class UploadedFile extends \SplFileInfo
     }
     
     /**
-     * @param String $mimeType
+     * @param string $mimeType
      */
     public function setMimeType($mimeType)
     {
@@ -120,7 +120,7 @@ class UploadedFile extends \SplFileInfo
     }
     
     /**
-     * @param Integer $size
+     * @param int $size
      */
     public function setSize($size)
     {

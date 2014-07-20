@@ -60,7 +60,7 @@ class UserEntity implements UserEntityInterface
     /**
      * Set the identifier.
      * 
-     * @param Integer $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -80,7 +80,7 @@ class UserEntity implements UserEntityInterface
     /**
      * Set the username.
      * 
-     * @param String $username
+     * @param string $username
      */
     public function setUsername($username)
     {
@@ -100,7 +100,7 @@ class UserEntity implements UserEntityInterface
     /**
      * Set the email address.
      * 
-     * @param String $email
+     * @param string $email
      */
     public function setEmail($email)
     {
@@ -120,7 +120,7 @@ class UserEntity implements UserEntityInterface
     /**
      * Set the password.
      * 
-     * @param String $password
+     * @param string $password
      */
     public function setPassword($password)
     {

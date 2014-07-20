@@ -100,7 +100,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param Integer $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -118,7 +118,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param String $slug
+     * @param string $slug
      */
     public function setSlug($slug)
     {
@@ -154,7 +154,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param String $reference
+     * @param string $reference
      */
     public function setReference($reference)
     {
@@ -172,7 +172,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param String $thumbnail
+     * @param string $thumbnail
      */
     public function setThumbnail($thumbnail)
     {
@@ -190,7 +190,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param Integer $userId
+     * @param int $userId
      */
     public function setUserId($userId)
     {
@@ -208,7 +208,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param Integer $categoryId
+     * @param int $categoryId
      */
     public function setCategoryId($categoryId)
     {
@@ -226,7 +226,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param Integer $width
+     * @param int $width
      */
     public function setWidth($width)
     {
@@ -244,7 +244,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param Integer $height
+     * @param int $height
      */
     public function setHeight($height)
     {
@@ -262,7 +262,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param Integer $size
+     * @param int $size
      */
     public function setSize($size)
     {
@@ -280,7 +280,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param String $contentType
+     * @param string $contentType
      */
     public function setContentType($contentType)
     {
@@ -298,7 +298,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param Boolean $isFeatured
+     * @param bool $isFeatured
      */
     public function setFeatured($isFeatured)
     {

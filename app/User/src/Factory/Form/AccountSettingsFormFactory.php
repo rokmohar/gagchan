@@ -18,14 +18,23 @@ class AccountSettingsFormFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        // Get user mapper
+        $userMapper = $serviceLocator->get('user.mapper.user');
+        
         // Create form
         $form = new AccountSettingsForm('account_settings', array());
         
+        // Get hydrator
+        $hydrator = new \User\Hydrator\UserHydrator();
+        
         // Set hydrator
-        $form->setHydrator(new \User\Hydrator\UserHydrator());
+        $form->setHydrator($hydrator);
+        
+        // Get filter
+        $filter = new \User\InputFilter\UserFilter($userMapper);
         
         // Set filter
-        $form->setInputFilter(new \User\InputFilter\UserFilter());
+        $form->setInputFilter($filter);
         
         // Return form
         return $form;

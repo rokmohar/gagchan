@@ -2,6 +2,7 @@
 
 namespace User\Controller;
 
+use Zend\Crypt\Password\Bcrypt;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -37,35 +38,52 @@ class SettingsController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
         
+        // Get user
+        $user = $this->user()->getIdentity();
+        
         // Get request
         $request = $this->getRequest();
         
+        // Get flash messenger
+        $fm = $this->flashMessenger();
+        $fm->setNamespace('user.settings.index');
+        
         // Get form
         $settingsForm = $this->getAccountSettingsForm();
+        $settingsForm->bind($user);
         
         // Check if page is not posted
         if ($request->isPost() === false) {
             // Return view
             return new ViewModel(array(
+                'messages'     => $fm->getMessages(),
                 'settingsForm' => $settingsForm,
             ));
         }
         
-        // Bind entity prototype
-        $settingsForm->bind(new \User\Entity\UserEntity());
-        
         // Set data
-        $settingsForm->setData($request->getPost());
+        $settingsForm->setData(array_merge(
+            array('id' => $user->getId()),
+            $request->getPost()->toArray()
+        ));
         
         // Check if form is not valid
         if ($settingsForm->isValid() === false) {
             // Return view
             return new ViewModel(array(
+                'messages'     => array(),
                 'settingsForm' => $settingsForm,
             ));
         }
         
-        die("POSTED");
+        // Update user
+        $this->getUserMapper()->updateRow($user);
+        
+        // Set success message
+        $fm->addMessage('Settings are successfully updated.');
+        
+        // Redirect to route
+        return $this->redirect()->toRoute('settings');
     }
     
     /**
@@ -82,6 +100,10 @@ class SettingsController extends AbstractActionController
         // Get request
         $request = $this->getRequest();
         
+        // Get flash messenger
+        $fm = $this->flashMessenger();
+        $fm->setNamespace('user.settings.password');
+        
         // Get form
         $settingsForm = $this->getPasswordSettingsForm();
         
@@ -89,6 +111,7 @@ class SettingsController extends AbstractActionController
         if ($request->isPost() === false) {
             // Return view
             return new ViewModel(array(
+                'messages'     => $fm->getMessages(),
                 'settingsForm' => $settingsForm,
             ));
         }
@@ -103,11 +126,35 @@ class SettingsController extends AbstractActionController
         if ($settingsForm->isValid() === false) {
             // Return view
             return new ViewModel(array(
+                'messages'     => array(),
                 'settingsForm' => $settingsForm,
             ));
         }
         
-        die("POSTED");
+        // Get posted data
+        $data = $settingsForm->getData();
+        
+        // Get user
+        $user = $this->user()->getIdentity();
+        
+        // Encryption service
+        $crypt = new Bcrypt(array(
+            'cost' => 14,
+        ));
+        
+        // Encrypt password
+        $user->setPassword(
+            $crypt->create($data->getPassword())
+        );
+        
+        // Update user
+        $this->getUserMapper()->updateRow($user);
+        
+        // Set success message
+        $fm->addMessage('Password is successfully updated.');
+        
+        // Redirect to route
+        return $this->redirect()->toRoute('settings/password');
     }
     
     /**

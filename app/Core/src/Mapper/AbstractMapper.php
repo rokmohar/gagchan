@@ -38,8 +38,8 @@ abstract class AbstractMapper implements MapperInterface
     
     /**
      * @param \Zend\Db\Adapter\Adapter                $dbAdapter
-     * @param String                                  $tableName
-     * @param String                                  $entityClass
+     * @param string                                  $tableName
+     * @param string                                  $entityClass
      * @param \Zend\Stdlib\Hydrator\HydratorInterface $hydrator
      */
     public function __construct(

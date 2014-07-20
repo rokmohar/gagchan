@@ -105,7 +105,7 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
     /**
      * Select a row by identifier.
      * 
-     * @param Integer $id
+     * @param int $id
      * 
      * @return mixed
      */
@@ -119,7 +119,7 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
     /**
      * Select a row category by slug.
      * 
-     * @param String $slug
+     * @param string $slug
      * 
      * @return mixed
      */
