@@ -129,7 +129,7 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 $user = new \User\Entity\UserEntity();
                 
                 // Set username
-                $user->setUsername($this->profileToUsername($profile));
+                $user->setUsername($this->generateUsername($profile));
                 
                 // Set email address
                 $user->setEmail($profile->email);
@@ -205,7 +205,7 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
      * 
      * @return string
      */
-    protected function profileToUsername(\Hybrid_User_Profile $profile)
+    protected function generateUsername(\Hybrid_User_Profile $profile)
     {
         // Explode email
         $email = explode('@', $profile->email);
@@ -240,13 +240,13 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
         $row = $this->getUserMapper()->selectRowByUsername($username);
         
         // Check if row is empty
-        if (!empty($row)) {
-            // Generate username
-            return $this->appendToUsername($username);
+        if (empty($row)) {
+            // Return username
+            return $username;
         }
-        
-        // Return username
-        return $username;
+
+        // Generate username
+        return $this->prependUsername($username);
     }
     
     /**
@@ -256,7 +256,7 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
      * 
      * @return string
      */
-    protected function appendToUsername($username)
+    protected function prependUsername($username)
     {
         // Generate random number
         $newUsername = $username . rand(1, 9999);
@@ -265,13 +265,13 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
         $row = $this->getUserMapper()->selectRowByUsername($newUsername);
         
         // Check if row is empty
-        if (!empty($row)) {
-            // Generate username
-            return $this->appendToUsername($username);
+        if (empty($row)) {
+            // Return username
+            return $newUsername;
         }
         
-        // Return username
-        return $newUsername;
+        // Generate username
+        return $this->prependUsername($username);
     }
     
     /**
