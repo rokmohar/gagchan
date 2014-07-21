@@ -45,13 +45,28 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
             'host' => '{@todo: insert host}',
         ));
         
-        // Set template
-        $view->setTemplate('recover/request');
+        // Set HTML template
+        $view->setTemplate('recover/request.html');
         
-        // Render template
-        $output = $renderer->render($view);
+        // Render HTML template
+        $htmlBody = $renderer->render($view);
         
-        var_dump($output); die();
+        // Set text template
+        $view->setTemplate('recover/request.text');
+        
+        // Render text template
+        $textBody = $renderer->render($view);
+        
+        // Send a message
+        $this->sendMessage(
+            $this->getOptions()->getFromEmail(),
+            $user->getEmail(),
+            'Password recovery',
+            $textBody,
+            $htmlBody
+        );
+        
+        return $this;
     }
     
     /**
@@ -63,7 +78,8 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
     {
         if ($this->resolver === null) {
             return $this->resolver = new TemplateMapResolver(array(
-                'recover/request' => __DIR__ . '/../../view/email/recover/request.phtml',
+                'recover/request.html' => __DIR__ . '/../../view/email/recover/request_html.phtml',
+                'recover/request.text' => __DIR__ . '/../../view/email/recover/request_text.phtml',
             ));
         }
         

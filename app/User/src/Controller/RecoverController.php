@@ -72,6 +72,7 @@ class RecoverController extends AbstractActionController
         // Get mailer
         $mailer = $this->getMailer();
         
+        // Send message
         $mailer->sendRecoverMessage($data);
         
         var_dump($data); die();

@@ -46,11 +46,54 @@ abstract class AbstractAmazonMailer
      * @param string $fromEmail
      * @param string $toEmail
      * @param string $subject
-     * @param string $body
+     * @param string $textBody
+     * @param string $htmlBody
      */
-    public function sendMessage($fromEmail, $toEmail, $subject, $body)
+    public function sendMessage($fromEmail, $toEmail, $subject, $textBody, $htmlBody)
     {
-        var_dump($fromEmail, $toEmail, $subject, $body); die();
+        // Get client
+        $client = $this->getAws()->get('ses');
+        
+        var_dump($toEmail); die();
+        
+        // Send message
+        $result = $client->sendEmail(array(
+            'Source'      => $fromEmail,
+            'Destination' => array(
+                'ToAddresses'  => array(
+                    $toEmail,
+                ),
+            ),
+            'Message' => array(
+                'Subject' => array(
+                    'Data'    => $subject,
+                    'Charset' => 'UTF-8',
+                ),
+                'Body' => array(
+                    'Text' => array(
+                        'Data'    => $textBody,
+                        'Charset' => 'UTF-8',
+                    ),
+                    'Html' => array(
+                        'Data'    => $htmlBody,
+                        'Charset' => 'UTF-8',
+                    ),
+                ),
+            ),
+        ));
+        
+        // Return result
+        return $result;
+    }
+    
+    /**
+     * Return the AWS client.
+     * 
+     * @return \Aws\Common\Aws
+     */
+    public function getAws()
+    {
+        return $this->aws;
     }
     
     /**
