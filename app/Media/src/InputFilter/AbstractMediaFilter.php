@@ -34,7 +34,7 @@ abstract class AbstractMediaFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'Zend\Validator\StringLength',
+                    'name'    => 'Zend\Validator\stringLength',
                     'options' => array(
                         'min' => 4,
                         'max' => 255,
@@ -43,7 +43,7 @@ abstract class AbstractMediaFilter extends InputFilter
             ),
             'filters'   => array(
                 array('name' => 'HtmlEntities'),
-                array('name' => 'StringTrim'),
+                array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),
             ),
         ));

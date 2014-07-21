@@ -54,8 +54,6 @@ abstract class AbstractAmazonMailer
         // Get client
         $client = $this->getAws()->get('ses');
         
-        var_dump($toEmail); die();
-        
         // Send message
         $result = $client->sendEmail(array(
             'Source'      => $fromEmail,

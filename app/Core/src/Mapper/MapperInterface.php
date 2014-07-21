@@ -18,7 +18,7 @@ interface MapperInterface
     /**
      * Return the entity class.
      * 
-     * @return String
+     * @return string
      */
     public function getEntityClass();
     
@@ -39,7 +39,7 @@ interface MapperInterface
     /**
      * Return the table name.
      * 
-     * @return String
+     * @return string
      */
     public function getTableName();
 }

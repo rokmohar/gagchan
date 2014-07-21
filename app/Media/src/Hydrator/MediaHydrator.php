@@ -21,7 +21,7 @@ class MediaHydrator extends ClassMethods
             // Check if it needs a conversion
             if (is_bool($d) === true) {
                 // Convert to integer
-                $d = (Integer) $d;
+                $d = (int) $d;
             }
             else if ($d instanceof \DateTime) {
                 // Format a string
@@ -52,7 +52,7 @@ class MediaHydrator extends ClassMethods
         
         if (isset($data['is_featured']) === true) {
             // Convert to boolean
-            $data['is_featured'] = (Boolean) $data['is_featured'];
+            $data['is_featured'] = (bool) $data['is_featured'];
         }
         
         if (isset($data['created_at']) === true) {

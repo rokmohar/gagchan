@@ -20,7 +20,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
      * 
      * @param \Media\Entity\MediaEntityInterface $media
      * 
-     * @return Integer
+     * @return int
      */
     public function countByMedia(MediaEntityInterface $media)
     {
@@ -38,7 +38,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
      * 
      * @param \User\Entity\UserEntityInterface $user
      * 
-     * @return Integer
+     * @return int
      */
     public function countByUser(UserEntityInterface $user)
     {

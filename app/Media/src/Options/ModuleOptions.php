@@ -11,67 +11,67 @@ use Zend\Stdlib\AbstractOptions;
 class ModuleOptions extends AbstractOptions
 {
     /**
-     * @var Boolean
+     * @var bool
      */
     protected $__strictMode__ = false;
     
     /**
-     * @var String
+     * @var string
      */
     protected $bucket = 'gagchan';
     
     /**
-     * @var String
+     * @var string
      */
     protected $bucketUrl = 'http://cdn.gagchan.com';
     
     /**
-     * @var String
+     * @var string
      */
     protected $commentEntity = 'Media\Entity\CommentEntity';
     
     /**
-     * @var String
+     * @var string
      */
     protected $commentHydrator = 'Media\Hydrator\CommentHydrator';
     
     /**
-     * @var String
+     * @var string
      */
     protected $commentMapper = 'Media\Mapper\CommentMapper';
     
     /**
-     * @var String
+     * @var string
      */
     protected $mediaEntity = 'Media\Entity\MediaEntity';
     
     /**
-     * @var String
+     * @var string
      */
     protected $mediaHydrator = 'Media\Hydrator\MediaHydrator';
     
     /**
-     * @var String
+     * @var string
      */
     protected $mediaMapper = 'Media\Mapper\MediaMapper';
     
     /**
-     * @var String
+     * @var string
      */
     protected $voteEntity = 'Media\Entity\VoteEntity';
     
     /**
-     * @var String
+     * @var string
      */
     protected $voteHydrator = 'Media\Hydrator\VoteHydrator';
     
     /**
-     * @var String
+     * @var string
      */
     protected $voteMapper = 'Media\Mapper\VoteMapper';
     
     /**
-     * @return String
+     * @return string
      */
     public function getBucket()
     {
@@ -89,7 +89,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getBucketUrl()
     {
@@ -107,7 +107,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getCommentEntity()
     {
@@ -125,7 +125,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @var String
+     * @var string
      */
     public function getCommentHydrator()
     {
@@ -143,7 +143,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getCommentMapper()
     {
@@ -161,7 +161,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getMediaEntity()
     {
@@ -179,7 +179,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getMediaHydrator()
     {
@@ -197,7 +197,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getMediaMapper()
     {
@@ -215,7 +215,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getVoteEntity()
     {
@@ -233,7 +233,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getVoteHydrator()
     {
@@ -251,7 +251,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getVoteMapper()
     {

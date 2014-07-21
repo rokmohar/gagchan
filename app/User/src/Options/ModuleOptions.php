@@ -11,7 +11,7 @@ use Zend\Stdlib\AbstractOptions;
 class ModuleOptions extends AbstractOptions
 {
     /**
-     * @var Boolean
+     * @var bool
      */
     protected $__strictMode__ = false;
 }

@@ -9,19 +9,24 @@ namespace Category\Entity;
 class CategoryEntity implements CategoryEntityInterface
 {
     /**
-     * @var Integer
+     * @var int
      */
     protected $id;
     
     /**
-     * @var String
+     * @var string
      */
     protected $slug;
     
     /**
-     * @var String
+     * @var string
      */
     protected $name;
+    
+    /**
+     * @var int
+     */
+    protected $priority;
     
     /**
      * @var \DateTime
@@ -100,6 +105,24 @@ class CategoryEntity implements CategoryEntityInterface
         $this->name = $name;
         
         return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+    
+    /**
+     * Set the priority.
+     * 
+     * @param int $priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
     }
     
     /**

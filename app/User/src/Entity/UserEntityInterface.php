@@ -11,28 +11,28 @@ interface UserEntityInterface
     /**
      * Return the identifier.
      * 
-     * @return Integer
+     * @return int
      */
     public function getId();
     
     /**
      * Return the username.
      * 
-     * @return String
+     * @return string
      */
     public function getUsername();
     
     /**
      * Return the email address.
      * 
-     * @return String
+     * @return string
      */
     public function getEmail();
     
     /**
      * Return the encrypted password.
      * 
-     * @return String
+     * @return string
      */
     public function getPassword();
     
@@ -63,6 +63,20 @@ interface UserEntityInterface
      * @return string
      */
     //public function getRecoverToken();
+    
+    /**
+     * Check if user is enabled.
+     * 
+     * @return bool
+     */
+    public function isEnabled();
+    
+    /**
+     * Check if user is confirmed.
+     * 
+     * @return bool
+     */
+    public function isConfirmed();
     
     /**
      * Return created at date.

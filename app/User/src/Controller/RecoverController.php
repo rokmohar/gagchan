@@ -69,11 +69,11 @@ class RecoverController extends AbstractActionController
         // Get data
         $data = $recoverForm->getData();
         
-        // Get mailer
-        $mailer = $this->getMailer();
+        // Get user
+        //$user = $this->getUserMapper()->selectRowByEmail($data->getEmail());
         
         // Send message
-        $mailer->sendRecoverMessage($data);
+        $this->getMailer()->sendRecoverMessage($user);
         
         var_dump($data); die();
     }

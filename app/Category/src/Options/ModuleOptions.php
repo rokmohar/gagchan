@@ -11,27 +11,27 @@ use Zend\Stdlib\AbstractOptions;
 class ModuleOptions extends AbstractOptions
 {
     /**
-     * @var Boolean
+     * @var bool
      */
     protected $__strictMode__ = false;
     
     /**
-     * @var String
+     * @var string
      */
     protected $categoryEntity = 'Category\Entity\CategoryEntity';
     
     /**
-     * @var String
+     * @var string
      */
     protected $categoryHydrator = 'Category\Hydrator\CategoryHydrator';
     
     /**
-     * @var String
+     * @var string
      */
     protected $categoryMapper = 'Category\Mapper\CategoryMapper';
     
     /**
-     * @return String
+     * @return string
      */
     public function getCategoryEntity()
     {
@@ -39,7 +39,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getCategoryHydrator()
     {
@@ -47,7 +47,7 @@ class ModuleOptions extends AbstractOptions
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getCategoryMapper()
     {

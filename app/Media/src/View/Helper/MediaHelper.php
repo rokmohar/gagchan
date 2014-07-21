@@ -125,7 +125,7 @@ class MediaHelper extends AbstractHelper
      * 
      * @param \Media\Entity\MediaEntityInterface $media
      * 
-     * @return String
+     * @return string
      */
     public function url(MediaEntityInterface $media, $showThumbnail = false)
     {
@@ -145,7 +145,7 @@ class MediaHelper extends AbstractHelper
     /**
      * Return featured media.
      * 
-     * @return Integer
+     * @return int
      */    
     public function getFeatured()
     {
@@ -158,7 +158,7 @@ class MediaHelper extends AbstractHelper
      * 
      * @param \Media\Entity\MediaEntityInterface $media
      * 
-     * @return Integer
+     * @return int
      */    
     public function getPoints(MediaEntityInterface $media)
     {
@@ -170,7 +170,7 @@ class MediaHelper extends AbstractHelper
      * 
      * @param \Media\Entity\MediaEntityInterface $media
      * 
-     * @return Integer
+     * @return int
      */    
     public function getComments(MediaEntityInterface $media)
     {

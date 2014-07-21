@@ -20,7 +20,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
      * 
      * @param \Media\Entity\MediaEntityInterface $media
      * 
-     * @return Integer
+     * @return int
      */
     public function countByMedia(MediaEntityInterface $media)
     {

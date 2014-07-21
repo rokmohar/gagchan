@@ -51,14 +51,18 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
         // Render HTML template
         $htmlBody = $renderer->render($view);
         
+        var_dump($htmlBody); die();
+        
         // Set text template
         $view->setTemplate('recover/request.text');
         
         // Render text template
         $textBody = $renderer->render($view);
         
+        var_dump($textBody); die();
+        
         // Send a message
-        $this->sendMessage(
+        $result = $this->sendMessage(
             $this->getOptions()->getFromEmail(),
             $user->getEmail(),
             'Password recovery',
@@ -66,7 +70,8 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
             $htmlBody
         );
         
-        return $this;
+        // Return result
+        return $result;
     }
     
     /**

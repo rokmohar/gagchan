@@ -9,22 +9,22 @@ namespace Media\Entity;
 class CommentEntity implements CommentEntityInterface
 {
     /**
-     * @var Integer
+     * @var int
      */
     protected $id;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $mediaId;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $userId;
     
     /**
-     * @var String
+     * @var string
      */
     protected $comment;
     

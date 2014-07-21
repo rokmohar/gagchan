@@ -44,7 +44,7 @@ class ContactFilter extends InputFilter
                 ),
             ),
             'filters' => array(
-                array('name' => 'StringTrim'),
+                array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),
             ),
         ));        
@@ -64,7 +64,7 @@ class ContactFilter extends InputFilter
             'required' => true,
             'validators' => array(
                 array(
-                    'name' => 'StringLength',
+                    'name' => 'stringLength',
                     'options' => array(
                         'min' => 4,
                         'max' => 32,
@@ -72,7 +72,7 @@ class ContactFilter extends InputFilter
                 ),
             ),
             'filters' => array(
-                array('name' => 'StringTrim'),
+                array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),
             ),
         ));      
@@ -92,7 +92,7 @@ class ContactFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name' => 'StringLength',
+                    'name' => 'stringLength',
                     'options' => array(
                         'min' => 16,
                         'max' => 4096,
@@ -100,7 +100,7 @@ class ContactFilter extends InputFilter
                 ),
             ),
             'filters' => array(
-                array('name' => 'StringTrim'),
+                array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),
             ),
         ));     

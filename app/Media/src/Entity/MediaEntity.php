@@ -8,67 +8,72 @@ namespace Media\Entity;
 class MediaEntity implements MediaEntityInterface
 {
     /**
-     * @var Integer
+     * @var int
      */
     protected $id;
     
     /**
-     * @var String
+     * @var string
      */
     protected $slug;
     
     /**
-     * @var String
+     * @var string
      */
     protected $name;
     
     /**
-     * @var String
+     * @var string
      */
     protected $reference;
     
     /**
-     * @var String
+     * @var string
      */
     protected $thumbnail;
     
     /**
-     * @var String
+     * @var string
      */
     protected $featured;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $userId;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $categoryId;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $width;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $height;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $size;
     
     /**
-     * @var String
+     * @var string
      */
     protected $contentType;
     
     /**
-     * @var Boolean
+     * @var bool
+     */
+    protected $isEnabled;
+    
+    /**
+     * @var bool
      */
     protected $isFeatured;
     
@@ -136,7 +141,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function setName($name)
     {
@@ -285,6 +290,24 @@ class MediaEntity implements MediaEntityInterface
     public function setContentType($contentType)
     {
         $this->contentType = $contentType;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function isEnabled()
+    {
+        return $this->isEnabled;
+    }
+    
+    /**
+     * @param bool $isEnabled
+     */
+    public function setEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
         
         return $this;
     }

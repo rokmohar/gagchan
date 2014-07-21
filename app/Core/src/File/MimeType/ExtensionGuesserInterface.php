@@ -9,7 +9,7 @@ interface ExtensionGuesserInterface
      *
      * @param string $mimeType
      * 
-     * @return String
+     * @return string
      */
     public function guess($mimeType);
 }

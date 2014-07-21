@@ -8,22 +8,22 @@ namespace Media\Entity;
 class VoteEntity implements VoteEntityInterface
 {
     /**
-     * @var Integer
+     * @var int
      */
     protected $id;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $mediaId;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $userId;
     
     /**
-     * @var String
+     * @var string
      */
     protected $type;
     

@@ -13,7 +13,7 @@ class Transliterator
      * 
      * @param string $string
      * 
-     * @return String
+     * @return string
      */
     static public function transliterate($string)
     {

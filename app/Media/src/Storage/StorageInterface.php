@@ -27,7 +27,7 @@ interface StorageInterface
     /**
      * Return the storage name.
      * 
-     * @return String
+     * @return string
      */
     public function getName();
 }

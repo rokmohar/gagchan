@@ -17,17 +17,17 @@ class UploadedFile extends \SplFileInfo
     protected $extensionGuesser;
     
     /**
-     * @var String
+     * @var string
      */
     protected $originalName;
     
     /**
-     * @var String
+     * @var string
      */
     protected $mimeType;
     
     /**
-     * @var String
+     * @var string
      */
     protected $size;
     
@@ -56,7 +56,7 @@ class UploadedFile extends \SplFileInfo
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getExtension()
     {
@@ -76,7 +76,7 @@ class UploadedFile extends \SplFileInfo
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getOriginalName()
     {
@@ -94,7 +94,7 @@ class UploadedFile extends \SplFileInfo
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getMimeType()
     {
@@ -112,7 +112,7 @@ class UploadedFile extends \SplFileInfo
     }
     
     /**
-     * @return Integer
+     * @return int
      */
     public function getSize()
     {

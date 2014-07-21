@@ -37,7 +37,7 @@ class CommentHelper extends AbstractHelper
      * 
      * @param \DateTime $date
      * 
-     * @return String
+     * @return string
      */
     public function dateDiff(\DateTime $date)
     {

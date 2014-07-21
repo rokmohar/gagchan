@@ -11,23 +11,30 @@ interface CategoryEntityInterface
     /**
      * Return the identifier.
      * 
-     * @return Integer
+     * @return int
      */
     public function getId();
     
     /**
      * Return the unique slug.
      * 
-     * @return String
+     * @return string
      */
     public function getSlug();
     
     /**
      * Return the resource name.
      * 
-     * @return String
+     * @return string
      */
     public function getName();
+    
+    /**
+     * Return the priority.
+     * 
+     * @return int
+     */
+    public function getPriority();
     
     /**
      * Return created at datetime.

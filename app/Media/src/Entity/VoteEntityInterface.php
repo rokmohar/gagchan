@@ -10,28 +10,28 @@ interface VoteEntityInterface
     /**
      * Return the identifier.
      * 
-     * @return Integer
+     * @return int
      */
     public function getId();
     
     /**
      * Return the media identifier.
      * 
-     * @return Integer
+     * @return int
      */
     public function getMediaId();
     
     /**
      * Return the user identifier.
      * 
-     * @return Integer
+     * @return int
      */
     public function getUserId();
     
     /**
      * Return the vote type.
      * 
-     * @return String
+     * @return string
      */
     public function getType();
     

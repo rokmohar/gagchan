@@ -86,7 +86,7 @@ class ExternalMediaFilter extends AbstractMediaFilter
                 ),
             ),
             'filters'   => array(
-                array('name' => 'StringTrim'),
+                array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),
             ),
         ));

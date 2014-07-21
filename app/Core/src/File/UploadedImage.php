@@ -9,17 +9,17 @@ namespace Core\File;
 class UploadedImage extends UploadedFile
 {
     /**
-     * @var Integer
+     * @var int
      */
     protected $width;
     
     /**
-     * @var Integer
+     * @var int
      */
     protected $height;
     
     /**
-     * @return Integer
+     * @return int
      */
     public function getWidth()
     {
@@ -37,7 +37,7 @@ class UploadedImage extends UploadedFile
     }
     
     /**
-     * @return Integer
+     * @return int
      */
     public function getHeight()
     {

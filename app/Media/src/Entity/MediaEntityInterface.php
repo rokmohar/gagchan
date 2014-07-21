@@ -9,71 +9,106 @@ namespace Media\Entity;
 interface MediaEntityInterface
 {
     /**
-     * {@inheritDoc}
+     * Return the identifier.
+     * 
+     * @param int
      */
     public function getId();
     
     /**
-     * {@inheritDoc}
+     * Return the slug.
+     * 
+     * @return string
      */
     public function getSlug();
     
     /**
-     * {@inheritDoc}
+     * Return the name.
+     * 
+     * @param string
      */
     public function getName();
     
     /**
-     * {@inheritDoc}
+     * Return the reference.
+     * 
+     * @return string
      */
     public function getReference();
     
     /**
-     * {@inheritDoc}
+     * Return the thumbnail.
+     * 
+     * @return string
      */
     public function getThumbnail();
     
     /**
-     * {@inheritDoc}
+     * Return the user identifier.
+     * 
+     * @return int
      */
     public function getUserId();
     
     /**
-     * {@inheritDoc}
+     * Return the category identifier.
+     * 
+     * @return int
      */
     public function getCategoryId();
     
     /**
-     * {@inheritDoc}
+     * Return width in pixels.
+     * 
+     * @param int
      */
     public function getWidth();
     
     /**
-     * {@inheritDoc}
+     * Return height in pixels.
+     * 
+     * @param int
      */
     public function getHeight();
     
     /**
-     * {@inheritDoc}
+     * Return size in bytes.
+     * 
+     * @return int
      */
     public function getSize();
     
     /**
-     * {@inheritDoc}
+     * Return the content type.
+     * 
+     * @return string
      */
     public function getContentType();
     
     /**
-     * {@inheritDoc}
+     * Check if media is enabled.
+     * 
+     * @return bool
+     */
+    public function isEnabled();
+    
+    /**
+     * Check if media is featured.
+     * 
+     * @return bool
      */
     public function isFeatured();
-            
+    
     /**
+     * Return created at date.
+     * 
      * @return \DateTime
      */
     public function getCreatedAt();
     
     /**
+     * Return updated at date.
+     * 
      * @return \DateTime
      */
     public function getUpdatedAt();

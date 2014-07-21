@@ -285,12 +285,12 @@ class MediaManager implements MediaManagerInterface
     /**
      * Get a unique slug.
      * 
-     * @return String
+     * @return string
      */
     protected function getUniqueSlug()
     {
         // Generate a slug
-        $slug = $this->getRandomString(8);
+        $slug = $this->getRandomstring(8);
         
         // Media mapper
         $mediaMapper = $this->getMediaMapper();
@@ -310,9 +310,9 @@ class MediaManager implements MediaManagerInterface
      * 
      * @param int $length
      * 
-     * @return String
+     * @return string
      */
-    protected function getRandomString($length = 8)
+    protected function getRandomstring($length = 8)
     {
         $chars  = '0123456789abcdefghijklmnopqrstuvwxyz';
         $string = '';

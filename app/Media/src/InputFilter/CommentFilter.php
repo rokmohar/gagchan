@@ -31,7 +31,7 @@ class CommentFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'StringLength',
+                    'name'    => 'stringLength',
                     'options' => array(
                         'min' => 8,
                         'max' => 255,
@@ -40,7 +40,7 @@ class CommentFilter extends InputFilter
             ),
             'filters'   => array(
                 array('name' => 'HtmlEntities'),
-                array('name' => 'StringTrim'),
+                array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),
             ),
         ));

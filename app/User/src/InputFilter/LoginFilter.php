@@ -23,14 +23,14 @@ class LoginFilter extends UserFilter
                     'name' => 'Zend\Validator\EmailAddress',
                 ),
                 array(
-                    'name'    => 'Zend\Validator\StringLength',
+                    'name'    => 'Zend\Validator\stringLength',
                     'options' => array(
                         'max' => 255,
                     ),
                 ),
             ),
             'filters' => array(
-                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\stringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));

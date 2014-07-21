@@ -56,7 +56,7 @@ class HybridAuthFactory implements FactoryInterface
      * 
      * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
      * 
-     * @return String
+     * @return string
      * 
      * @throws ServiceNotCreatedException
      */

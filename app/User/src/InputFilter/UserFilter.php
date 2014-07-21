@@ -83,7 +83,7 @@ class UserFilter extends InputFilter
                     ),
                 ),
                 array(
-                    'name'    => 'Zend\Validator\StringLength',
+                    'name'    => 'Zend\Validator\stringLength',
                     'options' => array(
                         'min' => 6,
                         'max' => 255,
@@ -91,7 +91,7 @@ class UserFilter extends InputFilter
                 ),
             ),
             'filters' => array(
-                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\stringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
@@ -121,14 +121,14 @@ class UserFilter extends InputFilter
                     'name' => 'Zend\Validator\EmailAddress',
                 ),
                 array(
-                    'name'    => 'Zend\Validator\StringLength',
+                    'name'    => 'Zend\Validator\stringLength',
                     'options' => array(
                         'max' => 255,
                     ),
                 ),
             ),
             'filters' => array(
-                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\stringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
@@ -148,7 +148,7 @@ class UserFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'Zend\Validator\StringLength',
+                    'name'    => 'Zend\Validator\stringLength',
                     'options' => array(
                         'min' => 6,
                         'max' => 255,
@@ -156,7 +156,7 @@ class UserFilter extends InputFilter
                 ),
             ),
             'filters' => array(
-                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\stringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
@@ -183,7 +183,7 @@ class UserFilter extends InputFilter
                 ),
             ),
             'filters' => array(
-                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\stringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));

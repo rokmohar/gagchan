@@ -60,7 +60,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     /**
      * @param \Media\Entity\MediaEntityInterface $media
      * 
-     * @return Boolean
+     * @return bool
      */
     public function hasUniqueSlug(MediaEntityInterface $media)
     {
@@ -70,7 +70,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     /**
      * @param string $slug
      * 
-     * @return Boolean
+     * @return bool
      */
     public function isUniqueSlug($slug)
     {

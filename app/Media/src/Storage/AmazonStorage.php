@@ -94,7 +94,7 @@ class AmazonStorage implements StorageInterface
     }
     
     /**
-     * @return String
+     * @return string
      */
     public function getName()
     {

@@ -17,7 +17,7 @@ abstract class AbstractMapper implements MapperInterface
     protected $dbAdapter;
     
     /**
-     * @var String
+     * @var string
      */
     protected $entityClass;
     
@@ -32,7 +32,7 @@ abstract class AbstractMapper implements MapperInterface
     protected $sql;
     
     /**
-     * @var String
+     * @var string
      */
     protected $tableName;
     

@@ -63,7 +63,7 @@ if (isset($this->controller_class)
     </dd>
     <dt><?php echo $this->translate('Stack trace') ?>:</dt>
     <dd>
-        <pre class="prettyprint linenums"><?php echo $this->exception->getTraceAsString() ?></pre>
+        <pre class="prettyprint linenums"><?php echo $this->exception->getTraceAsstring() ?></pre>
     </dd>
 </dl>
 <?php
@@ -87,7 +87,7 @@ if (isset($this->controller_class)
             </dd>
             <dt><?php echo $this->translate('Stack trace') ?>:</dt>
             <dd>
-                <pre class="prettyprint linenums"><?php echo $e->getTraceAsString() ?></pre>
+                <pre class="prettyprint linenums"><?php echo $e->getTraceAsstring() ?></pre>
             </dd>
         </dl>
     </li>

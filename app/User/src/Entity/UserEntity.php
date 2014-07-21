@@ -9,24 +9,34 @@ namespace User\Entity;
 class UserEntity implements UserEntityInterface
 {
     /**
-     * @var Integer
+     * @var int
      */
     protected $id;
 
     /**
-     * @var String
+     * @var string
      */
     protected $username;
 
     /**
-     * @var String
+     * @var string
      */
     protected $email;
 
     /**
-     * @var String
+     * @var string
      */
     protected $password;
+    
+    /**
+     * @var bool
+     */
+    protected $isEnabled;
+    
+    /**
+     * @var bool
+     */
+    protected $isFeatured;
     
     /**
      * @var \DateTime
@@ -146,6 +156,46 @@ class UserEntity implements UserEntityInterface
      * {@inheritDoc}
      */
     //public function getRecoverToken();
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function isEnabled()
+    {
+        return $this->isEnabled;
+    }
+    
+    /**
+     * Set if user is enabled or not.
+     * 
+     * @param bool $isEnabled
+     */
+    public function setEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function isConfirmed()
+    {
+        return $this->isConfirmed;
+    }
+    
+    /**
+     * Set if user is confirmed or not.
+     * 
+     * @param bool $isConfirmed
+     */
+    public function setConfirmed($isConfirmed)
+    {
+        $this->isConfirmed = $isConfirmed;
+        
+        return $this;
+    }
     
     /**
      * {@inheritDoc}
