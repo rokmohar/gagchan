@@ -13,6 +13,11 @@ use Zend\View\Model\ViewModel;
 class RecoverController extends AbstractActionController
 {
     /**
+     * @var \User\Mailer\MailerInterface
+     */
+    protected $mailer;
+    
+    /**
      * @var \User\Form\RecoverForm
      */
     protected $recoverForm;
@@ -64,23 +69,28 @@ class RecoverController extends AbstractActionController
         // Get data
         $data = $recoverForm->getData();
         
+        // Get mailer
+        $mailer = $this->getMailer();
+        
+        $mailer->sendRecoverMessage($data);
+        
         var_dump($data); die();
     }
     
     /**
-     * Return the user mapper.
+     * Return the mailer.
      * 
-     * @return \User\Mapper\UserMapperInterface
+     * @return \User\Mailer\MailerInterface
      */
-    public function getUserMapper()
+    public function getMailer()
     {
-        if ($this->userMapper === null) {
-            return $this->userMapper = $this->getServiceLocator()->get(
-                'user.mapper.user'
+        if ($this->mailer === null) {
+            return $this->mailer = $this->getServiceLocator()->get(
+                'user.mailer.amazon'
             );
         }
         
-        return $this->userMapper;
+        return $this->mailer;
     }
     
     /**
@@ -97,5 +107,21 @@ class RecoverController extends AbstractActionController
         }
         
         return $this->recoverForm;
+    }
+    
+    /**
+     * Return the user mapper.
+     * 
+     * @return \User\Mapper\UserMapperInterface
+     */
+    public function getUserMapper()
+    {
+        if ($this->userMapper === null) {
+            return $this->userMapper = $this->getServiceLocator()->get(
+                'user.mapper.user'
+            );
+        }
+        
+        return $this->userMapper;
     }
 }

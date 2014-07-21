@@ -6,16 +6,14 @@ To do
 - Registration confirmation
 - Forgot password
 - Implement PRG concept for forms
-- Social network log in/sign up
+- Social network log in/sign up - DONE
 - Import error template
 - Play/pause GIF and dynamic loading
 
 Modules
 ================================================================================
 - AWS: https://github.com/aws/aws-sdk-php-zf2
-- User: https://github.com/ZF-Commons/ZfcUser (DEPRECATED)
-- OAuth: https://github.com/SocalNick/ScnSocialAuth (DEPRECATED)
-- ACL: https://github.com/bjyoungblood/BjyAuthorize (DEPRECATED)
+- ACL: https://github.com/bjyoungblood/BjyAuthorize
 
 MySQL access
 ================================================================================

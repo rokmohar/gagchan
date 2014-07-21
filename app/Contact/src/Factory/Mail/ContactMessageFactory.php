@@ -10,7 +10,7 @@ use Zend\Stdlib\ArrayUtils;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
- * @author Rok Založnik <rok.zaloznik@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class ContactMessageFactory implements FactoryInterface
 {

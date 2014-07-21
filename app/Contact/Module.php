@@ -7,7 +7,7 @@ use Zend\ModuleManager\Feature\ServiceProviderInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
- * @author Rok Založnik <rok.zaloznik@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class Module implements
     AutoloaderProviderInterface,

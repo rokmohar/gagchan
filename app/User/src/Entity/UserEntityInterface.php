@@ -37,6 +37,34 @@ interface UserEntityInterface
     public function getPassword();
     
     /**
+     * Return the confirmation at date.
+     * 
+     * @return \DateTime
+     */
+    //public function getConfirmationAt();
+    
+    /**
+     * Return the confirmation token.
+     * 
+     * @return string
+     */
+    //public function getConfirmationToken();
+    
+    /**
+     * Return the recover at date.
+     * 
+     * @return \DateTime
+     */
+    //public function getRecoverAt();
+    
+    /**
+     * Return the recover token.
+     * 
+     * @return string
+     */
+    //public function getRecoverToken();
+    
+    /**
      * Return created at date.
      * 
      * @return \DateTime

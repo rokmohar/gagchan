@@ -7,7 +7,7 @@ use Zend\Validator\Hostname;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
- * @author Rok Založnik <rok.zaloznik@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class ContactFilter extends InputFilter
 {

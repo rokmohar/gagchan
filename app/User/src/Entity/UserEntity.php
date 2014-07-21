@@ -130,6 +130,26 @@ class UserEntity implements UserEntityInterface
     /**
      * {@inheritDoc}
      */
+    //public function getConfirmationAt();
+    
+    /**
+     * {@inheritDoc}
+     */
+    //public function getConfirmationToken();
+    
+    /**
+     * {@inheritDoc}
+     */
+    //public function getRecoverAt();
+    
+    /**
+     * {@inheritDoc}
+     */
+    //public function getRecoverToken();
+    
+    /**
+     * {@inheritDoc}
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;

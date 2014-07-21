@@ -8,7 +8,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
- * @author Rok Založnik <rok.zaloznik@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class ContactTransportFactory implements FactoryInterface
 {

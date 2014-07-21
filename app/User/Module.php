@@ -70,7 +70,9 @@ class Module implements
                 'user.form.password_settings' => 'User\Factory\Form\PasswordSettingsFormFactory',
                 'user.form.recover'           => 'User\Factory\Form\RecoverFormFactory',
                 'user.form.signup'            => 'User\Factory\Form\SignupFormFactory',
+                'user.mailer.amazon'          => 'User\Factory\Mailer\AmazonMailerFactory',
                 'user.mapper.user'            => 'User\Factory\Mapper\UserMapperFactory',
+                'user.options.module'         => 'User\Factory\Options\ModuleOptionsFactory',
             ),
         );
     }
