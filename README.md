@@ -8,7 +8,7 @@ To do
 - Implement PRG concept for forms
 - Social network log in/sign up - DONE
 - Import error template
-- Play/pause GIF and dynamic loading
+- Play/pause GIF and dynamic loading - DONE
 
 Modules
 ================================================================================
