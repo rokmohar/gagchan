@@ -62,6 +62,7 @@
                 moviePath : 'js/jquery.zeroclipboard.swf'
             });
             
+            // Vote 
             $(function() {
                 $('[data-trigger="response"] > a').click(function(e) {
                     // Element parameters
@@ -79,7 +80,7 @@
                             data: { slug: $slug, type: $type },
                             type: 'POST',
                             url:  '<?php echo $this->url('vote') ?>'
-                        }).done(function(data) {
+                        }).done(function(data) { 
                             // Check if action was successful
                             if (data.result === true) {
                                 // Parent parameters
@@ -112,7 +113,34 @@
                     $this.addClass('zeroclipboard-selected');
                 });
             });
+            
+            // GIF play on click
+            $('a.meme-img').click(function(){ 
+                var $this = $(this);
+                var img = $this.find('img');
+                
+                if (!this.playing) {
+                    // Change source to GIF
+                    img.attr('src', img.attr('src').replace('s_v1.jpg', 'sa_v1.gif'));
+                    
+                    // Hide span 
+                    $this.find('.play').hide();
+                    this.playing = true;
+                } else {
+                    // Change source to static image                
+                    img.attr('src', img.attr('src').replace('sa_v1.gif', 's_v1.jpg'));
+                    
+                    // Show span
+                    $this.find('.play').show();
+                    this.playing = false;
+                }
+                
+                return false;
+            });
+
+
         });
+                   
     </script>
 </head>
 <body>
