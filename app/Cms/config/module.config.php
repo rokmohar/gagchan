@@ -31,10 +31,6 @@ return array(
         ),
     ),
     'view_manager' => array(
-        'template_map' => array(
-            'index/privacy'     => __DIR__ . '/../view/cms/index/privacy.phtml',
-            'index/terms'     => __DIR__ . '/../view/cms/index/terms.phtml',
-        ),
         'template_path_stack' => array(
             'cms' => __DIR__ . '/../view',
         ),

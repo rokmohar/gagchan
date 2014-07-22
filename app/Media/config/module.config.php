@@ -3,8 +3,9 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Media\Index' => 'Media\Controller\IndexController',
-            'Media\Vote'  => 'Media\Controller\VoteController',
+            'Media\Index'   => 'Media\Controller\IndexController',
+            'Media\Upload'  => 'Media\Controller\UploadController',
+            'Media\Vote'    => 'Media\Controller\VoteController',
         ),
     ),
     'router' => array(
@@ -32,36 +33,36 @@ return array(
                     ),
                 ),
             ),
-            'vote' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/gag/vote',
-                    'defaults' => array(
-                        'controller' => 'Media\Vote',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
             'upload' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/upload',
                     'defaults' => array(
-                        'controller' => 'Media\Index',
+                        'controller' => 'Media\Upload',
                         'action'     => 'upload',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes'  => array(
-                    'exterlan' => array(
+                    'external' => array(
                         'type'    => 'Zend\Mvc\Router\Http\Literal',
                         'options' => array(
                             'route'    => '/external',
                             'defaults' => array(
-                                'controller' => 'Media\Index',
+                                'controller' => 'Media\Upload',
                                 'action'     => 'external',
                             ),
                         ),
+                    ),
+                ),
+            ),
+            'vote' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/vote',
+                    'defaults' => array(
+                        'controller' => 'Media\Vote',
+                        'action'     => 'index',
                     ),
                 ),
             ),
