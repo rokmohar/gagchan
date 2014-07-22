@@ -3,6 +3,7 @@
 namespace User\Controller;
 
 use Zend\Crypt\Password\Bcrypt;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -50,14 +51,20 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
         
-        // Get request
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
+        
+        // Check if PRG is reponse
+        if ($prg instanceof Response) {
+            // Return response
+            return $prg;
+        }
         
         // Get form
         $loginForm = $this->getLoginForm();
         
-        // Check if page is not posted
-        if ($request->isPost() === false) {
+        // Check if PRG is GET
+        if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'loginForm' => $loginForm,
@@ -67,9 +74,9 @@ class IndexController extends AbstractActionController
         // Set entity prototype
         $loginForm->bind(new \User\Entity\UserEntity());
 
-        // Set posted data
-        $loginForm->setData($request->getPost());
-
+        // Set data
+        $loginForm->setData($prg);
+        
         // Check if form is not valid
         if ($loginForm->isValid() === false) {
             // Return view
