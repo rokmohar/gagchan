@@ -3,8 +3,11 @@
 namespace User\Controller;
 
 use Zend\Crypt\Password\Bcrypt;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
+use Core\Utils\TokenGenerator;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -48,14 +51,20 @@ class RecoverController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
         
-        // Get request
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
+        
+        // Check if PRG is reponse
+        if ($prg instanceof Reponse) {
+            // Return response
+            return $prg;
+        }
         
         // Get form
         $recoverForm = $this->getRecoverForm();
         
-        // Check if page is not posted
-        if ($request->isPost() === false) {
+        // Check if PRG is GET
+        if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'recoverForm' => $recoverForm,
@@ -66,7 +75,7 @@ class RecoverController extends AbstractActionController
         $recoverForm->bind(new \User\Entity\UserEntity());
 
         // Set posted data
-        $recoverForm->setData($request->getPost());
+        $recoverForm->setData($prg);
 
         // Check if form is not valid
         if ($recoverForm->isValid() === false) {
@@ -87,7 +96,9 @@ class RecoverController extends AbstractActionController
         
         $recover->setUserId($user->getId());
         $recover->setEmail($user->getEmail());
-        $recover->setRemoteAddress($request->getServer('REMOTE_ADDR'));
+        $recover->setRemoteAddress(
+            $this->getRequest()->getServer('REMOTE_ADDR')
+        );
         $recover->setRequestAt(new \DateTime());
         $recover->setRequestToken($this->generateToken());
         $recover->setRecoveredAt();
@@ -132,14 +143,20 @@ class RecoverController extends AbstractActionController
             return $this->notFoundAction();
         }
         
-        // Get request
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
+        
+        // Check if PRG is response
+        if ($prg instanceof Response) {
+            // Return response
+            return $prg;
+        }
         
         // Get form
         $resetForm = $this->getResetForm();
         
-        // Check if page is not posted
-        if (!$request->isPost()) {
+        // Check if PRG is GET
+        if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'resetForm' => $resetForm,
@@ -147,7 +164,7 @@ class RecoverController extends AbstractActionController
         }
         
         // Set posted data
-        $resetForm->setData($request->getPost());
+        $resetForm->setData($prg);
         
         // Check if form is not valid
         if (!$resetForm->isValid()) {
@@ -204,7 +221,7 @@ class RecoverController extends AbstractActionController
     public function generateToken()
     {
         // Get token generator
-        $generator = new \Core\Utils\TokenGenerator();
+        $generator = new TokenGenerator();
         
         // Generate token
         return $generator->getToken(32);

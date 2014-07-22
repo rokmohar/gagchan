@@ -15,7 +15,7 @@
             Points: <span><?php echo $this->media()->getPoints($media) ?></span> &#8226; Comments: <?php echo $this->media()->getComments($media) ?>
         </div>   
         <div class="meme-img">
-            <img src="<?php echo $this->media()->url($media) ?>" alt="" class="img-responsive" />
+            <img src="<?php echo $this->media()->url($media, true) ?>" alt="" class="img-responsive" />
         </div>
         <ul class="meme-action clearfix">
             <?php
@@ -42,13 +42,13 @@
                     </li>
                 <?php endif ?>
             <li>
-                <a href="#" data-type="facebook" data-url="<?php echo $this->basePath() . $this->url('gag', array('slug' => $media->getSlug())) ?>" data-description="Click to see the pic and write a comment ..." data-title="<?php echo $media->getName() ?>" data-media="<?php echo $this->media()->url($media) ?>" class="btn btn-facebook">Facebook</a>
+                <a href="#" data-type="facebook" data-url="<?php echo $this->url('gag', array('slug' => $media->getSlug()), array('force_canonical' => true)) ?>" data-description="Click to see the pic and write a comment ..." data-title="<?php echo $media->getName() ?>" data-media="<?php echo $this->media()->url($media) ?>" class="btn btn-facebook">Facebook</a>
             </li>
             <li>
-                <a href="#" data-type="twitter" data-url="<?php echo $this->basePath() . $this->url('gag', array('slug' => $media->getSlug())) ?>" data-description="<?php echo $media->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($media) ?>" class="btn btn-twitter">Twitter</a>
+                <a href="#" data-type="twitter" data-url="<?php echo $this->url('gag', array('slug' => $media->getSlug()), array('force_canonical' => true)) ?>" data-description="<?php echo $media->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($media) ?>" class="btn btn-twitter">Twitter</a>
             </li>
             <li>
-                <a data-clipboard-text="<?php echo $this->basePath() . $this->url('gag', array('slug' => $media->getSlug())) ?>"  class="btn btn-default zeroclipboard">
+                <a data-clipboard-text="<?php echo $this->url('gag', array('slug' => $media->getSlug())) ?>"  class="btn btn-default zeroclipboard">
                     <span class="glyphicon glyphicon-link"></span>
                 </a>
             </li>
@@ -121,7 +121,7 @@
         
         <article class="meme">
             <a href="<?php echo $this->url('gag', array('slug' => $f->getSlug())) ?>" class="meme-img">
-                <img src="<?php echo $this->media()->url($f, true) ?>" alt="" class="img-responsive" />
+                <img src="<?php echo $this->media()->url($f) ?>" alt="" class="img-responsive" />
             </a>
             <div class="meme-title">
                 <a href="<?php echo $this->url('gag', array('slug' => $f->getSlug())) ?>">

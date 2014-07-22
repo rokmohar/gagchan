@@ -3,9 +3,10 @@ To do
 - Add re-captcha (cross-platform service)
 - Registration confirmation - DONE
 - Forgot password - DONE
-- Implement PRG for forms (duplicate submit protection)
+- Implement PRG for forms (duplicate submit protection) - DONE
 - Import error template
 - Play/pause GIF and dynamic loading - DONE
+- Contact is supposedly not working
 
 Modules
 ================================================================================

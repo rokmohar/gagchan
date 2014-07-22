@@ -13,7 +13,6 @@ return array(
         ),
     ),
     'view_manager' => array(
-        'base_path'                => 'http://dev.gagchan.com',
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
