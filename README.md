@@ -1,12 +1,9 @@
 To do
 ================================================================================
-- Unique validation - DONE
-- Remember me - DONE
 - Add re-captcha (cross-platform service)
-- Registration confirmation
-- Forgot password
-- Implement PRG concept for forms
-- Social network log in/sign up - DONE
+- Registration confirmation - PARTIALLY DONE
+- Forgot password - PARTIALLY DONE
+- Implement PRG for forms (duplicate submit protection)
 - Import error template
 - Play/pause GIF and dynamic loading - DONE
 

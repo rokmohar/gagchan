@@ -18,9 +18,9 @@ class ContactFilter extends InputFilter
     {
         // Add input filters
         $this
-            ->addFrom()
+            ->addEmail()
             ->addSubject()
-            ->addBody()
+            ->addMessage()
         ;
     }
     
@@ -29,10 +29,10 @@ class ContactFilter extends InputFilter
      *      
      * @return \Contact\InputFilter\ContactFilter
      */
-    protected function addFrom() 
+    protected function addEmail() 
     {
         $this->add(array(
-            'name'       => 'from',
+            'name'       => 'email',
             'required'   => true,
             'validators' => array(
                 array(
@@ -62,15 +62,7 @@ class ContactFilter extends InputFilter
         $this->add(array(
             'name' => 'subject',
             'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'stringLength',
-                    'options' => array(
-                        'min' => 4,
-                        'max' => 32,
-                    ),
-                ),
-            ),
+            'validators' => array(),
             'filters' => array(
                 array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),
@@ -81,24 +73,16 @@ class ContactFilter extends InputFilter
     }
     
     /**
-     * Add filter for body.
+     * Add filter for message.
      *      
      * @return \Contact\InputFilter\ContactFilter
      */
-    protected function addBody()
+    protected function addMessage()
     {
         $this->add(array(
-            'name'       => 'body',
+            'name'       => 'message',
             'required'   => true,
-            'validators' => array(
-                array(
-                    'name' => 'stringLength',
-                    'options' => array(
-                        'min' => 16,
-                        'max' => 4096,
-                    ),
-                ),
-            ),
+            'validators' => array(),
             'filters' => array(
                 array('name' => 'stringTrim'),
                 array('name' => 'StripTags'),

@@ -70,10 +70,18 @@ class RecoverController extends AbstractActionController
         $data = $recoverForm->getData();
         
         // Get user
-        //$user = $this->getUserMapper()->selectRowByEmail($data->getEmail());
+        $user = $this->getUserMapper()->selectRowByEmail($data->getEmail());
+        
+        // Create class
+        $recover = new \User\Entity\RecoverEntity();
+        
+        $recover->setUserId($user->getId());
+        $recover->setRemoteAddress($request->getServer('REMOTE_ADDR'));
+        $recover->setRequestAt(new \DateTime());
+        $recover->setRequestToken(/*RANDOM*/);
         
         // Send message
-        $this->getMailer()->sendRecoverMessage($user);
+        //$this->getMailer()->sendRecoverMessage($user);
         
         var_dump($data); die();
     }

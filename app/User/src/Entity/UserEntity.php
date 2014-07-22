@@ -8,6 +8,13 @@ namespace User\Entity;
  */
 class UserEntity implements UserEntityInterface
 {
+    /**#@+*/
+    const STATE_UNKNOWN     = 0;
+    const STATE_CONFIRMED   = 1;
+    const STATE_UNCONFIRMED = 2;
+    const STATE_DISABLED    = 3;
+    /**#@-*/
+    
     /**
      * @var int
      */
@@ -29,14 +36,9 @@ class UserEntity implements UserEntityInterface
     protected $password;
     
     /**
-     * @var bool
+     * @var int
      */
-    protected $isEnabled;
-    
-    /**
-     * @var bool
-     */
-    protected $isFeatured;
+    protected $state;
     
     /**
      * @var \DateTime
@@ -140,59 +142,19 @@ class UserEntity implements UserEntityInterface
     /**
      * {@inheritDoc}
      */
-    //public function getConfirmationAt();
-    
-    /**
-     * {@inheritDoc}
-     */
-    //public function getConfirmationToken();
-    
-    /**
-     * {@inheritDoc}
-     */
-    //public function getRecoverAt();
-    
-    /**
-     * {@inheritDoc}
-     */
-    //public function getRecoverToken();
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function isEnabled()
+    public function getState()
     {
-        return $this->isEnabled;
+        return $this->state;
     }
     
     /**
-     * Set if user is enabled or not.
+     * Set the state.
      * 
-     * @param bool $isEnabled
+     * @param int $state
      */
-    public function setEnabled($isEnabled)
+    public function setState($state)
     {
-        $this->isEnabled = $isEnabled;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function isConfirmed()
-    {
-        return $this->isConfirmed;
-    }
-    
-    /**
-     * Set if user is confirmed or not.
-     * 
-     * @param bool $isConfirmed
-     */
-    public function setConfirmed($isConfirmed)
-    {
-        $this->isConfirmed = $isConfirmed;
+        $this->state = $state;
         
         return $this;
     }

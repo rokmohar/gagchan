@@ -21,17 +21,17 @@ class ContactForm extends Form
         // Add elements
         $this
             ->addCsrf()
-            ->addFrom()
+            ->addEmail()
             ->addSubject()
-            ->addBody()
+            ->addMessage()
             ->addSubmit()
         ;
     }
     
     /**
-     * Add the CSRF form element.
+     * Add CSRF element.
      * 
-     * @return \User\Form\AbstractForm
+     * @return \Contact\Form\ContactForm
      */
     public function addCsrf()
     {
@@ -44,21 +44,21 @@ class ContactForm extends Form
     }
     
     /**
-     * Add the email address form element.
+     * Add email address element.
      * 
-     * @return \Contact\Form
+     * @return \Contact\Form\ContactForm
      */
-    protected function addFrom()
+    protected function addEmail()
     {
         $this->add(array(
-            'name'    => 'from',
+            'name'    => 'email',
             'options' => array(
-                'label' => 'From',
+                'label' => 'Your email address',
             ),
             'attributes' => array(
                 'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
-                'placeholder' => 'Your email',
+                'placeholder' => 'Your email address',
             ),
         ));
         
@@ -66,9 +66,9 @@ class ContactForm extends Form
     }    
     
     /**
-     * Add the subject form element.
+     * Add subject element.
      * 
-     * @return \Contact\Form
+     * @return \Contact\Form\ContactForm
      */
     protected function addSubject()
     {
@@ -88,14 +88,14 @@ class ContactForm extends Form
     }    
     
     /**
-     * Add the subject form element.
+     * Add message element.
      * 
-     * @return \Contact\Form
+     * @return \Contact\Form\ContactForm
      */
-    protected function addBody()
+    protected function addMessage()
     {
         $this->add(array(
-            'name'    => 'body',
+            'name'    => 'message',
             'options' => array(
                 'label' => 'Your message',
             ),
@@ -111,9 +111,9 @@ class ContactForm extends Form
     }   
     
     /**
-     * Add the submit form element.
+     * Add submit element.
      * 
-     * @return \Contact\Form
+     * @return \Contact\Form\ContactForm
      */
     public function addSubmit()
     {

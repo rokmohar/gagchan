@@ -6,7 +6,7 @@ namespace User\Entity;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-interface UserEntityInterface
+interface ConfirmationEntityInterface
 {
     /**
      * Return the identifier.
@@ -16,11 +16,11 @@ interface UserEntityInterface
     public function getId();
     
     /**
-     * Return the username.
+     * Return the user identifier.
      * 
-     * @return string
+     * @return int
      */
-    public function getUsername();
+    public function getUserId();
     
     /**
      * Return the email address.
@@ -30,18 +30,39 @@ interface UserEntityInterface
     public function getEmail();
     
     /**
-     * Return the encrypted password.
+     * Return the remote address.
      * 
      * @return string
      */
-    public function getPassword();
+    public function getRemoteAddress();
     
     /**
-     * Check the state.
+     * Return request at date.
      * 
-     * @return int
+     * @return \DateTime
      */
-    public function getState();
+    public function getRequestAt();
+    
+    /**
+     * Return the request token.
+     * 
+     * @return string
+     */
+    public function getRequestToken();
+    
+    /**
+     * Return confirmed at date.
+     * 
+     * @return string
+     */
+    public function getConfirmedAt();
+    
+    /**
+     * Check whether the user is confirmed.
+     * 
+     * @return bool
+     */
+    public function isConfirmed();
     
     /**
      * Return created at date.

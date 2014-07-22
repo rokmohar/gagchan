@@ -8,14 +8,15 @@ use Core\Hydrator\AbstractHydrator;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserHydrator extends AbstractHydrator
+class RecoverHydrator extends AbstractHydrator
 {
     /**
      * @var array
      */
     protected $dataMap = array(
-        'is_enabled'   => 'boolean',
-        'is_confirmed' => 'boolean',
+        'request_at'   => 'DateTime',
+        'recovered_at' => 'DateTime',
+        'is_recovered' => 'boolean',
         'created_at'   => 'DateTime',
         'updated_at'   => 'DateTime',
     );

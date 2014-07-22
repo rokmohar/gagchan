@@ -51,24 +51,24 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
             call_user_func(array($vote, 'preInsert'));
         }
         
-        // Get insert
+        // Extract data
+        $data = $this->getHydrator()->extract($vote);
+        
+        // Get SQL insert
         $insert = $this->getInsert();
         
         $insert
-            ->values(array(
-                'media_id'   => $vote->getMediaId(),
-                'user_id'    => $vote->getUserId(),
-                'type'       => $vote->getType(),
-                'created_at' => $vote->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $vote->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->values($data)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($insert);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($insert)->execute();
+        // Execute statement
+        $result = $statement->execute();
+        
+        // Set identifier
+        $vote->setId($result->getGeneratedValue());
         
         // Return result
         return $result;
@@ -196,29 +196,23 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
             call_user_func(array($vote, 'preUpdate'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($vote);
+        
         // Get update
         $update = $this->getUpdate();
         
         $update
-            ->set(array(
-                'media_id'   => $vote->getMediaId(),
-                'user_id'    => $vote->getUserId(),
-                'type'       => $vote->getType(),
-                'created_at' => $vote->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $vote->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->set($data)
             ->where(array(
                 'id' => $vote->getId(),
             ))
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($update);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
-        
-        // Return result
-        return $result;
+        // Execute statement
+        return $statement->execute();
     }
 }

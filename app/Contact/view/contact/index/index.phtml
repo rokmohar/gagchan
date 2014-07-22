@@ -9,6 +9,9 @@
         <?php echo $this->form()->openTag($form) ?>
         
         <h3 class="login-title">Contact us</h3>
+            
+            <!-- #CSRF -->
+            <?php echo $this->formElement($form->get('csrf')) ?>
         
             <!-- #From -->
             <div class="form-row">
@@ -16,10 +19,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user"></span>
                     </span>
-                    <?php echo $this->formInput($form->get('from')) ?>
+                    <?php echo $this->formInput($form->get('email')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($form->get('from')) ?>
+                <?php echo $this->formElementErrors($form->get('email')) ?>
             </div>      
             
             <!-- #Subject -->
@@ -37,17 +40,13 @@
             <!-- #Body -->
             <div class="form-row">
 
-                <?php echo $this->formTextarea($form->get('body')) ?>
-                <?php echo $this->formElementErrors($form->get('body')) ?>
+                <?php echo $this->formTextarea($form->get('message')) ?>
+                <?php echo $this->formElementErrors($form->get('message')) ?>
                 
             </div>         
             
             <div class="input-group">
-                <?php 
-                echo $this->formElement($form->get('csrf'));
-                echo $this->formSubmit($form->get('Send'));
-                echo $this->formElementErrors($form->get('Send'));
-                ?>
+                <?php echo $this->formSubmit($form->get('Send')) ?>
             </div>
             
         <?php echo $this->form()->closeTag() ?>            
@@ -61,7 +60,7 @@
         <h3 class="login-title">Have a question for us?</h3>
 
         <div class="contact-desc">
-            Fill the form on the left side and send us your question!
+            Fill the form on the left side and send us your question.
             <br><br>
             We will try to answer you as soon as possible!
         </div>

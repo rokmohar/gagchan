@@ -24,29 +24,23 @@ class OAuthMapper extends AbstractMapper implements OAuthMapperInterface
             call_user_func(array($oauth, 'preInsert'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($oauth);
+        
         // Get SQL insert
         $insert = $this->getInsert();
         
         $insert
-            ->values(array(
-                'user_id'     => $oauth->getUserId(),
-                'provider'    => $oauth->getProvider(),
-                'provider_id' => $oauth->getProviderId(),
-                'created_at'  => $oauth->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at'  => $oauth->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->values($data)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
-        
         // Prepare statement
-        $statement = $sql->prepareStatementForSqlObject($insert);
+        $statement = $this->getSql()->prepareStatementForSqlObject($insert);
         
         // Execute statement
         $result = $statement->execute();
         
-        // Set generated value
+        // Set identifier
         $oauth->setId($result->getGeneratedValue());
         
         // Return result
@@ -135,28 +129,23 @@ class OAuthMapper extends AbstractMapper implements OAuthMapperInterface
             call_user_func(array($oauth, 'preUpdate'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($oauth);
+        
         // Get update
         $update = $this->getUpdate();
         
         $update
-            ->set(array(
-                'user_id'     => $oauth->getUserId(),
-                'provider'    => $oauth->getProvider(),
-                'provider_id' => $oauth->getProviderId(),
-                'updated_at'  => $oauth->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->set($data)
             ->where(array(
                 'id' => $oauth->getId(),
             ))
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($update);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
-        
-        // Return result
-        return $result;
+        // Execute statement
+        return $statement->execute();
     }
 }

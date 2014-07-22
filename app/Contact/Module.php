@@ -43,8 +43,7 @@ class Module implements
         return array(
             'factories' => array(
                 'contact.form.contact'   => 'Contact\Factory\Form\ContactFormFactory',
-                'contact.mail.message'   => 'Contact\Factory\Mail\ContactMessageFactory',
-                'contact.mail.transport' => 'Contact\Factory\Mail\ContactTransportFactory',
+                'contact.mailer.amazon'  => 'Contact\Factory\Mailer\AmazonMailerFactory',
                 'contact.options.module' => 'Contact\Factory\Options\ModuleOptionsFactory',
             ),
         );

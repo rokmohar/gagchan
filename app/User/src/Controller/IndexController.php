@@ -18,9 +18,15 @@ class IndexController extends AbstractActionController
     protected $loginForm;
     
     /**
+     * @var \User\Mailer\MailerInterface
+     */
+    protected $mailer;
+    
+    /**
      * @var \User\Form\SignupForm
      */
     protected $signupForm;
+    
     /**
      * @var \User\Mapper\UserMapperInterface
      */
@@ -153,6 +159,14 @@ class IndexController extends AbstractActionController
         // Insert data
         $this->getUserMapper()->insertRow($data);
         
+        // Get mailer
+        $mailer = $this->getMailer();
+        
+        // Send message
+        $mailer->sendConfirmationMessage($data);
+        
+        // @todo: Show message, instead of redirect
+        
         // Redirect to route
         return $this->redirect()->toRoute('login');
     }
@@ -171,6 +185,22 @@ class IndexController extends AbstractActionController
         }
         
         return $this->loginForm;
+    }
+    
+    /**
+     * Return the mailer.
+     * 
+     * @return \User\Mailer\MailerInterface
+     */
+    public function getMailer()
+    {
+        if ($this->mailer === null) {
+            return $this->mailer = $this->getServiceLocator()->get(
+                'user.mailer.amazon'
+            );
+        }
+        
+        return $this->mailer;
     }
     
     /**

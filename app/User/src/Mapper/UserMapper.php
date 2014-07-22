@@ -24,24 +24,18 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
             call_user_func(array($user, 'preInsert'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($user);
+        
         // Get SQL insert
         $insert = $this->getInsert();
         
         $insert
-            ->values(array(
-                'username'   => $user->getUsername(),
-                'email'      => $user->getEmail(),               
-                'password'   => $user->getPassword(),
-                'created_at' => $user->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $user->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->values($data)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
-        
         // Prepare statement
-        $statement = $sql->prepareStatementForSqlObject($insert);
+        $statement = $this->getSql()->prepareStatementForSqlObject($insert);
         
         // Execute statement
         $result = $statement->execute();
@@ -158,28 +152,23 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
             call_user_func(array($user, 'preUpdate'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($user);
+        
         // Get update
         $update = $this->getUpdate();
         
         $update
-            ->set(array(
-                'username'   => $user->getUsername(),
-                'email'      => $user->getEmail(),
-                'password'   => $user->getPassword(),
-                'updated_at' => $user->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->set($data)
             ->where(array(
                 'id' => $user->getId(),
             ))
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($update);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
-        
-        // Return result
-        return $result;
+        // Execute statement
+        return $statement->execute();
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Contact\Factory\Form;
 
-use Contact\Form\ContactForm;
-use Contact\InputFilter\ContactFilter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+
+use Contact\Form\ContactForm;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -21,8 +21,11 @@ class ContactFormFactory implements FactoryInterface
         // Create form
         $form = new ContactForm('contact');
         
-        // Set input filter 
-        $form->setInputFilter(new ContactFilter());
+        // Set hydrator
+        $form->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods());
+        
+        // Set filter 
+        $form->setInputFilter(new \Contact\InputFilter\ContactFilter());
         
         // Return form
         return $form;

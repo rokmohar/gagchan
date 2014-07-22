@@ -24,23 +24,24 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
             call_user_func(array($category, 'preInsert'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($category);
+        
         // Get SQL insert
         $insert = $this->getInsert();
         
         $insert
-            ->values(array(
-                'slug'       => $category->getSlug(),               
-                'name'       => $category->getName(),
-                'created_at' => $category->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $category->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->values($data)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($insert);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($insert)->execute();
+        // Execute statement
+        $result = $statement->execute();
+        
+        // Set identifier
+        $category->setId($result->getGeneratedValue());
         
         // Return result
         return $result;
@@ -141,28 +142,23 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
             call_user_func(array($category, 'preUpdate'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($category);
+        
         // Get update
         $update = $this->getUpdate();
         
         $update
-            ->values(array(
-                'slug'       => $category->getSlug(),               
-                'name'       => $category->getName(),
-                'created_at' => $category->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $category->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->set($data)
             ->where(array(
                 'id' => $category->getId(),
             ))
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($update);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
-        
-        // Return result
-        return $result;
+        // Execute statement
+        return $statement->execute();
     }
 }

@@ -17,14 +17,9 @@ class IndexController extends AbstractActionController
     protected $contactForm;
     
     /**
-     * @var \Zend\Mail\Message
-     */    
-    protected $message;
-    
-    /**
-     * @var \Zend\Mail\Transport
-     */    
-    protected $transport;
+     * @var \Contact\Mailer\MailerInterface
+     */
+    protected $mailer;
     
     /**
      * @return array 
@@ -45,6 +40,9 @@ class IndexController extends AbstractActionController
             ));
         }
         
+        // Bind model
+        $contactForm->bind(new \Contact\Model\ContactModel());
+        
         // Set data
         $contactForm->setData($request->getPost());
         
@@ -52,13 +50,21 @@ class IndexController extends AbstractActionController
         if ($contactForm->isValid() === false) {
             // Return view
             return new ViewModel(array(
-                'error' => true,
                 'form' => $contactForm,
             ));
         }
         
-        // Send email
-        $this->sendEmail($contactForm->getData());
+        // Get data
+        $data = $contactForm->getData();
+        
+        // Set remote address
+        $data->setRemoteAddress($request->getServer('REMOTE_ADDR'));
+        
+        // Get mailer
+        $mailer = $this->getMailer();
+        
+        // Send message
+        $mailer->sendContactMessage($data);
         
         // Create view
         $view = new ViewModel();
@@ -68,32 +74,6 @@ class IndexController extends AbstractActionController
         
         // Return view
         return $view;
-    }
-
-    /**
-     * Send the email message.
-     * 
-     * @param array $data
-     */
-    protected function sendEmail(array $data)
-    {
-        $from    = $data['from'];
-        $subject = '[Contact Form] ' . $data['subject'];
-        $body    = $data['body'];
-
-        // Add data to mail
-        $mail = $this->message
-            ->addFrom($from)
-            ->addReplyTo($from)
-            ->addTo('tugamer@gmail.com', 'Rok Z.')
-            ->setSubject($subject)
-            ->setBody($body)
-        ;
-        
-        // Send email
-        $this->transport->send($mail);
-        
-        return $this;
     }
     
     /**
@@ -110,6 +90,22 @@ class IndexController extends AbstractActionController
         }
         
         return $this->contactForm;
+    }
+    
+    /**
+     * Return the mailer.
+     * 
+     * @return \Contact\Mailer\MailerInterface
+     */
+    public function getMailer()
+    {
+        if ($this->mailer === null) {
+            return $this->mailer = $this->getServiceLocator()->get(
+                'contact.mailer.amazon'
+            );
+        }
+        
+        return $this->mailer;
     }
     
     /**

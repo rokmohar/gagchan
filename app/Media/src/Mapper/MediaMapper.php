@@ -27,31 +27,24 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             call_user_func(array($media, 'preInsert'));
         }
         
-        // Get insert
+        // Extract data
+        $data = $this->getHydrator()->extract($media);
+        
+        // Get SQL insert
         $insert = $this->getInsert();
         
         $insert
-            ->values(array(
-                'slug'         => $media->getSlug(),
-                'name'         => $media->getName(),
-                'reference'    => $media->getReference(),
-                'thumbnail'    => $media->getThumbnail(),
-                'user_id'      => $media->getUserId(),
-                'category_id'  => $media->getCategoryId(),
-                'width'        => $media->getWidth(),
-                'height'       => $media->getheight(),
-                'size'         => $media->getSize(),
-                'content_type' => $media->getContentType(),
-                'created_at'   => $media->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at'   => $media->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->values($data)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($insert);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($insert)->execute();
+        // Execute statement
+        $result = $statement->execute();
+        
+        // Set identifier
+        $media->setId($result->getGeneratedValue());
         
         // Return result
         return $result;
@@ -235,35 +228,23 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             call_user_func(array($media, 'preUpdate'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($media);
+        
         // Get update
         $update = $this->getUpdate();
         
         $update
-            ->set(array(
-                'slug'         => $media->getSlug(),
-                'name'         => $media->getName(),
-                'reference'    => $media->getReference(),
-                'thumbnail'    => $media->getThumbnail(),
-                'user_id'      => $media->getUserId(),
-                'category_id'  => $media->getCategoryId(),
-                'width'        => $media->getWidth(),
-                'height'       => $media->getheight(),
-                'size'         => $media->getSize(),
-                'content_type' => $media->getContentType(),
-                'updated_at'   => $media->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->set($data)
             ->where(array(
                 'id' => $media->getId(),
             ))
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($update);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
-        
-        // Return result
-        return $result;
+        // Execute statement
+        return $statement->execute();
     }
 }

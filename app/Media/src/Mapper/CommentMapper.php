@@ -62,24 +62,24 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
             call_user_func(array($comment, 'preInsert'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($comment);
+        
         // Get SQL insert
         $insert = $this->getInsert();
         
         $insert
-            ->values(array(
-                'media_id'   => $comment->getMediaId(),               
-                'user_id'    => $comment->getUserId(),
-                'comment'    => $comment->getComment(),
-                'created_at' => $comment->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $comment->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->values($data)
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($insert);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($insert)->execute();
+        // Execute statement
+        $result = $statement->execute();
+        
+        // Set identifier
+        $comment->setId($result->getGeneratedValue());
         
         // Return result
         return $result;
@@ -167,28 +167,23 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
             call_user_func(array($comment, 'preUpdate'));
         }
         
+        // Extract data
+        $data = $this->getHydrator()->extract($comment);
+        
         // Get update
         $update = $this->getUpdate();
         
         $update
-            ->set(array(
-                'media_id'   => $comment->getMediaId(),
-                'user_id'    => $comment->getUserId(),
-                'comment'    => $comment->getComment(),
-                'updated_at' => $comment->getUpdatedAt()->format('Y-m-d H:i:s'),
-            ))
+            ->set($data)
             ->where(array(
                 'id' => $comment->getId(),
             ))
         ;
         
-        // Get SQL
-        $sql = $this->getSql();
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($update);
         
-        // Prepare and execute statement
-        $result = $sql->prepareStatementForSqlObject($update)->execute();
-        
-        // Return result
-        return $result;
+        // Execute statement
+        return $statement->execute();
     }
 }
