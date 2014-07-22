@@ -110,16 +110,6 @@ return array(
         ),
     ),
     'view_manager' => array(
-        'template_map' => array(
-            'user/index/confirm'           => __DIR__ . '/../view/user/index/confirm.phtml',
-            'user/index/login'             => __DIR__ . '/../view/user/index/login.phtml',
-            'user/index/signup'            => __DIR__ . '/../view/user/index/signup.phtml',
-            'user/index/signup_success'    => __DIR__ . '/../view/user/index/signup_success.phtml',
-            'user/recover/request'         => __DIR__ . '/../view/user/recover/request.phtml',
-            'user/recover/request_success' => __DIR__ . '/../view/user/recover/request_success.phtml',
-            'user/settings/account'        => __DIR__ . '/../view/user/settings/account.phtml',
-            'user/settings/password'       => __DIR__ . '/../view/user/settings/password.phtml',
-        ),
         'template_path_stack' => array(
             'user' => __DIR__ . '/../view',
         ),

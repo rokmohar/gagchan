@@ -9,22 +9,18 @@ return array(
     'router' => array(
         'routes' => array(
             'contact' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/contact',
+                    'route'    => '/contact',
                     'defaults' => array(
                         'controller' => 'Contact\IndexController',
-                        'action' => 'index',
+                        'action'     => 'contact',
                     ),
                 ),
             ),
         ),
     ),
     'view_manager' => array(
-        'template_map' => array(
-            'index/index'     => __DIR__ . '/../view/contact/index/index.phtml',
-            'index/thank-you' => __DIR__ . '/../view/contact/index/thank-you.phtml',
-        ),
         'template_path_stack' => array(
             'contact' => __DIR__ . '/../view',
         ),

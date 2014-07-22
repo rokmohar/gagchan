@@ -2,7 +2,7 @@
 
 namespace Media\InputFilter;
 
-use Zend\Validator\File\MimeType;
+use Zend\Filter\File\RenameUpload;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
