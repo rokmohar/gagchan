@@ -2,6 +2,7 @@
 
 namespace Media\Controller;
 
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -63,8 +64,8 @@ class UploadController extends AbstractActionController
 
         // Set data
         $uploadForm->setData(array_merge(
-            $request->getPost,
-            $request->getFiles()
+            $reqiest->getPost()->toArray(),
+            $request->getFiles()->toArray()
         ));
         
         // Check if form is not valid
@@ -118,14 +119,20 @@ class UploadController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
         
-        // Get reqest
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
+        
+        // Check if PRG is response
+        if ($prg instanceof Response) {
+            // Return response
+            return $prg;
+        }
         
         // Get form
         $externalForm = $this->getExternalMediaForm();
         
-        // Check if page is not posted
-        if (!$request->isPost()) {
+        // Check if PRG is GET
+        if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'externalForm' => $externalForm,
@@ -136,13 +143,10 @@ class UploadController extends AbstractActionController
         $externalForm->bind(new \Media\Entity\MediaEntity());
 
         // Set data
-        $externalForm->setData(array_merge(
-            $request->getPost,
-            $request->getFiles()
-        ));
+        $externalForm->setData($prg);
         
         // Check if form is not valid
-        if ($externalForm->isValid()) {
+        if (!$externalForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'externalForm' => $externalForm,

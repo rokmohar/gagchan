@@ -39,7 +39,7 @@ return array(
                     'route'    => '/upload',
                     'defaults' => array(
                         'controller' => 'Media\Upload',
-                        'action'     => 'upload',
+                        'action'     => 'index',
                     ),
                 ),
                 'may_terminate' => true,
