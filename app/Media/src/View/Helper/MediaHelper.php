@@ -127,13 +127,17 @@ class MediaHelper extends AbstractHelper
      * 
      * @return string
      */
-    public function url(MediaEntityInterface $media, $showThumbnail = false)
+    public function url(MediaEntityInterface $media, $showAnimation = false)
     {
         // Get bucket URL
         $bucketUrl = $this->options->getBucketUrl();
         
         // Check if thumbnail is required
-        if ($showThumbnail === true && $media->getThumbnail() !== null) {
+        if (
+            $showAnimation === false &&
+            $media->getContentType() === 'image/gif' &&
+            $media->getThumbnail() !== null
+        ) {
             // Return thumbnail
             return $bucketUrl . $media->getThumbnail();
         }

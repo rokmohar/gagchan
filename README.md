@@ -6,6 +6,7 @@ To do
 - Implement PRG for forms (duplicate submit protection)
 - Import error template
 - Play/pause GIF and dynamic loading - DONE
+- Contact is supposedly not working
 
 Modules
 ================================================================================

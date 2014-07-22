@@ -32,10 +32,10 @@ class IndexController extends AbstractActionController
     public function loginAction()
     {
         // Check if user has identity
-        /*if ($this->user()->hasIdentity() === true) {
+        if ($this->user()->hasIdentity() === true) {
             // Redirect to route
             return $this->redirect()->toRoute('home');
-        }*/
+        }
         
         // Get provider
         $provider = $this->params()->fromRoute('provider');
@@ -68,8 +68,8 @@ class IndexController extends AbstractActionController
         // Get auth service
         $authService = $this->user()->getAuthService();
         
-        // @todo: find a better solution for this
-        $authService->setRequest($this->getRequest());
+        // Set request
+        $authService->setRequest($request);
         
         // Perform authentication
         $result = $authService->authenticate();
@@ -82,20 +82,6 @@ class IndexController extends AbstractActionController
         
         // Redirect to route
         return $this->redirect()->toRoute('home');
-    }
-    
-    /**
-     * @return mixed
-     */
-    public function connectAction()
-    {
-        // Check if user has no identity
-        /*if ($this->user()->hasIdentity() === false) {
-            // Redirect to route
-            return $this->redirect()->toRoute('login');
-        }*/
-        
-        die("OAuth connect");
     }
     
     /**

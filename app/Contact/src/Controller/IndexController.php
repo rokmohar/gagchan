@@ -2,6 +2,7 @@
 
 namespace Contact\Controller;
 
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -26,14 +27,20 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        // Get request
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
+        
+        // Check if PRG is response
+        if ($prg instanceof Response) {
+            // Return response
+            return $prg;
+        }
         
         // Get form
         $contactForm = $this->getContactForm();
         
-        // Check if page is not posted
-        if ($request->isPost() === false) {
+        // Check if PRG is GET
+        if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'form' => $contactForm,
@@ -44,7 +51,7 @@ class IndexController extends AbstractActionController
         $contactForm->bind(new \Contact\Model\ContactModel());
         
         // Set data
-        $contactForm->setData($request->getPost());
+        $contactForm->setData($prg);
         
         // Check if form is not valid
         if ($contactForm->isValid() === false) {
@@ -55,19 +62,23 @@ class IndexController extends AbstractActionController
         }
         
         // Get data
-        $data = $contactForm->getData();
+        $contact = $contactForm->getData();
         
         // Set remote address
-        $data->setRemoteAddress($request->getServer('REMOTE_ADDR'));
+        $contact->setRemoteAddress(
+            $this->getRequest()->getServer('REMOTE_ADDR')
+        );
         
         // Get mailer
         $mailer = $this->getMailer();
         
         // Send message
-        $mailer->sendContactMessage($data);
+        $mailer->sendContactMessage($contact);
         
         // Create view
-        $view = new ViewModel();
+        $view = new ViewModel(array(
+            'contact' => $contact,
+        ));
         
         // Set template
         $view->setTemplate('index/thank-you');

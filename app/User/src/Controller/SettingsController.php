@@ -3,6 +3,7 @@
 namespace User\Controller;
 
 use Zend\Crypt\Password\Bcrypt;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -41,8 +42,14 @@ class SettingsController extends AbstractActionController
         // Get user
         $user = $this->user()->getIdentity();
         
-        // Get request
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
+        
+        // Check if PRG is response
+        if ($prg instanceof Response) {
+            // Return redirect
+            return $prg;
+        }
         
         // Get flash messenger
         $fm = $this->flashMessenger();
@@ -52,8 +59,8 @@ class SettingsController extends AbstractActionController
         $settingsForm = $this->getAccountSettingsForm();
         $settingsForm->bind($user);
         
-        // Check if page is not posted
-        if ($request->isPost() === false) {
+        // Check if PRG is GET
+        if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'messages'     => $fm->getMessages(),
@@ -62,10 +69,9 @@ class SettingsController extends AbstractActionController
         }
         
         // Set data
-        $settingsForm->setData(array_merge(
-            array('id' => $user->getId()),
-            $request->getPost()->toArray()
-        ));
+        $settingsForm->setData(array_merge($prg, array(
+            'id' => $user->getId(),
+        )));
         
         // Check if form is not valid
         if ($settingsForm->isValid() === false) {
@@ -79,7 +85,7 @@ class SettingsController extends AbstractActionController
         // Update user
         $this->getUserMapper()->updateRow($user);
         
-        // Set success message
+        // Add message
         $fm->addMessage('Settings are successfully updated.');
         
         // Redirect to route
@@ -97,8 +103,14 @@ class SettingsController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
         
-        // Get request
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
+        
+        // Check if PRG is response
+        if ($prg instanceof Response) {
+            // Return response
+            return $prg;
+        }
         
         // Get flash messenger
         $fm = $this->flashMessenger();
@@ -107,8 +119,8 @@ class SettingsController extends AbstractActionController
         // Get form
         $settingsForm = $this->getPasswordSettingsForm();
         
-        // Check if page is not posted
-        if ($request->isPost() === false) {
+        // Check if PRG is GET
+        if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'messages'     => $fm->getMessages(),
@@ -120,7 +132,7 @@ class SettingsController extends AbstractActionController
         $settingsForm->bind(new \User\Entity\UserEntity());
         
         // Set data
-        $settingsForm->setData($request->getPost());
+        $settingsForm->setData($prg);
         
         // Check if form is not valid
         if ($settingsForm->isValid() === false) {
@@ -150,7 +162,7 @@ class SettingsController extends AbstractActionController
         // Update user
         $this->getUserMapper()->updateRow($user);
         
-        // Set success message
+        // Add message
         $fm->addMessage('Password is successfully updated.');
         
         // Redirect to route
