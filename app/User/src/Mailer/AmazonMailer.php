@@ -48,13 +48,13 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
         ));
         
         // Set HTML template
-        $view->setTemplate('signup/confirmation.html');
+        $view->setTemplate('signup/confirmation_html');
         
         // Render HTML template
         $htmlBody = $renderer->render($view);
         
         // Set text template
-        $view->setTemplate('signup/confirmation.text');
+        $view->setTemplate('signup/confirmation_text');
         
         // Render text template
         $textBody = $renderer->render($view);
@@ -99,13 +99,13 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
         ));
         
         // Set HTML template
-        $view->setTemplate('recover/request.html');
+        $view->setTemplate('recover/request_html');
         
         // Render HTML template
         $htmlBody = $renderer->render($view);
         
         // Set text template
-        $view->setTemplate('recover/request.text');
+        $view->setTemplate('recover/request_text');
         
         // Render text template
         $textBody = $renderer->render($view);
@@ -132,10 +132,10 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
     {
         if ($this->resolver === null) {
             return $this->resolver = new TemplateMapResolver(array(
-                'recover/request.html'     => __DIR__ . '/../../view/email/recover/request_html.phtml',
-                'recover/request.text'     => __DIR__ . '/../../view/email/recover/request_text.phtml',
-                'signup/confirmation.html' => __DIR__ . '/../../view/email/signup/confirmation_html.phtml',
-                'signup/confirmation.text' => __DIR__ . '/../../view/email/signup/confirmation_text.phtml',
+                'recover/request_html'     => __DIR__ . '/../../view/email/recover/request_html.phtml',
+                'recover/request_text'     => __DIR__ . '/../../view/email/recover/request_text.phtml',
+                'signup/confirmation_html' => __DIR__ . '/../../view/email/signup/confirmation_html.phtml',
+                'signup/confirmation_text' => __DIR__ . '/../../view/email/signup/confirmation_text.phtml',
             ));
         }
         

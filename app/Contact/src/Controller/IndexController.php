@@ -25,7 +25,7 @@ class IndexController extends AbstractActionController
     /**
      * @return array 
      */
-    public function indexAction()
+    public function contactAction()
     {
         // Get PRG
         $prg = $this->prg();
@@ -81,7 +81,7 @@ class IndexController extends AbstractActionController
         ));
         
         // Set template
-        $view->setTemplate('index/thank-you');
+        $view->setTemplate('contact/index/contact_success');
         
         // Return view
         return $view;

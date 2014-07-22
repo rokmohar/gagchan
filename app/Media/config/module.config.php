@@ -51,6 +51,19 @@ return array(
                         'action'     => 'upload',
                     ),
                 ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'exterlan' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/external',
+                            'defaults' => array(
+                                'controller' => 'Media\Index',
+                                'action'     => 'external',
+                            ),
+                        ),
+                    ),
+                ),
             ),
         ),
     ),

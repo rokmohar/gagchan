@@ -156,146 +156,153 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
         
+        // Get reqest
+        $request = $this->getRequest();
+        
         // Get form
-        $uploadForm   = $this->getUploadMediaForm();
-        $externalForm = $this->getExternalMediaForm();
+        $uploadForm = $this->getUploadMediaForm();
         
-        // Get PRG
-        $uploadPrg   = $this->fileprg($uploadForm);
-        $externalPrg = $this->fileprg($externalForm);
-        
-        // Check if RPG is response
-        if ($uploadPrg instanceof Response) {
-            // Return response
-            return $uploadPrg;
-        }
-        else if ($externalPrg instanceof Response) {
-            // Return response
-            return $uploadPrg;
-        }
-        
-        // Check if PRG is GET
-        if ($uploadPrg === false) {
+        // Check if page is not posted
+        if (!$request->isPost()) {
             // Return view
             return new ViewModel(array(
-                'uploadForm'   => $uploadForm,
-                'externalForm' => $externalForm,
+                'uploadForm' => $uploadForm,
             ));
         }
-        else if ($externalPrg === false) {
-            // Return view
-            return new ViewModel(array(
-                'uploadForm'   => $uploadForm,
-                'externalForm' => $externalForm,
-            ));
-        }
-        
-        var_dump($uploadForm, $externalForm); die();
         
         // Bind entity
         $uploadForm->bind(new \Media\Entity\MediaEntity());
 
         // Set data
-        $uploadForm->setData($uploadForm);
+        $uploadForm->setData(array_merge(
+            $request->getPost,
+            $request->getFiles()
+        ));
+        
+        // Check if form is not valid
+        if ($uploadForm->isValid()) {
+            // Return view
+            return new ViewModel(array(
+                'uploadForm' => $uploadForm,
+            ));
+        }
+        
+        // Get posted data
+        $data = $uploadForm->getData();
+
+        // Get posted data
+        $filedata = $uploadForm->get('file')->getValue();
+
+        // Get category
+        $category = $this->getCategoryMapper()->selectRowById(
+            $data->getCategoryId()
+        );
+
+        // Get user
+        $user = $this->user()->getIdentity();
+
+        // Media manager
+        $mediaManager = $this->getMediaManager();
+
+        // Create uploaded image
+        $file = new UploadedImage(
+            $filedata['tmp_name'],
+            $filedata['name'],
+            $filedata['type'],
+            $filedata['size']
+        );
+
+        // Upload image
+        $mediaManager->uploadImage($file, $data->getName(), $user, $category);
+
+        // Redirect to route
+        return $this->redirect()->toRoute('home');
+    }
+    
+    /**
+     * @return \Zend\View\Helper\ViewModel
+     */
+    public function externalAction()
+    {
+        // Check is user is not logged in
+        if ($this->user()->hasIdentity() === false) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+        
+        // Get reqest
+        $request = $this->getRequest();
+        
+        // Get form
+        $externalForm = $this->getExternalMediaForm();
+        
+        // Check if page is not posted
+        if (!$request->isPost()) {
+            // Return view
+            return new ViewModel(array(
+                'externalForm' => $externalForm,
+            ));
+        }
         
         // Bind entity
         $externalForm->bind(new \Media\Entity\MediaEntity());
 
         // Set data
-        $externalForm->setData($externalForm);
-        
-        // Check if form is valid
-        if ($uploadForm->isValid()) {
-            die("POSTED UPLOAD");
-        }
-        else if ($externalForm->isValid()) {
-            die("POSTED EXTERNAL");
-        }
-        
-        // Return view
-        return new ViewModel(array(
-            'uploadForm'   => $uploadForm,
-            'externalForm' => $externalForm,
+        $externalForm->setData(array_merge(
+            $request->getPost,
+            $request->getFiles()
         ));
-
-        // Validate form
-        /*if ($externalForm->isValid() === true) {
-            // Get posted data
-            $data = $externalForm->getData();
-
-            // Get posted data
-            $url = $externalForm->get('url')->getValue();
-
-            // Get category
-            $category = $this->getCategoryMapper()->selectRowById(
-                $data->getCategoryId()
-            );
-
-            // Get user
-            $user = $this->user()->getIdentity();
-
-            // Media manager
-            $mediaManager = $this->getMediaManager();
-
-            // Temporary file
-            $temp = tempnam(sys_get_temp_dir(), '');
-
-            // Copy file from URL
-            copy($url, $temp);
-
-            // Image size
-            $size = getimagesize($temp);
-
-            // Create uploaded image
-            $file = new UploadedImage(
-                $temp,
-                basename($url),
-                image_type_to_mime_type($size[2]),
-                filesize($temp)
-            );
-
-            // Set size
-            $file->setWidth($size[0]);
-            $file->setHeight($size[1]);
-
-            // Upload image
-            $mediaManager->uploadImage($file, $data->getName(), $user, $category);
-
-            // Redirect to route
-            return $this->redirect()->toRoute('home');
+        
+        // Check if form is not valid
+        if ($externalForm->isValid()) {
+            // Return view
+            return new ViewModel(array(
+                'externalForm' => $externalForm,
+            ));
         }
-        else if ($uploadForm->isValid() === true) {
-            // Get posted data
-            $data = $uploadForm->getData();
+        // Get posted data
+        $data = $externalForm->getData();
 
-            // Get posted data
-            $filedata = $uploadForm->get('file')->getValue();
+        // Get posted data
+        $url = $externalForm->get('url')->getValue();
 
-            // Get category
-            $category = $this->getCategoryMapper()->selectRowById(
-                $data->getCategoryId()
-            );
+        // Get category
+        $category = $this->getCategoryMapper()->selectRowById(
+            $data->getCategoryId()
+        );
 
-            // Get user
-            $user = $this->user()->getIdentity();
+        // Get user
+        $user = $this->user()->getIdentity();
 
-            // Media manager
-            $mediaManager = $this->getMediaManager();
+        // Media manager
+        $mediaManager = $this->getMediaManager();
 
-            // Create uploaded image
-            $file = new UploadedImage(
-                $filedata['tmp_name'],
-                $filedata['name'],
-                $filedata['type'],
-                $filedata['size']
-            );
+        // Temporary file
+        $temp = tempnam(sys_get_temp_dir(), '');
 
-            // Upload image
-            $mediaManager->uploadImage($file, $data->getName(), $user, $category);
+        // Copy file from URL
+        copy($url, $temp);
 
-            // Redirect to route
-            return $this->redirect()->toRoute('home');
-        }*/
+        // Image size
+        $size = getimagesize($temp);
+
+        // Create uploaded image
+        $file = new UploadedImage(
+            $temp,
+            basename($url),
+            image_type_to_mime_type($size[2]),
+            filesize($temp)
+        );
+
+        // Set size
+        $file->setWidth($size[0]);
+        $file->setHeight($size[1]);
+
+        // Upload image
+        $mediaManager->uploadImage($file, $data->getName(), $user, $category);
+
+        // Redirect to route
+        return $this->redirect()->toRoute('home');
     }
     
     /**
