@@ -28,6 +28,10 @@ class AmazonMailerFactory implements FactoryInterface
         // Get PHP renderer
         $renderer = new PhpRenderer();
         
-        return new AmazonMailer($aws, $options, $renderer);
+        // Get router
+        $router = $serviceLocator->get('Router');
+        
+        // Create mailer
+        return new AmazonMailer($aws, $options, $renderer, $router);
     }
 }

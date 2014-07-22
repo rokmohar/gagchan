@@ -14,7 +14,7 @@ class RecoverForm extends AbstractUserForm
         
         // Add elements
         $this
-            ->addSubmit('Send instructions')
+            ->addSubmit('Send request')
         ;
         
         // Set validation group

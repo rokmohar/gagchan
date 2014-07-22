@@ -17,7 +17,7 @@ class PasswordSettingsForm extends AbstractUserForm
         
         // Add elements
         $this
-            ->addPasswordVerify()
+            //->addPasswordVerify()
             ->addSubmit('Save')
         ;
         

@@ -19,7 +19,7 @@ abstract class AbstractHydrator extends ClassMethods
         
         // Iterate over data
         foreach (array_keys($data) as $key) {
-            // Skip if data map is provided
+            // Check if array key does not exist
             if (!array_key_exists($key, $this->dataMap)) {
                 continue;
             }
@@ -27,9 +27,9 @@ abstract class AbstractHydrator extends ClassMethods
             // Get data type
             $type = $this->dataMap[$key];
             
-            // We can skip boolean, as it gets converted automatically
+            // We can skip boolean, because it gets converted automatically
             
-            if ($type === 'DateTime') {
+            if ($type === 'DateTime' && !empty($data[$key])) {
                 // Format date
                 $data[$key] = $data[$key]->format("Y-m-d H:i:s");
             }

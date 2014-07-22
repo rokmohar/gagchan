@@ -2,6 +2,8 @@
 
 namespace User\Mailer;
 
+use User\Entity\ConfirmationEntityInterface;
+use User\Entity\RecoverEntityInterface;
 use User\Entity\UserEntityInterface;
 
 /**
@@ -13,14 +15,25 @@ interface MailerInterface
     /**
      * Send a confirmation email message.
      * 
-     * @param \User\Entity\UserEntityInterface $user
+     * @param \User\Entity\UserEntityInterface         $user
+     * @param \User\Entity\ConfirmationEntityInterface $confirmation
      */
-    public function sendConfirmationMessage(UserEntityInterface $user);
+    public function sendConfirmationMessage(
+        UserEntityInterface $user,
+        ConfirmationEntityInterface $confirmation
+    );
     
     /**
      * Send a recover email message.
      * 
-     * @param \User\Entity\UserEntityInterface $user
+     * @param \User\Entity\UserEntityInterface    $user
+     * @param \User\Entity\RecoverEntityInterface $recover
      */
-    public function sendRecoverMessage(UserEntityInterface $user);
+    /**
+     * {@inheritDoc}
+     */
+    public function sendRecoverMessage(
+        UserEntityInterface $user,
+        RecoverEntityInterface $recover
+    );
 }

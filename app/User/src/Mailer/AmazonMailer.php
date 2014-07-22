@@ -6,6 +6,8 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Resolver\TemplateMapResolver;
 
 use Core\Mailer\AbstractAmazonMailer;
+use User\Entity\ConfirmationEntityInterface;
+use User\Entity\RecoverEntityInterface;
 use User\Entity\UserEntityInterface;
 
 /**
@@ -22,8 +24,10 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
     /**
      * {@inheritDoc}
      */
-    public function sendConfirmationMessage(UserEntityInterface $user)
-    {
+    public function sendConfirmationMessage(
+        UserEntityInterface $user,
+        ConfirmationEntityInterface $confirmation
+    ) {
         // Get renderer
         $renderer = $this->getRenderer();
         
@@ -33,8 +37,14 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
         // Get view
         $view = new ViewModel(array(
             'user' => $user,
-            'url'  => '{@todo: insert URL}',
-            'host' => '{@todo: insert host}',
+            'url'  => $this->getRouter()->assemble(array(
+                'id'    => $confirmation->getId(),
+                'token' => $confirmation->getRequestToken(),
+            ), array(
+                'name'            => 'signup/confirm',
+                'force_canonical' => true,
+            )),
+            'host' => $confirmation->getRemoteAddress(),
         ));
         
         // Set HTML template
@@ -65,8 +75,10 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
     /**
      * {@inheritDoc}
      */
-    public function sendRecoverMessage(UserEntityInterface $user)
-    {
+    public function sendRecoverMessage(
+        UserEntityInterface $user,
+        RecoverEntityInterface $recover
+    ) {
         // Get renderer
         $renderer = $this->getRenderer();
         
@@ -76,8 +88,14 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
         // Get view
         $view = new ViewModel(array(
             'user' => $user,
-            'url'  => '{@todo: insert URL}',
-            'host' => '{@todo: insert host}',
+            'url'  => $this->getRouter()->assemble(array(
+                'id'    => $recover->getId(),
+                'token' => $recover->getRequestToken(),
+            ), array(
+                'name'            => 'recover/reset',
+                'force_canonical' => true,
+            )),
+            'host' => $recover->getRemoteAddress(),
         ));
         
         // Set HTML template

@@ -5,13 +5,13 @@ namespace User\Factory\Mapper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Mapper\UserMapper;
+use User\Mapper\ConfirmationMapper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserMapperFactory implements FactoryInterface
+class ConfirmationMapperFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -22,15 +22,15 @@ class UserMapperFactory implements FactoryInterface
         $dbAdapter = $serviceLocator->get('db.adapter');
         
         // Entity class
-        $entityClass = new \User\Entity\UserEntity();
+        $entityClass = new \User\Entity\ConfirmationEntity();
         
         // Hydrator
-        $hydrator = new \User\Hydrator\UserHydrator();
+        $hydrator = new \User\Hydrator\ConfirmationHydrator();
         
         // Create mapper
-        return new UserMapper(
+        return new ConfirmationMapper(
             $dbAdapter,
-            'user',
+            'user_confirmation',
             $entityClass,
             $hydrator
         );

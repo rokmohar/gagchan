@@ -1,8 +1,8 @@
 To do
 ================================================================================
 - Add re-captcha (cross-platform service)
-- Registration confirmation - PARTIALLY DONE
-- Forgot password - PARTIALLY DONE
+- Registration confirmation - DONE
+- Forgot password - DONE
 - Implement PRG for forms (duplicate submit protection)
 - Import error template
 - Play/pause GIF and dynamic loading - DONE

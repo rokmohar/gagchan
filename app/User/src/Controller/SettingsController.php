@@ -30,7 +30,7 @@ class SettingsController extends AbstractActionController
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function indexAction()
+    public function accountAction()
     {
         // Check if user does not have identity
         if ($this->user()->hasIdentity() === false) {

@@ -2,6 +2,7 @@
 
 namespace Core\Mailer;
 
+use Zend\Mvc\Router\Http\TreeRouteStack;
 use Zend\View\Renderer\RendererInterface;
 
 use Aws\Common\Aws;
@@ -29,15 +30,26 @@ abstract class AbstractAmazonMailer
     protected $renderer;
     
     /**
+     * @var \Zend\Mvc\Router\Http\TreeRouteStack
+     */
+    protected $router;
+    
+    /**
      * @param \Aws\Common\Aws                       $aws
      * @param \Core\Options\ModuleOptions           $options
      * @param \Zend\View\Renderer\RendererInterface $renderer
+     * @param \Zend\Mvc\Router\Http\TreeRouteStack  $router
      */
-    public function __construct(Aws $aws, ModuleOptions $options, RendererInterface $renderer)
-    {
+    public function __construct(
+        Aws $aws,
+        ModuleOptions $options,
+        RendererInterface $renderer,
+        TreeRouteStack $router
+    ) {
         $this->aws      = $aws;
         $this->options  = $options;
         $this->renderer = $renderer;
+        $this->router   = $router;
     }
     
     /**
@@ -112,5 +124,15 @@ abstract class AbstractAmazonMailer
     public function getRenderer()
     {
         return $this->renderer;
+    }
+    
+    /**
+     * Get the router.
+     * 
+     * @return \Zend\Mvc\Router\Http\TreeRouteStack
+     */
+    public function getRouter()
+    {
+        return $this->router;
     }
 }

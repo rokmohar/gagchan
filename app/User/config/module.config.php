@@ -36,19 +36,20 @@ return array(
                     'route'    => '/recover',
                     'defaults' => array(
                         'controller' => 'User\RecoverController',
-                        'action'     => 'index',
+                        'action'     => 'request',
                     ),
                 ),
                 'may_terminate' => true,
                 'child_routes'  => array(
-                    'choose' => array(
+                    'reset' => array(
                         'type'    => 'Zend\Mvc\Router\Http\Segment',
                         'options' => array(
                             'route'    => '/[:id]/[:token]',
                             'defaults' => array(
                                 'controller'  => 'User\RecoverController',
-                                'action'      => 'choose',
+                                'action'      => 'reset',
                                 'constraints' => array(
+                                    'id'    => '[0-9]*',
                                     'token' => '[a-zA-Z0-9]*',
                                 ),
                             ),
@@ -62,7 +63,7 @@ return array(
                     'route'    => '/settings',
                     'defaults' => array(
                         'controller' => 'User\SettingsController',
-                        'action'     => 'index',
+                        'action'     => 'account',
                     ),
                 ),
                 'may_terminate' => true,
@@ -88,10 +89,37 @@ return array(
                         'action'     => 'signup',
                     ),
                 ),
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'confirm' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/confirm/[:id]/[:token]',
+                            'defaults' => array(
+                                'controller'  => 'User\IndexController',
+                                'action'      => 'confirm',
+                                'constraints' => array(
+                                    'id'    => '[0-9]*',
+                                    'token' => '[a-zA-Z0-9]*',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             ),
         ),
     ),
     'view_manager' => array(
+        'template_map' => array(
+            'user/index/confirm'           => __DIR__ . '/../view/user/index/confirm.phtml',
+            'user/index/login'             => __DIR__ . '/../view/user/index/login.phtml',
+            'user/index/signup'            => __DIR__ . '/../view/user/index/signup.phtml',
+            'user/index/signup_success'    => __DIR__ . '/../view/user/index/signup_success.phtml',
+            'user/recover/request'         => __DIR__ . '/../view/user/recover/request.phtml',
+            'user/recover/request_success' => __DIR__ . '/../view/user/recover/request_success.phtml',
+            'user/settings/account'        => __DIR__ . '/../view/user/settings/account.phtml',
+            'user/settings/password'       => __DIR__ . '/../view/user/settings/password.phtml',
+        ),
         'template_path_stack' => array(
             'user' => __DIR__ . '/../view',
         ),

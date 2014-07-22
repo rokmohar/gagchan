@@ -59,6 +59,17 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     protected $updatedAt;
     
     /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->requestAt   = new \DateTime();
+        $this->isConfirmed = false;
+        $this->createdAt   = new \DateTime();
+        $this->updatedAt   = new \DateTime();
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public function getId()
@@ -173,7 +184,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
      */
     public function setRequestToken($requestToken)
     {
-        $this->requestAt = $requestToken;
+        $this->requestToken = $requestToken;
         
         return $this;
     }
@@ -256,5 +267,26 @@ class ConfirmationEntity implements ConfirmationEntityInterface
         $this->updatedAt = $updatedAt;
         
         return $this;
+    }
+    
+    /**
+     * Pre-insert initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preInsert()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+    
+    /**
+     * Pre-update initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

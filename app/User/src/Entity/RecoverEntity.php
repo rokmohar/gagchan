@@ -63,6 +63,7 @@ class RecoverEntity implements RecoverEntityInterface
      */
     public function __construct()
     {
+        $this->requestAt   = new \DateTime();
         $this->isRecovered = false;
         $this->createdAt   = new \DateTime();
         $this->updatedAt   = new \DateTime();
@@ -161,9 +162,9 @@ class RecoverEntity implements RecoverEntityInterface
      * 
      * @param \DateTime $requestedAt
      */
-    public function setRequestedAt(\DateTime $requestedAt)
+    public function setRequestAt(\DateTime $requestedAt)
     {
-        $this->requestedAt = $requestedAt;
+        $this->requestAt = $requestedAt;
         
         return $this;
     }
@@ -213,7 +214,7 @@ class RecoverEntity implements RecoverEntityInterface
      */
     public function isRecovered()
     {
-        return $this->isRecovered();
+        return $this->isRecovered;
     }
     
     /**
@@ -266,5 +267,26 @@ class RecoverEntity implements RecoverEntityInterface
         $this->updatedAt = $updatedAt;
         
         return $this;
+    }
+    
+    /**
+     * Pre-insert initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preInsert()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+    
+    /**
+     * Pre-update initialization.
+     * 
+     * @return \Media\Entity\CommentEntityInterface
+     */
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

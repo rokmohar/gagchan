@@ -25,6 +25,7 @@ abstract class AbstractUserForm extends Form
             ->addUsername()
             ->addEmail()
             ->addPassword()
+            ->addPasswordVerify()
         ;
     }
     

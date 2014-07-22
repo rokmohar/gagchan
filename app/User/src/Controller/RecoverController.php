@@ -23,6 +23,16 @@ class RecoverController extends AbstractActionController
     protected $recoverForm;
     
     /**
+     * @var \User\Mapper\RecoverMapperInterface
+     */
+    protected $recoverMapper;
+    
+    /**
+     * @var \User\Form\ResetForm
+     */
+    protected $resetForm;
+    
+    /**
      * @var \User\Mapper\UserMapperInterface
      */
     protected $userMapper;
@@ -30,7 +40,7 @@ class RecoverController extends AbstractActionController
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function indexAction()
+    public function requestAction()
     {
         // Check if user has identity
         if ($this->user()->hasIdentity() === true) {
@@ -76,14 +86,128 @@ class RecoverController extends AbstractActionController
         $recover = new \User\Entity\RecoverEntity();
         
         $recover->setUserId($user->getId());
+        $recover->setEmail($user->getEmail());
         $recover->setRemoteAddress($request->getServer('REMOTE_ADDR'));
         $recover->setRequestAt(new \DateTime());
-        $recover->setRequestToken(/*RANDOM*/);
+        $recover->setRequestToken($this->generateToken());
+        $recover->setRecoveredAt();
+        $recover->setIsRecovered(false);
+        
+        // Get recover mapper
+        $this->getRecoverMapper()->insertRow($recover);
         
         // Send message
-        //$this->getMailer()->sendRecoverMessage($user);
+        $this->getMailer()->sendRecoverMessage($user, $recover);
         
-        var_dump($data); die();
+        // Create view
+        $view = new ViewModel(array(
+            'user'    => $user,
+            'recover' => $recover,
+        ));
+        
+        // Set template
+        $view->setTemplate('user/recover/request_success');
+        
+        // Return view
+        return $view;
+    }
+    
+    /**
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function resetAction()
+    {
+        // Get recover mapper
+        $recoverMapper = $this->getRecoverMapper();
+        
+        // Get recover
+        $recover = $recoverMapper->selectNotConfirmed(
+            $this->params()->fromRoute('id'),
+            $this->params()->fromRoute('token')
+        );
+        
+        // Check if recover is empty
+        if (empty($recover)) {
+            // Recover not found
+            return $this->notFoundAction();
+        }
+        
+        // Get request
+        $request = $this->getRequest();
+        
+        // Get form
+        $resetForm = $this->getResetForm();
+        
+        // Check if page is not posted
+        if (!$request->isPost()) {
+            // Return view
+            return new ViewModel(array(
+                'resetForm' => $resetForm,
+            ));
+        }
+        
+        // Set posted data
+        $resetForm->setData($request->getPost());
+        
+        // Check if form is not valid
+        if (!$resetForm->isValid()) {
+            // Return view
+            return new ViewModel(array(
+                'resetForm' => $resetForm,
+            ));
+        }
+        
+        // Get user mapper
+        $userMapper = $this->getUserMapper();
+        
+        // Get user
+        $user = $this->getUserMapper()->selectRowById($recover->getUserId());
+        
+        // Get crypt
+        $crypt = new Bcrypt(array(
+            'cost' => 14,
+        ));
+        
+        // Set password
+        $user->setPassword($crypt->create(
+            $resetForm->get('password')->getValue()
+        ));
+        
+        // Update user
+        $userMapper->updateRow($user);
+        
+        // Set as recovered
+        $recover->setRecoveredAt(new \DateTime());
+        $recover->setIsRecovered(true);
+        
+        // Update recover
+        $recoverMapper->updateRow($recover);
+        
+        // Create view
+        $view = new ViewModel(array(
+            'user'    => $user,
+            'recover' => $recover,
+        ));
+        
+        // Set template
+        $view->setTemplate('user/recover/reset_success');
+        
+        // Return view
+        return $view;
+    }
+    
+    /**
+     * Generate a random token.
+     * 
+     * @return string
+     */
+    public function generateToken()
+    {
+        // Get token generator
+        $generator = new \Core\Utils\TokenGenerator();
+        
+        // Generate token
+        return $generator->getToken(32);
     }
     
     /**
@@ -116,6 +240,38 @@ class RecoverController extends AbstractActionController
         }
         
         return $this->recoverForm;
+    }
+    
+    /**
+     * Return the reset form.
+     * 
+     * @return \User\Form\ResetForm
+     */
+    public function getResetForm()
+    {
+        if ($this->resetForm === null) {
+            return $this->resetForm = $this->getServiceLocator()->get(
+                'user.form.reset'
+            );
+        }
+        
+        return $this->resetForm;
+    }
+    
+    /**
+     * Return the recover mapper.
+     * 
+     * @return \User\Mapper\RecoverMapperInterface
+     */
+    public function getRecoverMapper()
+    {
+        if ($this->recoverMapper === null) {
+            return $this->recoverMapper = $this->getServiceLocator()->get(
+                'user.mapper.recover'
+            );
+        }
+        
+        return $this->recoverMapper;
     }
     
     /**

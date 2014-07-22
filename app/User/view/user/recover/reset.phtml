@@ -1,0 +1,42 @@
+<section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    
+    <div class="widget">
+        <h3 class="login-title">Recover password</h3>
+        
+         <?php echo $this->form()->openTag($resetForm) ?>
+            
+            <!-- #CSRF -->
+            <?php echo $this->formHidden($resetForm->get('csrf')) ?>
+            
+            <!-- #Password -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    <?php echo $this->formInput($resetForm->get('password')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($resetForm->get('password')) ?>
+            </div>
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </span>
+                    <?php echo $this->formInput($resetForm->get('password_verify')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($resetForm->get('password_verify')) ?>
+            </div>
+            
+            <!-- #Submit -->
+            <div class="input-group">
+                <?php echo $this->formSubmit($resetForm->get('submit')) ?>
+            </div>
+            
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+
+</section>

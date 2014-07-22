@@ -6,12 +6,19 @@ use Zend\Crypt\Password\Bcrypt;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+use User\Entity\UserEntityInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
 class IndexController extends AbstractActionController
 {
+    /**
+     * @var \User\Mapper\ConfirmationMapperInterface
+     */
+    protected $confirmationMapper;
+    
     /**
      * @var \User\Form\LoginForm
      */
@@ -111,7 +118,7 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * @return 
+     * @return \Zend\View\Model\ViewModel
      */
     public function signupAction()
     {
@@ -144,7 +151,7 @@ class IndexController extends AbstractActionController
         }
         
         // Get posted data
-        $data = $signupForm->getData();
+        $user = $signupForm->getData();
         
         // Encryption service
         $crypt = new Bcrypt(array(
@@ -152,23 +159,129 @@ class IndexController extends AbstractActionController
         ));
         
         // Encrypt password
-        $data->setPassword(
-            $crypt->create($data->getPassword())
+        $user->setPassword(
+            $crypt->create($user->getPassword())
         );
         
+        // Set state
+        $user->setState(UserEntityInterface::STATE_UNCONFIRMED);
+        
         // Insert data
-        $this->getUserMapper()->insertRow($data);
+        $this->getUserMapper()->insertRow($user);
+        
+        // Get confirmation mapper
+        $confirmationMapper = $this->getConfirmationMapper();
+        
+        // Create confirmation
+        $confirmation = new \User\Entity\ConfirmationEntity();
+        
+        $confirmation->setUserId($user->getId());
+        $confirmation->setEmail($user->getEmail());
+        $confirmation->setRemoteAddress($request->getServer('REMOTE_ADDR'));
+        $confirmation->setRequestAt(new \DateTime());
+        $confirmation->setRequestToken($this->generateToken());
+        $confirmation->setConfirmedAt();
+        $confirmation->setIsConfirmed(false);
+        
+        // Insert confirmation
+        $confirmationMapper->insertRow($confirmation);
         
         // Get mailer
         $mailer = $this->getMailer();
         
         // Send message
-        $mailer->sendConfirmationMessage($data);
+        $mailer->sendConfirmationMessage($user, $confirmation);
         
-        // @todo: Show message, instead of redirect
+        // Create view
+        $view = new ViewModel(array(
+            'user' => $user,
+        ));
         
-        // Redirect to route
-        return $this->redirect()->toRoute('login');
+        // Set template
+        $view->setTemplate('user/index/signup_success');
+        
+        // Return view
+        return $view;
+    }
+    
+    /**
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function confirmAction()
+    {
+        // Get confirmation mapper
+        $confirmationMapper = $this->getConfirmationMapper();
+        
+        // Get confirmation
+        $confirmation = $confirmationMapper->selectNotConfirmed(
+            $this->params()->fromRoute('id'),
+            $this->params()->fromRoute('token')
+        );
+        
+        // Check if confirmation is empty
+        if (empty($confirmation)) {
+            // Confirmation not found
+            return $this->notFoundAction();
+        }
+        
+        // Get user mapper
+        $userMapper = $this->getUserMapper();
+        
+        // Get user
+        $user = $userMapper->selectRowById($confirmation->getUserId());
+        
+        // Set state
+        $user->setState(UserEntityInterface::STATE_CONFIRMED);
+        
+        // Update user
+        $userMapper->updateRow($user);
+        
+        // Set as confirmed
+        $confirmation->setConfirmedAt(new \DateTime());
+        $confirmation->setIsConfirmed(true);
+        
+        // Update confirmation
+        $confirmationMapper->updateRow($confirmation);
+        
+        // Create view
+        $view = new ViewModel();
+        
+        // Set template
+        $view->setTemplate('user/index/confirm');
+        
+        // Return view
+        return $view;
+    }
+    
+    
+    /**
+     * Generate a random token.
+     * 
+     * @return string
+     */
+    public function generateToken()
+    {
+        // Get token generator
+        $generator = new \Core\Utils\TokenGenerator();
+        
+        // Generate token
+        return $generator->getToken(32);
+    }
+    
+    /**
+     * Return the confirmation mapper.
+     * 
+     * @return \User\Mapper\ConfirmationMapperInterface
+     */
+    public function getConfirmationMapper()
+    {
+        if ($this->confirmationMapper === null) {
+            return $this->confirmationMapper = $this->getServiceLocator()->get(
+                'user.mapper.confirmation'
+            );
+        }
+        
+        return $this->confirmationMapper;
     }
     
     /**

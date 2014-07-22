@@ -14,7 +14,6 @@ class LoginForm extends AbstractUserForm
         
         // Add elements
         $this
-            ->addPasswordVerify()
             ->addSubmit('Log in')
         ;
         
