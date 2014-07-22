@@ -7,8 +7,10 @@ return array(
         
         // Our modules
         'Category',
+        'Cms',
         'Contact',
         'Core',
+        'Generator',
         'Media',
         'OAuth',
         'User',

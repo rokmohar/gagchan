@@ -147,9 +147,7 @@ class IndexController extends AbstractActionController
         // Get form
         $externalForm = $this->getExternalMediaForm();
         $uploadForm   = $this->getUploadMediaForm();
-        
-        
-        
+               
         // Check if form is posted
         if ($request->isPost() === true) {
             // Set entity class

@@ -571,3 +571,17 @@ span.play {
     opacity: .9;
     border: 4px solid #fff;    
 }
+/**
+ * =============================================================================
+ * #Privacy policy Style
+ * =============================================================================
+ **/
+
+.form-row.privacy {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.privacy-title {
+    margin-bottom: 20px;
+}
