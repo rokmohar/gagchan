@@ -1,12 +1,11 @@
 To do
 ================================================================================
-- Add re-captcha (cross-platform service)
+- Add re-captcha - DONE
 - Registration confirmation - DONE
 - Forgot password - DONE
-- Implement PRG for forms (duplicate submit protection) - DONE
+- Implement PRG for forms - DONE
 - Import error template
 - Play/pause GIF and dynamic loading - DONE
-- Contact is supposedly not working
 
 Modules
 ================================================================================
