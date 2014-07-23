@@ -74,7 +74,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectAll(array $where = array(), array $order = array(), $limit = null)
+    public function selectAll(array $where = array(), array $order = array())
     {
         // Get select
         $select = $this->getSelect();
@@ -83,12 +83,6 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             ->where($where)
             ->order($order)
         ;
-        
-        // Check if limit given
-        if (is_numeric($limit) === true) {
-            // Add limit
-            $select->limit($limit);
-        }
         
         // Get result set
         $resultSet = new HydratingResultSet(

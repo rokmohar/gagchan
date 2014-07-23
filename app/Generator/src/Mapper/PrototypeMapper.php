@@ -52,7 +52,7 @@ class PrototypeMapper extends AbstractMapper implements PrototypeMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectAll(array $where = array(), array $order = array(), $limit = null)
+    public function selectAll(array $where = array(), array $order = array())
     {
         // Get select
         $select = $this->getSelect();
@@ -62,11 +62,8 @@ class PrototypeMapper extends AbstractMapper implements PrototypeMapperInterface
             ->order($order)
         ;
         
-        // Check if limit given
-        if (is_numeric($limit) === true) {
-            // Add limit
-            $select->limit($limit);
-        }
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
         
         // Get result set
         $resultSet = new HydratingResultSet(
@@ -74,11 +71,10 @@ class PrototypeMapper extends AbstractMapper implements PrototypeMapperInterface
             $this->getEntityClass()
         );
         
-        // Get select for paginator
-        $adapter = new DbSelect($select, $this->getDbAdapter(), $resultSet);
+        $resultSet->initialize($stmt->execute());
         
-        // Return paginator
-        return new Paginator($adapter); 
+        // Return result
+        return $resultSet;
     }
 
     /**
