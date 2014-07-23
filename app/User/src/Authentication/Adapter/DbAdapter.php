@@ -38,31 +38,35 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
             return true;
         }
         
-        // Get request
-        $request = $event->getRequest();
-        
-        // Check if request is empty
-        if (empty($request) === true) {
-            // Throw an exception
-            throw new \RuntimeException('Request is not provided.');
-        }
-        
-        // Get posted data
-        $email    = $request->getPost()->get('email');
-        $password = $request->getPost()->get('password');
+        // Get param
+        $email    = $event->getParam('email');
+        $password = $event->getParam('password');
         
         // Check if data is empty
-        if (empty($email) || empty($password)) {
+        if (empty($email)) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
-                    'Email or password is not provided.',
+                    'Email is not given.',
                 ))
             ;
             
-            // Authentication not successful
+            // Authentication failed
+            return false;
+        }
+        else if (empty($password)) {
+            // Set event parameters
+            $event
+                ->setSatisfied(false)
+                ->setCode(Result::FAILURE_UNCATEGORIZED)
+                ->setMessages(array(
+                    'Password is not given.',
+                ))
+            ;
+            
+            // Authentication failed
             return false;
         }
         
@@ -80,7 +84,35 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ))
             ;
             
-            // Authentication not successful
+            // Authentication failed
+            return false;
+        }
+        
+        // Check if state is not confirmed
+        if ($user->getState() === UserEntityInterface::STATE_DISABLED) {
+            // Set event parameters
+            $event
+                ->setSatisfied(false)
+                ->setCode(Result::FAILURE_UNCATEGORIZED)
+                ->setMessages(array(
+                    'This account has been disabled.',
+                ))
+            ;
+            
+            // Authentication failed
+            return false;
+        }
+        else if ($user->getState() === UserEntityInterface::STATE_UNCONFIRMED) {
+            // Set event parameters
+            $event
+                ->setSatisfied(false)
+                ->setCode(Result::FAILURE_UNCATEGORIZED)
+                ->setMessages(array(
+                    'You must confirm your email adress, before you can log in.',
+                ))
+            ;
+            
+            // Authentication failed
             return false;
         }
         
@@ -100,7 +132,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ))
             ;
             
-            // Authentication not successful
+            // Authentication failed
             return false;
         }
         

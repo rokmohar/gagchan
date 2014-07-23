@@ -59,17 +59,11 @@ class IndexController extends AbstractActionController
             ));
         }
         
-        // Get request
-        $request = $this->getRequest();
-        
-        // Set metadata
-        $request->setMetadata('provider', $provider);
-        
         // Get auth service
         $authService = $this->user()->getAuthService();
         
-        // Set request
-        $authService->setRequest($request);
+        // Add param
+        $authService->addParam('provider', $provider);
         
         // Perform authentication
         $result = $authService->authenticate();

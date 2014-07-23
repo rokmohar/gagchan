@@ -3,7 +3,6 @@
 namespace User\Authentication\Event;
 
 use Zend\EventManager\Event;
-use Zend\Stdlib\RequestInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -95,28 +94,6 @@ class AuthenticationEvent extends Event
     public function setMessages($messages)
     {
         $this->setParam('messages', $messages);
-        
-        return $this;
-    }
-
-    /**
-     * Return the request.
-     *
-     * @return \Zend\Stdlib\RequestInterface
-     */
-    public function getRequest()
-    {
-        return $this->getParam('request');
-    }
-
-    /**
-     * Set the request.
-     *
-     * @param \Zend\Stdlib\RequestInterface $request
-     */
-    public function setRequest(RequestInterface $request)
-    {
-        $this->setParam('request', $request);
         
         return $this;
     }

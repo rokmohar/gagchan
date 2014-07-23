@@ -62,12 +62,15 @@ class IndexController extends AbstractActionController
             return $prg;
         }
         
+        // Get form
+        $form = $this->getGeneratorForm();
+        
         // Check if PRG is GET
         if ($prg === false) {
-            
             // Return view
             return new ViewModel(array(
-                'generator'   => $generator,
+                'form'      => $form,
+                'generator' => $generator,
             ));
         }
 

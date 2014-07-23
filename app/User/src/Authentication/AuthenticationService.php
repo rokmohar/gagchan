@@ -31,6 +31,11 @@ class AuthenticationService implements
     protected $eventManager;
     
     /**
+     * @array
+     */
+    protected $params = array();
+    
+    /**
      * @var \Zend\Authentication\Storage\StorageInterface
      */
     protected $storage;
@@ -43,15 +48,6 @@ class AuthenticationService implements
         $this->storage = $storage;
     }
     
-    protected $request;
-    
-    public function setRequest(\Zend\Http\Request $request)
-    {
-        $this->request = $request;
-        
-        return $this;
-    }
-    
     /**
      * {@inheritDoc}
      */
@@ -60,8 +56,8 @@ class AuthenticationService implements
         // Get event
         $event = $this->getEvent();
         
-        // Set request
-        $event->setRequest($this->request);
+        // Set params
+        $event->setParams($this->getParams());
         
         // Trigger authenticate event
         $this->getEventManager()->trigger('authenticate', $event);
@@ -181,6 +177,81 @@ class AuthenticationService implements
         ));
         
         $this->eventManager = $eventManager;
+        
+        return $this;
+    }
+    
+    /**
+     * Return params.
+     * 
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+    
+    /**
+     * Set params.
+     * 
+     * @param array $params
+     */
+    public function setParams(array $params)
+    {
+        $this->params = $params;
+        
+        return $this;
+    }
+    
+    /**
+     * Check if param exists.
+     * 
+     * @param string $name
+     */
+    public function hasParam($name)
+    {
+        return (isset($this->params[$name]) === true);
+    }
+    
+    /**
+     * Add a param.
+     * 
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function addParam($name, $value)
+    {
+        // Check if param exists
+        if ($this->hasParam($name)) {
+            // Throw an exception
+            throw new \Exception(
+                sprintf("Param with name \"%s\" already exists.", $name)
+            );
+        }
+        
+        // Set param
+        $this->params[$name] = $value;
+        
+        return $this;
+    }
+    
+    /**
+     * Remove a param.
+     * 
+     * @param string $name
+     */
+    public function removeParam($name)
+    {
+        // Check if param does not exists
+        if (!$this->hasParam($name)) {
+            // Throw an exception
+            throw new \Exception(
+                sprintf("Param with name \"%s\" does not exists.", $name)
+            );
+        }
+        
+        // Remove param
+        unset($this->params[$name]);
         
         return $this;
     }

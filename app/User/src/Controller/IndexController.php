@@ -79,18 +79,24 @@ class IndexController extends AbstractActionController
         $loginForm->setData($prg);
         
         // Check if form is not valid
-        if ($loginForm->isValid() === false) {
+        if (!$loginForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'loginForm' => $loginForm,
             ));
         }
         
+        // Get data
+        $user = $loginForm->getData();
+        
         // Get auth service
         $authService = $this->user()->getAuthService();
         
-        // @todo: find a better solution for this
-        $authService->setRequest($this->getRequest());
+        // Add param
+        $authService->setParams(array(
+            'email'    => $user->getEmail(),
+            'password' => $user->getPassword(),
+        ));
         
         // Perform authentication
         $result = $authService->authenticate();

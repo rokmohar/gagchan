@@ -48,20 +48,11 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
             return true;
         }
         
-        // Get request
-        $request = $event->getRequest();
-        
-        // Check if request is empty
-        if (empty($request)) {
-            // Throw an exception
-            throw new \RuntimeException("Request is not provided.");
-        }
-        
-        // Get metadata
-        $metadata = $request->getMetadata();
+        // Get param
+        $provider = $event->getParam('provider');
         
         // Check if provider is given
-        if (!is_array($metadata) || !isset($metadata['provider'])) {
+        if (empty($provider)) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
@@ -71,12 +62,9 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ))
             ;
             
-            // Authentication not successful
+            // Authentication failed
             return false;
         }
-        
-        // Get provider
-        $provider = $metadata['provider'];
         
         // Get hybrid auth
         $hybridAuth = $this->getHybridAuth();
@@ -92,7 +80,7 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ))
             ;
             
-            // Authentication not successful
+            // Authentication failed
             return false;
         }
         
@@ -163,7 +151,7 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ))
             ;
             
-            // Authentication not successful
+            // Authentication failed
             return false;
         }
         

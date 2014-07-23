@@ -9,7 +9,6 @@ namespace User\Entity;
 interface UserEntityInterface
 {
     /**#@+*/
-    const STATE_UNKNOWN     = 0;
     const STATE_CONFIRMED   = 1;
     const STATE_UNCONFIRMED = 2;
     const STATE_DISABLED    = 3;
@@ -44,7 +43,7 @@ interface UserEntityInterface
     public function getPassword();
     
     /**
-     * Check the state.
+     * Return the state.
      * 
      * @return int
      */
