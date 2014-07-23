@@ -4,6 +4,7 @@ namespace Generator;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -11,7 +12,8 @@ use Zend\ModuleManager\Feature\ServiceProviderInterface;
  */
 class Module implements
     AutoloaderProviderInterface,
-    ServiceProviderInterface
+    ServiceProviderInterface,
+    ViewHelperProviderInterface
 {
     /**
      * @return array
@@ -57,7 +59,7 @@ class Module implements
     {
         return array(
             'factories' => array(
-                'generator' => 'View\Factory\Helper\GeneratorHelperFactory',
+                'generator' => 'Generator\Factory\View\Helper\GeneratorHelperFactory',
             ),
         );
     }    

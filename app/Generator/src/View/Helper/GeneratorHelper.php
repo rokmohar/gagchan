@@ -4,9 +4,7 @@ namespace Generator\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-use Generator\Entity\PrototypEntity;
-use Generator\Entity\PrototypEntityInterface;
-use Generator\Mapper\PrototypeMapper;
+use Generator\Entity\PrototypeEntityInterface;
 use Generator\Mapper\PrototypeMapperInterface;
 use Generator\Options\ModuleOptions;
 
@@ -27,8 +25,8 @@ class GeneratorHelper extends AbstractHelper
     protected $options;
     
     /**
-     * @param \Generator\Entity\PrototypEntity $prototypeMapper
-     * @param \Generator\Options\ModuleOptions $options
+     * @param \Generator\Mapper\PrototypeMapperInterface $prototypeMapper
+     * @param \Generator\Options\ModuleOptions           $options
      */
     public function __construct(
         PrototypeMapperInterface $prototypeMapper,
@@ -47,19 +45,19 @@ class GeneratorHelper extends AbstractHelper
     }
     
     /**
-     * Generate URL for generator.
+     * Generate URL for prototype.
      * 
-     * @param \Generator\Entity\GeneratorEntityInterface $generator
+     * @param \Generator\Entity\PrototypeEntityInterface $prototype
      * 
      * @return string
      */
-    public function url(GeneratorEntityInterface $generator, $showAnimation = false)
+    public function url(PrototypeEntityInterface $prototype)
     {
         // Get bucket URL
         $bucketUrl = $this->options->getBucketUrl();
         
         // Return original image
-        return $bucketUrl . $generator->getReference();
+        return $bucketUrl . $prototype->getReference();
     }
     
 }
