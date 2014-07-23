@@ -42,6 +42,7 @@ class IndexController extends AbstractActionController
      */
     public function editAction()
     {
+  
         // Select media
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
@@ -78,6 +79,11 @@ class IndexController extends AbstractActionController
         return $this->redirect()->toRoute('edit', array(
             'slug' => $generator->getSlug(),
         ));     
+        
+        processImage();
+        
+        // Redirect to route
+        //return $this->redirect()->toRoute('home');
     }
     
     /**
@@ -139,7 +145,7 @@ class IndexController extends AbstractActionController
         $bottomText = $data['bottom'];
         
         // Path to image
-        $path       = $this->params()->fromQuery;
+        $path = $this->params()->fromQuery;
         
         $obj = new MemeGenerator($path);
         

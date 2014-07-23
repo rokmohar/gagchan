@@ -22,7 +22,8 @@ class GeneratorForm extends Form
         $this
             ->addTop()
             ->addBottom()
-            ->addSubmit()
+            ->addDownload()
+            ->addPublish()
         ;
     }
     
@@ -71,24 +72,46 @@ class GeneratorForm extends Form
     }    
     
     /**
-     * Add the submit form element.
+     * Add the download form element.
      * 
      * @return \Generator\Form
      */
-    public function addSubmit()
+    public function addDownload()
     {
         $this->add(array(
-            'name' => 'Send',
+            'name' => 'download',
             'options' => array(
-                'label' => 'Send',
+                'label' => 'Download',
             ),
             'attributes' => array(
                 'type'  => 'Zend\Form\Element\Submit',
                 'class' => 'btn btn-primary',
-                'value' => 'Send',
+                'value' => 'Download',
             ),
         ));
         
         return $this;
     }    
+    
+    /**
+     * Add the publish form element.
+     * 
+     * @return \Generator\Form
+     */
+    public function addPublish()
+    {
+        $this->add(array(
+            'name' => 'publish',
+            'options' => array(
+                'label' => 'Publish',
+            ),
+            'attributes' => array(
+                'type'  => 'Zend\Form\Element\Submit',
+                'class' => 'btn btn-primary',
+                'value' => 'Publish',
+            ),
+        ));
+        
+        return $this;
+    }      
 }
