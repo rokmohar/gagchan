@@ -14,8 +14,7 @@ use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 class Module implements
     AutoloaderProviderInterface,
     ConfigProviderInterface,
-    ServiceProviderInterface,
-    ViewHelperProviderInterface
+    ServiceProviderInterface
 {
     /**
      * {@inheritDoc}

@@ -3,73 +3,16 @@
     <div class="widget">
         <h3 class="login-title">Select your favorite</h3>
 
-            <div class="form-row">
-                <a href="<?php echo $this->url('edit', array('image' => 'name')) ?>" class="meme-img">
-                    <img src="http://i.memeful.com/template_thumbnails/522acc5982a5f/ymRP0RL.jpg" alt="" class="img-responsive generator" />
-                </a>
-                
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template_thumbnails/53167cbaaa16e/0Mx3JwL.jpg" alt="" class="img-responsive generator" />
-                </a>
-                
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8b9011fce/ZVMVqw2.jpg" alt="" class="img-responsive generator" />
-                </a>                     
+            <?php $i=0; foreach ($generator as $g): $i++;?>
         
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8bc39da05/jGwD6R4.jpg" alt="" class="img-responsive generator" />
-                </a>                  
-    
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template_thumbnails/521ee7a0bf16c/LR8ZQwv.jpg" alt="" class="img-responsive generator" />
-                </a>                         
-            </div>       
+            <?php if ($i%5 == 0) echo '<div class="form-row">' ?>
+                <a href="<?php echo $this->url('edit', array('slug' => $g->getSlug())) ?>" class="meme-img">
+                    <img src="<?php echo $this->generator()->url($g) ?>" alt="" class="img-responsive generator" />
+                </a>                          
+             <?php if ($i%5 == 0) echo '</div>' ?>    
+        
+            <?php endforeach ?>
             
-            <div class="form-row">
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8b88d83c7/Z1RXLRp.jpg" alt="" class="img-responsive generator" />
-                </a>  
-                
-                
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template_thumbnails/53167cbaaa16e/0Mx3JwL.jpg" alt="" class="img-responsive generator" />
-                </a>
-                
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8b9011fce/ZVMVqw2.jpg" alt="" class="img-responsive generator" />
-                </a>                     
-        
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8bc39da05/jGwD6R4.jpg" alt="" class="img-responsive generator" />
-                </a>                  
-    
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template_thumbnails/521ee7a0bf16c/LR8ZQwv.jpg" alt="" class="img-responsive generator" />
-                </a>                   
-            </div>        
-       
-            <div class="form-row">
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8b88d83c7/Z1RXLRp.jpg" alt="" class="img-responsive generator" />
-                </a>  
-                
-                
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template_thumbnails/53167cbaaa16e/0Mx3JwL.jpg" alt="" class="img-responsive generator" />
-                </a>
-                
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8b9011fce/ZVMVqw2.jpg" alt="" class="img-responsive generator" />
-                </a>                     
-        
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template/51de8bc39da05/jGwD6R4.jpg" alt="" class="img-responsive generator" />
-                </a>                  
-    
-                <a href="#" class="meme-img">
-                    <img src="http://i.memeful.com/template_thumbnails/521ee7a0bf16c/LR8ZQwv.jpg" alt="" class="img-responsive generator" />
-                </a>                   
-            </div>            
     </div>
 
 </section>

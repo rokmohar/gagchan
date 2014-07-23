@@ -49,4 +49,16 @@ class Module implements
             ),
         );
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getViewHelperConfig()
+    {
+        return array(
+            'factories' => array(
+                'generator' => 'View\Factory\Helper\GeneratorHelperFactory',
+            ),
+        );
+    }    
 }

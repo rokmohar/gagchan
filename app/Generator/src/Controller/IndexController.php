@@ -28,7 +28,13 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        return new ViewModel();
+        // Select from database
+        $generator = $this->getPrototypeMapper()->selectAll();
+        
+        // Retun view
+        return new ViewModel(array(
+            'generator' => $generator,
+        ));
     }
     
     /**
