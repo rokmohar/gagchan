@@ -1,11 +1,9 @@
 To do
 ================================================================================
-- Add re-captcha - DONE
-- Registration confirmation - DONE
-- Forgot password - DONE
-- Implement PRG for forms - DONE
 - Import error template
-- Play/pause GIF and dynamic loading - DONE
+- Add navigation logic
+- Optimize styles
+- Add meme delay
 
 Modules
 ================================================================================
