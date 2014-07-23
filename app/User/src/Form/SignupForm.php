@@ -28,6 +28,7 @@ class SignupForm extends AbstractUserForm
             'email',
             'password',
             'password_verify',
+            'captcha',
         ));
     }
 }

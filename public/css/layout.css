@@ -535,6 +535,54 @@ h1, h2, h3, h4, h5, h6 {
 
 /**
  * =============================================================================
+ * #Pagination Style
+ * =============================================================================
+ */
+.sidenav {
+    margin: 0;
+    padding: 0;
+    
+    display: block;
+    float: none;
+}
+
+.sidenav > li {
+    margin: 0;
+    padding: 0;
+    
+    display: block;
+    float: none;
+}
+
+.sidenav > li > a {
+    margin: 0;
+    padding: 10px;
+    
+    background: transparent;
+    border-radius: 4px;
+    
+    display: block;
+    float: none;
+    
+    color: #222222;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.sidenav > li > a.active,
+.sidenav > li > a:active,
+.sidenav > li > a:focus,
+.sidenav > li > a:hover {
+    background: #999999;
+    
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/**
+ * =============================================================================
  * #Contact Style
  * =============================================================================
  **/
@@ -550,33 +598,37 @@ h1, h2, h3, h4, h5, h6 {
  * #GIF Style
  * =============================================================================
  **/
-
 span.play {
-    position: absolute;
-    top: 50%;
     margin-top: -30px;
-    left: 50%;
     margin-left: -30px;
+    
     height: 60px;
     width: 60px;
-    text-align: center;
-    overflow: hidden;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
     background: #999;
-    line-height: 50px;
-    font-size: 20px;
-    text-transform: uppercase;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 35px;
-    opacity: .9;
     border: 4px solid #fff;    
+    border-radius: 35px;
+    
+    opacity: .9;
+    overflow: hidden;
+    
+    color: #fff;
+    font-size: 20px;
+    line-height: 50px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
 }
+
 /**
  * =============================================================================
  * #Privacy policy Style
  * =============================================================================
  **/
-
 .form-row.privacy {
     font-size: 14px;
     line-height: 20px;

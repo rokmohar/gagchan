@@ -24,6 +24,7 @@ class ContactForm extends Form
             ->addEmail()
             ->addSubject()
             ->addMessage()
+            ->addCaptcha()
             ->addSubmit()
         ;
     }
@@ -63,7 +64,7 @@ class ContactForm extends Form
         ));
         
         return $this;
-    }    
+    }
     
     /**
      * Add subject element.
@@ -85,7 +86,7 @@ class ContactForm extends Form
         ));
         
         return $this;
-    }    
+    }
     
     /**
      * Add message element.
@@ -108,7 +109,33 @@ class ContactForm extends Form
         ));
         
         return $this;
-    }   
+    }
+    
+    /**
+     * Add captcha element.
+     * 
+     * @return \User\Form\AbstractUserForm
+     */
+    public function addCaptcha()
+    {
+        $this->add(array(
+            'name'    => 'captcha',
+            'type'    => 'Zend\Form\Element\Captcha',
+            'options' => array(
+                'label'   => 'Please type the following text',
+                'captcha' => array(
+                    'class'   => 'Zend\Captcha\ReCaptcha',
+                    'options' => array(
+                        'pubkey'  => '6LdWDvcSAAAAAFjb7VFZFR47NMZYQL7t2saq28ua',
+                        'privkey' => '6LdWDvcSAAAAAAjhm56hU22-FmpXI1LXGveN0yo_',
+                        'theme'   => 'white',
+                    ),
+                ),
+            ),
+        ));
+        
+        return $this;
+    }
     
     /**
      * Add submit element.
@@ -130,5 +157,5 @@ class ContactForm extends Form
         ));
         
         return $this;
-    }    
+    }
 }

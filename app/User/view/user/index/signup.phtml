@@ -55,6 +55,13 @@
                 <?php echo $this->formElementErrors($signupForm->get('password_verify')) ?>
             </div>
             
+            <!-- #Captcha -->
+            <div class="form-row">
+                <?php echo $this->formCaptcha($signupForm->get('captcha')) ?>
+
+                <?php echo $this->formElementErrors($signupForm->get('captcha')) ?>
+            </div>
+            
             <div class="input-group">
                 <?php echo $this->formButton($signupForm->get('submit')) ?>
             </div>

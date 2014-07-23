@@ -26,11 +26,14 @@ abstract class AbstractUserForm extends Form
             ->addEmail()
             ->addPassword()
             ->addPasswordVerify()
+            ->addCaptcha()
         ;
+        
+        //$this->add(new \Zend\Form\Element\Captcha(), array('name' => 'captcha'));
     }
     
     /**
-     * Add the CSRF element.
+     * Add CSRF element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -45,7 +48,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the identifier element.
+     * Add identifier element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -60,7 +63,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the username element.
+     * Add username element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -82,7 +85,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the email address element.
+     * Add email address element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -104,7 +107,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the password element.
+     * Add password element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -126,7 +129,7 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the password verify element.
+     * Add password verify element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -148,7 +151,33 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add the submit element.
+     * Add captcha element.
+     * 
+     * @return \User\Form\AbstractUserForm
+     */
+    public function addCaptcha()
+    {
+        $this->add(array(
+            'name'    => 'captcha',
+            'type'    => 'Zend\Form\Element\Captcha',
+            'options' => array(
+                'label'   => 'Please type the following text',
+                'captcha' => array(
+                    'class'   => 'Zend\Captcha\ReCaptcha',
+                    'options' => array(
+                        'pubkey'  => '6LdWDvcSAAAAAFjb7VFZFR47NMZYQL7t2saq28ua',
+                        'privkey' => '6LdWDvcSAAAAAAjhm56hU22-FmpXI1LXGveN0yo_',
+                        'theme'   => 'white',
+                    ),
+                ),
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add submit element.
      * 
      * @param string $label
      * 

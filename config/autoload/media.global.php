@@ -14,6 +14,6 @@ return array(
          * 
          * Default: http://cdn.gagchan.com
          */
-        'bucket_url' => 'http://gagchan.dev.s3-eu-west-1.amazonaws.com',
+        'bucket_url' => 'http://d1znenvfufilfi.cloudfront.net',
     ),
 );

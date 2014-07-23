@@ -13,7 +13,7 @@
             <!-- #CSRF -->
             <?php echo $this->formElement($form->get('csrf')) ?>
         
-            <!-- #From -->
+            <!-- #Email -->
             <div class="form-row">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -37,13 +37,19 @@
                 <?php echo $this->formElementErrors($form->get('subject')) ?>
             </div>            
             
-            <!-- #Body -->
+            <!-- #Message -->
             <div class="form-row">
-
                 <?php echo $this->formTextarea($form->get('message')) ?>
-                <?php echo $this->formElementErrors($form->get('message')) ?>
                 
+                <?php echo $this->formElementErrors($form->get('message')) ?>
             </div>         
+            
+            <!-- #Captcha -->
+            <div class="form-row">
+                <?php echo $this->formCaptcha($form->get('captcha')) ?>
+                
+                <?php echo $this->formElementErrors($form->get('captcha')) ?>
+            </div>    
             
             <div class="input-group">
                 <?php echo $this->formSubmit($form->get('Send')) ?>
