@@ -5,13 +5,13 @@ namespace Generator\Factory\Mapper;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Generator\Mapper\GeneratorMapper;
+use Generator\Mapper\PrototypeMapper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class GeneratorMapperFactory implements FactoryInterface
+class PrototypeMapperFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -22,11 +22,16 @@ class GeneratorMapperFactory implements FactoryInterface
         $dbAdapter = $serviceLocator->get('db.adapter');
         
         // Entity class
-        $entityClass = new \Generator\Entity\GeneratorEntity();
+        $entityClass = new \Generator\Entity\PrototypeEntity();
         
         // Hydrator
-        $hydrator = new \Generator\Hydrator\GeneratorHydrator();
+        $hydrator = new \Generator\Hydrator\PrototypeHydrator();
         
-        return new GeneratorMapper($dbAdapter, 'media_prototype', $entityClass, $hydrator);
+        return new PrototypeMapper(
+            $dbAdapter,
+            'media_prototype',
+            $entityClass,
+            $hydrator
+        );
     }
 }

@@ -43,9 +43,9 @@ class Module implements
         return array(
             'factories' => array(
                 'generator.form.generator'   => 'Generator\Factory\Form\GeneratorFormFactory',
-                'generator.options.module' => 'Generator\Factory\Options\ModuleOptionsFactory',
-                'generator.util.module' => 'Generator\Factory\Util\MemeGeneratorFactory',
-                'generator.mapper.generator' => 'Generator\Factory\Mapper\GeneratorMapperFactory',
+                'generator.mapper.prototype' => 'Generator\Factory\Mapper\PrototypeMapperFactory',
+                'generator.options.module'   => 'Generator\Factory\Options\ModuleOptionsFactory',
+                'generator.util.module'      => 'Generator\Factory\Util\MemeGeneratorFactory',
             ),
         );
     }

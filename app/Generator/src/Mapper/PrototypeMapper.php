@@ -7,26 +7,27 @@ use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\DbSelect;
 
 use Core\Mapper\AbstractMapper;
+use Generator\Entity\PrototypeEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class GeneratorMapper extends AbstractMapper
+class PrototypeMapper extends AbstractMapper implements PrototypeMapperInterface
 {
     /**
      * {@inheritDoc}
      */
-    public function insertRow(GeneratorEntityInterface $generator)
+    public function insertRow(PrototypeEntityInterface $prototype)
     {
         // Check if entity has pre-insert method
-        if (method_exists($generator, 'preInsert')) {
+        if (method_exists($prototype, 'preInsert')) {
             // Call a method
-            call_user_func(array($generator, 'preInsert'));
+            call_user_func(array($prototype, 'preInsert'));
         }
         
         // Extract data
-        $data = $this->getHydrator()->extract($generator);
+        $data = $this->getHydrator()->extract($prototype);
         
         // Get SQL insert
         $insert = $this->getInsert();
@@ -42,7 +43,7 @@ class GeneratorMapper extends AbstractMapper
         $result = $statement->execute();
         
         // Set identifier
-        $generator->setId($result->getGeneratedValue());
+        $prototype->setId($result->getGeneratedValue());
         
         // Return result
         return $result;
@@ -122,5 +123,35 @@ class GeneratorMapper extends AbstractMapper
             'id' => $id,
         ));
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function updateRow(PrototypeEntityInterface $prototype)
+    {
+        // Check if entity has pre-update method
+        if (method_exists($prototype, 'preUpdate')) {
+            // Call a method
+            call_user_func(array($prototype, 'preUpdate'));
+        }
+        
+        // Extract data
+        $data = $this->getHydrator()->extract($prototype);
+        
+        // Get update
+        $update = $this->getUpdate();
+        
+        $update
+            ->set($data)
+            ->where(array(
+                'id' => $prototype->getId(),
+            ))
+        ;
+        
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($update);
+        
+        // Execute statement
+        return $statement->execute();
+    }
 }

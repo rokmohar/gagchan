@@ -6,7 +6,7 @@ namespace Generator\Entity;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-interface GeneratorEntityInterface
+interface PrototypeEntityInterface
 {
     /**
      * Return the identifier.

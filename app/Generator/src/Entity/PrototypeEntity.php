@@ -6,7 +6,7 @@ namespace Generator\Entity;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com> 
  */
-class GeneratorEntity implements GeneratorEntityInterface
+class PrototypeEntity implements PrototypeEntityInterface
 {
     /**
      * @var int
@@ -250,12 +250,21 @@ class GeneratorEntity implements GeneratorEntityInterface
     /**
      * Pre-insert initialization.
      * 
-     * @return \Generator\Entity\
+     * @return \Generator\Entity\MediaPrototypeEntity
      */
     public function preInsert()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
     }
-
+    
+    /**
+     * Pre-update initialization.
+     * 
+     * @return \Generator\Entity\MediaPrototypeEntity
+     */
+    public function preUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
 }

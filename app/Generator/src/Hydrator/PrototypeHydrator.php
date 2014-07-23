@@ -8,7 +8,7 @@ use Core\Hydrator\AbstractHydrator;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class MediaHydrator extends AbstractHydrator
+class PrototypeHydrator extends AbstractHydrator
 {
     /**
      * @var array
