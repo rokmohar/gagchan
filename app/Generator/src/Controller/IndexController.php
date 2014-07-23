@@ -79,12 +79,16 @@ class IndexController extends AbstractActionController
         $client = $aws->get('s3');      
         
         $iterator = $client->getIterator('ListObjects', array(
-            'Bucket' => 'gagchan.dev/photo_prototype',
+            'Bucket' => 'gagchan.dev',
+            'Prefix' => 'photo_prototype/',
         ));
-
+        
         foreach ($iterator as $object) {
-            echo $object['Key'] . "\n";
+            //echo $object['Key'] . "\n";
+            var_dump($object);
         }
+        
+        die();
         
       //  $this->getGeneratorMapper()->insertRow($data);
         
