@@ -84,11 +84,28 @@ class IndexController extends AbstractActionController
             'Prefix' => 'prototype/',
         ));
         
+        /*$prototypeMapper = $this->getPrototypeMapper();
+        
         foreach ($iterator as $object) {
             preg_match('/prototype\/([a-zA-Z0-9-]*).jpg/', $object['Key'], $matches);
-
-            echo $matches[1] . ' & ' . str_replace('-', ' ', $matches[1]) . '<br />';
-        }
+            
+            $slug = $matches[1];
+            $name = str_replace('-', ' ', $matches[1]);
+            
+            $prototype = new \Generator\Entity\PrototypeEntity();
+            
+            $prototype->setSlug(strtolower($slug));
+            $prototype->setName($name);
+            $prototype->setReference('/' . strtolower(str_replace('-', '_', $object['Key'])));
+            $prototype->setWidth(400);
+            $prototype->setHeight(400);
+            $prototype->setSize($object['Size']);
+            $prototype->setContentType('image/jpeg');
+            $prototype->setCreatedAt(new \DateTime());
+            $prototype->setUpdatedAt(new \DateTime());
+            
+            $prototypeMapper->insertRow($prototype);
+        }*/
         
         /*$result = $result = $client->headObject(array(
             'Bucket' => 'gagchan.dev',
