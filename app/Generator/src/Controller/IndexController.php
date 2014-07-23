@@ -19,9 +19,9 @@ class IndexController extends AbstractActionController
     
     
     /**
-     * @var \Generator\Mapper\GeneratorMapper
+     * @var \Generator\Mapper\PrototypeMapperInterface
      */
-    protected $generatorMapper;    
+    protected $prototypeMapper;    
     
     /**
      * @return array 
@@ -134,17 +134,17 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * @return \Generator\Mapper\GeneratorMapperFactory
+     * @return \Generator\Mapper\PrototypeMapperInterface
      */
-    public function getMediaMapper()
+    public function getPrototypeMapper()
     {
-        if ($this->generatorMapper === null) {
-            return $this->generatorMapper = $this->getServiceLocator()->get(
-                'generator.mapper.generator'
+        if ($this->prototypeMapper === null) {
+            return $this->prototypeMapper = $this->getServiceLocator()->get(
+                'generator.mapper.prototype'
             );
         }
         
-        return $this->generatorMapper;
+        return $this->prototypeMapper;
     }    
     
 }
