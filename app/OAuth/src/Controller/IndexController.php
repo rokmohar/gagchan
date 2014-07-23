@@ -3,6 +3,7 @@
 namespace OAuth\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -14,6 +15,11 @@ class IndexController extends AbstractActionController
      * @var \Hybrid_Auth
      */
     protected $hybridAuth;
+    
+    /**
+     * @var \User\Form\LoginForm
+     */
+    protected $loginForm;
     
     /**
      * @return mixed
@@ -32,7 +38,7 @@ class IndexController extends AbstractActionController
     public function loginAction()
     {
         // Check if user has identity
-        if ($this->user()->hasIdentity() === true) {
+        if ($this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('home');
         }
@@ -50,7 +56,7 @@ class IndexController extends AbstractActionController
         }
         
         // Check if adapter is connected with provider
-        if ($hybridAuth->isConnectedWith($provider) === false) {
+        if (!$hybridAuth->isConnectedWith($provider)) {
             // Authenticate adapter with provider
             $hybridAuth->authenticate($provider, array(
                 'hauth_return_to' => $this->url()->fromRoute('oauth', array(
@@ -69,9 +75,23 @@ class IndexController extends AbstractActionController
         $result = $authService->authenticate();
         
         // Check if authentication is not valid
-        if ($result->isValid() === false) {
-            // Redirect to route
-            return $this->redirect()->toRoute('login');
+        if (!$result->isValid()) {
+            // Get form
+            $loginForm = $this->getLoginForm();
+
+            // Set messages
+            $loginForm->get('email')->setMessages($result->getMessages());
+            
+            // Create view
+            $view = new ViewModel(array(
+                'loginForm' => $loginForm,
+            ));
+            
+            // Set template
+            $view->setTemplate('user/index/login');
+            
+            // Return view
+            return $view;
         }
         
         // Redirect to route
@@ -90,5 +110,21 @@ class IndexController extends AbstractActionController
         }
         
         return $this->hybridAuth;
+    }
+    
+    /**
+     * Return the login form.
+     * 
+     * @return \User\Form\LoginForm
+     */
+    public function getLoginForm()
+    {
+        if ($this->loginForm === null) {
+            return $this->loginForm = $this->getServiceLocator()->get(
+                'user.form.login'
+            );
+        }
+        
+        return $this->loginForm;
     }
 }

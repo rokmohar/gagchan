@@ -9,22 +9,22 @@ return array(
     'router' => array(
         'routes' => array(
             'privacy' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/privacy-policy',
+                    'route'    => '/privacy-policy',
                     'defaults' => array(
                         'controller' => 'Cms\IndexController',
-                        'action' => 'privacy',
+                        'action'     => 'privacy',
                     ),
                 ),
             ),
             'terms' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/terms-of-use',
+                    'route'    => '/terms-of-use',
                     'defaults' => array(
                         'controller' => 'Cms\IndexController',
-                        'action' => 'terms',
+                        'action'     => 'terms',
                     ),
                 ),
             ),            

@@ -229,23 +229,28 @@ h1, h2, h3, h4, h5, h6 {
 
 .meme > .meme-img,
 .meme > .meme-img > img {
+    position: relative;
+    
     display: block;
     float: none;
-    position: relative;
 }
 
 .meme > .meme-img {
-    margin-bottom: 20px;
+    margin: 0 0 20px;
+    padding: 0;
 }
 
 .meme > .meme-img > img {
+    margin: 0;
+    padding: 0;
+    
     width: 100%;
 }
 
 .meme > .meme-action,
 .meme > .meme-action > li {
-    margin-bottom: 20;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
     
     display: block;
 }

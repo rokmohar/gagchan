@@ -10,6 +10,7 @@ use Zend\Session\Container;
 use Core\Utils\Transliterator;
 use User\Authentication\Adapter\AdapterInterface;
 use User\Authentication\Event\AuthenticationEvent;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -122,6 +123,9 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 // Set email address
                 $user->setEmail($profile->email);
                 
+                // Set state
+                $user->setState(UserEntityInterface::STATE_CONFIRMED);
+                
                 // Insert user
                 $this->getUserMapper()->insertRow($user);
             }
@@ -147,12 +151,43 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_IDENTITY_NOT_FOUND)
                 ->setMessages(array(
-                    'A record with the supplied combination could not be found.',
+                    'You can not log in. Please use any alternative.',
                 ))
             ;
             
+            // Stop propagation
+            $event->stopPropagation();
+            
             // Authentication failed
             return false;
+        }
+        
+        // Check if state is correct
+        if ($user->getState() == UserEntityInterface::STATE_DISABLED) {
+            // Set event parameters
+            $event
+                ->setSatisfied(false)
+                ->setCode(Result::FAILURE_UNCATEGORIZED)
+                ->setMessages(array(
+                    'Your account has been disabled.',
+                ))
+            ;
+            
+            // Stop propagation
+            $event->stopPropagation();
+            
+            // Authentication failed
+            return false;
+        }
+        else if (
+            $user->getState() == UserEntityInterface::STATE_UNCONFIRMED &&
+            $user->getEmail() == $profile->email
+        ) {
+            // Confirm account
+            $user->setState(UserEntityInterface::STATE_CONFIRMED);
+            
+            // Update user
+            $userMapper->updateRow($user);
         }
         
         // Regenerate the ID

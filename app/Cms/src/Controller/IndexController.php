@@ -16,7 +16,6 @@ class IndexController extends AbstractActionController
      */
     public function privacyAction()
     {
-        // return view
         return new ViewModel();
     }
   
@@ -25,7 +24,6 @@ class IndexController extends AbstractActionController
      */
     public function termsAction()
     {
-        // return view
         return new ViewModel();
     }    
 }

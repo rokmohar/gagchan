@@ -47,7 +47,7 @@ class IndexController extends AbstractActionController
     public function loginAction()
     {
         // Check if user has identity
-        if ($this->user()->hasIdentity() === true) {
+        if ($this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('home');
         }
@@ -102,7 +102,7 @@ class IndexController extends AbstractActionController
         $result = $authService->authenticate();
         
         // Check if authentication is not valid
-        if ($result->isValid() === false) {
+        if (!$result->isValid()) {
             // Set messages
             $loginForm->get('email')->setMessages($result->getMessages());
             
@@ -136,6 +136,12 @@ class IndexController extends AbstractActionController
      */
     public function signupAction()
     {
+        // Check if user has identity
+        if ($this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('home');
+        }
+        
         // Get PRG
         $prg = $this->prg();
         
@@ -163,7 +169,7 @@ class IndexController extends AbstractActionController
         $signupForm->setData($prg);
 
         // Check if form is not valid
-        if ($signupForm->isValid() === false) {
+        if (!$signupForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'signupForm' => $signupForm,
@@ -275,9 +281,8 @@ class IndexController extends AbstractActionController
         return $view;
     }
     
-    
     /**
-     * Generate a random token.
+     * Generate random token.
      * 
      * @return string
      */

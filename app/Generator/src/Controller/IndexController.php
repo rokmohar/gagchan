@@ -42,13 +42,12 @@ class IndexController extends AbstractActionController
      */
     public function editAction()
     {
-  
         // Select media
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
         );
         
-        // Check if match is empty
+        // Check if generator is empty
         if (empty($generator)) {
             // Media not found
             return $this->notFoundAction();
@@ -74,13 +73,30 @@ class IndexController extends AbstractActionController
                 'generator' => $generator,
             ));
         }
+        
+        // Set data
+        $form->setData($prg);
+        
+        // Check if form is not valid
+        if (!$form->isValid()) {
+            // Return view
+            return new ViewModel(array(
+                'form'      => $form,
+                'generator' => $generator,
+            ));
+        }
+        
+        // Get data
+        $data = $form->getData();
+        
+        var_dump($data); die();
 
         // Redirect to route
         return $this->redirect()->toRoute('edit', array(
             'slug' => $generator->getSlug(),
         ));     
         
-        processImage();
+        //processImage();
         
         // Redirect to route
         //return $this->redirect()->toRoute('home');

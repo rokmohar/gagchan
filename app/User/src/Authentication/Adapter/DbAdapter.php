@@ -33,7 +33,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
     public function authenticate(AuthenticationEvent $event)
     {
         // Check if adapter is satisfied
-        if ($event->isSatisfied() === true) {
+        if ($event->isSatisfied()) {
             // Authentication successful
             return true;
         }
@@ -43,26 +43,13 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         $password = $event->getParam('password');
         
         // Check if data is empty
-        if (empty($email)) {
+        if (empty($email) || empty($password)) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
-                    'Email is not given.',
-                ))
-            ;
-            
-            // Authentication failed
-            return false;
-        }
-        else if (empty($password)) {
-            // Set event parameters
-            $event
-                ->setSatisfied(false)
-                ->setCode(Result::FAILURE_UNCATEGORIZED)
-                ->setMessages(array(
-                    'Password is not given.',
+                    'Email address and/or password is not given.',
                 ))
             ;
             
@@ -74,13 +61,13 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         $user = $this->getUserMapper()->selectRowByEmail($email);
         
         // Check if user is empty
-        if (empty($user) === true) {
+        if (empty($user)) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_IDENTITY_NOT_FOUND)
                 ->setMessages(array(
-                    'A record with the supplied combination could not be found.',
+                    'A record could not be found.',
                 ))
             ;
             
@@ -89,28 +76,34 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         }
         
         // Check if state is not confirmed
-        if ($user->getState() === UserEntityInterface::STATE_DISABLED) {
+        if ($user->getState() == UserEntityInterface::STATE_DISABLED) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
-                    'This account has been disabled.',
+                    'Your account has been disabled.',
                 ))
             ;
+            
+            // Stop propagation
+            $event->stopPropagation();
             
             // Authentication failed
             return false;
         }
-        else if ($user->getState() === UserEntityInterface::STATE_UNCONFIRMED) {
+        else if ($user->getState() == UserEntityInterface::STATE_UNCONFIRMED) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
-                    'You must confirm your email adress, before you can log in.',
+                    'You must confirm your email address, before you can log in.',
                 ))
             ;
+            
+            // Stop propagation
+            $event->stopPropagation();
             
             // Authentication failed
             return false;
@@ -122,7 +115,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         ));
         
         // Verify if a password is correct
-        if ($crypt->verify($password, $user->getPassword()) === false) {
+        if (!$crypt->verify($password, $user->getPassword())) {
             // Set event parameters
             $event
                 ->setSatisfied(false)

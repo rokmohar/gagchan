@@ -104,7 +104,9 @@ class UploadController extends AbstractActionController
         $mediaManager->uploadImage($image, $media);
         
         // Redirect to route
-        return $this->redirect()->toRoute('home');
+        return $this->redirect()->toRoute('gag', array(
+            'slug' => $media->getSlug(),
+        ));
     }
     
     /**
@@ -187,7 +189,9 @@ class UploadController extends AbstractActionController
         $mediaManager->uploadImage($file, $media);
 
         // Redirect to route
-        return $this->redirect()->toRoute('home');
+        return $this->redirect()->toRoute('gag', array(
+            'slug' => $media->getSlug(),
+        ));
     }
     
     /**

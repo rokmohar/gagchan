@@ -2,10 +2,11 @@
 
 namespace Generator\Factory\Form;
 
-use Generator\Form\GeneratorForm;
-use Generator\InputFilter\GeneratorFilter;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+
+use Generator\Form\GeneratorForm;
+use Generator\InputFilter\GeneratorFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -21,7 +22,7 @@ class GeneratorFormFactory implements FactoryInterface
         // Create form
         $form = new GeneratorForm('contact');
         
-        // Set input filter 
+        // Set filter 
         $form->setInputFilter(new GeneratorFilter());
         
         // Return form

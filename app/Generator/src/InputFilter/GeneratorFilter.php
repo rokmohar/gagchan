@@ -18,20 +18,49 @@ class GeneratorFilter extends InputFilter
     {
         // Add input filters
         $this
-            ->addTopBottom()
+            ->addTop()
+            ->addBottom()
         ;
     }
     
     /**
-     * Add filter for top and bottom text on meme
+     * Add filter for top text.
      *      
      * @return \Generator\InputFilter\GeneratorFilter
      */
-    protected function addTopBottom()
+    protected function addTop()
     {
         $this->add(array(
-            'name' => 'topbottom',
-            'required' => true,
+            'name'       => 'top',
+            'required'   => true,
+            'validators' => array(
+                array(
+                    'name' => 'StringLength',
+                    'options' => array(
+                        'min' => 0,
+                        'max' => 80,
+                    ),
+                ),
+            ),
+            'filters' => array(
+                array('name' => 'StringTrim'),
+                array('name' => 'StripTags'),
+            ),
+        ));      
+        
+        return $this;        
+    }
+    
+    /**
+     * Add filter for bottom text.
+     *      
+     * @return \Generator\InputFilter\GeneratorFilter
+     */
+    protected function addBottom()
+    {
+        $this->add(array(
+            'name'       => 'bottom',
+            'required'   => true,
             'validators' => array(
                 array(
                     'name' => 'StringLength',
