@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.5
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 22. jul 2014 ob 20.02
--- Različica strežnika: 5.6.19
--- Različica PHP: 5.5.13
+-- Gostitelj: 127.0.0.1
+-- Čas nastanka: 23. jul 2014 ob 17.32
+-- Različica strežnika: 5.6.17
+-- Različica PHP: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,12 +27,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `category` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
@@ -58,7 +60,7 @@ INSERT INTO `category` (`id`, `slug`, `name`, `priority`, `created_at`, `updated
 --
 
 CREATE TABLE IF NOT EXISTS `media` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `reference` varchar(255) NOT NULL,
@@ -72,7 +74,11 @@ CREATE TABLE IF NOT EXISTS `media` (
   `is_enabled` tinyint(1) NOT NULL DEFAULT '1',
   `is_featured` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`),
+  KEY `user_id` (`user_id`),
+  KEY `category_id` (`category_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
@@ -91,12 +97,36 @@ INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `thumbnail`, `user_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `media_comment` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `media_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `comment` text NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `media_id` (`media_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabele `media_prototype`
+--
+
+CREATE TABLE IF NOT EXISTS `media_prototype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `slug` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `reference` varchar(255) NOT NULL,
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  `content_type` varchar(64) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -106,12 +136,15 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
 --
 
 CREATE TABLE IF NOT EXISTS `media_vote` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `media_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `type` set('up','down') NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `media_id` (`media_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
@@ -121,13 +154,16 @@ CREATE TABLE IF NOT EXISTS `media_vote` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `state` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
@@ -145,7 +181,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `state`, `created_at`
 --
 
 CREATE TABLE IF NOT EXISTS `user_confirmation` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `remote_address` varchar(255) NOT NULL,
@@ -154,7 +190,9 @@ CREATE TABLE IF NOT EXISTS `user_confirmation` (
   `confirmed_at` datetime DEFAULT NULL,
   `is_confirmed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -171,12 +209,14 @@ INSERT INTO `user_confirmation` (`id`, `user_id`, `email`, `remote_address`, `re
 --
 
 CREATE TABLE IF NOT EXISTS `user_oauth` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `provider` varchar(255) NOT NULL,
   `provider_id` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 -- --------------------------------------------------------
@@ -186,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `user_oauth` (
 --
 
 CREATE TABLE IF NOT EXISTS `user_recover` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `remote_address` varchar(255) NOT NULL,
@@ -195,105 +235,11 @@ CREATE TABLE IF NOT EXISTS `user_recover` (
   `recovered_at` datetime DEFAULT NULL,
   `is_recovered` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Indeksi zavrženih tabel
---
-
---
--- Indeksi tabele `category`
---
-ALTER TABLE `category`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
-
---
--- Indeksi tabele `media`
---
-ALTER TABLE `media`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`), ADD KEY `user_id` (`user_id`), ADD KEY `category_id` (`category_id`);
-
---
--- Indeksi tabele `media_comment`
---
-ALTER TABLE `media_comment`
- ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
-
---
--- Indeksi tabele `media_vote`
---
-ALTER TABLE `media_vote`
- ADD PRIMARY KEY (`id`), ADD KEY `media_id` (`media_id`), ADD KEY `user_id` (`user_id`);
-
---
--- Indeksi tabele `user`
---
-ALTER TABLE `user`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `email` (`email`);
-
---
--- Indeksi tabele `user_confirmation`
---
-ALTER TABLE `user_confirmation`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
-
---
--- Indeksi tabele `user_oauth`
---
-ALTER TABLE `user_oauth`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
-
---
--- Indeksi tabele `user_recover`
---
-ALTER TABLE `user_recover`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
-
---
--- AUTO_INCREMENT zavrženih tabel
---
-
---
--- AUTO_INCREMENT tabele `category`
---
-ALTER TABLE `category`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT tabele `media`
---
-ALTER TABLE `media`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT tabele `media_comment`
---
-ALTER TABLE `media_comment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT tabele `media_vote`
---
-ALTER TABLE `media_vote`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT tabele `user`
---
-ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
---
--- AUTO_INCREMENT tabele `user_confirmation`
---
-ALTER TABLE `user_confirmation`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT tabele `user_oauth`
---
-ALTER TABLE `user_oauth`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT tabele `user_recover`
---
-ALTER TABLE `user_recover`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- Omejitve tabel za povzetek stanja
 --
@@ -302,40 +248,40 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- Omejitve za tabelo `media`
 --
 ALTER TABLE `media`
-ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+  ADD CONSTRAINT `media_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `media_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
 
 --
 -- Omejitve za tabelo `media_comment`
 --
 ALTER TABLE `media_comment`
-ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
-ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `media_comment_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
+  ADD CONSTRAINT `media_comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Omejitve za tabelo `media_vote`
 --
 ALTER TABLE `media_vote`
-ADD CONSTRAINT `media_vote_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
-ADD CONSTRAINT `media_vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `media_vote_ibfk_1` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`),
+  ADD CONSTRAINT `media_vote_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Omejitve za tabelo `user_confirmation`
 --
 ALTER TABLE `user_confirmation`
-ADD CONSTRAINT `user_confirmation_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `user_confirmation_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Omejitve za tabelo `user_oauth`
 --
 ALTER TABLE `user_oauth`
-ADD CONSTRAINT `user_oauth_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `user_oauth_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Omejitve za tabelo `user_recover`
 --
 ALTER TABLE `user_recover`
-ADD CONSTRAINT `user_recover_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `user_recover_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
