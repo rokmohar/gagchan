@@ -75,27 +75,20 @@ class IndexController extends AbstractActionController
     public function prototypeAction()
     {
         // Amazon storage
-        //$aws = $this->serviceLocator->get('aws');
-        //$client = $aws->get('s3');
+        $aws = $this->serviceLocator->get('aws');
+        $client = $aws->get('s3');
         
-        preg_match('/prototype\/([a-zA-Z0-9-]*).jpg/', 'photo_prototype/10-Guy.jpg', $matches);
-        
-        echo $matches[1] . '<br />';
-        
-        echo str_replace('-', ' ', $matches[1]) . '<br />';
-        
-        die();
-        
-        /*$iterator = $client->getIterator('ListObjects', array(
+        $iterator = $client->getIterator('ListObjects', array(
             'Bucket' => 'gagchan.dev',
             'Marker' => 'prototype/',
             'Prefix' => 'prototype/',
-        ));*/
+        ));
         
-        /*foreach ($iterator as $object) {
-            //echo $object['Key'] . "\n";
-            var_dump($object);
-        }*/
+        foreach ($iterator as $object) {
+            preg_match('/prototype\/([a-zA-Z0-9-]*).jpg/', $object['Key'], $matches);
+
+            echo $matches[1] . ' & ' . str_replace('-', ' ', $matches[1]) . '<br />';
+        }
         
         /*$result = $result = $client->headObject(array(
             'Bucket' => 'gagchan.dev',
