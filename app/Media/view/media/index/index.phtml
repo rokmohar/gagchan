@@ -54,7 +54,7 @@
                     <a href="#" data-type="twitter" data-url="<?php echo $this->url('gag', array('slug' => $m->getSlug()), array('force_canonical' => true)) ?>" data-description="<?php echo $m->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-twitter">Twitter</a>
                 </li>
                 <li>
-                    <a data-clipboard-text="<?php echo $this->url('gag', array('slug' => $m->getSlug())) ?>"  class="btn btn-default zeroclipboard">
+                    <a data-clipboard-text="<?php echo $this->url('gag', array('slug' => $m->getSlug()), array('force_canonical' => true)) ?>"  class="btn btn-default zeroclipboard">
                         <span class="glyphicon glyphicon-link"></span>
                     </a>
                 </li>

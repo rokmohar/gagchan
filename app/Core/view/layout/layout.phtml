@@ -40,107 +40,104 @@
         jQuery(document).ready(function($) {
             // Share on social networks
             $(".btn-facebook, .btn-twitter").prettySocial();
-            
-        // Google Plus One
-        (function() {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = 'https://apis.google.com/js/platform.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
 
-        // FB like box
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/sl_SI/sdk.js#xfbml=1&appId=782048061815836&version=v2.0";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+            // Google Plus One
+            (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/platform.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+
+            // FB like box
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/sl_SI/sdk.js#xfbml=1&appId=782048061815836&version=v2.0";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
 
             // Copy to clipboard
             new ZeroClipboard($('.zeroclipboard'), {
                 moviePath : 'js/jquery.zeroclipboard.swf'
             });
-            
-            // Vote 
-            $(function() {
-                $('[data-trigger="response"] > a').click(function(e) {
-                    // Element parameters
-                    var $this = $(this);
-                    var $type = $this.data('type');
-                    
-                    // Check if item is not selected
-                    if (!$this.hasClass('response-selected')) {
-                        // Article parameters
-                        var $article = $this.parents('.meme');
-                        var $slug    = $article.data('slug');
 
-                        // Ajax request
-                        $.ajax({
-                            data: { slug: $slug, type: $type },
-                            type: 'POST',
-                            url:  '<?php echo $this->url('vote') ?>'
-                        }).done(function(data) { 
-                            // Check if action was successful
-                            if (data.result === true) {
-                                // Parent parameters
-                                var $parent = $this.parent();
-                                
-                                // Change points
-                                $article.find('.meme-points > span').html(data.points);
-                                
-                                // Remove class from others
-                                $parent.find('a').removeClass('response-selected');
-                                
-                                // Add class
-                                $this.addClass('response-selected');
-                            }
-                        });
-                    }
-                    
-                    // Prevent default action
-                    e.preventDefault();
-                });
-                
-                $('.zeroclipboard').click(function() {
-                    // Current element
-                    var $this = $(this);
-                    
-                    // Remove selected class from others
-                    $('.zeroclipboard').removeClass('zeroclipboard-selected');
-                    
-                    // Add class to current element
-                    $this.addClass('zeroclipboard-selected');
-                });
-            });
-            
-            // GIF play on click
-            $('a.meme-img').click(function(){ 
+            // Vote 
+            $('[data-trigger="response"] > a').click(function(e) {
+                // Element parameters
                 var $this = $(this);
-                var img = $this.find('img');
-                
+                var $type = $this.data('type');
+
+                // Check if item is not selected
+                if (!$this.hasClass('response-selected')) {
+                    // Article parameters
+                    var $article = $this.parents('.meme');
+                    var $slug    = $article.data('slug');
+
+                    // Ajax request
+                    $.ajax({
+                        data: { slug: $slug, type: $type },
+                        type: 'POST',
+                        url:  '<?php echo $this->url('vote') ?>'
+                    }).done(function(data) { 
+                        // Check if action was successful
+                        if (data.result === true) {
+                            // Parent parameters
+                            var $parent = $this.parent();
+
+                            // Change points
+                            $article.find('.meme-points > span').html(data.points);
+
+                            // Remove class from others
+                            $parent.find('a').removeClass('response-selected');
+
+                            // Add class
+                            $this.addClass('response-selected');
+                        }
+                    });
+                }
+
+                // Prevent default action
+                e.preventDefault();
+            });
+
+            $('.zeroclipboard').click(function() {
+                // Current element
+                var $this = $(this);
+
+                // Remove selected class from others
+                $('.zeroclipboard').removeClass('zeroclipboard-selected');
+
+                // Add class to current element
+                $this.addClass('zeroclipboard-selected');
+            });
+
+            // GIF play on click
+            $('a.meme-img').has('.play').click(function(){
+                var $this = $(this);
+                var $img  = $this.find('img');
+
                 if (!this.playing) {
                     // Change source to GIF
-                    img.attr('src', img.attr('src').replace('s_v1.jpg', 'sa_v1.gif'));
-                    
+                    $img.attr('src', $img.attr('src').replace('s_v1.jpg', 'sa_v1.gif'));
+
                     // Hide span 
                     $this.find('.play').hide();
                     this.playing = true;
-                } else {
+                }
+                else {
                     // Change source to static image                
-                    img.attr('src', img.attr('src').replace('sa_v1.gif', 's_v1.jpg'));
-                    
+                    $img.attr('src', $img.attr('src').replace('sa_v1.gif', 's_v1.jpg'));
+
                     // Show span
                     $this.find('.play').show();
                     this.playing = false;
                 }
-                
+
                 return false;
             });
 
-
         });
-                   
     </script>
 </head>
 <body>
