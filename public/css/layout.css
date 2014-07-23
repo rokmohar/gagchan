@@ -585,3 +585,17 @@ span.play {
 .privacy-title {
     margin-bottom: 20px;
 }
+
+/**
+ * =============================================================================
+ * #Generator Style
+ * =============================================================================
+ **/
+
+.form-row > a > img.generator {
+    display: inline-block;
+    width: 140px;
+    height: 140px;
+    margin-right: 20px;
+    margin-bottom: 15px;
+}

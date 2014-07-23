@@ -18,6 +18,19 @@ return array(
                     ),
                 ),
             ),
+            'edit' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route'    => '/edit/[:image]',
+                    'defaults' => array(
+                        'controller' => 'Generator\IndexController',
+                        'action'      => 'edit',
+                        'constraints' => array(
+                            'image' => '[a-zA-Z][a-zA-Z0-9]*',
+                        ),
+                    ),
+                ),
+            ),            
         ),
     ),
     'view_manager' => array(

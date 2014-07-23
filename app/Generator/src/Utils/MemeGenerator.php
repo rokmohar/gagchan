@@ -34,6 +34,5 @@ class MemeGenerator{
         
         imagecolortransparent($this->img, $this->background);
     }
-	
 
 }

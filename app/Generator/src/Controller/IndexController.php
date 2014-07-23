@@ -4,6 +4,7 @@ namespace Generator\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use \Generator\Utils\MemeGenerator;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -16,18 +17,18 @@ class IndexController extends AbstractActionController
      */    
     protected $generatorForm;
     
-    private $upperText;
-    private $lowerText;
-    private $alignment;
-    private $background;
-    private $font = 'impact.ttf';
-    private $im;
-    private $imgSize;
-    
     /**
      * @return array 
      */
     public function indexAction()
+    {
+        return new ViewModel();
+    }
+    
+    /**
+     * @return array 
+     */
+    public function editAction()
     {
         // Get request
         $request = $this->getRequest();
@@ -59,7 +60,7 @@ class IndexController extends AbstractActionController
         $this->processImage($generatorForm->getData());
         
         // Redirect to route
-        return $this->redirect()->toRoute('home');
+        return $this->redirect()->toRoute('home');        
     }
     
     /**
@@ -69,8 +70,13 @@ class IndexController extends AbstractActionController
      */
     public function processImage(array $data)
     {
-        $topText = $data['top'];
+        $topText    = $data['top'];
         $bottomText = $data['bottom'];
+        
+        // Path to image
+        $path       = $this->params()->fromQuery;
+        
+        $obj = new MemeGenerator($path);
         
     }
 
