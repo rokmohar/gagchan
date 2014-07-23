@@ -125,6 +125,20 @@ class PrototypeMapper extends AbstractMapper implements PrototypeMapperInterface
     }
     
     /**
+     * Select media_prototype by unique slug.
+     * 
+     * @param string $slug
+     * 
+     * @return mixed
+     */
+    public function selectRowBySlug($slug)
+    {
+        return $this->selectRow(array(
+            'slug' => $slug,
+        ));
+    }    
+    
+    /**
      * {@inheritDoc}
      */
     public function updateRow(PrototypeEntityInterface $prototype)

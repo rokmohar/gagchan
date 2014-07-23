@@ -42,37 +42,39 @@ class IndexController extends AbstractActionController
      */
     public function editAction()
     {
-        // Get request
-        $request = $this->getRequest();
+        // Select media
+        $generator = $this->getPrototypeMapper()->selectRowBySlug(
+            $this->params()->fromRoute('slug')
+        );
         
-        // Get form
-        $generatorForm = $this->getGeneratorForm();
-        
-        // Check if page is not posted
-        if ($request->isPost() === false) {
-            // Return view
-            return new ViewModel(array(
-                'form' => $generatorForm,
-            ));
+        // Check if match is empty
+        if (empty($generator)) {
+            // Media not found
+            return $this->notFoundAction();
         }
         
-        // Set data
-        $generatorForm->setData($request->getPost());
+        // Get PRG
+        $prg = $this->prg();
         
-        // Check if form is not valid
-        if ($generatorForm->isValid() === false) {
-            // Return view
-            return new ViewModel(array(
-                'error' => true,
-                'form' => $generatorForm,
-            ));
+        // Check if PRG is response
+        if ($prg instanceof Response) {
+            // Return response
+            return $prg;
         }
         
-        // Process the image
-        $this->processImage($generatorForm->getData());
-        
+        // Check if PRG is GET
+        if ($prg === false) {
+            
+            // Return view
+            return new ViewModel(array(
+                'generator'   => $generator,
+            ));
+        }
+
         // Redirect to route
-        return $this->redirect()->toRoute('home');        
+        return $this->redirect()->toRoute('edit', array(
+            'slug' => $generator->getSlug(),
+        ));     
     }
     
     /**

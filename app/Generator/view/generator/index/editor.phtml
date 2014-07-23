@@ -1,6 +1,9 @@
 <?php
     $form = $this->form;
-    $form->prepare();
+    $form->setAttribute(
+        'action',
+        $this->url('edit', array('slug' => $generator->getSlug()))
+    );
 ?>
 
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -10,7 +13,7 @@
         <h3 class="login-title">Meme generator</h3>
         
         <div class="meme clearfix">
-            <img src="http://i.memeful.com/template_thumbnails/522acc5982a5f/ymRP0RL.jpg" alt="" class="img-responsive" />
+            <img src="<?php echo $this->generator()->url($generator, true) ?>" alt="" class="img-responsive" />
         </div>
         
             <!-- #Upper text -->
