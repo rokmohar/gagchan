@@ -31,14 +31,14 @@ interface StorageManagerInterface
     /**
      * Return collection of storages.
      * 
-     * @return Array
+     * @return array
      */
     public function getStorages();
     
     /**
      * Set collection of storages.
      * 
-     * @return Array
+     * @return array
      */
     public function setStorages(array $storages);
 }

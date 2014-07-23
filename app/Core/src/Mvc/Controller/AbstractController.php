@@ -10,7 +10,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 class AbstractController extends AbstractActionController
 {
     /**
-     * @return Object|Array
+     * @return Object|array
      */
     public function get($name)
     {

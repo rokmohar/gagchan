@@ -64,8 +64,8 @@ class UploadController extends AbstractActionController
 
         // Set data
         $uploadForm->setData(array_merge(
-            $reqiest->getPost()->toArray(),
-            $request->getFiles()->toArray()
+            $reqiest->getPost()->toarray(),
+            $request->getFiles()->toarray()
         ));
         
         // Check if form is not valid

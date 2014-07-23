@@ -49,7 +49,7 @@ class VoteFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'InArray',
+                    'name'    => 'Inarray',
                     'options' => array(
                         'haystack' => array('up', 'down'),
                     ),

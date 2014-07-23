@@ -13,7 +13,7 @@ use Media\Storage\StorageManager;
 class StorageManagerFactory implements FactoryInterface
 {
     /**
-     * @var Array
+     * @var array
      */
     protected $storages = array(
         'Media\Storage\AmazonStorage',

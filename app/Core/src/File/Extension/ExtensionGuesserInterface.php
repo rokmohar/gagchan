@@ -1,7 +1,11 @@
 <?php
 
-namespace Core\File\MimeType;
+namespace Core\File\Extension;
 
+/**
+ * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
+ */
 interface ExtensionGuesserInterface
 {
     /**

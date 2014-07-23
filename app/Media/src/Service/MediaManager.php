@@ -19,7 +19,7 @@ use User\Entity\UserEntityInterface;
 class MediaManager implements MediaManagerInterface
 {
     /**
-     * @var Array
+     * @var array
      */
     protected $animationMimeType = array(
         'image/gif',
@@ -68,7 +68,7 @@ class MediaManager implements MediaManagerInterface
         }
         
         // Resize image
-        $this->resizeImage($file);
+        $file = $this->resizeImage($file);
         
         // Get unique slug
         $slug = $this->getUniqueSlug();
@@ -105,10 +105,7 @@ class MediaManager implements MediaManagerInterface
         CategoryEntityInterface $category
     ) {
         // Get thumbnail
-        $thumbnail = $this->copyImage($file);
-        
-        // Resize thumbnail
-        $this->resizeImage($thumbnail);
+        $thumbnail = $this->resizeImage($this->copyImage($file));
 
         // Get unique slug
         $slug = $this->getUniqueSlug();
@@ -154,6 +151,9 @@ class MediaManager implements MediaManagerInterface
         CategoryEntityInterface $category,
         UploadedImage $thumbnail = null
     ) {
+        // Update metadata
+        $this->updateMetadata($file);
+        
         // Media mapper
         $mediaMapper = $this->getMediaMapper();
         
@@ -200,7 +200,7 @@ class MediaManager implements MediaManagerInterface
     }
     
     /**
-     * Copy a file.
+     * Copy an image.
      * 
      * @param \Core\File\UploadedImage $file
      * 
@@ -213,24 +213,21 @@ class MediaManager implements MediaManagerInterface
 
         // Copy file contents
         copy($file, $temp);
-
-        // Return uploaded file
-        return new \Core\File\UploadedImage(
-            $temp,
-            $file->getOriginalName(),
-            $file->getMimeType(),
-            $file->getSize()
-        );
+        
+        // Create a copy
+        return new UploadedImage($temp);
     }
     
     /**
      * Resize an image.
      * 
      * @param \Core\File\UploadedImage $file
+     * @param int                      $height
+     * @param int                      $width
      * 
-     * @return \Media\Service\MediaManager
+     * @return \Core\File\UploadedImage
      */
-    protected function resizeImage(UploadedImage $file, $width = null, $height = null)
+    protected function resizeImage(UploadedImage $file, $height = null, $width = null)
     {
         // Get image
         $imagine = $this->getImagine();
@@ -243,11 +240,11 @@ class MediaManager implements MediaManagerInterface
         
         // Check if width is not given
         if (!is_integer($width) && is_integer($height)) {
-            // Set new width
+            // Calculate width
             $width = $size->getWidth() * $height / $size->getHeight();
         }
         else if (!is_integer($width)) {
-            // Set to default width
+            // Set to default
             $width = 460;
         }
         
@@ -257,30 +254,21 @@ class MediaManager implements MediaManagerInterface
             $height = $size->getHeight() * $width / $size->getWidth();
         }
         else if (!is_integer($height)) {
-            // Set default height
+            // Set default
             $height = 460;
         }
         
-        // Resize image
-        $image
-            ->resize(new Box($width, $height))
-            ->save($file->getPathname(), array(
-                'format' => 'jpg',
-            ))
-        ;
-        
-        // Get size
-        $newSize = $image->getSize();
-        
-        $file
-            ->setMimeType('image/jpeg')
-            ->setSize(filesize($file->getPathname()))
-            ->setWidth($newSize->getWidth())
-            ->setheight($newSize->getHeight())
-        ;
-        
-        return $this;
+        // Return image
+        return $image;
     }
+    
+    /**
+     * Update file metadata.
+     * 
+     * @param \Core\File\UploadedImage $file
+     * 
+     * @return \Core\File\UploadedImage
+     */
     
     /**
      * Get a unique slug.

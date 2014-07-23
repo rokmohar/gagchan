@@ -15,7 +15,7 @@ class StorageManager implements StorageManagerInterface
     protected $serviceLocator;
     
     /**
-     * @var Array
+     * @var array
      */
     protected $storages = array();
     

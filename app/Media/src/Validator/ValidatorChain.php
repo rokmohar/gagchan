@@ -30,12 +30,12 @@ class ValidatorChain extends AbstractValidator
     protected $guzzle;
     
     /**
-     * @var Array
+     * @var array
      */
     protected $options = array();
     
     /**
-     * @var Array
+     * @var array
      */
     protected $validators = array();
     
