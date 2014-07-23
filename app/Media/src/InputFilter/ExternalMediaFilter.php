@@ -48,18 +48,18 @@ class ExternalMediaFilter extends AbstractMediaFilter
                             'options' => array(
                                 'extension' => array(
                                     'gif',
-                                    'jpg',
                                     'jpeg',
-                                    'png'
+                                    'jpg',
+                                    'png',
                                 ),
                             ),
                         ),
                         array(
                             'name'    => 'Zend\Validator\File\ImageSize',
                             'options' => array(
-                                'minWidth'  => 160,
-                                'minHeight' => 160,
-                                'maxWidth'  => 1280,
+                                'minWidth'  => 80,
+                                'minHeight' => 80,
+                                'maxWidth'  => 2560,
                                 'maxHeight' => 2560,
                             ),
                         ),

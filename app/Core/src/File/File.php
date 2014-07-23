@@ -33,16 +33,6 @@ class File extends \SplFileInfo
     {
         return pathinfo($this->getBasename(), PATHINFO_EXTENSION);
     }
-    
-    /**
-     * @return string
-     */
-    public function getMimeType()
-    {
-        $guesser = MimeTypeGuesser::getInstance();
-
-        return $guesser->guess($this->getPathname());
-    }
 
     /**
      * @param string $name
@@ -85,7 +75,17 @@ class File extends \SplFileInfo
     {
         $guesser = ExtensionGuesser::getInstance();
 
-        return $guesser->guess($this->getMimeType());
+        return $guesser->guess($this->guessMimeType());
+    }
+    
+    /**
+     * @return string
+     */
+    public function guessMimeType()
+    {
+        $guesser = MimeTypeGuesser::getInstance();
+
+        return $guesser->guess($this->getPathname());
     }
     
     /**

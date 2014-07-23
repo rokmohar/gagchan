@@ -33,11 +33,6 @@ class MediaEntity implements MediaEntityInterface
     protected $thumbnail;
     
     /**
-     * @var string
-     */
-    protected $featured;
-    
-    /**
      * @var int
      */
     protected $userId;
@@ -92,8 +87,10 @@ class MediaEntity implements MediaEntityInterface
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+        $this->isEnabled  = false;
+        $this->isFeatured = false;
+        $this->createdAt  = new \DateTime();
+        $this->updatedAt  = new \DateTime();
     }
     
     /**
@@ -375,6 +372,8 @@ class MediaEntity implements MediaEntityInterface
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        
+        return $this;
     }
     
     /**
@@ -385,5 +384,7 @@ class MediaEntity implements MediaEntityInterface
     public function preUpdate()
     {
         $this->setUpdatedAt(new \DateTime());
+        
+        return $this;
     }
 }

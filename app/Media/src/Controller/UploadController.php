@@ -6,7 +6,7 @@ use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use Core\File\UploadedImage;
+use Core\File\UploadedFile;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -64,46 +64,45 @@ class UploadController extends AbstractActionController
 
         // Set data
         $uploadForm->setData(array_merge(
-            $reqiest->getPost()->toarray(),
+            $request->getPost()->toarray(),
             $request->getFiles()->toarray()
         ));
         
         // Check if form is not valid
-        if ($uploadForm->isValid()) {
+        if (!$uploadForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'uploadForm' => $uploadForm,
             ));
         }
         
-        // Get posted data
-        $data = $uploadForm->getData();
+        // Get data
+        $media = $uploadForm->getData();
 
         // Get posted data
-        $filedata = $uploadForm->get('file')->getValue();
-
-        // Get category
-        $category = $this->getCategoryMapper()->selectRowById(
-            $data->getCategoryId()
+        $file = $uploadForm->get('file')->getValue();
+        
+        // Create uploaded image
+        $image = new UploadedFile(
+            $file['tmp_name'],
+            $file['name'],
+            $file['type'],
+            $file['size'],
+            $file['error']
         );
+        
+        // Set user
+        $media->setUserId($this->user()->getIdentity()->getId());
 
-        // Get user
-        $user = $this->user()->getIdentity();
-
+        // Set category
+        $media->setCategoryId($uploadForm->get('category')->getValue());
+        
         // Media manager
         $mediaManager = $this->getMediaManager();
 
-        // Create uploaded image
-        $file = new UploadedImage(
-            $filedata['tmp_name'],
-            $filedata['name'],
-            $filedata['type'],
-            $filedata['size']
-        );
-
         // Upload image
-        $mediaManager->uploadImage($file, $data->getName(), $user, $category);
-
+        $mediaManager->uploadImage($image, $media);
+        
         // Redirect to route
         return $this->redirect()->toRoute('home');
     }
@@ -152,22 +151,17 @@ class UploadController extends AbstractActionController
                 'externalForm' => $externalForm,
             ));
         }
-        // Get posted data
-        $data = $externalForm->getData();
+        // Get data
+        $media = $externalForm->getData();
 
         // Get posted data
         $url = $externalForm->get('url')->getValue();
 
-        // Get category
-        $category = $this->getCategoryMapper()->selectRowById(
-            $data->getCategoryId()
-        );
+        // Set user
+        $media->setUserId($this->user()->getIdentity()->getId());
 
-        // Get user
-        $user = $this->user()->getIdentity();
-
-        // Media manager
-        $mediaManager = $this->getMediaManager();
+        // Set category
+        $media->setCategoryId($externalForm->get('category')->getValue());
 
         // Temporary file
         $temp = tempnam(sys_get_temp_dir(), '');
@@ -177,21 +171,20 @@ class UploadController extends AbstractActionController
 
         // Image size
         $size = getimagesize($temp);
-
+        
         // Create uploaded image
-        $file = new UploadedImage(
+        $file = new UploadedFile(
             $temp,
             basename($url),
             image_type_to_mime_type($size[2]),
             filesize($temp)
         );
 
-        // Set size
-        $file->setWidth($size[0]);
-        $file->setHeight($size[1]);
+        // Media manager
+        $mediaManager = $this->getMediaManager();
 
         // Upload image
-        $mediaManager->uploadImage($file, $data->getName(), $user, $category);
+        $mediaManager->uploadImage($file, $media);
 
         // Redirect to route
         return $this->redirect()->toRoute('home');

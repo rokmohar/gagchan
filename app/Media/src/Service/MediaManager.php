@@ -2,15 +2,13 @@
 
 namespace Media\Service;
 
-use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
+use Imagine\Gd\Imagine;
 
-use Core\File\UploadedImage;
-use Category\Entity\CategoryEntityInterface;
-use Media\Entity\MediaEntity;
+use Core\File\UploadedFile;
+use Media\Entity\MediaEntityInterface;
 use Media\Mapper\MediaMapperInterface;
 use Media\Storage\StorageManagerInterface;
-use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -21,9 +19,7 @@ class MediaManager implements MediaManagerInterface
     /**
      * @var array
      */
-    protected $animationMimeType = array(
-        'image/gif',
-    );
+    protected $animation = array('image/gif');
     
     /**
      * @var \Imagine\Gd\Imagine
@@ -56,186 +52,217 @@ class MediaManager implements MediaManagerInterface
      * {@inheritDoc}
      */
     public function uploadImage(
-        UploadedImage $file,
-        $name,
-        UserEntityInterface $user,
-        CategoryEntityInterface $category
+        UploadedFile $file,
+        MediaEntityInterface $media
     ) {
         // Check if image is animation
-        if (in_array($file->getMimeType(), $this->animationMimeType)) {
+        if (in_array($file->guessMimeType(), $this->animation)) {
             // Upload animation
-            return $this->uploadAnimation($file, $name, $user, $category);
+            return $this->uploadAnimation($file, $media);
         }
         
         // Resize image
         $file = $this->resizeImage($file);
         
-        // Get unique slug
-        $slug = $this->getUniqueSlug();
+        // Set slug
+        $media->setSlug($this->generateSlug());
         
-        // Insert image data into DB
-        $this->insertData($file, $slug, $name, $user, $category);
+        // Update metadata
+        $this->updateMetadata($media, $file);
         
-        // Storage
+        // Insert data
+        $this->insertData($file, $media);
+        
+        // Get storage
         $storage = $this->getStorageManager()->getStorage('amazon');
         
-        // Upload file to the storage
+        // Upload image
         $storage->putFile(
-            sprintf("photo/%s_460s.%s", $slug, $file->guessExtension()),
-            $file
+            sprintf("photo/%s_460s.%s", $media->getSlug(), $file->guessExtension()),
+            $file,
+            $media
         );
         
         return $this;
     }
     
     /**
-     * Upload file to the storage.
+     * Upload animation image.
      * 
-     * @param \Core\File\UploadedImage                 $file
-     * @param string                                   $name
-     * @param \User\Entity\UserEntityInterface         $user
-     * @param \Category\Entity\CategoryEntityInterface $category
+     * @param \Core\File\UploadedFile            $file
+     * @param \Media\Entity\MediaEntityInterface $media
      * 
      * @return \Media\Service\MediaManagerInterface
      */
-    protected function uploadAnimation(
-        UploadedImage $file,
-        $name,
-        UserEntityInterface $user,
-        CategoryEntityInterface $category
+    public function uploadAnimation(
+        UploadedFile $file,
+        MediaEntityInterface $media
     ) {
         // Get thumbnail
         $thumbnail = $this->resizeImage($this->copyImage($file));
+        
+        // Set slug
+        $media->setSlug($this->generateSlug());
+        
+        // Update metadata
+        $this->updateMetadata($media, $file);
 
-        // Get unique slug
-        $slug = $this->getUniqueSlug();
+        // Insert data
+        $this->insertData($file, $media, $thumbnail);
 
-        // Insert image data into DB
-        $this->insertData($file, $slug, $name, $user, $category, $thumbnail);
-
-        // Storage
+        // Get storage
         $storage = $this->getStorageManager()->getStorage('amazon');
 
-        // Upload file to the storage
+        // Upload image
         $storage->putFile(
-            sprintf("photo/%s_460sa_v1.%s", $slug, $file->guessExtension()),
-            $file
+            sprintf("photo/%s_460sa_v1.%s", $media->getSlug(), $file->guessExtension()),
+            $file,
+            $media
         );
 
-        // Upload thumbnail to the storage
+        // Upload thumbnail
         $storage->putFile(
-            sprintf("photo/%s_460s_v1.%s", $slug, $thumbnail->guessExtension()),
-            $thumbnail
+            sprintf("photo/%s_460s_v1.%s", $media->getSlug(), $thumbnail->guessExtension()),
+            $thumbnail,
+            $media
         );
 
-        return $this;
-    }
-    
-    /**
-     * Insert a row to data storage.
-     * 
-     * @param \Core\File\UploadedImage                 $file
-     * @param string                                   $slug
-     * @param string                                   $name
-     * @param \User\Entity\UserEntityInterface         $user
-     * @param \Category\Entity\CategoryEntityInterface $category
-     * @param \Core\File\UploadedImage                 $thumbnail
-     * 
-     * @return \Media\Service\MediaManager
-     */
-    protected function insertData(
-        UploadedImage $file,
-        $slug,
-        $name,
-        UserEntityInterface $user,
-        CategoryEntityInterface $category,
-        UploadedImage $thumbnail = null
-    ) {
-        // Update metadata
-        $this->updateMetadata($file);
-        
-        // Media mapper
-        $mediaMapper = $this->getMediaMapper();
-        
-        // Create an entity
-        $media = new MediaEntity();
-        
-        // Set data
-        $media->setSlug($slug);
-        $media->setName($name);
-        
-        // Check if image is animation
-        if (in_array($file->getMimeType(), $this->animationMimeType)) {
-            // Set reference
-            $media->setReference(
-                sprintf("/photo/%s_460sa_v1.%s", $slug, $file->guessExtension())
-            );
-
-            // Set thumbnail
-            $media->setThumbnail(
-                sprintf("/photo/%s_460s_v1.%s", $slug, $thumbnail->guessExtension())
-            );
-        }
-        else {
-            // Set reference
-            $media->setReference(
-                sprintf("/photo/%s_460s.%s", $slug, $file->guessExtension())
-            );
-        }
-        
-        // Set identifier
-        $media->setUserId($user->getId());
-        $media->setCategoryId($category->getId());
-        
-        // Set image data
-        $media->setWidth($file->getWidth());
-        $media->setHeight($file->getHeight());
-        $media->setSize($file->getSize());
-        $media->setContentType($file->getMimeType());
-        
-        // Insert a row
-        $mediaMapper->insertRow($media);
-        
         return $this;
     }
     
     /**
      * Copy an image.
      * 
-     * @param \Core\File\UploadedImage $file
+     * @param \Core\File\UploadedFile $file
      * 
-     * @return \Core\File\UploadedImage
+     * @return \Core\File\UploadedFile
      */
-    protected function copyImage(UploadedImage $file)
+    protected function copyImage(UploadedFile $file)
     {
         // Temporary file
-        $temp = tempnam(sys_get_temp_dir(), '');
+        if (!$temp = tempnam(sys_get_temp_dir(), '')) {
+            // Throw an exception
+            throw new \RuntimeException("Could not create a temporary file.");
+        }
 
-        // Copy file contents
-        copy($file, $temp);
+        // Copy contents
+        if (!copy($file, $temp)) {
+            // Throw an exception
+            throw new \RuntimeException(
+                sprintf("Could not copy file \"%s\"."), $file->getFilename()
+            );
+        }
         
         // Create a copy
-        return new UploadedImage($temp);
+        return new UploadedFile(
+            $temp,
+            $file->getClientOriginalName(),
+            $file->getClientMimeType(),
+            $file->getClientSize(),
+            $file->getError()
+        );
+    }
+    
+    /**
+     * Get a unique slug.
+     * 
+     * @return string
+     */
+    protected function generateSlug()
+    {
+        // Generate a slug
+        $slug = $this->generateString(8);
+        
+        // Media mapper
+        $mediaMapper = $this->getMediaMapper();
+        
+        // Check if slug is unique
+        if ($mediaMapper->isUniqueSlug($slug) === true) {
+            // Return unique slug
+            return $slug;
+        }
+        
+        // Generate a new slug
+        return $this->generateSlug();
+    }
+        
+    /**
+     * Generate a random string.
+     * 
+     * @param int $length
+     * 
+     * @return string
+     */
+    protected function generateString($length = 8)
+    {
+        $chars  = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $string = '';
+        
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+
+        return $string;
+    }
+    
+    /**
+     * Insert a row.
+     * 
+     * @param \Core\File\UploadedFile            $file
+     * @param \Media\Entity\MediaEntityInterface $media
+     * @param \Core\File\UploadedFile            $thumbnail
+     * 
+     * @return \Media\Service\MediaManager
+     */
+    protected function insertData(
+        UploadedFile $file,
+        MediaEntityInterface $media,
+        UploadedFile $thumbnail = null
+    ) {
+        // Check if image is animation
+        if (in_array($file->guessMimeType(), $this->animation)) {
+            // Set reference
+            $media->setReference(
+                sprintf("/photo/%s_460sa_v1.%s", $media->getSlug(), $file->guessExtension())
+            );
+
+            // Set thumbnail
+            $media->setThumbnail(
+                sprintf("/photo/%s_460s_v1.%s", $media->getSlug(), $thumbnail->guessExtension())
+            );
+        }
+        else {
+            // Set reference
+            $media->setReference(
+                sprintf("/photo/%s_460s.%s", $media->getSlug(), $file->guessExtension())
+            );
+        }
+        
+        // Get media mapper
+        $mediaMapper = $this->getMediaMapper();
+        
+        // Insert a row
+        return $mediaMapper->insertRow($media);
     }
     
     /**
      * Resize an image.
      * 
-     * @param \Core\File\UploadedImage $file
-     * @param int                      $height
-     * @param int                      $width
+     * @param \Core\File\UploadedFile $file
+     * @param int                     $height
+     * @param int                     $width
      * 
-     * @return \Core\File\UploadedImage
+     * @return \Core\File\UploadedFile
      */
-    protected function resizeImage(UploadedImage $file, $height = null, $width = null)
+    protected function resizeImage(UploadedFile $file, $height = null, $width = null)
     {
         // Get image
         $imagine = $this->getImagine();
         
-        // Open image file with imagine
+        // Open image
         $image = $imagine->open($file->getPathname());
         
-        // Get image sizes
+        // Get size
         $size = $image->getSize();
         
         // Check if width is not given
@@ -258,58 +285,46 @@ class MediaManager implements MediaManagerInterface
             $height = 460;
         }
         
+        // Resize image
+        $image
+            ->resize(new Box($width, $height))
+            ->save($file->getPathname(), array(
+                'format' => 'jpg',
+            ))
+        ;
+        
         // Return image
-        return $image;
+        return $file;
     }
     
     /**
-     * Update file metadata.
+     * Update metadata.
      * 
-     * @param \Core\File\UploadedImage $file
+     * @param \Media\Entity\MediaEntityInterface $media
+     * @param \Core\File\UploadedFile            $file
      * 
-     * @return \Core\File\UploadedImage
+     * @return \Media\Service\MediaManager
      */
-    
-    /**
-     * Get a unique slug.
-     * 
-     * @return string
-     */
-    protected function getUniqueSlug()
-    {
-        // Generate a slug
-        $slug = $this->getRandomstring(8);
+    protected function updateMetadata(
+        MediaEntityInterface $media,
+        UploadedFile $file
+    ) {
+        // Get imagine
+        $imagine = $this->getImagine();
         
-        // Media mapper
-        $mediaMapper = $this->getMediaMapper();
+        // Open image
+        $image = $imagine->open($file->getPathname());
         
-        // Check if slug is unique
-        if ($mediaMapper->isUniqueSlug($slug) === true) {
-            // Return unique slug
-            return $slug;
-        }
+        // Get size
+        $size = $image->getSize();
         
-        // Generate a new slug
-        return $this->getUniqueSlug();
-    }
+        // Set data
+        $media->setHeight($size->getHeight());
+        $media->setWidth($size->getWidth());
+        $media->setSize($file->getSize());
+        $media->setContentType($file->guessMimeType());
         
-    /**
-     * Generate a random string.
-     * 
-     * @param int $length
-     * 
-     * @return string
-     */
-    protected function getRandomstring($length = 8)
-    {
-        $chars  = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $string = '';
-        
-        for ($i = 0; $i < $length; $i++) {
-            $string .= $chars[mt_rand(0, strlen($chars) - 1)];
-        }
-
-        return $string;
+        return $this;
     }
     
     /**

@@ -2,9 +2,8 @@
 
 namespace Media\Service;
 
-use Core\File\UploadedImage;
-use Category\Entity\CategoryEntityInterface;
-use User\Entity\UserEntityInterface;
+use Core\File\UploadedFile;
+use Media\Entity\MediaEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -13,29 +12,25 @@ use User\Entity\UserEntityInterface;
 interface MediaManagerInterface
 {
     /**
-     * Upload file to the storage.
+     * Upload an image.
      * 
-     * @param \Core\File\UploadedImage                 $file
-     * @param string                                   $name
-     * @param \User\Entity\UserEntityInterface         $user
-     * @param \Category\Entity\CategoryEntityInterface $category
+     * @param \Core\File\UploadedFile            $file
+     * @param \Media\Entity\MediaEntityInterface $media
      */
     public function uploadImage(
-        UploadedImage $file,
-        $name,
-        UserEntityInterface $user,
-        CategoryEntityInterface $category
+        UploadedFile $file,
+        MediaEntityInterface $media
     );
     
     /**
-     * Get media mapper.
+     * Return the media mapper.
      * 
      * @return \Media\Mapper\MediaMapperInterface
      */
     public function getMediaMapper();
     
     /**
-     * Get storage manager.
+     * Return the storage manager.
      * 
      * @return \Media\Storage\StorageMapperInterface
      */
