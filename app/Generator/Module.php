@@ -45,6 +45,7 @@ class Module implements
                 'generator.form.generator'   => 'Generator\Factory\Form\GeneratorFormFactory',
                 'generator.options.module' => 'Generator\Factory\Options\ModuleOptionsFactory',
                 'generator.util.module' => 'Generator\Factory\Util\MemeGeneratorFactory',
+                'generator.mapper.generator' => 'Generator\Factory\Mapper\GeneratorMapperFactory',
             ),
         );
     }

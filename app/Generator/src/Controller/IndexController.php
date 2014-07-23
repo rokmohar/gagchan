@@ -17,6 +17,12 @@ class IndexController extends AbstractActionController
      */    
     protected $generatorForm;
     
+    
+    /**
+     * @var \Generator\Mapper\GeneratorMapper
+     */
+    protected $generatorMapper;    
+    
     /**
      * @return array 
      */
@@ -64,6 +70,28 @@ class IndexController extends AbstractActionController
     }
     
     /**
+     * @return array 
+     */    
+    public function prototypeAction()
+    {
+        // Amazon storage
+        $aws = $this->serviceLocator->get('aws');
+        $client = $aws->get('s3');      
+        
+        $iterator = $client->getIterator('ListObjects', array(
+            'Bucket' => 'gagchan.dev/photo_prototype',
+        ));
+
+        foreach ($iterator as $object) {
+            echo $object['Key'] . "\n";
+        }
+        
+      //  $this->getGeneratorMapper()->insertRow($data);
+        
+        die();
+    }
+    
+    /**
      * Process the image
      * 
      * @param array $data
@@ -95,5 +123,19 @@ class IndexController extends AbstractActionController
         
         return $this->generatorForm;
     }
+    
+    /**
+     * @return \Generator\Mapper\GeneratorMapperFactory
+     */
+    public function getMediaMapper()
+    {
+        if ($this->generatorMapper === null) {
+            return $this->generatorMapper = $this->getServiceLocator()->get(
+                'generator.mapper.generator'
+            );
+        }
+        
+        return $this->generatorMapper;
+    }    
     
 }
