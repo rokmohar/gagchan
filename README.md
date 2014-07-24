@@ -2,7 +2,7 @@ To do
 ================================================================================
 - Import error template
 - Add navigation logic
-- Optimize styles
+- Optimize styles - DONE
 - Add meme delay
 
 Modules

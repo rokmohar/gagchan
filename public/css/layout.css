@@ -284,7 +284,10 @@ h1, h2, h3, h4, h5, h6 {
  * =============================================================================
  **/
 .widget {
-    margin-bottom: 20px;
+    margin: 0 0 20px;
+    padding: 0;
+    
+    display: block;
 }
 
 .widget-title {
@@ -326,11 +329,41 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #sidebar > .meme-listing > .meme > .meme-title {
-    margin-top: 10px;
-    margin-bottom: 0;
+    margin: 10px 0 0;
+    padding: 0;
     
     font-size: 14px;
     line-height: 18px;
+}
+
+#sidebar .quicknav,
+#sidebar .quicknav > li {
+    margin: 0;
+    padding: 0;
+    
+    display: block;
+}
+    
+#sidebar .quicknav {
+    margin-bottom: 20px;
+}
+
+#sidebar .quicknav > li {
+    margin-right: 10px;
+    
+    float: left;
+}
+
+#sidebar .quicknav > li ,
+#sidebar .quicknav > li > a {
+    color: #999999;
+    text-decoration: none;
+}
+
+#sidebar .quicknav > li > a:focus,
+#sidebar .quicknav > li > a:hover {
+    color: #999999;
+    text-decoration: underline;
 }
 
 /**
