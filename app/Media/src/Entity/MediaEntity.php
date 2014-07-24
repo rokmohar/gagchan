@@ -66,12 +66,17 @@ class MediaEntity implements MediaEntityInterface
     /**
      * @var bool
      */
-    protected $isEnabled;
+    protected $isFeatured;
     
     /**
-     * @var bool
+     * @var int
      */
-    protected $isFeatured;
+    protected $state;
+    
+    /**
+     * @var \DateTime
+     */
+    protected $delayAt;
     
     /**
      * @var \DateTime
@@ -88,8 +93,8 @@ class MediaEntity implements MediaEntityInterface
      */
     public function __construct()
     {
-        $this->isEnabled  = false;
         $this->isFeatured = false;
+        $this->state      = MediaEntity::STATE_DISABLED;
         $this->createdAt  = new \DateTime();
         $this->updatedAt  = new \DateTime();
     }
@@ -103,7 +108,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -121,7 +126,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param string $slug
+     * {@inheritDoc}
      */
     public function setSlug($slug)
     {
@@ -139,7 +144,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function setName($name)
     {
@@ -157,7 +162,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param string $reference
+     * {@inheritDoc}
      */
     public function setReference($reference)
     {
@@ -175,7 +180,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param string $thumbnail
+     * {@inheritDoc}
      */
     public function setThumbnail($thumbnail)
     {
@@ -193,7 +198,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param int $userId
+     * {@inheritDoc}
      */
     public function setUserId($userId)
     {
@@ -211,7 +216,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param int $categoryId
+     * {@inheritDoc}
      */
     public function setCategoryId($categoryId)
     {
@@ -229,7 +234,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param int $height
+     * {@inheritDoc}
      */
     public function setHeight($height)
     {
@@ -247,7 +252,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param int $width
+     * {@inheritDoc}
      */
     public function setWidth($width)
     {
@@ -265,7 +270,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param int $size
+     * {@inheritDoc}
      */
     public function setSize($size)
     {
@@ -283,7 +288,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param string $contentType
+     * {@inheritDoc}
      */
     public function setContentType($contentType)
     {
@@ -291,25 +296,7 @@ class MediaEntity implements MediaEntityInterface
         
         return $this;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function isEnabled()
-    {
-        return $this->isEnabled;
-    }
-    
-    /**
-     * @param bool $isEnabled
-     */
-    public function setIsEnabled($isEnabled)
-    {
-        $this->isEnabled = $isEnabled;
-        
-        return $this;
-    }
-    
+     
     /**
      * {@inheritDoc}
      */
@@ -319,11 +306,47 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param bool $isFeatured
+     * {@inheritDoc}
      */
     public function setIsFeatured($isFeatured)
     {
         $this->isFeatured = $isFeatured;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getDelayAt()
+    {
+        return $this->delayAt;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function setDelayAt(\DateTime $delayAt = null)
+    {
+        $this->delayAt = $delayAt;
         
         return $this;
     }
@@ -337,7 +360,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -355,7 +378,7 @@ class MediaEntity implements MediaEntityInterface
     }
     
     /**
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

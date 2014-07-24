@@ -61,9 +61,7 @@ class UserEntity implements UserEntityInterface
     }
 
     /**
-     * Set the identifier.
-     * 
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -81,9 +79,7 @@ class UserEntity implements UserEntityInterface
     }
 
     /**
-     * Set the username.
-     * 
-     * @param string $username
+     * {@inheritDoc}
      */
     public function setUsername($username)
     {
@@ -101,9 +97,7 @@ class UserEntity implements UserEntityInterface
     }
 
     /**
-     * Set the email address.
-     * 
-     * @param string $email
+     * {@inheritDoc}
      */
     public function setEmail($email)
     {
@@ -121,9 +115,7 @@ class UserEntity implements UserEntityInterface
     }
 
     /**
-     * Set the password.
-     * 
-     * @param string $password
+     * {@inheritDoc}
      */
     public function setPassword($password)
     {
@@ -141,9 +133,7 @@ class UserEntity implements UserEntityInterface
     }
     
     /**
-     * Set the state.
-     * 
-     * @param int $state
+     * {@inheritDoc}
      */
     public function setState($state)
     {
@@ -161,7 +151,7 @@ class UserEntity implements UserEntityInterface
     }
     
     /**
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -177,7 +167,7 @@ class UserEntity implements UserEntityInterface
     }
     
     /**
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

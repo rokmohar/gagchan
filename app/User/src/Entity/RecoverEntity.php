@@ -78,9 +78,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set the identifier.
-     * 
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -98,9 +96,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set the user identifier.
-     * 
-     * @param int $userId
+     * {@inheritDoc}
      */
     public function setUserId($userId)
     {
@@ -118,9 +114,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set the email address.
-     * 
-     * @param string $email
+     * {@inheritDoc}
      */
     public function setEmail($email)
     {
@@ -138,9 +132,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set the remote address.
-     * 
-     * @param string $remoteAddress
+     * {@inheritDoc}
      */
     public function setRemoteAddress($remoteAddress)
     {
@@ -158,9 +150,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set the requested at date.
-     * 
-     * @param \DateTime $requestedAt
+     * {@inheritDoc}
      */
     public function setRequestAt(\DateTime $requestedAt)
     {
@@ -178,9 +168,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set the request token.
-     * 
-     * @param string $requestToken
+     * {@inheritDoc}
      */
     public function setRequestToken($requestToken)
     {
@@ -198,9 +186,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set recovered at date.
-     * 
-     * @param \DateTime $recoveredAt
+     * {@inheritDoc}
      */
     public function setRecoveredAt(\DateTime $recoveredAt = null)
     {
@@ -218,9 +204,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set whether is recovered.
-     * 
-     * @param bool $isRecovered
+     * {@inheritDoc}
      */
     public function setIsRecovered($isRecovered)
     {
@@ -238,9 +222,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set created at date.
-     * 
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -258,9 +240,7 @@ class RecoverEntity implements RecoverEntityInterface
     }
     
     /**
-     * Set updated at date.
-     * 
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

@@ -56,9 +56,7 @@ class VoteEntity implements VoteEntityInterface
     }
     
     /**
-     * Set the identifier.
-     * 
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -76,9 +74,7 @@ class VoteEntity implements VoteEntityInterface
     }
     
     /**
-     * Set the media identifier.
-     * 
-     * @param int $mediaId
+     * {@inheritDoc}
      */
     public function setMediaId($mediaId)
     {
@@ -96,9 +92,7 @@ class VoteEntity implements VoteEntityInterface
     }
     
     /**
-     * Set the user identifier.
-     * 
-     * @param int $userId
+     * {@inheritDoc}
      */
     public function setUserId($userId)
     {
@@ -116,9 +110,7 @@ class VoteEntity implements VoteEntityInterface
     }
     
     /**
-     * Set the type.
-     * 
-     * @param string $type
+     * {@inheritDoc}
      */
     public function setType($type)
     {
@@ -136,9 +128,7 @@ class VoteEntity implements VoteEntityInterface
     }
     
     /**
-     * Set created at datetime.
-     * 
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -156,9 +146,7 @@ class VoteEntity implements VoteEntityInterface
     }
     
     /**
-     * Set updated at datetime.
-     * 
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

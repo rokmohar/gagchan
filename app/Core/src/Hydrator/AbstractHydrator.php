@@ -28,7 +28,7 @@ abstract class AbstractHydrator extends ClassMethods
             // Get data type
             $type = $this->dataMap[$key];
             
-            if ($type == 'DateTime' && !empty($data[$key])) {
+            if ($type == 'DateTime' && !is_null($data[$key])) {
                 // Format date
                 $data[$key] = $data[$key]->format("Y-m-d H:i:s");
             }
@@ -53,27 +53,21 @@ abstract class AbstractHydrator extends ClassMethods
             // Get data type
             $type = $this->dataMap[$key];
             
-            if ($type == 'boolean' || $type == 'bool') {
+            if ($type == 'boolean' && !is_null($data[$key])) {
                 // Convert to boolean
                 $data[$key] = (bool) $data[$key];
             }
-            else if ($type == 'integer' || $type == 'int') {
+            else if ($type == 'integer' && !is_null($data[$key])) {
                 // Convert to integer
                 $data[$key] = (int) $data[$key];
             }
-            else if ($type == 'string') {
+            else if ($type == 'string' && !is_null($data[$key])) {
                 // Convert to string
                 $data[$key] = (string) $data[$key];
             }
-            else if ($type == 'DateTime') {
+            else if ($type == 'DateTime' && !is_null($data[$key])) {
                 // Convert to date
                 $data[$key] = new \DateTime($data[$key]);
-            }
-            else {
-                // Throw an exception
-                throw new \RuntimeException(
-                    sprintf("Data for key \"%s\" could not be converted.", $key)
-                );
             }
         }
         

@@ -25,8 +25,9 @@ class MediaHydrator extends AbstractHydrator
         'width'        => 'integer',
         'size'         => 'integer',
         'content_type' => 'string',
-        'is_enabled'   => 'boolean',
         'is_featured'  => 'boolean',
+        'state'        => 'integer',
+        'delay_at'     => 'DateTime',
         'created_at'   => 'DateTime',
         'updated_at'   => 'DateTime',
     );

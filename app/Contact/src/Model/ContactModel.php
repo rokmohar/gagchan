@@ -37,9 +37,7 @@ class ContactModel implements ContactModelInterface
     }
     
     /**
-     * Set the remote address.
-     * 
-     * @param string $remoteAddress
+     * {@inheritDoc}
      */
     public function setRemoteAddress($remoteAddress)
     {
@@ -57,9 +55,7 @@ class ContactModel implements ContactModelInterface
     }
     
     /**
-     * Set the email address.
-     * 
-     * @param string $email
+     * {@inheritDoc}
      */
     public function setEmail($email)
     {
@@ -77,9 +73,7 @@ class ContactModel implements ContactModelInterface
     }
     
     /**
-     * Set the subject.
-     * 
-     * @param string $subject
+     * {@inheritDoc}
      */
     public function setSubject($subject)
     {
@@ -97,9 +91,7 @@ class ContactModel implements ContactModelInterface
     }
     
     /**
-     * Set the message.
-     * 
-     * @return string $message
+     * {@inheritDoc}
      */
     public function setMessage($message)
     {

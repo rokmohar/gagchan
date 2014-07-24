@@ -76,7 +76,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -94,7 +94,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param string $slug
+     * {@inheritDoc}
      */
     public function setSlug($slug)
     {
@@ -112,7 +112,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function setName($name)
     {
@@ -130,7 +130,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param string $reference
+     * {@inheritDoc}
      */
     public function setReference($reference)
     {
@@ -148,7 +148,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param int $height
+     * {@inheritDoc}
      */
     public function setHeight($height)
     {
@@ -166,7 +166,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param int $width
+     * {@inheritDoc}
      */
     public function setWidth($width)
     {
@@ -184,7 +184,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param int $size
+     * {@inheritDoc}
      */
     public function setSize($size)
     {
@@ -202,7 +202,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param string $contentType
+     * {@inheritDoc}
      */
     public function setContentType($contentType)
     {
@@ -220,7 +220,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -238,7 +238,7 @@ class PrototypeEntity implements PrototypeEntityInterface
     }
     
     /**
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

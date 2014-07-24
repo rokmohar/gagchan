@@ -78,9 +78,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     }
     
     /**
-     * Set the identifier.
-     * 
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -98,9 +96,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     }
     
     /**
-     * Set the user identifier.
-     * 
-     * @param int $userId
+     * {@inheritDoc}
      */
     public function setUserId($userId)
     {
@@ -118,9 +114,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     }
     
     /**
-     * Set the email address.
-     * 
-     * @param string $email
+     * {@inheritDoc}
      */
     public function setEmail($email)
     {
@@ -138,9 +132,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     }
     
     /**
-     * Set the remote address.
-     * 
-     * @param string $remoteAddress
+     * {@inheritDoc}
      */
     public function setRemoteAddress($remoteAddress)
     {
@@ -158,9 +150,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     }
     
     /**
-     * Set the request at date.
-     * 
-     * @param \DateTime $requestAt
+     * {@inheritDoc}
      */
     public function setRequestAt(\DateTime $requestAt)
     {
@@ -178,9 +168,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     }
     
     /**
-     * Set the request token.
-     * 
-     * @param string $requestToken
+     * {@inheritDoc}
      */
     public function setRequestToken($requestToken)
     {
@@ -198,9 +186,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     }
     
     /**
-     * Set confirmed at date.
-     * 
-     * @param \DateTime $confirmedAt
+     * {@inheritDoc}
      */
     public function setConfirmedAt(\DateTime $confirmedAt = null)
     {

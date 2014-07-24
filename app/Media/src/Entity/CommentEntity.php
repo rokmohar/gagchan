@@ -47,9 +47,7 @@ class CommentEntity implements CommentEntityInterface
     }
     
     /**
-     * Set the identifier.
-     * 
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -67,9 +65,7 @@ class CommentEntity implements CommentEntityInterface
     }
     
     /**
-     * Set the media identifier.
-     * 
-     * @param int $mediaId
+     * {@inheritDoc}
      */
     public function setMediaId($mediaId)
     {
@@ -87,9 +83,7 @@ class CommentEntity implements CommentEntityInterface
     }
     
     /**
-     * Set the user identifier.
-     * 
-     * @param int $userId
+     * {@inheritDoc}
      */
     public function setUserId($userId)
     {
@@ -107,9 +101,7 @@ class CommentEntity implements CommentEntityInterface
     }
     
     /**
-     * Set the comment text.
-     * 
-     * @param string $comment
+     * {@inheritDoc}
      */
     public function setComment($comment)
     {
@@ -127,9 +119,7 @@ class CommentEntity implements CommentEntityInterface
     }
     
     /**
-     * Set created at datetime.
-     * 
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -147,9 +137,7 @@ class CommentEntity implements CommentEntityInterface
     }
     
     /**
-     * Set updated at datetime.
-     * 
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

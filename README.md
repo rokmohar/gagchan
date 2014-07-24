@@ -2,8 +2,6 @@ To do
 ================================================================================
 - Import error template
 - Add navigation logic
-- Optimize styles - DONE
-- Add meme delay
 - Make generator grid responsive
 - Add titles on pages
 

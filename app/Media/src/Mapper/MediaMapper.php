@@ -84,6 +84,9 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
             ->order($order)
         ;
         
+        // Condition for delay
+        $select->where('`delay_at` IS NULL OR `delay_at` <= \'' . date("Y-m-d H:i:s") . '\'');
+        
         // Get result set
         $resultSet = new HydratingResultSet(
             $this->getHydrator(),

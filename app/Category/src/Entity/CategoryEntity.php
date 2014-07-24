@@ -56,9 +56,7 @@ class CategoryEntity implements CategoryEntityInterface
     }
     
     /**
-     * Set the identifier.
-     * 
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -76,9 +74,7 @@ class CategoryEntity implements CategoryEntityInterface
     }
     
     /**
-     * Set the unique slug.
-     * 
-     * @param string $slug
+     * {@inheritDoc}
      */
     public function setSlug($slug)
     {
@@ -96,9 +92,7 @@ class CategoryEntity implements CategoryEntityInterface
     }
     
     /**
-     * Set the name.
-     * 
-     * @param string $name
+     * {@inheritDoc}
      */
     public function setName($name)
     {
@@ -116,9 +110,7 @@ class CategoryEntity implements CategoryEntityInterface
     }
     
     /**
-     * Set the priority.
-     * 
-     * @param int $priority
+     * {@inheritDoc}
      */
     public function setPriority($priority)
     {
@@ -134,9 +126,7 @@ class CategoryEntity implements CategoryEntityInterface
     }
     
     /**
-     * Set created at datetime.
-     * 
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -154,9 +144,7 @@ class CategoryEntity implements CategoryEntityInterface
     }
     
     /**
-     * Set updated at datetime.
-     * 
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

@@ -56,9 +56,7 @@ class OAuthEntity implements OAuthEntityInterface
     }
     
     /**
-     * Set the identifier.
-     * 
-     * @param int $id
+     * {@inheritDoc}
      */
     public function setId($id)
     {
@@ -74,9 +72,7 @@ class OAuthEntity implements OAuthEntityInterface
     }
     
     /**
-     * Set the user identifier.
-     * 
-     * @param int $userId
+     * {@inheritDoc}
      */
     public function setUserId($userId)
     {
@@ -94,9 +90,7 @@ class OAuthEntity implements OAuthEntityInterface
     }
     
     /**
-     * Set the provider.
-     * 
-     * @param string $provider
+     * {@inheritDoc}
      */
     public function setProvider($provider)
     {
@@ -114,9 +108,7 @@ class OAuthEntity implements OAuthEntityInterface
     }
     
     /**
-     * Set the provider identifier.
-     * 
-     * @param string $providerId
+     * {@inheritDoc}
      */
     public function setProviderId($providerId)
     {
@@ -134,9 +126,7 @@ class OAuthEntity implements OAuthEntityInterface
     }
     
     /**
-     * Set created at date.
-     * 
-     * @param \DateTime $createdAt
+     * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -154,9 +144,7 @@ class OAuthEntity implements OAuthEntityInterface
     }
     
     /**
-     * Set updated at date.
-     * 
-     * @param \DateTime $updatedAt
+     * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {

@@ -8,6 +8,12 @@ namespace Media\Entity;
  */
 interface MediaEntityInterface
 {
+    /**#@+*/
+    const STATE_CONFIRMED   = 1;
+    const STATE_UNCONFIRMED = 2;
+    const STATE_DISABLED    = 3;
+    /**#@-*/
+    
     /**
      * Return the identifier.
      * 
@@ -163,20 +169,6 @@ interface MediaEntityInterface
     public function setContentType($contentType);
     
     /**
-     * Check whether media is enabled.
-     * 
-     * @return bool
-     */
-    public function isEnabled();
-    
-    /**
-     * Set whether media is enabled.
-     * 
-     * @param bool $isEnabled
-     */
-    public function setIsEnabled($isEnabled);
-    
-    /**
      * Check whether media is featured.
      * 
      * @return bool
@@ -189,6 +181,34 @@ interface MediaEntityInterface
      * @param bool $isFeatured
      */
     public function setIsFeatured($isFeatured);
+    
+    /**
+     * Return the state.
+     * 
+     * @return int
+     */
+    public function getState();
+    
+    /**
+     * Set the state.
+     * 
+     * @param int $state
+     */
+    public function setState($state);
+    
+    /**
+     * Return the delay at date.
+     * 
+     * @return \DateTime
+     */
+    public function getDelayAt();
+    
+    /**
+     * Set the delay at date.
+     * 
+     * @param \DateTime|null $delayAt
+     */
+    public function setDelayAt(\DateTime $delayAt  = null);
     
     /**
      * Return created at date.
