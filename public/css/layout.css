@@ -280,7 +280,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 20px;
 }
 
-.widget > .widget-title {
+.widget-title {
     margin-top: 0;
     margin-bottom: 20px;
     
@@ -432,14 +432,6 @@ h1, h2, h3, h4, h5, h6 {
  * #Login & Sign Up Style
  * =============================================================================
  **/
-.login-title {
-    margin-top: 0px;
-    margin-bottom: 20px;
-    
-    font-size: 24px;
-    line-height: 24px;
-}
-
 .form-row {
     margin-bottom: 10px;
 }
@@ -603,7 +595,7 @@ h1, h2, h3, h4, h5, h6 {
  * #GIF Style
  * =============================================================================
  **/
-span.play {
+.play {
     margin-top: -30px;
     margin-left: -30px;
     
@@ -627,20 +619,6 @@ span.play {
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
-}
-
-/**
- * =============================================================================
- * #Privacy policy Style
- * =============================================================================
- **/
-.form-row.privacy {
-    font-size: 14px;
-    line-height: 20px;
-}
-
-.privacy-title {
-    margin-bottom: 20px;
 }
 
 /**
