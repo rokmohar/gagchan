@@ -32,8 +32,8 @@ class GeneratorHelper extends AbstractHelper
         PrototypeMapperInterface $prototypeMapper,
         ModuleOptions $options
     ) {
-        $this->mediaMapper   = $prototypeMapper;
-        $this->options       = $options;
+        $this->mediaMapper  = $prototypeMapper;
+        $this->options      = $options;
     }
     
     /**
