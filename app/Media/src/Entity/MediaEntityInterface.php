@@ -11,9 +11,16 @@ interface MediaEntityInterface
     /**
      * Return the identifier.
      * 
-     * @param int
+     * @return int
      */
     public function getId();
+    
+    /**
+     * Set the identifier.
+     * 
+     * @param int $id
+     */
+    public function setId($id);
     
     /**
      * Return the slug.
@@ -23,11 +30,25 @@ interface MediaEntityInterface
     public function getSlug();
     
     /**
+     * Set the slug.
+     * 
+     * @param string $slug
+     */
+    public function setSlug($slug);
+    
+    /**
      * Return the name.
      * 
-     * @param string
+     * @return string
      */
     public function getName();
+    
+    /**
+     * Set the name.
+     * 
+     * @param string $name
+     */
+    public function setName($name);
     
     /**
      * Return the reference.
@@ -37,11 +58,25 @@ interface MediaEntityInterface
     public function getReference();
     
     /**
+     * Set the reference.
+     * 
+     * @param string $reference
+     */
+    public function setReference($reference);
+    
+    /**
      * Return the thumbnail.
      * 
      * @return string
      */
     public function getThumbnail();
+    
+    /**
+     * Set the thumbnail.
+     * 
+     * @param string $thumbnail
+     */
+    public function setThumbnail($thumbnail);
     
     /**
      * Return the user identifier.
@@ -51,6 +86,13 @@ interface MediaEntityInterface
     public function getUserId();
     
     /**
+     * Set the user identifier.
+     * 
+     * @param int $userId
+     */
+    public function setUserId($userId);
+    
+    /**
      * Return the category identifier.
      * 
      * @return int
@@ -58,25 +100,53 @@ interface MediaEntityInterface
     public function getCategoryId();
     
     /**
-     * Return width in pixels.
+     * Set the category identifier.
      * 
-     * @param int
+     * @param int $categoryId
      */
-    public function getWidth();
+    public function setCategoryId($categoryId);
     
     /**
-     * Return height in pixels.
+     * Return the height.
      * 
-     * @param int
+     * @return int
      */
     public function getHeight();
     
     /**
-     * Return size in bytes.
+     * Set the height.
+     * 
+     * @param int $height
+     */
+    public function setHeight($height);
+    
+    /**
+     * Return the width.
+     * 
+     * @return int
+     */
+    public function getWidth();
+    
+    /**
+     * Set the width.
+     * 
+     * @param int $width
+     */
+    public function setWidth($width);
+    
+    /**
+     * Return the size.
      * 
      * @return int
      */
     public function getSize();
+    
+    /**
+     * Set the size.
+     * 
+     * @param int $size
+     */
+    public function setSize($size);
     
     /**
      * Return the content type.
@@ -86,18 +156,39 @@ interface MediaEntityInterface
     public function getContentType();
     
     /**
-     * Check if media is enabled.
+     * Set the content type.
+     * 
+     * @param string $contentType
+     */
+    public function setContentType($contentType);
+    
+    /**
+     * Check whether media is enabled.
      * 
      * @return bool
      */
     public function isEnabled();
     
     /**
-     * Check if media is featured.
+     * Set whether media is enabled.
+     * 
+     * @param bool $isEnabled
+     */
+    public function setIsEnabled($isEnabled);
+    
+    /**
+     * Check whether media is featured.
      * 
      * @return bool
      */
     public function isFeatured();
+    
+    /**
+     * Set whether media is featured.
+     * 
+     * @param bool $isFeatured
+     */
+    public function setIsFeatured($isFeatured);
     
     /**
      * Return created at date.
@@ -107,9 +198,23 @@ interface MediaEntityInterface
     public function getCreatedAt();
     
     /**
+     * Set created at date.
+     * 
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt);
+    
+    /**
      * Return updated at date.
      * 
      * @return \DateTime
      */
     public function getUpdatedAt();
+    
+    /**
+     * Set updated at date.
+     * 
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt);
 }

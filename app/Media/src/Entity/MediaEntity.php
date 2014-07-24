@@ -4,6 +4,7 @@ namespace Media\Entity;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class MediaEntity implements MediaEntityInterface
 {
@@ -45,12 +46,12 @@ class MediaEntity implements MediaEntityInterface
     /**
      * @var int
      */
-    protected $width;
+    protected $height;
     
     /**
      * @var int
      */
-    protected $height;
+    protected $width;
     
     /**
      * @var int
@@ -222,24 +223,6 @@ class MediaEntity implements MediaEntityInterface
     /**
      * {@inheritDoc}
      */
-    public function getWidth()
-    {
-        return $this->width;
-    }
-    
-    /**
-     * @param int $width
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public function getHeight()
     {
         return $this->height;
@@ -251,6 +234,24 @@ class MediaEntity implements MediaEntityInterface
     public function setHeight($height)
     {
         $this->height = $height;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+    
+    /**
+     * @param int $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
         
         return $this;
     }
@@ -302,7 +303,7 @@ class MediaEntity implements MediaEntityInterface
     /**
      * @param bool $isEnabled
      */
-    public function setEnabled($isEnabled)
+    public function setIsEnabled($isEnabled)
     {
         $this->isEnabled = $isEnabled;
         
@@ -320,7 +321,7 @@ class MediaEntity implements MediaEntityInterface
     /**
      * @param bool $isFeatured
      */
-    public function setFeatured($isFeatured)
+    public function setIsFeatured($isFeatured)
     {
         $this->isFeatured = $isFeatured;
         

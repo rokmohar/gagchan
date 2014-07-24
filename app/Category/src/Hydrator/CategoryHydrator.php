@@ -14,6 +14,10 @@ class CategoryHydrator extends AbstractHydrator
      * @var array
      */
     protected $dataMap = array(
+        'id'         => 'integer',
+        'slug'       => 'string',
+        'name'       => 'string',
+        'priority'   => 'integer',
         'created_at' => 'DateTime',
         'updated_at' => 'DateTime',
     );

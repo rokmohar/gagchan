@@ -14,6 +14,10 @@ class VoteHydrator extends AbstractHydrator
      * @var array
      */
     protected $dataMap = array(
+        'id'         => 'integer',
+        'media_id'   => 'integer',
+        'user_id'    => 'integer',
+        'type'       => 'string',
         'created_at' => 'DateTime',
         'updated_at' => 'DateTime',
     );

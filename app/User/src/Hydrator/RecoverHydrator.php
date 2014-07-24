@@ -14,10 +14,15 @@ class RecoverHydrator extends AbstractHydrator
      * @var array
      */
     protected $dataMap = array(
-        'request_at'   => 'DateTime',
-        'recovered_at' => 'DateTime',
-        'is_recovered' => 'boolean',
-        'created_at'   => 'DateTime',
-        'updated_at'   => 'DateTime',
+        'id'             => 'integer',
+        'user_id'        => 'integer',
+        'email'          => 'string',
+        'remote_address' => 'string',
+        'request_at'     => 'DateTime',
+        'request_token'  => 'string',
+        'recovered_at'   => 'DateTime',
+        'is_recovered'   => 'boolean',
+        'created_at'     => 'DateTime',
+        'updated_at'     => 'DateTime',
     );
 }

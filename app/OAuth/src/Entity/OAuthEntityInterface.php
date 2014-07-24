@@ -16,11 +16,25 @@ interface OAuthEntityInterface
     public function getId();
     
     /**
+     * Set the identifier.
+     * 
+     * @param int $id
+     */
+    public function setId($id);
+    
+    /**
      * Return the user identifier.
      * 
      * @return int
      */
     public function getUserId();
+    
+    /**
+     * Set the user identifier.
+     * 
+     * @param int $userId
+     */
+    public function setUserId($userId);
     
     /**
      * Return the provider.
@@ -30,11 +44,25 @@ interface OAuthEntityInterface
     public function getProvider();
     
     /**
+     * Set the provider.
+     * 
+     * @param string $provider
+     */
+    public function setProvider($provider);
+    
+    /**
      * Return the provider identifier.
      * 
      * @return string
      */
     public function getProviderId();
+    
+    /**
+     * Return the provider identifier.
+     * 
+     * @return string $providerId
+     */
+    public function setProviderId($providerId);
     
     /**
      * Return created at date.
@@ -44,9 +72,23 @@ interface OAuthEntityInterface
     public function getCreatedAt();
     
     /**
+     * Set created at date.
+     * 
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt);
+    
+    /**
      * Return updated at date.
      * 
      * @return \DateTime
      */
     public function getUpdatedAt();
+    
+    /**
+     * Set updated at date.
+     * 
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt);
 }

@@ -31,12 +31,12 @@ class PrototypeEntity implements PrototypeEntityInterface
     /**
      * @var int
      */
-    protected $width;
+    protected $height;
     
     /**
      * @var int
      */
-    protected $height;
+    protected $width;
     
     /**
      * @var int
@@ -142,24 +142,6 @@ class PrototypeEntity implements PrototypeEntityInterface
     /**
      * {@inheritDoc}
      */
-    public function getWidth()
-    {
-        return $this->width;
-    }
-    
-    /**
-     * @param int $width
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public function getHeight()
     {
         return $this->height;
@@ -171,6 +153,24 @@ class PrototypeEntity implements PrototypeEntityInterface
     public function setHeight($height)
     {
         $this->height = $height;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+    
+    /**
+     * @param int $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
         
         return $this;
     }

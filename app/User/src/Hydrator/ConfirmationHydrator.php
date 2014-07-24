@@ -14,10 +14,15 @@ class ConfirmationHydrator extends AbstractHydrator
      * @var array
      */
     protected $dataMap = array(
-        'request_at'   => 'DateTime',
-        'confirmed_at' => 'DateTime',
-        'is_confirmed' => 'boolean',
-        'created_at'   => 'DateTime',
-        'updated_at'   => 'DateTime',
+        'id'             => 'integer',
+        'user_id'        => 'integer',
+        'email'          => 'string',
+        'remote_address' => 'string',
+        'request_at'     => 'DateTime',
+        'request_token'  => 'string',
+        'confirmed_at'   => 'DateTime',
+        'is_confirmed'   => 'boolean',
+        'created_at'     => 'DateTime',
+        'updated_at'     => 'DateTime',
     );
 }

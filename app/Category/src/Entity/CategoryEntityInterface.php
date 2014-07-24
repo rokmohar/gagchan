@@ -16,18 +16,39 @@ interface CategoryEntityInterface
     public function getId();
     
     /**
-     * Return the unique slug.
+     * Set the identifier.
+     * 
+     * @param int $id
+     */
+    public function setId($id);
+    
+    /**
+     * Return the slug.
      * 
      * @return string
      */
     public function getSlug();
     
     /**
-     * Return the resource name.
+     * Set the slug.
+     * 
+     * @return string $slug
+     */
+    public function setSlug($slug);
+    
+    /**
+     * Return the name.
      * 
      * @return string
      */
     public function getName();
+    
+    /**
+     * Set the name.
+     * 
+     * @param string $name
+     */
+    public function setName($name);
     
     /**
      * Return the priority.
@@ -37,16 +58,37 @@ interface CategoryEntityInterface
     public function getPriority();
     
     /**
-     * Return created at datetime.
+     * Set the priority.
+     * 
+     * @param int $priority
+     */
+    public function setPriority($priority);
+    
+    /**
+     * Return created at date.
      * 
      * @return \DateTime
      */
     public function getCreatedAt();
     
     /**
-     * Return updated at datetime.
+     * Set create at date.
+     * 
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt);
+    
+    /**
+     * Return updated at date.
      * 
      * @return \DateTime
      */
     public function getUpdatedAt();
+    
+    /**
+     * Set updated at date.
+     * 
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt);
 }

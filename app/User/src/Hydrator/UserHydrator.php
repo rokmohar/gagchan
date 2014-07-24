@@ -14,8 +14,11 @@ class UserHydrator extends AbstractHydrator
      * @var array
      */
     protected $dataMap = array(
-        'is_enabled'   => 'boolean',
-        'is_confirmed' => 'boolean',
+        'id'           => 'integer',
+        'username'     => 'string',
+        'email'        => 'string',
+        'password'     => 'string',
+        'state'        => 'integer',
         'created_at'   => 'DateTime',
         'updated_at'   => 'DateTime',
     );

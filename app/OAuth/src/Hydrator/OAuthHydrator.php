@@ -14,7 +14,11 @@ class OAuthHydrator extends AbstractHydrator
      * @var array
      */
     protected $dataMap = array(
-        'created_at' => 'DateTime',
-        'updated_at' => 'DateTime',
+        'id'          => 'integer',
+        'user_id'     => 'integer',
+        'provider'    => 'string',
+        'provider_id' => 'string',
+        'created_at'  => 'DateTime',
+        'updated_at'  => 'DateTime',
     );
 }

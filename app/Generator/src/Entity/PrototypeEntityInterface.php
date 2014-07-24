@@ -11,9 +11,16 @@ interface PrototypeEntityInterface
     /**
      * Return the identifier.
      * 
-     * @param int
+     * @return int
      */
     public function getId();
+    
+    /**
+     * Set the identifier.
+     * 
+     * @param int $id
+     */
+    public function setId($id);
     
     /**
      * Return the slug.
@@ -23,11 +30,25 @@ interface PrototypeEntityInterface
     public function getSlug();
     
     /**
+     * Set the slug.
+     * 
+     * @param string $slug
+     */
+    public function setSlug($slug);
+    
+    /**
      * Return the name.
      * 
-     * @param string
+     * @return string
      */
     public function getName();
+    
+    /**
+     * Set the name.
+     * 
+     * @param string $name
+     */
+    public function setName($name);
     
     /**
      * Return the reference.
@@ -37,25 +58,53 @@ interface PrototypeEntityInterface
     public function getReference();
     
     /**
-     * Return width in pixels.
+     * Set the reference.
      * 
-     * @param int
+     * @param string $reference
      */
-    public function getWidth();
+    public function setReference($reference);
     
     /**
-     * Return height in pixels.
+     * Return the height.
      * 
-     * @param int
+     * @return int
      */
     public function getHeight();
     
     /**
-     * Return size in bytes.
+     * Set the width.
+     * 
+     * @param int $height
+     */
+    public function setHeight($height);
+    
+    /**
+     * Return the width.
+     * 
+     * @return int
+     */
+    public function getWidth();
+    
+    /**
+     * Set the width.
+     * 
+     * @param int $width
+     */
+    public function setWidth($width);
+    
+    /**
+     * Return the size.
      * 
      * @return int
      */
     public function getSize();
+    
+    /**
+     * Set the size.
+     * 
+     * @param int $size
+     */
+    public function setSize($size);
     
     /**
      * Return the content type.
@@ -65,6 +114,13 @@ interface PrototypeEntityInterface
     public function getContentType();
     
     /**
+     * Set the content type.
+     * 
+     * @return string $contentType
+     */
+    public function setContentType($contentType);
+    
+    /**
      * Return created at date.
      * 
      * @return \DateTime
@@ -72,9 +128,23 @@ interface PrototypeEntityInterface
     public function getCreatedAt();
     
     /**
+     * Set created at date.
+     * 
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt);
+    
+    /**
      * Return updated at date.
      * 
      * @return \DateTime
      */
     public function getUpdatedAt();
+    
+    /**
+     * Set updated at date.
+     * 
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt);
 }
