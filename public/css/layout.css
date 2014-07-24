@@ -178,14 +178,19 @@ h1, h2, h3, h4, h5, h6 {
 
 /**
  * =============================================================================
- * #Meme Style
+ * #Advertisement
  * =============================================================================
  **/
-.meme-listing > .adsbygoogle {
+.adsbygoogle {
     margin-bottom: 20px;
     overflow: hidden;
 }
 
+/**
+ * =============================================================================
+ * #Meme Style
+ * =============================================================================
+ **/
 .meme-listing > .meme {
     padding-bottom: 20px;
     border-bottom: 1px solid #d8d8d8;
@@ -200,17 +205,19 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 20px;
 }
 
-.meme > .meme-title {
-    margin-bottom: 10px;
-    
-    font-size: 24px;
-    line-height: 28px;
-}
-
 .meme > .meme-title,
 .meme > .meme-title > a {
+    margin: 0;
+    padding: 0;
+    
     color: #222222;
     font-family: 'Roboto Slab', serif;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.meme > .meme-title {
+    margin-bottom: 10px;
 }
 
 .meme > .meme-title > a:focus,
@@ -286,6 +293,16 @@ h1, h2, h3, h4, h5, h6 {
     
     font-size: 24px;
     line-height: 24px;
+}
+
+.widget-content {
+    margin: 0;
+    padding: 20px;
+    
+    background: #e8e8e8;
+    border-radius: 4px;
+    
+    text-align: center;
 }
 
 /**
@@ -526,7 +543,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pagination {
-    margin-top: 28px;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
@@ -535,22 +552,13 @@ h1, h2, h3, h4, h5, h6 {
  * #Pagination Style
  * =============================================================================
  */
-.sidenav {
-    margin: 0;
-    padding: 0;
-    
-    display: block;
-    float: none;
-}
-
+.sidenav,
 .sidenav > li {
     margin: 0;
     padding: 0;
     
     display: block;
-    float: none;
 }
-
 .sidenav > li > a {
     margin: 0;
     padding: 10px;
@@ -578,18 +586,6 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-/**
- * =============================================================================
- * #Contact Style
- * =============================================================================
- **/
-
-.contact-desc {
-    padding: 20px; 
-    background: #e8e8e8; 
-    border-radius: 4px; 
-    text-align: center;
-}
 /**
  * =============================================================================
  * #GIF Style
