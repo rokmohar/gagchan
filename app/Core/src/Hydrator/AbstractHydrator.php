@@ -28,7 +28,7 @@ abstract class AbstractHydrator extends ClassMethods
             // Get data type
             $type = $this->dataMap[$key];
             
-            if ($type == 'datetime' && !empty($data[$key])) {
+            if ($type == 'DateTime' && !empty($data[$key])) {
                 // Format date
                 $data[$key] = $data[$key]->format("Y-m-d H:i:s");
             }

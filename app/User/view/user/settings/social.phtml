@@ -1,0 +1,46 @@
+<section class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+    
+    <ul class="sidenav">
+        <li>
+            <a href="<?php echo $this->url('settings') ?>">Account</a>
+        </li>
+        <li>
+            <a href="<?php echo $this->url('settings/password') ?>">Password</a>
+        </li>
+        <li>
+            <a href="<?php echo $this->url('settings/social') ?>">Social Networks</a>
+        </li>
+    </ul>
+    
+</section>
+
+<section class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+    <?php foreach ($messages as $m): ?>
+        <div class="alert alert-success" role="alert"><?php echo $m ?></div>
+    <?php endforeach ?>
+
+    <div class="widget">
+        <h3 class="login-title">Facebook</h3>
+        
+        <?php if (empty($isFacebook)): ?>
+            Not connected.<br />
+            <br />
+            <a href="<?php echo $this->url('connect', array('provider' => 'facebook')) ?>" class="btn btn-primary">Connect now</a>
+        <?php else: ?>
+            You are connected.
+        <?php endif ?>
+    </div>
+
+    <div class="widget">
+        <h3 class="login-title">Google</h3>
+        
+        <?php if (empty($isGoogle)): ?>
+            Not connected.<br />
+            <br />
+            <a href="<?php echo $this->url('connect', array('provider' => 'google')) ?>" class="btn btn-primary">Connect now</a>
+        <?php else: ?>
+            You are connected.
+        <?php endif ?>
+    </div>
+</section>

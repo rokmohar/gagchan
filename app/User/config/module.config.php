@@ -78,6 +78,16 @@ return array(
                             ),
                         ),
                     ),
+                    'social' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/social',
+                            'defaults' => array(
+                                'controller' => 'User\SettingsController',
+                                'action'     => 'social',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'signup' => array(

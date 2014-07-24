@@ -76,6 +76,18 @@ class OAuthMapper extends AbstractMapper implements OAuthMapperInterface
     }
     
     /**
+     * Select rows by the user identifier.
+     * 
+     * @param int $userId
+     */
+    public function selectAllByUser($userId)
+    {
+        return $this->selectAll(array(
+            'user_id' => $userId,
+        ));
+    }
+    
+    /**
      * {@inheritDoc}
      */
     public function selectRow(array $where = array(), array $order = array())
@@ -102,6 +114,20 @@ class OAuthMapper extends AbstractMapper implements OAuthMapperInterface
         
         // Return result
         return $resultSet->current();
+    }
+    
+    /**
+     * Select row by the provider.
+     * 
+     * @param int    $userId
+     * @param string $provider
+     */
+    public function selectRowByProvider($userId, $provider)
+    {
+        return $this->selectRow(array(
+            'user_id'  => $userId,
+            'provider' => $provider,
+        ));
     }
     
     /**

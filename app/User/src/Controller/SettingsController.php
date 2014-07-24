@@ -19,6 +19,11 @@ class SettingsController extends AbstractActionController
     protected $accountSettingsForm;
     
     /**
+     * @var \OAuth\Mapper\OAuthMapperInterface
+     */
+    protected $oauthMapper;
+    
+    /**
      * @var \User\Form\PasswordSettingsForm
      */
     protected $passwordSettingsForm;
@@ -170,6 +175,39 @@ class SettingsController extends AbstractActionController
     }
     
     /**
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function socialAction()
+    {
+        // Check if user does not have identity
+        if ($this->user()->hasIdentity() === false) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+        
+        // Get flash messenger
+        $fm = $this->flashMessenger();
+        $fm->setNamespace('user.settings.index');
+        
+        // Get user
+        $user = $this->user()->getIdentity();
+        
+        // Get OAuth mapper
+        $oauthMapper = $this->getOAuthMapper();
+        
+        // Check connected providers
+        $isFacebook = $oauthMapper->selectRowByProvider($user->getId(), 'facebook');
+        $isGoogle   = $oauthMapper->selectRowByProvider($user->getId(), 'google');
+        
+        // Return view
+        return new ViewModel(array(
+            'messages'   => $fm->getMessages(),
+            'isFacebook' => $isFacebook,
+            'isGoogle'   => $isGoogle,
+        ));
+    }
+    
+    /**
      * Return the account settings form.
      * 
      * @return \User\Form\AccountSettingsForm
@@ -183,6 +221,22 @@ class SettingsController extends AbstractActionController
         }
         
         return $this->accountSettingsForm;
+    }
+    
+    /**
+     * Return the OAuth mapper.
+     * 
+     * @return \OAuth\Mapper\OAuthMapperInterface
+     */
+    public function getOAuthMapper()
+    {
+        if ($this->oauthMapper === null) {
+            return $this->oauthMapper = $this->getServiceLocator()->get(
+                'oauth.mapper.oauth'
+            );
+        }
+        
+        return $this->oauthMapper;
     }
     
     /**

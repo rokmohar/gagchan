@@ -70,14 +70,14 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
         // Get hybrid auth
         $hybridAuth = $this->getHybridAuth();
         
-        // Check if adapter is connected with provider
-        if (!$hybridAuth->isConnectedWith($provider)) {
+        // Check if provider is enabled
+        if (!array_key_exists($provider, $hybridAuth->getProviders())) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
-                    printf("Provider \"%s\" is not connected.", $provider),
+                    printf("Provider \"%s\" is not enabled.", $provider),
                 ))
             ;
             

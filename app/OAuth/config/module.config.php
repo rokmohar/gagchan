@@ -8,7 +8,6 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            // Connect
             'connect' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
@@ -22,7 +21,6 @@ return array(
                     ),
                 ),
             ),
-            // HybridAuth
             'hybridauth' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -33,7 +31,6 @@ return array(
                     ),
                 ),
             ),
-            // Log in
             'oauth' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
