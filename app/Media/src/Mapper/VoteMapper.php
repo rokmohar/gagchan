@@ -54,7 +54,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
         // Extract data
         $data = $this->getHydrator()->extract($vote);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

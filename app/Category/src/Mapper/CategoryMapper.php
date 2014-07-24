@@ -27,7 +27,7 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
         // Extract data
         $data = $this->getHydrator()->extract($category);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

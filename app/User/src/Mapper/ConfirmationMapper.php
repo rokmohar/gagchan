@@ -27,7 +27,7 @@ class ConfirmationMapper extends AbstractMapper implements ConfirmationMapperInt
         // Extract data
         $data = $this->getHydrator()->extract($confirmation);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

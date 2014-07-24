@@ -173,6 +173,52 @@ class IndexController extends AbstractActionController
         return $this->redirect()->toRoute('settings/social');
     }
     
+    
+    /**
+     * @return mixed
+     */
+    public function disconnectAction()
+    {
+        // Check if user does not have identity
+        if (!$this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+        
+        // Get user
+        $user = $this->user()->getIdentity();
+        
+        // Get provider
+        $provider = $this->params()->fromRoute('provider');
+        
+        // Get OAuth mapper
+        $oauthMapper = $this->getOAuthMapper();
+        
+        // Select row
+        $row = $oauthMapper->selectRowByProvider($user->getId(), $provider);
+        
+        // Check if user is connected
+        if (empty($row)) {
+            // Redirect to route
+            return $this->redirect()->toRoute('settings/social');
+        }
+        
+        // Remove a row
+        $oauthMapper->deleteRow($row);
+        
+        // Get hybrid auth
+        $hybridAuth = $this->getHybridAuth();
+        
+        // Check if provider is connected
+        if ($hybridAuth->isConnectedWith($provider)) {
+            // Logout provider
+            $hybridAuth->getAdapter($provider)->logout();
+        }
+        
+        // Redirect to route
+        return $this->redirect()->toRoute('settings/social');
+    }
+    
     /**
      * @return \Hybrid_Auth
      */

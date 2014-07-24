@@ -11,6 +11,13 @@ use OAuth\Entity\OAuthEntityInterface;
 interface OAuthMapperInterface
 {
     /**
+     * Delete a row.
+     * 
+     * @param \OAuth\Entity\OAuthEntityInterface $oauth
+     */
+    public function deleteRow(OAuthEntityInterface $oauth);
+    
+    /**
      * Insert a row.
      * 
      * @param \OAuth\Entity\OAuthEntityInterface $oauth

@@ -29,7 +29,7 @@ class PrototypeMapper extends AbstractMapper implements PrototypeMapperInterface
         // Extract data
         $data = $this->getHydrator()->extract($prototype);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

@@ -27,7 +27,7 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
         // Extract data
         $data = $this->getHydrator()->extract($user);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

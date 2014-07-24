@@ -65,7 +65,7 @@ class CommentMapper extends AbstractMapper implements CommentMapperInterface
         // Extract data
         $data = $this->getHydrator()->extract($comment);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

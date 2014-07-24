@@ -14,6 +14,29 @@ use OAuth\Entity\OAuthEntityInterface;
 class OAuthMapper extends AbstractMapper implements OAuthMapperInterface
 {
     /**
+     * 
+     * {@inheritDoc}
+     */
+    public function deleteRow(OAuthEntityInterface $oauth)
+    {
+        // Get delete
+        $delete = $this->getDelete();
+        
+        $delete
+            ->where(array(
+                'id' => $oauth->getId(),
+            ))
+        ;
+        
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($delete);
+        
+        // Execute statement
+        return $statement->execute();
+    }
+    
+    /**
+     * 
      * {@inheritDoc}
      */
     public function insertRow(OAuthEntityInterface $oauth)
@@ -27,7 +50,7 @@ class OAuthMapper extends AbstractMapper implements OAuthMapperInterface
         // Extract data
         $data = $this->getHydrator()->extract($oauth);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

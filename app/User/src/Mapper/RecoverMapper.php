@@ -27,7 +27,7 @@ class RecoverMapper extends AbstractMapper implements RecoverMapperInterface
         // Extract data
         $data = $this->getHydrator()->extract($recover);
         
-        // Get SQL insert
+        // Get insert
         $insert = $this->getInsert();
         
         $insert

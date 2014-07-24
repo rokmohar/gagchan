@@ -21,6 +21,19 @@ return array(
                     ),
                 ),
             ),
+            'disconnect' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route'    => '/disconnect/[:provider]',
+                    'defaults' => array(
+                        'controller' => 'OAuth\Index',
+                        'action'      => 'disconnect',
+                        'constraints' => array(
+                            'provider' => '[a-zA-Z]*',
+                        ),
+                    ),
+                ),
+            ),
             'hybridauth' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
