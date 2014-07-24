@@ -18,11 +18,12 @@ class ExternalMediaFilter extends AbstractMediaFilter
         // Add filters
         $this
             ->addUrl()
+            ->addDelayAt()
         ;
     }
     
     /**
-     * Add filter for form element.
+     * Add for the URL form element.
      * 
      * @return \Media\InputFilter\MediaFilter
      */

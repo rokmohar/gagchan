@@ -25,7 +25,7 @@ class VoteForm extends Form
     }
     
     /**
-     * Add slug form element.
+     * Add the slug element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -33,18 +33,16 @@ class VoteForm extends Form
     {
         $this->add(array(
             'name'    => 'slug',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Slug',
-            ),
-            'attributes' => array(
-                'type' => 'text',
             ),
         ));
         
         return $this;
     }
     /**
-     * Add type form element.
+     * Add the type element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -52,11 +50,9 @@ class VoteForm extends Form
     {
         $this->add(array(
             'name'    => 'type',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Type',
-            ),
-            'attributes' => array(
-                'type' => 'text',
             ),
         ));
         

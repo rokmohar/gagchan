@@ -21,11 +21,12 @@ class ExternalMediaForm extends AbstractMediaForm
         // Add elements
         $this
             ->addUrl()
+            ->addDelayAt()
         ;
     }
     
     /**
-     * Add media URL input field.
+     * Add the URL form element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -33,11 +34,11 @@ class ExternalMediaForm extends AbstractMediaForm
     {
         $this->add(array(
             'name'    => 'url',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'URL',
             ),
             'attributes' => array(
-                'type'        => 'text',
                 'class'       => 'form-control',
                 'placeholder' => 'URL',
             ),

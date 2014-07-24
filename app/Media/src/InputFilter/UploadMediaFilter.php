@@ -2,8 +2,6 @@
 
 namespace Media\InputFilter;
 
-use Zend\Filter\File\RenameUpload;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -20,11 +18,12 @@ class UploadMediaFilter extends AbstractMediaFilter
         // Add filters
         $this
             ->addFile()
+            ->addDelayAt()
         ;
     }
     
     /**
-     * Add filter for form element.
+     * Add filter for the file form element.
      * 
      * @return \Media\InputFilter\MediaFilter
      */

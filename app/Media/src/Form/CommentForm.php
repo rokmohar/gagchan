@@ -24,7 +24,7 @@ class CommentForm extends Form
     }
     
     /**
-     * Add comment text area.
+     * Add the comment element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -32,11 +32,11 @@ class CommentForm extends Form
     {
         $this->add(array(
             'name'    => 'comment',
+            'type'    => 'Zend\Form\Element\Textarea',
             'options' => array(
                 'label' => 'Your comment',
             ),
             'attributes' => array(
-                'type'        => 'textarea',
                 'class'       => 'form-control',
                 'style'       => 'resize: vertical;',
                 'placeholder' => 'Your comment',
@@ -47,7 +47,7 @@ class CommentForm extends Form
     }
     
     /**
-     * Add submit button.
+     * Add the submit element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -55,11 +55,11 @@ class CommentForm extends Form
     {
         $this->add(array(
             'name'    => 'submit',
+            'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
                 'label' => 'Submit',
             ),
             'attributes' => array(
-                'type'  => 'submit',
                 'class' => 'btn btn-primary',
             ),
         ));

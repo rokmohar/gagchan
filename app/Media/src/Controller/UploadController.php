@@ -94,9 +94,6 @@ class UploadController extends AbstractActionController
         // Set user
         $media->setUserId($this->user()->getIdentity()->getId());
 
-        // Set category
-        $media->setCategoryId($uploadForm->get('category')->getValue());
-        
         // Media manager
         $mediaManager = $this->getMediaManager();
 
@@ -161,9 +158,6 @@ class UploadController extends AbstractActionController
 
         // Set user
         $media->setUserId($this->user()->getIdentity()->getId());
-
-        // Set category
-        $media->setCategoryId($externalForm->get('category')->getValue());
 
         // Temporary file
         $temp = tempnam(sys_get_temp_dir(), '');

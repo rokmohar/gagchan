@@ -24,6 +24,7 @@ class UploadMediaForm extends AbstractMediaForm
         // Add elements
         $this
             ->addFile()
+            ->addDelayAt()
         ;
     }
     
@@ -36,13 +37,13 @@ class UploadMediaForm extends AbstractMediaForm
     {
         $this->add(array(
             'name'    => 'file',
+            'type'    => 'Zend\Form\Element\File',
             'options' => array(
-                'label' => 'Upload',
+                'label' => 'Select file',
             ),
             'attributes' => array(
-                'type'        => 'file',
                 'class'       => 'form-control',
-                'placeholder' => 'Upload',
+                'placeholder' => 'Select file',
             ),
         ));
         

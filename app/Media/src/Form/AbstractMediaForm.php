@@ -31,13 +31,13 @@ abstract class AbstractMediaForm extends Form
         // Add form elements
         $this
             ->addName()
-            ->addCategory()
+            ->addCategoryId()
             ->addSubmit()
         ;
     }
     
     /**
-     * Add media name input field.
+     * Add the name element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -46,11 +46,11 @@ abstract class AbstractMediaForm extends Form
         // Media name
         $this->add(array(
             'name'    => 'name',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Name',
             ),
             'attributes' => array(
-                'type'        => 'text',
                 'class'       => 'form-control',
                 'placeholder' => 'Name',
             ),
@@ -60,23 +60,25 @@ abstract class AbstractMediaForm extends Form
     }
     
     /**
-     * Add category dropdown.
+     * Add the category identifier element.
      * 
      * @param array $values
      * 
      * @return \Media\Form\MediaForm
      */
-    protected function addCategory(array $values = array())
+    protected function addCategoryId(array $values = array())
     {
         $result = $this->categoryMapper->selectAll();
         
-        foreach ($result as $category) {
-            $values[$category->getId()] = $category->getName();
+        // Add element values
+        foreach ($result as $r) {
+            // Add value for key
+            $values[$r->getId()] = $r->getName();
         }
         
         $this->add(array(
-            'type'    => 'select',
-            'name'    => 'category',
+            'name'    => 'category_id',
+            'type'    => 'Zend\Form\Element\Select',
             'options' => array(
                 'value_options' => $values,
                 'empty_option'  => 'Choose category ...',
@@ -90,7 +92,30 @@ abstract class AbstractMediaForm extends Form
     }
     
     /**
-     * Add submit button.
+     * Add the delay at element.
+     * 
+     * @return \Media\Form\MediaForm
+     */
+    public function addDelayAt()
+    {
+        $this->add(array(
+            'name'    => 'delay_at',
+            'type'    => 'Zend\Form\Element\DateTime',
+            'options' => array(
+                'label'  => 'Delay at',
+                'format' => 'Y-m-d H:i:s'
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Delay at',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the submit element.
      * 
      * @return \Media\Form\MediaForm
      */
@@ -98,11 +123,11 @@ abstract class AbstractMediaForm extends Form
     {
         $this->add(array(
             'name'    => 'submit',
+            'type'    => 'Zend\Form\Element\submit',
             'options' => array(
                 'label' => 'Upload',
             ),
             'attributes' => array(
-                'type'  => 'submit',
                 'class' => 'btn btn-primary',
             ),
         ));

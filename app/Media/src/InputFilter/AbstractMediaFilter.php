@@ -18,12 +18,12 @@ abstract class AbstractMediaFilter extends InputFilter
         // Add filters
         $this
             ->addName()
-            ->addCategory()
+            ->addCategoryId()
         ;
     }
     
     /**
-     * Add filter for form element.
+     * Add filter for the name element.
      * 
      * @return \Media\InputFilter\MediaFilter
      */
@@ -52,15 +52,30 @@ abstract class AbstractMediaFilter extends InputFilter
     }
     
     /**
-     * Add filter for form element.
+     * Add filter for the category element.
      * 
      * @return \Media\InputFilter\MediaFilter
      */
-    protected function addCategory()
+    protected function addCategoryId()
     {
         $this->add(array(
-            'name'     => 'category',
+            'name'     => 'category_id',
             'required' => true,
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add filter for the delay at form element.
+     * 
+     * @return \Media\InputFilter\MediaFilter
+     */
+    public function addDelayAt()
+    {
+        $this->add(array(
+            'name'     => 'delay_at',
+            'required' => false,
         ));
         
         return $this;

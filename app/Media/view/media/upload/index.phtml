@@ -2,53 +2,65 @@
 
     <div class="widget">
         <?php echo $this->form()->openTag($uploadForm) ?>
-            
-        <h3 class="widget-title">Upload from computer ...</h3>
 
-        <!-- #Name -->
-        <div class="form-row">
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-tag"></span>
-                </span>
-                <?php echo $this->formInput($uploadForm->get('name')) ?>
+            <h3 class="widget-title">Upload from computer ...</h3>
+
+            <!-- #Name -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-tag"></span>
+                    </span>
+                    <?php echo $this->formInput($uploadForm->get('name')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($uploadForm->get('name')) ?>
             </div>
 
-            <?php echo $this->formElementErrors($uploadForm->get('name')) ?>
-        </div>
-        
-        <?php if (!isset($tempFile)): ?>
-        
-        <!-- #File -->
-        <div class="form-row">
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-file"></span>
-                </span>
-                <?php echo $this->formFile($uploadForm->get('file')) ?>
+            <?php if (!isset($tempFile)): ?>
+
+            <!-- #File -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-file"></span>
+                    </span>
+                    <?php echo $this->formFile($uploadForm->get('file')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($uploadForm->get('file')) ?>
             </div>
 
-            <?php echo $this->formElementErrors($uploadForm->get('file')) ?>
-        </div>
-        
-        <?php endif ?>
+            <?php endif ?>
 
-        <!-- #Category -->
-        <div class="form-row">
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-flag"></span>
-                </span> 
-                <?php echo $this->formSelect($uploadForm->get('category')) ?>
+            <!-- #Category -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-flag"></span>
+                    </span> 
+                    <?php echo $this->formSelect($uploadForm->get('category_id')) ?>
+                </div>
+
+                <?php echo $this->formElementErrors($uploadForm->get('category_id')) ?>
             </div>
 
-            <?php echo $this->formElementErrors($uploadForm->get('category')) ?>
-        </div>
+            <!-- #Delay -->
+            <div class="form-row">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span> 
+                    <?php echo $this->formDateTime($uploadForm->get('delay_at')) ?>
+                </div>
 
-        <div class="input-group">
-            <?php echo $this->formButton($uploadForm->get('submit')) ?>
-        </div>
-            
+                <?php echo $this->formElementErrors($uploadForm->get('delay_at')) ?>
+            </div>
+
+            <div class="input-group">
+                <?php echo $this->formButton($uploadForm->get('submit')) ?>
+            </div>
+
         <?php echo $this->form()->closeTag() ?>
     </div>
     
