@@ -85,12 +85,12 @@ class MediaHelper extends AbstractHelper
         $user = $this->authService->getIdentity();
         
         // Check if user is not empty
-        if (empty($user) === false) {
+        if (!empty($user)) {
             // Select row from database
             $result = $this->voteMapper->selectRowByMedia($media, $user);
             
             // Return result
-            return (empty($result) === false) ? $result : null;
+            return !empty($result) ? $result : null;
         }
         
         return null;
@@ -105,7 +105,7 @@ class MediaHelper extends AbstractHelper
      */
     public function isVoteDown(VoteEntityInterface $vote = null)
     {
-        return ($vote !== null) ? ($vote->getType() === 'down') : false;
+        return !empty($vote) ? ($vote->getType() === 'down') : false;
     }
     
     /**
@@ -117,7 +117,7 @@ class MediaHelper extends AbstractHelper
      */
     public function isVoteUp(VoteEntityInterface $vote = null)
     {
-        return ($vote !== null) ? ($vote->getType() === 'up') : false;
+        return !empty($vote) ? ($vote->getType() === 'up') : false;
     }
     
     /**
@@ -134,9 +134,9 @@ class MediaHelper extends AbstractHelper
         
         // Check if thumbnail is required
         if (
-            $showAnimation === false &&
+            !$showAnimation &&
             $media->getContentType() === 'image/gif' &&
-            $media->getThumbnail() !== null
+            !empty($media->getThumbnail())
         ) {
             // Return thumbnail
             return $bucketUrl . $media->getThumbnail();

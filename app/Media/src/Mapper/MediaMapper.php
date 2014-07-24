@@ -68,7 +68,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     public function isUniqueSlug($slug)
     {
         // Check if no match exists
-        return (empty($this->selectRow(array('slug' => $slug))) === true);
+        return empty($this->selectRow(array('slug' => $slug)));
     }
     
     /**

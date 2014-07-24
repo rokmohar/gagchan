@@ -33,7 +33,7 @@ class IndexController extends AbstractActionController
         $category = $this->getCategoryMapper()->selectRowBySlug($slug);
         
         // Check if not match exists
-        if ($category === false) {
+        if (empty($category)) {
             // Category not found
             return $this->notFoundAction();
         }

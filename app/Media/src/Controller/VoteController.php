@@ -35,13 +35,13 @@ class VoteController extends AbstractActionController
         $request = $this->getRequest();
         
         // Check if request is not JSON
-        if ($request->isXmlHttpRequest() === false) {
+        if (!$request->isXmlHttpRequest()) {
             // Redirect user to home
             return $this->redirect()->toRoute('home');
         }
         
         // Check if page is not posted
-        if ($request->isPost() === false) {
+        if (!$request->isPost()) {
             // Return JSON
             return new JsonModel(array(
                 'result' => 'notPost',
@@ -55,7 +55,7 @@ class VoteController extends AbstractActionController
         $form->setData($request->getPost());
 
         // Validate form
-        if ($form->isValid() === false) {
+        if (!$form->isValid()) {
             // Return JSON
             return new JsonModel(array(
                 'result' => 'notValid',
@@ -69,7 +69,7 @@ class VoteController extends AbstractActionController
         $user = $this->user()->getIdentity();
         
         // Check if user is provided
-        if (empty($user) === true) {
+        if (empty($user)) {
             // Return JSON
             return new JsonModel(array(
                 'result' => 'notLoggedIn',

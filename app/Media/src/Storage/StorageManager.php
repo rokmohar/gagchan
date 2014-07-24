@@ -32,7 +32,7 @@ class StorageManager implements StorageManagerInterface
      */
     public function addStorage(StorageInterface $storage)
     {
-        if ($this->hasStorage($storage->getName()) === true) {
+        if ($this->hasStorage($storage->getName())) {
             throw new \InvalidArgumentException(
                 sprintf('Storage with name "%s" already exists.', $storage->getName())
             );
@@ -56,7 +56,7 @@ class StorageManager implements StorageManagerInterface
      */
     public function getStorage($name)
     {
-        if ($this->hasStorage($name) === false) {
+        if (!$this->hasStorage($name)) {
             throw new \InvalidArgumentException(
                 sprintf('Storage with name "%s" does not exist.', $name)
             );

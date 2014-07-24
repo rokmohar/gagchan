@@ -39,7 +39,7 @@ class SettingsController extends AbstractActionController
     public function accountAction()
     {
         // Check if user does not have identity
-        if ($this->user()->hasIdentity() === false) {
+        if (!$this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('login');
         }
@@ -79,7 +79,7 @@ class SettingsController extends AbstractActionController
         )));
         
         // Check if form is not valid
-        if ($settingsForm->isValid() === false) {
+        if (!$settingsForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'messages'     => array(),
@@ -103,7 +103,7 @@ class SettingsController extends AbstractActionController
     public function passwordAction()
     {
         // Check if user does not have identity
-        if ($this->user()->hasIdentity() === false) {
+        if (!$this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('login');
         }
@@ -140,7 +140,7 @@ class SettingsController extends AbstractActionController
         $settingsForm->setData($prg);
         
         // Check if form is not valid
-        if ($settingsForm->isValid() === false) {
+        if (!$settingsForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'messages'     => array(),
@@ -180,7 +180,7 @@ class SettingsController extends AbstractActionController
     public function socialAction()
     {
         // Check if user does not have identity
-        if ($this->user()->hasIdentity() === false) {
+        if (!$this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('login');
         }

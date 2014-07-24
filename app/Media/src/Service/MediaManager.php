@@ -177,7 +177,7 @@ class MediaManager implements MediaManagerInterface
         $mediaMapper = $this->getMediaMapper();
         
         // Check if slug is unique
-        if ($mediaMapper->isUniqueSlug($slug) === true) {
+        if (empty($mediaMapper->isUniqueSlug($slug))) {
             // Return unique slug
             return $slug;
         }

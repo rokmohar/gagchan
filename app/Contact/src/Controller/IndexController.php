@@ -54,7 +54,7 @@ class IndexController extends AbstractActionController
         $contactForm->setData($prg);
         
         // Check if form is not valid
-        if ($contactForm->isValid() === false) {
+        if (!$contactForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'form' => $contactForm,

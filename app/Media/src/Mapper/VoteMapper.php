@@ -95,7 +95,7 @@ class VoteMapper extends AbstractMapper implements VoteMapperInterface
         $row = $this->selectRow($where);
         
         // Check if no match exists
-        if (empty($row) === true) {
+        if (empty($row)) {
             // Insert a row
             return $this->insertRow($vote);
         }

@@ -116,7 +116,7 @@ class AuthenticationService implements
     {
         $storage = $this->getStorage();
 
-        return ($storage->isEmpty() === false) ? $storage->read() : null;
+        return !$storage->isEmpty() ? $storage->read() : null;
     }
 
     /**
@@ -210,7 +210,7 @@ class AuthenticationService implements
      */
     public function hasParam($name)
     {
-        return (isset($this->params[$name]) === true);
+        return isset($this->params[$name]);
     }
     
     /**

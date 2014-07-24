@@ -76,7 +76,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         }
         
         // Check if state is not confirmed
-        if ($user->getState() === UserEntityInterface::STATE_DISABLED) {
+        if ($user->getState() == UserEntityInterface::STATE_DISABLED) {
             // Set event parameters
             $event
                 ->setSatisfied(false)
@@ -92,7 +92,7 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
             // Authentication failed
             return false;
         }
-        else if ($user->getState() === UserEntityInterface::STATE_UNCONFIRMED) {
+        else if ($user->getState() == UserEntityInterface::STATE_UNCONFIRMED) {
             // Set event parameters
             $event
                 ->setSatisfied(false)

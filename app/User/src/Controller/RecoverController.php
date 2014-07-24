@@ -46,7 +46,7 @@ class RecoverController extends AbstractActionController
     public function requestAction()
     {
         // Check if user has identity
-        if ($this->user()->hasIdentity() === true) {
+        if ($this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('home');
         }
@@ -78,7 +78,7 @@ class RecoverController extends AbstractActionController
         $recoverForm->setData($prg);
 
         // Check if form is not valid
-        if ($recoverForm->isValid() === false) {
+        if (!$recoverForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'recoverForm' => $recoverForm,

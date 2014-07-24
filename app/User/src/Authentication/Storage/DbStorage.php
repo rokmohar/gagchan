@@ -56,7 +56,7 @@ class DbStorage implements ServiceManagerAwareInterface, ZendStorageInterface
             return true;
         }
         
-        if ($this->read() === null) {
+        if (empty($this->read())) {
             // Storage is empty
             return true;
         }
@@ -71,7 +71,7 @@ class DbStorage implements ServiceManagerAwareInterface, ZendStorageInterface
     public function read()
     {
         // Check if identity is resolved
-        if (empty($this->identity) === false) {
+        if (!empty($this->identity)) {
             // Return identity
             return $this->identity;
         }
@@ -80,7 +80,7 @@ class DbStorage implements ServiceManagerAwareInterface, ZendStorageInterface
         $identifier = $this->getStorage()->read();
         
         // Check if identifier is numeric
-        if (is_numeric($identifier) === true) {
+        if (is_numeric($identifier)) {
             // Resolve identity
             $identity = $this->getUserMapper()->selectRowById($identifier);
             

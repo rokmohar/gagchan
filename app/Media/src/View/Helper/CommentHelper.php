@@ -49,19 +49,19 @@ class CommentHelper extends AbstractHelper
         if (1 < $diff->y) {
             return sprintf("%s years ago", $diff->y);
         }
-        else if (1 === $diff->m) {
+        else if (1 == $diff->m) {
             return '1 month ago';
         }
         else if (1 < $diff->m) {
             return sprintf("%s months ago", $diff->m);
         }
-        else if (1 === $diff->d) {
+        else if (1 == $diff->d) {
             return '1 day ago';
         }
         else if (0 < $diff->d) {
             return sprintf("%s days ago", $diff->d);
         }
-        else if (1 === $diff->h) {
+        else if (1 == $diff->h) {
             return '1 hour ago';
         }
         else if (0 < $diff->h) {

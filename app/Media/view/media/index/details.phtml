@@ -113,7 +113,7 @@
 
         <?php $featured = $this->media()->getFeatured() ?>
         
-        <?php if (count($featured) === 0): ?>
+        <?php if (!count($featured)): ?>
             There is no media right now.
         <?php endif ?>
         

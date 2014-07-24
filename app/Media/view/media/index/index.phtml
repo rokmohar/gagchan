@@ -1,6 +1,6 @@
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12 meme-listing">
     
-    <?php if (count($media) === 0): ?>
+    <?php if (!count($media)): ?>
         There is no media right now.
     <?php endif ?>
     
@@ -73,7 +73,7 @@
         
         <?php $featured = $this->media()->getFeatured() ?>
         
-        <?php if (count($featured) === 0): ?>
+        <?php if (!count($featured)): ?>
             There is no media right now.
         <?php endif ?>
         
