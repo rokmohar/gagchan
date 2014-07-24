@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Gostitelj: 127.0.0.1:3306
--- Čas nastanka: 23. jul 2014 ob 18.36
+-- Čas nastanka: 24. jul 2014 ob 20.06
 -- Različica strežnika: 5.6.19
 -- Različica PHP: 5.5.13
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 `id` int(11) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `priority` int(11) NOT NULL DEFAULT '0',
+  `priority` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
@@ -65,24 +65,30 @@ CREATE TABLE IF NOT EXISTS `media` (
   `thumbnail` varchar(255) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `width` int(11) DEFAULT NULL,
   `height` int(11) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `content_type` varchar(64) DEFAULT NULL,
-  `is_enabled` tinyint(1) NOT NULL DEFAULT '1',
-  `is_featured` tinyint(1) NOT NULL DEFAULT '0',
+  `is_featured` tinyint(1) NOT NULL,
+  `state` smallint(4) NOT NULL,
+  `delay_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Odloži podatke za tabelo `media`
 --
 
-INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `thumbnail`, `user_id`, `category_id`, `width`, `height`, `size`, `content_type`, `is_enabled`, `is_featured`, `created_at`, `updated_at`) VALUES
-(1, 'kl7b8xyt', 'Hell yeah, I&#039;m on diet', '/photo/kl7b8xyt_460s.jpg', NULL, 1, 5, 460, 595, 46601, 'image/jpeg', 0, 0, '2014-07-17 15:29:35', '2014-07-17 15:29:35'),
-(2, 'qee8prrm', 'How do you know when you&#039;re middle-aged?', '/photo/qee8prrm_460s.jpg', NULL, 1, 9, 460, 389, 43736, 'image/jpeg', 0, 0, '2014-07-20 21:56:57', '2014-07-20 21:56:57'),
-(3, '3ga4cev7', 'Priorities', '/photo/3ga4cev7_460sa_v1.gif', '/photo/3ga4cev7_460s_v1.jpg', 1, 1, 375, 253, 1598728, 'image/gif', 1, 0, '2014-07-21 14:33:24', '2014-07-21 14:33:24');
+INSERT INTO `media` (`id`, `slug`, `name`, `reference`, `thumbnail`, `user_id`, `category_id`, `height`, `width`, `size`, `content_type`, `is_featured`, `state`, `delay_at`, `created_at`, `updated_at`) VALUES
+(1, 'kl7b8xyt', 'Hell yeah, I&#039;m on diet', '/photo/kl7b8xyt_460s.jpg', NULL, 1, 5, 595, 460, 46601, 'image/jpeg', 0, 1, NULL, '2014-07-17 15:29:35', '2014-07-17 15:29:35'),
+(2, 'qee8prrm', 'How do you know when you&#039;re middle-aged?', '/photo/qee8prrm_460s.jpg', NULL, 1, 9, 389, 460, 43736, 'image/jpeg', 0, 1, NULL, '2014-07-20 21:56:57', '2014-07-20 21:56:57'),
+(3, '3ga4cev7', 'Priorities', '/photo/3ga4cev7_460sa_v1.gif', '/photo/3ga4cev7_460s_v1.jpg', 1, 1, 253, 375, 1598728, 'image/gif', 0, 1, NULL, '2014-07-21 14:33:24', '2014-07-21 14:33:24'),
+(6, '0qdsffw7', 'Wait for it... Wait for it... Wait for it...', '/photo/0qdsffw7_460s.jpg', NULL, 12, 3, 677, 460, 55290, 'image/jpeg', 0, 1, NULL, '2014-07-23 23:07:04', '2014-07-23 23:07:04'),
+(7, 'snvl4rpg', 'Gamer habits, anyone else?', '/photo/snvl4rpg_460s.jpg', NULL, 12, 9, 247, 460, 25564, 'image/jpeg', 0, 1, NULL, '2014-07-23 23:09:36', '2014-07-23 23:09:36'),
+(8, 'w9wx88wg', 'How to keep an idiot busy', '/photo/w9wx88wg_460sa_v1.gif', '/photo/w9wx88wg_460s_v1.jpg', 12, 3, 306, 460, 165152, 'image/gif', 0, 1, NULL, '2014-07-23 23:10:00', '2014-07-23 23:10:00'),
+(9, '0h3whn9r', 'Solid snake mittens!', '/photo/0h3whn9r_460sa_v1.gif', '/photo/0h3whn9r_460s_v1.jpg', 12, 4, 131, 342, 882980, 'image/gif', 0, 1, NULL, '2014-07-23 23:12:04', '2014-07-23 23:12:04'),
+(10, 'zo8w9jjc', 'Test upload', '/photo/zo8w9jjc_460sa_v1.gif', '/photo/zo8w9jjc_460s_v1.jpg', 12, 2, 131, 342, 882980, 'image/gif', 0, 1, NULL, '2014-07-24 00:53:31', '2014-07-24 00:53:31');
 
 -- --------------------------------------------------------
 
@@ -97,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `media_comment` (
   `comment` text NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -110,8 +116,8 @@ CREATE TABLE IF NOT EXISTS `media_prototype` (
   `slug` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `reference` varchar(255) NOT NULL,
-  `width` int(11) DEFAULT NULL,
   `height` int(11) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `content_type` varchar(64) DEFAULT NULL,
   `created_at` datetime NOT NULL,
@@ -122,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `media_prototype` (
 -- Odloži podatke za tabelo `media_prototype`
 --
 
-INSERT INTO `media_prototype` (`id`, `slug`, `name`, `reference`, `width`, `height`, `size`, `content_type`, `created_at`, `updated_at`) VALUES
+INSERT INTO `media_prototype` (`id`, `slug`, `name`, `reference`, `height`, `width`, `size`, `content_type`, `created_at`, `updated_at`) VALUES
 (1, '10-guy', '10 Guy', '/prototype/10_guy.jpg', 400, 400, 28089, 'image/jpeg', '2014-07-23 18:36:07', '2014-07-23 18:36:07'),
 (2, 'actual-advice-mallard', 'Actual Advice Mallard', '/prototype/actual_advice_mallard.jpg', 400, 400, 48736, 'image/jpeg', '2014-07-23 18:36:07', '2014-07-23 18:36:07'),
 (3, 'all-the-things', 'All the things', '/prototype/all_the_things.jpg', 400, 400, 23229, 'image/jpeg', '2014-07-23 18:36:07', '2014-07-23 18:36:07'),
@@ -173,11 +179,11 @@ INSERT INTO `media_prototype` (`id`, `slug`, `name`, `reference`, `width`, `heig
 CREATE TABLE IF NOT EXISTS `media_vote` (
 `id` int(11) NOT NULL,
   `media_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
   `type` set('up','down') NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -190,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `state` int(11) NOT NULL,
+  `state` smallint(4) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
@@ -201,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `state`, `created_at`, `updated_at`) VALUES
 (1, 'example', 'user@example.org', '$2y$14$bUazSSLOQxWAOkY.DXaqPOlIqVJX/29kOdIcNrUgUkAFsvBVeancq', 1, '2014-07-07 23:28:38', '2014-07-07 23:28:38'),
-(12, 'rok.mohar', 'rok.mohar@gmail.com', '$2y$14$cXNOX0zQayyOvFaFo7M1Kuu1U7pBdDhTkAylN0iREWwB0S5BTK2Dq', 1, '2014-07-22 19:52:36', '2014-07-22 20:01:27');
+(12, 'rok.mohar', 'rok.mohar@gmail.com', '$2y$14$P7dQZ1EiuT0IwW.z05HGMePsEnl.XzPi5xboIsMI.LFOtcR/PM7MG', 1, '2014-07-22 19:52:36', '2014-07-24 16:41:13');
 
 -- --------------------------------------------------------
 
@@ -242,7 +248,15 @@ CREATE TABLE IF NOT EXISTS `user_oauth` (
   `provider_id` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+
+--
+-- Odloži podatke za tabelo `user_oauth`
+--
+
+INSERT INTO `user_oauth` (`id`, `user_id`, `provider`, `provider_id`, `created_at`, `updated_at`) VALUES
+(16, 12, 'google', '113884234906240529364', '2014-07-24 13:46:15', '2014-07-24 13:46:15'),
+(18, 12, 'facebook', '1513677385514321', '2014-07-24 16:41:22', '2014-07-24 16:41:22');
 
 -- --------------------------------------------------------
 
@@ -271,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `user_recover` (
 -- Indeksi tabele `category`
 --
 ALTER TABLE `category`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`), ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indeksi tabele `media`
@@ -307,19 +321,19 @@ ALTER TABLE `user`
 -- Indeksi tabele `user_confirmation`
 --
 ALTER TABLE `user_confirmation`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `request_token` (`user_id`,`request_token`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeksi tabele `user_oauth`
 --
 ALTER TABLE `user_oauth`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `provider` (`provider`,`provider_id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indeksi tabele `user_recover`
 --
 ALTER TABLE `user_recover`
- ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `request_token` (`user_id`,`request_token`), ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT zavrženih tabel
@@ -334,12 +348,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 -- AUTO_INCREMENT tabele `media`
 --
 ALTER TABLE `media`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT tabele `media_comment`
 --
 ALTER TABLE `media_comment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT tabele `media_prototype`
 --
@@ -349,7 +363,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 -- AUTO_INCREMENT tabele `media_vote`
 --
 ALTER TABLE `media_vote`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT tabele `user`
 --
@@ -364,7 +378,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT tabele `user_oauth`
 --
 ALTER TABLE `user_oauth`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT tabele `user_recover`
 --
