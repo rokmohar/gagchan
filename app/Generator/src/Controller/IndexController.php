@@ -24,6 +24,11 @@ class IndexController extends AbstractActionController
     protected $prototypeMapper;    
     
     /**
+     * @var \Generator\Options\ModuleOptions
+     */
+    protected $options;
+    
+    /**
      * @return array 
      */
     public function indexAction()
@@ -46,7 +51,7 @@ class IndexController extends AbstractActionController
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
         );
-        
+               
         // Check if generator is empty
         if (empty($generator)) {
             // Media not found
@@ -78,7 +83,7 @@ class IndexController extends AbstractActionController
         $form->setData($prg);
         
         // Check if form is not valid
-        if (!$form->isValid()) {
+        if ($form->isValid() === false) {
             // Return view
             return new ViewModel(array(
                 'form'      => $form,
@@ -89,17 +94,37 @@ class IndexController extends AbstractActionController
         // Get data
         $data = $form->getData();
         
-        var_dump($data); die();
+        // Get options
+        $options = $this->getPrototypeOptions();
+        
+        // Bucket URL
+        $bucketUrl = $this->options->getBucketUrl();
+        
+        // Reference to image
+        $ref = $generator->getReference();
+        
+        // Path to image
+        $path = $bucketUrl . $ref;
+        
+        // Process download
+        if ($form->get('download')->getValue()) { 
+
+            // Generate image
+            $this->generate($data, $path);
+            
+        // Generate publish
+        } else if ($form->get('publish')->getValue()) {
+          
+            // Process image
+            $this->generate($data, $path);            
+            
+        }
 
         // Redirect to route
         return $this->redirect()->toRoute('edit', array(
             'slug' => $generator->getSlug(),
         ));     
-        
-        //processImage();
-        
-        // Redirect to route
-        //return $this->redirect()->toRoute('home');
+
     }
     
     /**
@@ -151,20 +176,30 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * Process the image
+     * Generate the meme
      * 
-     * @param array $data
+     * @param array  $data
+     * @param String $path
      */
-    public function processImage(array $data)
+    public function generate(array $data, $path)
     {
         $topText    = $data['top'];
         $bottomText = $data['bottom'];
+    
+        // Create new meme
+        $img = new MemeGenerator($path);
         
-        // Path to image
-        $path = $this->params()->fromQuery;
+        // Set top text
+        $img->setTopText($topText);
         
-        $obj = new MemeGenerator($path);
+        // Set bottom text
+        $img->setBottomText($bottomText);
         
+        // Image name
+        $name = 'created';
+        
+        // Process the image
+        $img->processImg($name);        
     }
 
     /**
@@ -197,4 +232,17 @@ class IndexController extends AbstractActionController
         return $this->prototypeMapper;
     }    
     
+    /**
+     * @return \Generator\Options\ModuleOptions
+     */
+    public function getPrototypeOptions()
+    {
+        if ($this->options === null) {
+            return $this->options = $this->getServiceLocator()->get(
+                'generator.options.module'
+            );
+        }
+        
+        return $this->options;
+    }     
 }
