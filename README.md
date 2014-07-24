@@ -4,6 +4,8 @@ To do
 - Add navigation logic
 - Optimize styles - DONE
 - Add meme delay
+- Make generator grid responsive
+- Add titles on pages
 
 Modules
 ================================================================================

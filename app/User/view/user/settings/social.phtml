@@ -23,38 +23,46 @@
     <?php endforeach ?>
 
     <div class="widget">
-        <h3 class="login-title">Facebook</h3>
+        <h3 class="widget-title">Facebook</h3>
         
         <?php if (empty($isFacebook)): ?>
             Not connected &#8226; <a href="<?php echo $this->url('connect', array('provider' => 'facebook')) ?>">Connect</a><br />
             <br />
-            <strong>Please note:</strong> You might need to confirm that you agree that we gather
-            some of your basic information from your social, otherwise we are unable to confirm
-            your identity.<br />
+            <div class="alert alert-info" role="alert">
+                You might need to confirm that you agree that we gather some of
+                your basic information from your social, otherwise we are unable
+                to confirm your identity.<br />
+            </div>
         <?php else: ?>
             You are connected &#8226; <a href="<?php echo $this->url('disconnect', array('provider' => 'facebook')) ?>">Disconnect</a><br />
             <br />
-            <strong>Please note:</strong> If you disconnect your account from social network
-            you may not be able to log in again or you may not be able to use
-            some of our functionalities.<br />
+            <div class="alert alert-info" role="alert">
+                If you disconnect your account from social network you might
+                not be able to log in again, or you might not be able to use
+                some of our services.<br />
+            </div>
         <?php endif ?>
     </div>
 
     <div class="widget">
-        <h3 class="login-title">Google</h3>
+        <h3 class="widget-title">Google</h3>
         
         <?php if (empty($isGoogle)): ?>
             Not connected &#8226; <a href="<?php echo $this->url('connect', array('provider' => 'google')) ?>">Connect</a><br />
             <br />
-            <strong>Please note:</strong> You might need to confirm that you agree that we gather
-            some of your basic information from your social, otherwise we are unable to confirm
-            your identity.<br />
+            <div class="alert alert-info" role="alert">
+                You might need to confirm that you agree that we gather some of
+                your basic information from your social, otherwise we are unable
+                to confirm your identity.<br />
+            </div>
         <?php else: ?>
             You are connected &#8226; <a href="<?php echo $this->url('disconnect', array('provider' => 'google')) ?>">Disconnect</a><br />
             <br />
-            <strong>Please note:</strong> If you disconnect your account from social network
-            you may not be able to log in again or you may not be able to use
-            some of our functionalities.<br />
+            <div class="alert alert-info" role="alert">
+                If you disconnect your account from social network you might
+                not be able to log in again, or you might not be able to use
+                some of our services.<br />
+            </div>
         <?php endif ?>
     </div>
 </section>
