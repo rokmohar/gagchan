@@ -148,10 +148,10 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
         else {
             // Set event parameters
             $event
-                ->setSatisfied(false)
+                ->setSatisfied(true)
                 ->setCode(Result::FAILURE_IDENTITY_NOT_FOUND)
                 ->setMessages(array(
-                    'You can not log in. Please use any alternative.',
+                    'You can not log in. Please use any alternative log in.',
                 ))
             ;
             
@@ -166,7 +166,7 @@ class OAuthAdapter implements AdapterInterface, ServiceManagerAwareInterface
         if ($user->getState() == UserEntityInterface::STATE_DISABLED) {
             // Set event parameters
             $event
-                ->setSatisfied(false)
+                ->setSatisfied(true)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
                     'Your account has been disabled.',

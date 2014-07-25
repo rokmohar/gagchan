@@ -3,18 +3,16 @@
     <div class="widget">
         <h3 class="widget-title">Select your favorite</h3>
 
-            <?php foreach($generator as $index=>$g):?> 
-  
-            <?php if ($index % 5 == 0) echo ' <div class="form-row">' ?>
-           
-                <a href="<?php echo $this->url('edit', array('slug' => $g->getSlug())) ?>" class="meme-img">
-                    <img src="<?php echo $this->generator()->url($g) ?>" alt="" class="img-responsive generator" />
-                </a>                          
-        
-            <?php if (($index + 1) % 5 == 0) echo ' </div>' ?>
+        <div class="meme-grid clearfix">
+            <?php foreach($generator as $index=>$g):?>
+
+            <a href="<?php echo $this->url('edit', array('slug' => $g->getSlug())) ?>" class="meme-img">
+                <img src="<?php echo $this->generator()->url($g) ?>" alt="" class="img-responsive" />
+            </a>
         
             <?php endforeach ?>
-            
+        </div>
+        
     </div>
 
 </section>
