@@ -100,13 +100,6 @@ interface UserManagerInterface
     public function getMailer();
     
     /**
-     * Return the service locator.
-     * 
-     * @return \Zend\ServiceManager\ServiceLocatorInterface
-     */
-    public function getServiceLocator();
-    
-    /**
      * Return the user form.
      * 
      * @return \User\Form\UserForm

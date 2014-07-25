@@ -4,6 +4,7 @@ namespace User\Manager;
 
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Crypt\Password\Bcrypt;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Entity\UserEntityInterface;
@@ -16,7 +17,7 @@ use User\Mapper\UserMapperInterface;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserManager implements UserManagerInterface
+class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
 {
     /**
      * @var \User\Mapper\ConfirmationMapperInterface
@@ -52,14 +53,6 @@ class UserManager implements UserManagerInterface
      * @var \User\Mapper\UserMapperInterface
      */
     protected $userMapper;
-    
-    /**
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
-     */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
     
     /**
      * {@inheritDoc}
@@ -311,9 +304,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Set the service locator.
-     * 
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * {@inheritDoc}
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
