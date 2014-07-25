@@ -36,7 +36,9 @@
                 <?php echo $this->formButton($form->get('download')) ?>
                 <?php echo $this->formButton($form->get('publish')) ?>
             </div>
-        <?php echo $this->form()->closeTag() ?>         
+        <?php echo $this->form()->closeTag() ?>        
+            
+        <div id="error"></div>
     </div>
 
 </section>
@@ -44,12 +46,10 @@
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">          
 
     <div class="widget">
-        <h3 class="widget-title">Save your image or publish it on the site!</h3>
+        <h3 class="widget-title">Preview your meme</h3>
 
-        <div class="widget-content">
-            You can easily save image to local storage or<br />
-            <br />
-            post it on the site and make it visible to other visitors!<br />
+        <div class="meme clearfix">
+            <img src="<?php echo $this->generator()->url($generator, true) ?>" alt="" id="preview" class="img-responsive" />
         </div>
     </div>
 
