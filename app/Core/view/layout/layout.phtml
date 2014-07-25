@@ -166,8 +166,8 @@
                         position: type 
                     },                         
                     success: function(response) {
-                      // $('#preview').attr('src', response.name);
-                      img.attr('src', img.attr('src').replace(src, response.name));
+                        d = new Date();
+                        $('#preview').attr('src', response.name + "?timestamp=" + d.getTime());
                     }
                 }); 
                 
