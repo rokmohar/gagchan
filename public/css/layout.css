@@ -661,3 +661,14 @@ h1, h2, h3, h4, h5, h6 {
     width: 140px;
     height: 140px;
 }
+
+.publish-group, .publish-group > li { 
+    margin-top: 10px; 
+    padding: 0; 
+    display: block; 
+}
+
+.publish-group > li { 
+    margin-right: 10px; 
+    float: left; 
+}
