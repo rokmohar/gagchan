@@ -5,7 +5,7 @@ namespace User\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\LoginForm;
+use User\Form\UserForm;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -22,7 +22,16 @@ class LoginFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new LoginForm('login', array());
+        $form = new UserForm('login', array(
+            'user_mapper' => $userMapper,
+        ));
+        
+        // Set validation group
+        $form->setValidationGroup(array(
+            'csrf',
+            'email',
+            'password',
+        ));
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -30,11 +39,13 @@ class LoginFormFactory implements FactoryInterface
         // Set hydrator
         $form->setHydrator($hydrator);
         
-        // Get filter
-        $filter = new \User\InputFilter\LoginFilter($userMapper);
+        // Get input filter
+        $inputFilter = new \User\InputFilter\UserFilter(array(
+            'user_mapper' => $userMapper,
+        ));
         
-        // Set filter
-        $form->setInputFilter($filter);
+        // Set input filter
+        $form->setInputFilter($inputFilter);
         
         // Return form
         return $form;

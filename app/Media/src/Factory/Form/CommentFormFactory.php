@@ -10,6 +10,7 @@ use Media\InputFilter\CommentFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com>
  */
 class CommentFormFactory implements FactoryInterface
 {
@@ -21,18 +22,30 @@ class CommentFormFactory implements FactoryInterface
         // Module options
         $options = $serviceLocator->get('media.options.module');
         
-        // Hydrator
-        $hydratorClass = $options->getCommentHydrator();
-        $hydrator      = new $hydratorClass();
+        // Get media mapper
+        $mediaMapper = $serviceLocator->get('media.mapper.media');
+        
+        // Get user mapper
+        $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new CommentForm('comment');
+        $form = new CommentForm('comment', array(
+            'media_mapper' => $mediaMapper,
+            'user_mapper'  => $userMapper,
+        ));
+        
+        // Get hydrator
+        $hydratorClass = $options->getCommentHydrator();
+        $hydrator      = new $hydratorClass();
         
         // Set hydrator
         $form->setHydrator($hydrator);
         
         // Set input filter
-        $form->setInputFilter(new CommentFilter());
+        $form->setInputFilter(new CommentFilter(array(
+            'media_mapper' => $mediaMapper,
+            'user_mapper'  => $userMapper,
+        )));
 
         // Return form
         return $form;

@@ -216,7 +216,7 @@ class SettingsController extends AbstractActionController
     {
         if ($this->accountSettingsForm === null) {
             return $this->accountSettingsForm = $this->getServiceLocator()->get(
-                'user.form.account_settings'
+                'user.form.account'
             );
         }
         
@@ -248,7 +248,7 @@ class SettingsController extends AbstractActionController
     {
         if ($this->passwordSettingsForm === null) {
             return $this->passwordSettingsForm = $this->getServiceLocator()->get(
-                'user.form.password_settings'
+                'user.form.password'
             );
         }
         

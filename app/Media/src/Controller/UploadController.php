@@ -61,7 +61,7 @@ class UploadController extends AbstractActionController
         
         // Bind entity
         $uploadForm->bind(new \Media\Entity\MediaEntity());
-
+        
         // Set data
         $uploadForm->setData(array_merge(
             $request->getPost()->toarray(),
@@ -76,8 +76,13 @@ class UploadController extends AbstractActionController
             ));
         }
         
+        die("POSTED");
+        
         // Get data
         $media = $uploadForm->getData();
+        
+        // Set user
+        $media->setUserId($this->user()->getIdentity()->getId());
 
         // Get posted data
         $file = $uploadForm->get('file')->getValue();
@@ -91,9 +96,6 @@ class UploadController extends AbstractActionController
             $file['error']
         );
         
-        // Set user
-        $media->setUserId($this->user()->getIdentity()->getId());
-
         // Media manager
         $mediaManager = $this->getMediaManager();
 
@@ -153,11 +155,11 @@ class UploadController extends AbstractActionController
         // Get data
         $media = $externalForm->getData();
 
-        // Get posted data
-        $url = $externalForm->get('url')->getValue();
-
         // Set user
         $media->setUserId($this->user()->getIdentity()->getId());
+
+        // Get posted data
+        $url = $externalForm->get('url')->getValue();
 
         // Temporary file
         $temp = tempnam(sys_get_temp_dir(), '');
@@ -209,7 +211,7 @@ class UploadController extends AbstractActionController
     {
         if ($this->externalMediaForm === null) {
             return $this->externalMediaForm = $this->getServiceLocator()->get(
-                'media.form.external_media'
+                'media.form.copy'
             );
         }
         
@@ -223,7 +225,7 @@ class UploadController extends AbstractActionController
     {
         if ($this->uploadMediaForm === null) {
             return $this->uploadMediaForm = $this->getServiceLocator()->get(
-                'media.form.upload_media'
+                'media.form.upload'
             );
         }
         

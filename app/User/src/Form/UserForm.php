@@ -4,12 +4,19 @@ namespace User\Form;
 
 use Zend\Form\Form;
 
+use User\Mapper\UserMapperInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-abstract class AbstractUserForm extends Form
+class UserForm extends Form
 {
+    /**
+     * @var \User\Mapper\UserMapperInterface
+     */
+    protected $userMapper;
+    
     /**
      * @param string $name
      * @param array  $options
@@ -26,14 +33,14 @@ abstract class AbstractUserForm extends Form
             ->addEmail()
             ->addPassword()
             ->addPasswordVerify()
+            ->addState()
             ->addCaptcha()
+            ->addSubmit()
         ;
-        
-        //$this->add(new \Zend\Form\Element\Captcha(), array('name' => 'captcha'));
     }
     
     /**
-     * Add CSRF element.
+     * Add the CSRF element.
      * 
      * @return \User\Form\AbstractForm
      */
@@ -48,11 +55,11 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add identifier element.
+     * Add the identifier element.
      * 
-     * @return \User\Form\AbstractForm
+     * @return \User\Form\UserForm
      */
-    public function addId()
+    protected function addId()
     {
         $this->add(array(
             'name' => 'id',
@@ -63,9 +70,9 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add username element.
+     * Add the username element.
      * 
-     * @return \User\Form\AbstractForm
+     * @return \User\Form\UserForm
      */
     protected function addUsername()
     {
@@ -85,9 +92,9 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add email address element.
+     * Add the email address element.
      * 
-     * @return \User\Form\AbstractForm
+     * @return \User\Form\UserForm
      */
     protected function addEmail()
     {
@@ -107,9 +114,9 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add password element.
+     * Add the password element.
      * 
-     * @return \User\Form\AbstractForm
+     * @return \User\Form\UserForm
      */
     protected function addPassword()
     {
@@ -129,9 +136,9 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add password verify element.
+     * Add the password verify element.
      * 
-     * @return \User\Form\AbstractForm
+     * @return \User\Form\UserForm
      */
     protected function addPasswordVerify()
     {
@@ -151,9 +158,31 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add captcha element.
+     * Add the state element.
      * 
-     * @return \User\Form\AbstractUserForm
+     * @return \User\Form\UserForm
+     */
+    protected function addState()
+    {
+        $this->add(array(
+            'name'    => 'state',
+            'type'    => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'State',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'State',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the captcha element.
+     * 
+     * @return \User\Form\UserForm
      */
     public function addCaptcha()
     {
@@ -177,25 +206,51 @@ abstract class AbstractUserForm extends Form
     }
     
     /**
-     * Add submit element.
+     * Add the submit element.
      * 
-     * @param string $label
-     * 
-     * @return \User\Form\AbstractForm
+     * @return \User\Form\UserForm
      */
-    public function addSubmit($label = 'Submit')
+    public function addSubmit()
     {
         $this->add(array(
             'name'    => 'submit',
             'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
-                'label' => $label,
+                'label' => 'Submit',
             ),
             'attributes' => array(
                 'class' => 'btn btn-primary',
-                'value' => $label,
+                'value' => 'Submit',
             ),
         ));
+        
+        return $this;
+    }
+    
+    /**
+     * Return the user mapper.
+     * 
+     * @return \User\Mapper\UserMapperInterface
+     */
+    public function getUserMapper()
+    {
+        // Check if user mapper is empty
+        if ($this->userMapper === null) {
+            // Set the user mapper
+            $this->setUserMapper($this->getOption('user_mapper'));
+        }
+        
+        return $this->userMapper;
+    }
+    
+    /**
+     * Set the user mapper.
+     * 
+     * @param \User\Mapper\UserMapperInterface $userMapper
+     */
+    public function setUserMapper(UserMapperInterface $userMapper)
+    {
+        $this->userMapper = $userMapper;
         
         return $this;
     }

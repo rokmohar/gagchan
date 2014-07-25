@@ -4,6 +4,9 @@ namespace Media\Form;
 
 use Zend\Form\Form;
 
+use Media\Mapper\MediaMapperInterface;
+use User\Mapper\UserMapperInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -11,11 +14,22 @@ use Zend\Form\Form;
 class VoteForm extends Form
 {
     /**
-     * @param string $name
+     * @var \Media\Mapper\MediaMapperInterface
      */
-    public function __construct($name)
+    protected $mediaMapper;
+    
+    /**
+     * @var \User\Mapper\UserMapperInterface
+     */
+    protected $userMapper;
+    
+    /**
+     * @param string $name
+     * @param array  $options
+     */
+    public function __construct($name, array $options = array())
     {
-        parent::__construct($name);
+        parent::__construct($name, $options);
         
         // Add form elements
         $this
@@ -55,6 +69,62 @@ class VoteForm extends Form
                 'label' => 'Type',
             ),
         ));
+        
+        return $this;
+    }
+    
+    /**
+     * Return the media mapper.
+     * 
+     * @return \Media\Mapper\MediaMapperInterface
+     */
+    public function getMediaMapper()
+    {
+        // Check if media mapper is empty
+        if ($this->mediaMapper === null) {
+            // Set media mapper
+            $this->setMediaMapper($this->getOption('media_mapper'));
+        }
+        
+        return $this->mediaMapper;
+    }
+    
+    /**
+     * Set the media mapper.
+     * 
+     * @param \Media\Mapper\MediaMapperInterface $mediaMapper
+     */
+    public function setMediaMapper(MediaMapperInterface $mediaMapper)
+    {
+        $this->mediaMapper = $mediaMapper;
+        
+        return $this;
+    }
+    
+    /**
+     * Return the user mapper.
+     * 
+     * @return \User\Mapper\UserMapperInterface
+     */
+    public function getUserMapper()
+    {
+        // Check if user mapper is empty
+        if ($this->userMapper === null) {
+            // Set user mapper
+            $this->setUserMapper($this->getOption('user_mapper'));
+        }
+        
+        return $this->userMapper;
+    }
+    
+    /**
+     * Set the user mapper.
+     * 
+     * @param \User\Mapper\UserMapperInterface $userMapper
+     */
+    public function setUserMapper(UserMapperInterface $userMapper)
+    {
+        $this->userMapper = $userMapper;
         
         return $this;
     }

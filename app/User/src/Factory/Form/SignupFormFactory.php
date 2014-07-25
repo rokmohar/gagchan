@@ -5,7 +5,7 @@ namespace User\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\SignupForm;
+use User\Form\UserForm;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -22,7 +22,19 @@ class SignupFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new SignupForm('signup', array());
+        $form = new UserForm('signup', array(
+            'user_mapper' => $userMapper,
+        ));
+        
+        // Set validation group
+        $form->setValidationGroup(array(
+            'csrf',
+            'username',
+            'email',
+            'password',
+            'password_verify',
+            'captcha',
+        ));
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -30,11 +42,22 @@ class SignupFormFactory implements FactoryInterface
         // Set hydrator
         $form->setHydrator($hydrator);
         
-        // Get filter
-        $filter = new \User\InputFilter\UserFilter($userMapper);
+        // Get input filter
+        $inputFilter = new \User\InputFilter\UserFilter(array(
+            'user_mapper' => $userMapper,
+        ));
         
-        // Set filter
-        $form->setInputFilter($filter);
+        // Enable unique record for the username
+        $inputFilter->enableUsernameUniqueRecord();
+        
+        // Enable unique record for the email address
+        $inputFilter->enableEmailUniqueRecord();
+        
+        // Enable string length for the password
+        $inputFilter->enablePasswordStringLength();
+        
+        // Set input filter
+        $form->setInputFilter($inputFilter);
         
         // Return form
         return $form;

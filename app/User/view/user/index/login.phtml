@@ -5,6 +5,10 @@
     <div class="widget">
         <h3 class="widget-title">Login</h3>
         
+        <?php foreach($messages as $m): ?>
+            <div class="alert alert-danger"><?php echo $m ?></div>
+        <?php endforeach ?>
+        
         <?php echo $this->form()->openTag($loginForm) ?>
             
             <!-- #CSRF -->

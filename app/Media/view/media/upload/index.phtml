@@ -5,6 +5,9 @@
 
             <h3 class="widget-title">Upload from computer ...</h3>
 
+            <!-- #CSRF -->
+            <?php echo $this->formHidden($uploadForm->get('csrf')) ?>
+            
             <!-- #Name -->
             <div class="form-row">
                 <div class="input-group">

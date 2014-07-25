@@ -1,52 +1,45 @@
 <?php
 
-namespace User\Factory\Form;
+namespace Category\Factory\Form;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\UserForm;
+use Media\Form\CategoryForm;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResetFormFactory implements FactoryInterface
+class CategoryFormFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        // Get user mapper
-        $userMapper = $serviceLocator->get('user.mapper.user');
+        // Get category mapper
+        $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
-        $form = new UserForm('reset', array(
-            'user_mapper' => $userMapper,
-        ));
-        
-        // Set validation group
-        $form->setValidationGroup(array(
-            'csrf',
-            'password',
-            'password_verify',
+        $form = new CategoryForm('category', array(
+            'category_mapper' => $categoryMapper,
         ));
         
         // Get hydrator
-        $hydrator = new \User\Hydrator\UserHydrator();
+        $hydrator = new \Category\Hydrator\CategoryHydrator();
         
         // Set hydrator
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \User\InputFilter\UserFilter(array(
-            'user_mapper' => $userMapper,
+        $inputFilter = new \Category\InputFilter\CategoryFilter(array(
+            'category_mapper' => $categoryMapper,
         ));
         
         // Set input filter
         $form->setInputFilter($inputFilter);
-        
+
         // Return form
         return $form;
     }

@@ -5,13 +5,13 @@ namespace User\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\AccountSettingsForm;
+use User\Form\UserForm;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class AccountSettingsFormFactory implements FactoryInterface
+class PasswordFormFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -22,7 +22,16 @@ class AccountSettingsFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new AccountSettingsForm('account_settings', array());
+        $form = new UserForm('password_settings', array(
+            'user_mapper' => $userMapper,
+        ));
+        
+        // Set validation group
+        $form->setValidationGroup(array(
+            'csrf',
+            'password',
+            'password_verify',
+        ));
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -30,11 +39,16 @@ class AccountSettingsFormFactory implements FactoryInterface
         // Set hydrator
         $form->setHydrator($hydrator);
         
-        // Get filter
-        $filter = new \User\InputFilter\UserFilter($userMapper);
+        // Get input filter
+        $inputFilter = new \User\InputFilter\UserFilter(array(
+            'user_mapper' => $userMapper,
+        ));
         
-        // Set filter
-        $form->setInputFilter($filter);
+        // Enable string length for the password
+        $inputFilter->enablePasswordStringLength();
+        
+        // Set input filter
+        $form->setInputFilter($inputFilter);
         
         // Return form
         return $form;

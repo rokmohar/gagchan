@@ -11,7 +11,7 @@ use User\Form\UserForm;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ResetFormFactory implements FactoryInterface
+class AccountFormFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -22,15 +22,15 @@ class ResetFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new UserForm('reset', array(
+        $form = new UserForm('account', array(
             'user_mapper' => $userMapper,
         ));
         
         // Set validation group
         $form->setValidationGroup(array(
             'csrf',
-            'password',
-            'password_verify',
+            'username',
+            'email',
         ));
         
         // Get hydrator
@@ -43,6 +43,12 @@ class ResetFormFactory implements FactoryInterface
         $inputFilter = new \User\InputFilter\UserFilter(array(
             'user_mapper' => $userMapper,
         ));
+        
+        // Enable unique record for the username
+        $inputFilter->enableUsernameUniqueRecord();
+        
+        // Enable unique record for the email address
+        $inputFilter->enableEmailUniqueRecord();
         
         // Set input filter
         $form->setInputFilter($inputFilter);

@@ -64,10 +64,10 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         if (empty($user)) {
             // Set event parameters
             $event
-                ->setSatisfied(false)
+                ->setSatisfied(true)
                 ->setCode(Result::FAILURE_IDENTITY_NOT_FOUND)
                 ->setMessages(array(
-                    'A record could not be found.',
+                    'Incorrect email address or password.',
                 ))
             ;
             
@@ -79,15 +79,12 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         if ($user->getState() == UserEntityInterface::STATE_DISABLED) {
             // Set event parameters
             $event
-                ->setSatisfied(false)
+                ->setSatisfied(true)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
                     'Your account has been disabled.',
                 ))
             ;
-            
-            // Stop propagation
-            $event->stopPropagation();
             
             // Authentication failed
             return false;
@@ -95,15 +92,12 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         else if ($user->getState() == UserEntityInterface::STATE_UNCONFIRMED) {
             // Set event parameters
             $event
-                ->setSatisfied(false)
+                ->setSatisfied(true)
                 ->setCode(Result::FAILURE_UNCATEGORIZED)
                 ->setMessages(array(
                     'You must confirm your email address.',
                 ))
             ;
-            
-            // Stop propagation
-            $event->stopPropagation();
             
             // Authentication failed
             return false;
@@ -118,12 +112,15 @@ class DbAdapter implements AdapterInterface, ServiceManagerAwareInterface
         if (!$crypt->verify($password, $user->getPassword())) {
             // Set event parameters
             $event
-                ->setSatisfied(false)
+                ->setSatisfied(true)
                 ->setCode(Result::FAILURE_CREDENTIAL_INVALID)
                 ->setMessages(array(
-                    'A record with the supplied combination could not be found.',
+                    'Incorrect email address or password.',
                 ))
             ;
+            
+            // Stop propagation
+            $event->stopPropagation();
             
             // Authentication failed
             return false;

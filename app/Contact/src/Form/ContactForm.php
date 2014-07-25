@@ -30,7 +30,7 @@ class ContactForm extends Form
     }
     
     /**
-     * Add CSRF element.
+     * Add the CSRF element.
      * 
      * @return \Contact\Form\ContactForm
      */
@@ -45,7 +45,7 @@ class ContactForm extends Form
     }
     
     /**
-     * Add email address element.
+     * Add the email address element.
      * 
      * @return \Contact\Form\ContactForm
      */
@@ -53,11 +53,11 @@ class ContactForm extends Form
     {
         $this->add(array(
             'name'    => 'email',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Your email address',
             ),
             'attributes' => array(
-                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Your email address',
             ),
@@ -67,7 +67,7 @@ class ContactForm extends Form
     }
     
     /**
-     * Add subject element.
+     * Add the subject element.
      * 
      * @return \Contact\Form\ContactForm
      */
@@ -75,11 +75,11 @@ class ContactForm extends Form
     {
         $this->add(array(
             'name'    => 'subject',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Subject',
             ),
             'attributes' => array(
-                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Subject',
             ),            
@@ -89,7 +89,7 @@ class ContactForm extends Form
     }
     
     /**
-     * Add message element.
+     * Add the message element.
      * 
      * @return \Contact\Form\ContactForm
      */
@@ -97,11 +97,11 @@ class ContactForm extends Form
     {
         $this->add(array(
             'name'    => 'message',
+            'type'    => 'Zend\Form\Element\Textarea',
             'options' => array(
                 'label' => 'Your message',
             ),
             'attributes' => array(
-                'type'        => 'Zend\Form\Element\Textarea',
                 'class'       => 'form-control',
                 'style'       => 'resize: vertical;',                
                 'placeholder' => 'Your message',

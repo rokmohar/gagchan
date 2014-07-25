@@ -68,6 +68,7 @@ class IndexController extends AbstractActionController
         if ($prg === false) {
             // Return view
             return new ViewModel(array(
+                'messages'  => array(),
                 'loginForm' => $loginForm,
             ));
         }
@@ -82,6 +83,7 @@ class IndexController extends AbstractActionController
         if (!$loginForm->isValid()) {
             // Return view
             return new ViewModel(array(
+                'messages'  => array(),
                 'loginForm' => $loginForm,
             ));
         }
@@ -103,11 +105,9 @@ class IndexController extends AbstractActionController
         
         // Check if authentication is not valid
         if (!$result->isValid()) {
-            // Set messages
-            $loginForm->get('email')->setMessages($result->getMessages());
-            
             // Return view
             return new ViewModel(array(
+                'messages'  => $result->getMessages(),
                 'loginForm' => $loginForm,
             ));
         }

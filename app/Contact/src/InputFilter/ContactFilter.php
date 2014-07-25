@@ -25,7 +25,7 @@ class ContactFilter extends InputFilter
     }
     
     /**
-     * Add filter for email address.
+     * Add filter for the email address.
      *      
      * @return \Contact\InputFilter\ContactFilter
      */
@@ -36,7 +36,7 @@ class ContactFilter extends InputFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name' => 'EmailAddress',
+                    'name' => 'Zend\Validator\EmailAddress',
                     'options' => array(
                         'allow'  => Hostname::ALLOW_DNS,
                         'domain' => true,
@@ -44,8 +44,9 @@ class ContactFilter extends InputFilter
                 ),
             ),
             'filters' => array(
-                array('name' => 'stringTrim'),
-                array('name' => 'StripTags'),
+                array('name' => 'Zend\Filter\HtmlEntities'),
+                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\StripTags'),
             ),
         ));        
         
@@ -53,19 +54,19 @@ class ContactFilter extends InputFilter
     }
     
     /**
-     * Add filter for subject.
+     * Add filter for the subject.
      *      
      * @return \Contact\InputFilter\ContactFilter
      */
     protected function addSubject()
     {
         $this->add(array(
-            'name' => 'subject',
+            'name'     => 'subject',
             'required' => true,
-            'validators' => array(),
-            'filters' => array(
-                array('name' => 'stringTrim'),
-                array('name' => 'StripTags'),
+            'filters'  => array(
+                array('name' => 'Zend\Filter\HtmlEntities'),
+                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\StripTags'),
             ),
         ));      
         
@@ -73,19 +74,19 @@ class ContactFilter extends InputFilter
     }
     
     /**
-     * Add filter for message.
+     * Add filter for the message.
      *      
      * @return \Contact\InputFilter\ContactFilter
      */
     protected function addMessage()
     {
         $this->add(array(
-            'name'       => 'message',
-            'required'   => true,
-            'validators' => array(),
-            'filters' => array(
-                array('name' => 'stringTrim'),
-                array('name' => 'StripTags'),
+            'name'     => 'message',
+            'required' => true,
+            'filters'  => array(
+                array('name' => 'Zend\Filter\HtmlEntities'),
+                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\StripTags'),
             ),
         ));     
         

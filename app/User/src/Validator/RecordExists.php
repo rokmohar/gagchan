@@ -22,7 +22,7 @@ class RecordExists extends AbstractDb
         $match = $this->mapper->selectRow($where);
         
         // Check if match is not empty
-        if (empty($match)) {
+        if (!empty($match)) {
             // Record found
             return true;
         }

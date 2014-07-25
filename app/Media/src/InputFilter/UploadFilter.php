@@ -6,24 +6,83 @@ namespace Media\InputFilter;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class ExternalMediaFilter extends AbstractMediaFilter
+class UploadFilter extends MediaFilter
 {
     /**
-     * {@inheritDoc}
+     * @param array $options
      */
-    public function __construct()
+    public function __construct(array $options = array())
     {
-        parent::__construct();
+        parent::__construct($options);
         
         // Add filters
         $this
+            ->addFile()
             ->addUrl()
-            ->addDelayAt()
         ;
     }
     
     /**
-     * Add for the URL form element.
+     * Add filter for the URL element.
+     * 
+     * @return \Media\InputFilter\MediaFilter
+     */
+    public function addFile()
+    {
+        $this->add(array(
+            'name'       => 'file',
+            'required'   => true,
+            'validators' => array(
+               array(
+                    'name'    => 'Zend\Validator\File\Extension',
+                    'options' => array(
+                        'extension' => array(
+                            'gif',
+                            'jpeg',
+                            'jpg',
+                            'png',
+                        ),
+                    ),
+                ),
+                array(
+                    'name'    => 'Zend\Validator\File\ImageSize',
+                    'options' => array(
+                        'minWidth'  => 80,
+                        'minHeight' => 80,
+                        'maxWidth'  => 2560,
+                        'maxHeight' => 2560,
+                    ),
+                ),
+                array(
+                    'name'    => 'Zend\Validator\File\MimeType',
+                    'options' => array(
+                        'magicFile' => false,
+                        'mimeType'  => array(
+                            'image/gif',
+                            'image/jpeg',
+                            'image/png',
+                        ),
+                    ),
+                ),
+                array(
+                    'name'    => 'Zend\Validator\File\Size',
+                    'options' => array(
+                        'min' => '4kB',
+                        'max' => '4MB',
+                    ),
+                ),
+                array(
+                    'name' => 'Zend\Validator\File\UploadFile',
+                ),
+            ),
+            'break_chain_on_failure' => true,
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add filter for the URL element.
      * 
      * @return \Media\InputFilter\MediaFilter
      */
@@ -35,11 +94,6 @@ class ExternalMediaFilter extends AbstractMediaFilter
             'validators' => array(
                 array(
                     'name' => 'Zend\Validator\Uri',
-                    'options' => array(
-                        'allow_relative' => false,
-                        'allow_absolute' => true,
-                    ),
-                    'break_chain_on_failure' => true,
                 ),
                 array(
                     'name'    => 'Media\Validator\ValidatorChain',
@@ -87,8 +141,9 @@ class ExternalMediaFilter extends AbstractMediaFilter
                 ),
             ),
             'filters'   => array(
-                array('name' => 'stringTrim'),
-                array('name' => 'StripTags'),
+                array('name' => 'Zend\Filter\HtmlEntities'),
+                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
         
