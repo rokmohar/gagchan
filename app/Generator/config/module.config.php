@@ -40,6 +40,16 @@ return array(
                         'action' => 'prototype',
                     ),
                 ),
+            ),   
+            'preview' => array(
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/preview',
+                    'defaults' => array(
+                        'controller' => 'Generator\IndexController',
+                        'action'     => 'preview',
+                    ),
+                ),
             ),            
         ),
     ),

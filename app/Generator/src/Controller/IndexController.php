@@ -13,10 +13,15 @@ use \Generator\Utils\MemeGenerator;
 class IndexController extends AbstractActionController
 {
     /**
+     *
+     * @var array 
+     */
+    protected $data;
+    
+    /**
      * @var \Generator\Form\GeneratorForm
      */    
     protected $generatorForm;
-    
     
     /**
      * @var \Generator\Mapper\PrototypeMapperInterface
@@ -90,7 +95,7 @@ class IndexController extends AbstractActionController
                 'generator' => $generator,
             ));
         }
-        
+       
         // Get data
         $data = $form->getData();
         
@@ -106,6 +111,10 @@ class IndexController extends AbstractActionController
         // Path to image
         $path = $bucketUrl . $ref;
         
+        /*
+        // Generate image
+        $this->generate($data, $path);
+
         // Process download
         if ($form->get('download')->getValue()) { 
 
@@ -119,11 +128,28 @@ class IndexController extends AbstractActionController
             $this->generate($data, $path);            
             
         }
+         */
 
         // Redirect to route
         return $this->redirect()->toRoute('edit', array(
             'slug' => $generator->getSlug(),
         ));     
+
+    }
+    
+    /**
+     * @return array 
+     */  
+    public function previewAction()
+    {
+        // Get data from ajax call
+        $upmsg   = $_POST['upmsg'];
+        $downmsg = $_POST['downmsg'];
+        $path    = $_POST['imgsrc'];
+
+        // Generate meme
+        $this->generate($upmsg, $downmsg, $path);
+        
 
     }
     
@@ -181,23 +207,20 @@ class IndexController extends AbstractActionController
      * @param array  $data
      * @param String $path
      */
-    public function generate(array $data, $path)
-    {
-        $topText    = $data['top'];
-        $bottomText = $data['bottom'];
-    
+    public function generate($topText, $bottomText, $path)
+    {   
         // Create new meme
         $img = new MemeGenerator($path);
-        
+
         // Set top text
         $img->setTopText($topText);
         
         // Set bottom text
         $img->setBottomText($bottomText);
-        
+     
         // Image name
         $name = 'created';
-        
+
         // Process the image
         $img->processImg($name);        
     }
