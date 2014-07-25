@@ -84,7 +84,7 @@ class MemeGenerator
        //  copy($this->getImage(), $temp);        
 
         // Return the created image via ajax callback
-        echo $name;
+        return $name;
     }    
     
     /**

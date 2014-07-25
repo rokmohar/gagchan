@@ -150,9 +150,9 @@ class IndexController extends AbstractActionController
         $path    = $_POST['imgsrc'];
 
         // Generate meme
-        $this->generate($upmsg, $downmsg, $path);
+        $name = $this->generate($upmsg, $downmsg, $path);
         
-        return new JsonModel();
+        return  new JsonModel(array('name' => $name));
     }
     
     /**
@@ -221,10 +221,10 @@ class IndexController extends AbstractActionController
         $img->setBottomText($bottomText);
      
         // Image name
-        $name = './data/generator/created';
+        $name = 'public/media/generator/created';
 
         // Process the image
-        $img->processImg($name);        
+        return $img->processImg($name);        
     }
 
     /**

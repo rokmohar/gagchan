@@ -166,12 +166,8 @@
                         position: type 
                     },                         
                     success: function(response) {
-
-                        alert(response);
-                        //$('#error').html(e);
-                       // $('#preview').attr('src', e);
-                        
-                       //img.attr('src', img.attr('src').replace(src, e));
+                       $('#preview').attr('src', response.name);
+                      // img.attr('src', img.attr('src').replace(src, e));
 
                     },
                     error: function(response) {
