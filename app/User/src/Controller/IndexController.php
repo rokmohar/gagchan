@@ -37,6 +37,11 @@ class IndexController extends AbstractActionController
     protected $signupForm;
     
     /**
+     * @var \User\Manager\UserManagerInterface
+     */
+    protected $userManager;
+    
+    /**
      * @var \User\Mapper\UserMapperInterface
      */
     protected $userMapper;
@@ -90,6 +95,9 @@ class IndexController extends AbstractActionController
         
         // Get data
         $user = $loginForm->getData();
+        
+        $this->getUserManager()->sendConfirmationMessage($user);
+        die();
         
         // Get auth service
         $authService = $this->user()->getAuthService();
@@ -357,6 +365,22 @@ class IndexController extends AbstractActionController
         }
         
         return $this->signupForm;
+    }
+    
+    /**
+     * Return the user manager.
+     * 
+     * @return \User\Manager\UserManagerInterface
+     */
+    public function getUserManager()
+    {
+        if ($this->userManager === null) {
+            return $this->userManager = $this->getServiceLocator()->get(
+                'user.manager.user'
+            );
+        }
+        
+        return $this->userManager;
     }
     
     /**

@@ -4,10 +4,13 @@ namespace User\Manager;
 
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Crypt\Password\Bcrypt;
+use Zend\Http\Request;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+use User\Entity\UserEntityInterface;
 use User\Form\UserForm;
 use User\Mailer\MailerInterface;
+use User\Mapper\ConfirmationMapperInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
@@ -17,6 +20,11 @@ use User\Mapper\UserMapperInterface;
 class UserManager implements UserManagerInterface
 {
     /**
+     * @var \User\Mapper\ConfirmationMapperInterface
+     */
+    protected $confirmationMapper;
+    
+    /**
      * @var \Zend\Authentication\AuthenticationServiceInterface
      */
     protected $authService;
@@ -25,6 +33,11 @@ class UserManager implements UserManagerInterface
      * @var \User\Mailer\MailerInterface
      */
     protected $mailer;
+    
+    /**
+     * @var \Zend\Stdlib\RequestInterface
+     */
+    protected $request;
     
     /**
      * @var \Zend\ServiceManager\ServiceLocatorInterface
@@ -50,22 +63,35 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Perform an authentication.
-     * 
-     * @param array $params
-     * 
-     * @return \Zend\Authentication\Result
+     * {@inheritDoc}
      */
-    public function authenticate(array $params)
+    public function authenticate(array $params = array())
     {
-        // Get authentication service
+        // Get auth service
         $authService = $this->getAuthService();
         
-        // Set authentication params
+        // Set parameters
         $authService->setParams($params);
         
         // Perform an authentication
         return $authService->authenticate();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function logout(array $params = array())
+    {
+        // Get auth service
+        $authService = $this->getAuthService();
+        
+        // Set parameters
+        $authService->setParams($params);
+        
+        // Perform a logout
+        $authService->logout();
+        
+        return $this;
     }
     
     /**
@@ -89,27 +115,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Perform a logout.
-     * 
-     * @return \User\Manager\UserManagerInterface
-     */
-    public function logout()
-    {
-        // Get authentication service
-        $authService = $this->getAuthService();
-        
-        // Perform a logout
-        $authService->logout();
-        
-        return $this;
-    }
-    
-    /**
-     * Perform a sign up.
-     * 
-     * @param array $data
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
     public function register(array $data)
     {
@@ -164,30 +170,29 @@ class UserManager implements UserManagerInterface
     /**
      * Send a confirmation email message.
      * 
-     * @param \User\Entity\UserEntityInteface $user
+     * @param array $data
      * 
      * @return mixed
      */
-    public function sendConfirmationMessage(UserEntityInteface $user)
+    public function sendConfirmationMessage(array $data)
     {
-        // Get confirmation mapper
-        $confirmationMapper = $this->getConfirmationMapper();
+        var_dump($data); die();
         
         // Create confirmation entity
         $confirmation = new \User\Entity\ConfirmationEntity();
         
-        // @todo: How to get a remote address?
-        die("@todo: How to get a remote address");
-        
         $confirmation->setUserId($user->getId());
         $confirmation->setEmail($user->getEmail());
-        /*$confirmation->setRemoteAddress(
+        $confirmation->setRemoteAddress(
             $this->getRequest()->getServer('REMOTE_ADDR')
-        );*/
+        );
         $confirmation->setRequestAt(new \DateTime());
         $confirmation->setRequestToken($this->generateToken());
         //$confirmation->setConfirmedAt();
         $confirmation->setIsConfirmed(false);
+        
+        // Get confirmation mapper
+        $confirmationMapper = $this->getConfirmationMapper();
         
         // Insert a row
         $confirmationMapper->insertRow($confirmation);
@@ -202,12 +207,13 @@ class UserManager implements UserManagerInterface
     /**
      * Send a recover email message.
      * 
-     * @param \User\Entity\UserEntityInteface $user
+     * @param array $data
      * 
      * @return mixed
      */
-    public function sendRecoverMessage(UserEntityInteface $user)
+    public function sendRecoverMessage(array $data)
     {
+        var_dump($data); die();
         
         // Create class
         $recover = new \User\Entity\RecoverEntity();
@@ -248,6 +254,48 @@ class UserManager implements UserManagerInterface
     }
     
     /**
+     * Set the authentication service.
+     * 
+     * @param \Zend\Authentication\AuthenticationServiceInterface $authService
+     */
+    public function setAuthService(AuthenticationServiceInterface $authService)
+    {
+        $this->authService = $authService;
+        
+        return $this;
+    }
+    
+    /**
+     * Return the confirmation mapper.
+     * 
+     * @return \User\Mapper\ConfirmationMapperInterface
+     */
+    public function getConfirmationMapper()
+    {
+        // Check if confirmation mapper is empty
+        if ($this->confirmationMapper === null) {
+            // Set the confirmation mapper
+            $this->setConfirmationMapper($this->getServiceLocator()->get(
+                'user.mapper.confirmation'
+            ));
+        }
+        
+        return $this->confirmationMapper;
+    }
+    
+    /**
+     * Set the confirmation mapper.
+     * 
+     * @param \User\Mapper\ConfirmationMapperInterface $confirmationMapper
+     */
+    public function setConfirmationMapper(ConfirmationMapperInterface $confirmationMapper)
+    {
+        $this->confirmationMapper = $confirmationMapper;
+        
+        return $this;
+    }
+    
+    /**
      * Return the mailer.
      * 
      * @return \User\Mailer\MailerInterface
@@ -266,6 +314,20 @@ class UserManager implements UserManagerInterface
     }
     
     /**
+     * Return the request.
+     *
+     * @return \Zend\Stdlib\RequestInterface
+     */
+    public function getRequest()
+    {
+        if (!$this->request) {
+            $this->request = new Request();
+        }
+
+        return $this->request;
+    }
+    
+    /**
      * Set the mailer.
      * 
      * @param \User\Mailer\MailerInterface $mailer
@@ -273,18 +335,6 @@ class UserManager implements UserManagerInterface
     public function setMailer(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
-        
-        return $this;
-    }
-    
-    /**
-     * Set the authentication service.
-     * 
-     * @param \Zend\Authentication\AuthenticationServiceInterface $authService
-     */
-    public function setAuthService(AuthenticationServiceInterface $authService)
-    {
-        $this->authService = $authService;
         
         return $this;
     }

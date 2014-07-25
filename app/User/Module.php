@@ -72,6 +72,7 @@ class Module implements
                 'user.form.reset'          => 'User\Factory\Form\ResetFormFactory',
                 'user.form.signup'         => 'User\Factory\Form\SignupFormFactory',
                 'user.mailer.amazon'       => 'User\Factory\Mailer\AmazonMailerFactory',
+                'user.manager.user'        => 'User\Factory\Manager\UserManagerFactory',
                 'user.mapper.confirmation' => 'User\Factory\Mapper\ConfirmationMapperFactory',
                 'user.mapper.recover'      => 'User\Factory\Mapper\RecoverMapperFactory',
                 'user.mapper.user'         => 'User\Factory\Mapper\UserMapperFactory',

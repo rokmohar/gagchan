@@ -9,6 +9,11 @@ namespace Core\Utils;
 class TokenGenerator
 {
     /**
+     * @var \Core\Utils\TokenGenerator
+     */
+    private static $instance;
+    
+    /**
      * @param int $min
      * @param int $max
      * 
@@ -55,5 +60,19 @@ class TokenGenerator
         }
         
         return $token;
+    }
+    
+    /**
+     * @return \Core\Utils\TokenGenerator
+     */
+    public static function getInstance()
+    {
+        // Check if instance is empty
+        if (self::$instance === null) {
+            // Create an instance
+            self::$instance = new self();
+        }
+        
+        return self::$instance;
     }
 }

@@ -8,9 +8,13 @@ namespace Core\Utils;
  */
 class Transliterator
 {
+    
     /**
-     * Transliterate a string to UTF-8.
-     * 
+     * @var \Core\Utils\Transliterator
+     */
+    private static $instance;
+    
+    /**
      * @param string $string
      * 
      * @return string
@@ -119,5 +123,19 @@ class Transliterator
         
         // transliterate
         return str_replace(array_keys($charmap), $charmap, $string);
+    }
+    
+    /**
+     * @return \Core\Utils\Transliterator
+     */
+    public static function getInstance()
+    {
+        // Check if instance is empty
+        if (self::$instance === null) {
+            // Create an instance
+            self::$instance = new self();
+        }
+        
+        return self::$instance;
     }
 }
