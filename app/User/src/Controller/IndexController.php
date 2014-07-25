@@ -2,12 +2,10 @@
 
 namespace User\Controller;
 
-use Zend\Crypt\Password\Bcrypt;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use Core\Utils\TokenGenerator;
 use User\Entity\UserEntityInterface;
 
 /**
@@ -25,11 +23,6 @@ class IndexController extends AbstractActionController
      * @var \User\Form\LoginForm
      */
     protected $loginForm;
-    
-    /**
-     * @var \User\Mailer\MailerInterface
-     */
-    protected $mailer;
     
     /**
      * @var \User\Form\SignupForm
@@ -78,9 +71,6 @@ class IndexController extends AbstractActionController
             ));
         }
         
-        // Set entity prototype
-        $loginForm->bind(new \User\Entity\UserEntity());
-
         // Set data
         $loginForm->setData($prg);
         
@@ -93,23 +83,11 @@ class IndexController extends AbstractActionController
             ));
         }
         
-        // Get data
-        $user = $loginForm->getData();
+        // Get user manager
+        $userManager = $this->getUserManager();
         
-        $this->getUserManager()->sendConfirmationMessage($user);
-        die();
-        
-        // Get auth service
-        $authService = $this->user()->getAuthService();
-        
-        // Add param
-        $authService->setParams(array(
-            'email'    => $user->getEmail(),
-            'password' => $user->getPassword(),
-        ));
-        
-        // Perform authentication
-        $result = $authService->authenticate();
+        // Perform an authentication
+        $result = $userManager->authenticate($loginForm->getData());
         
         // Check if authentication is not valid
         if (!$result->isValid()) {
@@ -129,11 +107,11 @@ class IndexController extends AbstractActionController
      */
     public function logoutAction()
     {
-        // Get auth service
-        $authService = $this->user()->getAuthService();
+        // Get user manager
+        $userManager = $this->getUserManager();
         
-        // Perform logout
-        $authService->logout();
+        // Perform a logout
+        $userManager->logout();
         
         // Redirect to route
         return $this->redirect()->toRoute('login');
@@ -170,63 +148,25 @@ class IndexController extends AbstractActionController
             ));
         }
         
-        // Set entity prototype
-        $signupForm->bind(new \User\Entity\UserEntity());
-
-        // Set posted data
-        $signupForm->setData($prg);
-
+        // Get user manager
+        $userManager = $this->getUserManager();
+        
+        // Perform a registration
+        $user = $userManager->register($prg);
+        
         // Check if form is not valid
-        if (!$signupForm->isValid()) {
+        if (empty($user)) {
             // Return view
             return new ViewModel(array(
                 'signupForm' => $signupForm,
             ));
         }
         
-        // Get posted data
-        $user = $signupForm->getData();
-        
-        // Encryption service
-        $crypt = new Bcrypt(array(
-            'cost' => 14,
+        // Send a confirmation message
+        $userManager->sendConfirmationMessage(array(
+            'request' => $this->getRequest(),
+            'user'    => $user,
         ));
-        
-        // Encrypt password
-        $user->setPassword(
-            $crypt->create($user->getPassword())
-        );
-        
-        // Set state
-        $user->setState(UserEntityInterface::STATE_UNCONFIRMED);
-        
-        // Insert data
-        $this->getUserMapper()->insertRow($user);
-        
-        // Get confirmation mapper
-        $confirmationMapper = $this->getConfirmationMapper();
-        
-        // Create confirmation
-        $confirmation = new \User\Entity\ConfirmationEntity();
-        
-        $confirmation->setUserId($user->getId());
-        $confirmation->setEmail($user->getEmail());
-        $confirmation->setRemoteAddress(
-            $this->getRequest()->getServer('REMOTE_ADDR')
-        );
-        $confirmation->setRequestAt(new \DateTime());
-        $confirmation->setRequestToken($this->generateToken());
-        $confirmation->setConfirmedAt();
-        $confirmation->setIsConfirmed(false);
-        
-        // Insert confirmation
-        $confirmationMapper->insertRow($confirmation);
-        
-        // Get mailer
-        $mailer = $this->getMailer();
-        
-        // Send message
-        $mailer->sendConfirmationMessage($user, $confirmation);
         
         // Create view
         $view = new ViewModel(array(
@@ -297,7 +237,7 @@ class IndexController extends AbstractActionController
     public function generateToken()
     {
         // Get token generator
-        $generator = new TokenGenerator();
+        $generator = \Core\Utils\TokenGenerator::getInstance();
         
         // Generate token
         return $generator->getToken(32);
@@ -333,22 +273,6 @@ class IndexController extends AbstractActionController
         }
         
         return $this->loginForm;
-    }
-    
-    /**
-     * Return the mailer.
-     * 
-     * @return \User\Mailer\MailerInterface
-     */
-    public function getMailer()
-    {
-        if ($this->mailer === null) {
-            return $this->mailer = $this->getServiceLocator()->get(
-                'user.mailer.amazon'
-            );
-        }
-        
-        return $this->mailer;
     }
     
     /**

@@ -4,7 +4,6 @@ namespace User\Manager;
 
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Crypt\Password\Bcrypt;
-use Zend\Http\Request;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Entity\UserEntityInterface;
@@ -95,9 +94,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Perform a recovery request.
-     * 
-     * @param array $data
+     * {@inheritDoc}
      */
     public function recoverRequest(array $data)
     {
@@ -105,9 +102,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Perform a recovery reset.
-     * 
-     * @param array $reset
+     * {@inheritDoc}
      */
     public function recoverReset(array $data)
     {
@@ -120,7 +115,7 @@ class UserManager implements UserManagerInterface
     public function register(array $data)
     {
         // Get form
-        $signupForm = $this->getUserForm();
+        $signupForm = $this->getSignupForm();
         
         // Bind entity
         $signupForm->bind(new \User\Entity\UserEntity());
@@ -156,11 +151,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Perform a sign up confirmation.
-     * 
-     * @param array $data
-     * 
-     * @return UNKNOWN
+     * {@inheritDoc}
      */
     public function registerConfirm(array $data)
     {
@@ -168,11 +159,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Send a confirmation email message.
-     * 
-     * @param array $data
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
     public function sendConfirmationMessage(array $data)
     {
@@ -205,11 +192,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Send a recover email message.
-     * 
-     * @param array $data
-     * 
-     * @return mixed
+     * {@inheritDoc}
      */
     public function sendRecoverMessage(array $data)
     {
@@ -236,9 +219,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Return the authentication service.
-     * 
-     * @return \Zend\Authentication\AuthenticationServiceInterface
+     * {@inheritDoc}
      */
     public function getAuthService()
     {
@@ -266,9 +247,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Return the confirmation mapper.
-     * 
-     * @return \User\Mapper\ConfirmationMapperInterface
+     * {@inheritDoc}
      */
     public function getConfirmationMapper()
     {
@@ -296,9 +275,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Return the mailer.
-     * 
-     * @return \User\Mailer\MailerInterface
+     * {@inheritDoc}
      */
     public function getMailer()
     {
@@ -314,20 +291,6 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Return the request.
-     *
-     * @return \Zend\Stdlib\RequestInterface
-     */
-    public function getRequest()
-    {
-        if (!$this->request) {
-            $this->request = new Request();
-        }
-
-        return $this->request;
-    }
-    
-    /**
      * Set the mailer.
      * 
      * @param \User\Mailer\MailerInterface $mailer
@@ -340,9 +303,7 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Return the service locator.
-     * 
-     * @return \Zend\ServiceManager\ServiceLocatorInterface
+     * {@inheritDoc}
      */
     public function getServiceLocator()
     {
@@ -350,16 +311,26 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Return the user form.
+     * Set the service locator.
      * 
-     * @return \User\Form\UserForm
+     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public function getSignupForm()
     {
         // Check if user form is empty
         if ($this->signupForm === null) {
             // Set the user form
-            $this->setUserForm($this->getServiceLocator()->get(
+            $this->setSignupForm($this->getServiceLocator()->get(
                 'user.form.signup'
             ));
         }
@@ -368,21 +339,19 @@ class UserManager implements UserManagerInterface
     }
     
     /**
-     * Set the user form.
+     * Set the sign up form.
      * 
-     * @param \User\Form\UserForm $userForm
+     * @param \User\Form\UserForm $signupForm
      */
-    public function setUserForm(UserForm $userForm)
+    public function setSignupForm(UserForm $signupForm)
     {
-        $this->userForm = $userForm;
+        $this->signupForm = $signupForm;
         
         return $this;
     }
     
     /**
-     * Return the user mapper.
-     * 
-     * @return \User\Mapper\UserMapperInterface
+     * {@inheritDoc}
      */
     public function getUserMapper()
     {
