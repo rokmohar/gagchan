@@ -144,13 +144,13 @@
             
             $('[name=top]').focusout(function(){
                 if($.trim($(this).val()) != "") {                      
-                    SendAjaxRequest($('[name=top]').val(), $(this).val(), src, 'topText');
+                    SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), src, 'topText');
                 }
             });
 
             $('[name=bottom]').focusout(function(){
                 if($.trim($(this).val()) != "") {
-                    SendAjaxRequest($(this).val(), $('[name=bottom]').val(), src, 'bottomText');
+                    SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), src, 'bottomText');
                 }
             });
 
@@ -166,12 +166,8 @@
                         position: type 
                     },                         
                     success: function(response) {
-                       $('#preview').attr('src', response.name);
-                      // img.attr('src', img.attr('src').replace(src, e));
-
-                    },
-                    error: function(response) {
-                        alert("napaka");
+                        d = new Date();
+                        $('#preview').attr('src', response.name + "?timestamp=" + d.getTime());
                     }
                 }); 
                 

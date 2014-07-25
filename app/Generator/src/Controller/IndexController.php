@@ -226,7 +226,7 @@ class IndexController extends AbstractActionController
         // Process the image
         $img->processImg($name);
         
-        return "/" . $name;
+        return '/media/generator/created.jpg';
     }
 
     /**
