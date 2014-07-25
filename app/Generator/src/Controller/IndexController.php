@@ -3,8 +3,10 @@
 namespace Generator\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use \Generator\Utils\MemeGenerator;
+
+use Generator\Utils\MemeGenerator;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -150,7 +152,7 @@ class IndexController extends AbstractActionController
         // Generate meme
         $this->generate($upmsg, $downmsg, $path);
         
-
+        return new JsonModel();
     }
     
     /**
@@ -219,7 +221,7 @@ class IndexController extends AbstractActionController
         $img->setBottomText($bottomText);
      
         // Image name
-        $name = 'created';
+        $name = './data/generator/created';
 
         // Process the image
         $img->processImg($name);        

@@ -54,6 +54,9 @@ return array(
         ),
     ),
     'view_manager' => array(
+        'strategies' => array(
+            'json' => 'ViewJsonStrategy',
+        ),
         'template_path_stack' => array(
             'generator' => __DIR__ . '/../view',
         ),
