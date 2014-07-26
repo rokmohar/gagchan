@@ -9,12 +9,12 @@ return array(
     'router' => array(
         'routes' => array(
             'generator' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/generator',
+                    'route'    => '/generator',
                     'defaults' => array(
                         'controller' => 'Generator\IndexController',
-                        'action' => 'index',
+                        'action'     => 'index',
                     ),
                 ),
             ),           
@@ -26,18 +26,18 @@ return array(
                         'controller' => 'Generator\IndexController',
                         'action'      => 'edit',
                         'constraints' => array(
-                            'slug' => '[a-zA-Z][a-zA-Z0-9]*',
+                            'slug' => '[a-zA-Z][a-zA-Z\-]*',
                         ),
                     ),
                 ),
             ), 
             'prototype' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route' => '/upload-prototype',
+                    'route'    => '/upload-prototype',
                     'defaults' => array(
                         'controller' => 'Generator\IndexController',
-                        'action' => 'prototype',
+                        'action'     => 'prototype',
                     ),
                 ),
             ),   
@@ -52,14 +52,14 @@ return array(
                 ),
             ),
             'publish' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route' => '/generator/publish/[:slug]',
+                    'route'    => '/generator/publish/[:slug]',
                     'defaults' => array(
-                        'controller' => 'Generator\IndexController',
-                        'action' => 'publish',
+                        'controller'  => 'Generator\IndexController',
+                        'action'      => 'publish',
                         'constraints' => array(
-                            'slug' => '[a-zA-Z][a-zA-Z0-9]*',
+                            'slug' => '[a-zA-Z0-9]*',
                         ),                        
                     ),
                 ),
