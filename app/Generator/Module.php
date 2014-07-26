@@ -45,6 +45,7 @@ class Module implements
         return array(
             'factories' => array(
                 'generator.form.generator'   => 'Generator\Factory\Form\GeneratorFormFactory',
+                'generator.form.upload'      => 'Generator\Factory\Form\UploadFormFactory',
                 'generator.mapper.prototype' => 'Generator\Factory\Mapper\PrototypeMapperFactory',
                 'generator.options.module'   => 'Generator\Factory\Options\ModuleOptionsFactory',
                 'generator.util.module'      => 'Generator\Factory\Util\MemeGeneratorFactory',
