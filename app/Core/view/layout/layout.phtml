@@ -124,7 +124,7 @@
                 e.preventDefault();
                 
                 // Check if image is loading
-                if ($reference.hasClass('loading')) {
+                if ($this.hasClass('loading')) {
                     // Stop propagation
                     return false;
                 }
@@ -132,7 +132,7 @@
                 // Check if image is loaded
                 if (!$reference.find('img').size()) {
                     // Add class
-                    $reference.addClass('loading');
+                    $this.addClass('loading');
                     
                     // Set size
                     $this.css('height', $thumbnail.find('img').height());
@@ -154,12 +154,12 @@
                             // Append element
                             $reference.append($clone);
                             
-                            // Remove class
-                            $reference.removeClass('loading');
-
                             // Toggle class
                             $reference.removeClass('hide').addClass('presenting');
                             $thumbnail.removeClass('presenting').addClass('hide');
+                            
+                            // Remove class
+                            $this.removeClass('loading');
                         })
                     ;
                 }
@@ -268,7 +268,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="<?php echo $this->url('upload') ?>">From computer</a></li>
                                 <li><a href="<?php echo $this->url('upload/external') ?>">From URL</a></li>
-                                <li><a href="<?php echo $this->url('generator') ?>">Generate your own</a></li>
+                                <li><a href="<?php echo $this->url('generator') ?>">Create your own</a></li>
                             </ul>
                     </li>
                 </ul>
