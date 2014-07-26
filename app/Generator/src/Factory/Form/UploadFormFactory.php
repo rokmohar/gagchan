@@ -44,9 +44,6 @@ class UploadFormFactory implements FactoryInterface
             'category_id',
         ));
         
-        // Enable file upload
-        $form->enableFileUpload();
-        
         // Get hydrator
         $hydratorClass = $options->getMediaHydrator();
         $hydrator      = new $hydratorClass();
