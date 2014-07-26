@@ -112,25 +112,16 @@ class IndexController extends AbstractActionController
         
         // Path to image
         $path = $bucketUrl . $ref;
-        
-        /*
-        // Generate image
-        $this->generate($data, $path);
 
         // Process download
         if ($form->get('download')->getValue()) { 
 
-            // Generate image
-            $this->generate($data, $path);
             
         // Generate publish
         } else if ($form->get('publish')->getValue()) {
-          
-            // Process image
-            $this->generate($data, $path);            
+        
             
         }
-         */
 
         // Redirect to route
         return $this->redirect()->toRoute('edit', array(
