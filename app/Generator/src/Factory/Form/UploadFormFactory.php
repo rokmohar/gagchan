@@ -19,7 +19,7 @@ class UploadFormFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         // Module options
-        //$options = $serviceLocator->get('media.options.module');
+        $options = $serviceLocator->get('media.options.module');
         
         // Get media mapper
         $mediaMapper = $serviceLocator->get('media.mapper.media');
@@ -48,11 +48,11 @@ class UploadFormFactory implements FactoryInterface
         $form->enableFileUpload();
         
         // Get hydrator
-        //$hydratorClass = $options->getMediaHydrator();
-        //$hydrator      = new $hydratorClass();
+        $hydratorClass = $options->getMediaHydrator();
+        $hydrator      = new $hydratorClass();
         
         // Set hydrator
-        //$form->setHydrator($hydrator);
+        $form->setHydrator($hydrator);
         
         // Get input filter
         $inputFilter = new \Media\InputFilter\UploadFilter(array(
