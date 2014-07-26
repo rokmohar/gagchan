@@ -80,7 +80,8 @@
                         data: { slug: $slug, type: $type },
                         type: 'POST',
                         url:  '<?php echo $this->url('vote') ?>'
-                    }).done(function(data) { 
+                    })
+                    .done(function(data) { 
                         // Check if action was successful
                         if (data.result === true) {
                             // Parent parameters
@@ -124,8 +125,12 @@
 
                 // Check if image is loaded
                 if (!$reference.find('img').length) {
+                    // Set size
+                    $this.height($thumbnail.find('img').height());
+                    $this.width($thumbnail.find('img').width());
+                    
                     // Append preloader
-                    $thumbnail.append("<div class=\"preload\"></div>");
+                    $this.append("<div class=\"preload\"></div>");
                     
                     // Clone image
                     var $clone = $thumbnail.find('img').clone();
@@ -134,24 +139,19 @@
                     $clone
                         .attr('src', $reference.data('image'))
                         .load(function() {
+                            // Remove preloader
+                            $this.find('.preload').remove();
+                            
                             // Append element
                             $reference.append($clone);
-                            
-                            // Remove preloader
-                            $thumbnail.find('.preload').remove();
-                            
-                            // Toggle class
-                            $reference.toggleClass('hide').toggleClass('presenting');
-                            $thumbnail.toggleClass('presenting').toggleClass('hide');
                         })
                     ;
                 }
-                else {
-                    // Toggle class
-                    $reference.toggleClass('hide').toggleClass('presenting');
-                    $thumbnail.toggleClass('presenting').toggleClass('hide');
-                }
-                
+
+                // Toggle class
+                $reference.toggleClass('hide').toggleClass('presenting');
+                $thumbnail.toggleClass('presenting').toggleClass('hide');
+
                 return false;
             });
 
