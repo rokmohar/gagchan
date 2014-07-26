@@ -127,12 +127,12 @@ class IndexController extends AbstractActionController
         $path = $bucketUrl . $ref;
         
         // Process download
-        if ($form->has('download') && !empty($form->get('download')->getValue())) { 
+        if (isset($data['download'])) { 
 
             die("download");
             
         // Generate publish
-        } else if ($form->has('publish') && !empty($form->get('publish')->getValue())) {
+        } else if (isset($data['publish'])) {
             
             die("publish");
             
