@@ -123,20 +123,36 @@
                 e.preventDefault();
 
                 // Check if image is loaded
-                if (!$reference.has('img').length) {
+                if (!$reference.find('img').length) {
+                    // Append preloader
+                    $thumbnail.append("<div class=\"preload\"></div>");
+                    
                     // Clone image
                     var $clone = $thumbnail.find('img').clone();
 
                     // Set source
-                    $clone.attr('src', $reference.data('image'));
-
-                    // Append element
-                    $reference.append($clone);
+                    $clone
+                        .attr('src', $reference.data('image'))
+                        .load(function() {
+                            // Append element
+                            $reference.append($clone);
+                            
+                            // Remove preloader
+                            $thumbnail.find('.preload').remove();
+                            
+                            // Toggle class
+                            $reference.toggleClass('hide').toggleClass('presenting');
+                            $thumbnail.toggleClass('presenting').toggleClass('hide');
+                        })
+                    ;
+                }
+                else {
+                    // Toggle class
+                    $reference.toggleClass('hide').toggleClass('presenting');
+                    $thumbnail.toggleClass('presenting').toggleClass('hide');
                 }
                 
-                // Toggle class
-                $reference.toggleClass('hide').toggleClass('presenting');
-                $thumbnail.toggleClass('presenting').toggleClass('hide');
+                return false;
             });
 
             // Meme generator preview

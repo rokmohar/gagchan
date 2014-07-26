@@ -648,6 +648,22 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
 }
 
+.preload {
+    margin-top: -10px;
+    margin-left: -30px;
+    
+    height: 20px;
+    width: 60px;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    display: block;
+    
+    background: url('../images/meme/preload.gif') no-repeat;
+}
+
 /**
  * =============================================================================
  * #Generator Style
