@@ -27,6 +27,11 @@ class IndexController extends AbstractActionController
     protected $generatorForm;
     
     /**
+     * @var \Generator\Form\UploadForm
+     */    
+    protected $uploadForm;    
+    
+    /**
      * @var \Generator\Mapper\PrototypeMapperInterface
      */
     protected $prototypeMapper;    
@@ -134,7 +139,7 @@ class IndexController extends AbstractActionController
             
             // Redirect to route
             return $this->redirect()->toRoute('publish', array(
-                'slug' => $token,
+                'token' => $token,
             ));
         
             // Create uploaded image
@@ -197,7 +202,7 @@ class IndexController extends AbstractActionController
         $request = $this->getRequest();
         
         // Get form
-        $uploadForm = $this->getUploadMediaForm();
+        $uploadForm = $this->getUploadForm();
         
         // Check if page is not posted
         if (!$request->isPost()) {
@@ -341,6 +346,22 @@ class IndexController extends AbstractActionController
         
         return $this->generatorForm;
     }
+    
+    /**
+     * Return the uplaod form.
+     * 
+     * @return \Generator\Form\UploadForm
+     */
+    public function getUploadForm()
+    {
+        if ($this->uploadForm === null) {
+            return $this->uploadForm = $this->getServiceLocator()->get(
+                'generator.form.upload'
+            );
+        }
+        
+        return $this->uploadForm;
+    }    
     
     /**
      * @return \Generator\Mapper\PrototypeMapperInterface
