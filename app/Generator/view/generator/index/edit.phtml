@@ -20,7 +20,7 @@
                 </div>
                 
                 <?php echo $this->formElementErrors($form->get('top')) ?>
-            </div>      
+            </div>
             
             <!-- #Bottom text -->
             <div class="form-row">
@@ -32,13 +32,17 @@
                 </div>
                 
                 <?php echo $this->formElementErrors($form->get('bottom')) ?>
-            </div> 
-                      
+            </div>
+            
+            <!-- #Token -->
+            <?php echo $this->formHidden($form->get('token')) ?>
+            
+        <?php echo $this->form()->closeTag() ?>     
     </div>
 
 </section>
 
-<section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">          
+<section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">       
 
     <div class="widget">
         <h3 class="widget-title">Publish or download!</h3>
@@ -51,9 +55,7 @@
         <ul class="publish-group">
             <li><?php echo $this->formButton($form->get('publish')) ?></li>
             <li><?php echo $this->formButton($form->get('download')) ?></li>
-        </ul>        
-        
-        <?php echo $this->form()->closeTag() ?>     
+        </ul>
     </div>
 
 </section>

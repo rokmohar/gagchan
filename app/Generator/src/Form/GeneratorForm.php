@@ -4,6 +4,8 @@ namespace Generator\Form;
 
 use Zend\Form\Form;
 
+use Core\Utils\TokenGenerator;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -80,8 +82,11 @@ class GeneratorForm extends Form
     protected function addToken()
     {
         $this->add(array(
-            'name' => 'token',
-            'type' => 'Zend\Form\Element\Hidden',
+            'name'       => 'token',
+            'type'       => 'Zend\Form\Element\Hidden',
+            'attributes' => array(
+                'value' => $this->generateToken(),
+            ),
         ));
         
         return $this;
@@ -129,5 +134,21 @@ class GeneratorForm extends Form
         ));
         
         return $this;
-    }      
+    }
+    
+    /**
+     * Generate a token.
+     * 
+     * @param int $length
+     * 
+     * @return string
+     */
+    protected function generateToken($length = 6)
+    {
+        // Get token generator
+        $tokenGenerator = TokenGenerator::getInstance();
+        
+        // Generate token
+        return $tokenGenerator->getToken($length);
+    }
 }
