@@ -1,10 +1,5 @@
-<?php
-    $form = $this->commentForm;
-    $form->setAttribute(
-        'action',
-        $this->url('gag', array('slug' => $media->getSlug()))
-    );
-?>
+<?php echo $this->headTitle()->prepend($media->getName()) ?>
+
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
     <!-- #Meme -->
     <article class="meme clearfix" data-slug="<?php echo $media->getSlug() ?>">
