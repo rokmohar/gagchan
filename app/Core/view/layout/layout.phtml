@@ -29,188 +29,10 @@
     
     <!-- Scripts -->
     <?php echo $this->headScript()
-        ->prependFile('/js/bootstrap.min.js')
-        ->prependFile('/js/jquery.prettySocial.min.js')
-        ->prependFile('/js/jquery.zeroclipboard.min.js')
         ->prependFile('https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js', 'text/javascript')
         ->prependFile('https://oss.maxcdn.com/respond/1.4.2/respond.min.js',   'text/javascript', array('conditional' => 'lt IE 9'))
         ->prependFile('https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js', 'text/javascript', array('conditional' => 'lt IE 9'))
     ?>
-    
-    <script>
-        jQuery(document).ready(function($) {
-            // Share on social networks
-            $(".btn-facebook, .btn-twitter").prettySocial();
-
-            // Google Plus One
-            (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/platform.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
-
-            // FB like box
-            (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/sl_SI/sdk.js#xfbml=1&appId=782048061815836&version=v2.0";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-
-            // Copy to clipboard
-            new ZeroClipboard($('.zeroclipboard'), {
-                moviePath : 'js/jquery.zeroclipboard.swf'
-            });
-
-            // Vote 
-            $('[data-trigger="response"] > a').click(function(e) {
-                // Element parameters
-                var $this = $(this);
-                var $type = $this.data('type');
-
-                // Check if item is not selected
-                if (!$this.hasClass('response-selected')) {
-                    // Article parameters
-                    var $article = $this.parents('.meme');
-                    var $slug    = $article.data('slug');
-
-                    // Ajax request
-                    $.ajax({
-                        data: { slug: $slug, type: $type },
-                        type: 'POST',
-                        url:  '<?php echo $this->url('vote') ?>'
-                    })
-                    .done(function(data) { 
-                        // Check if action was successful
-                        if (data.result === true) {
-                            // Parent parameters
-                            var $parent = $this.parent();
-
-                            // Change points
-                            $article.find('.meme-points > span').html(data.points);
-
-                            // Remove class from others
-                            $parent.find('a').removeClass('response-selected');
-
-                            // Add class
-                            $this.addClass('response-selected');
-                        }
-                    });
-                }
-
-                // Prevent default action
-                e.preventDefault();
-            });
-
-            $('.zeroclipboard').click(function() {
-                // Current element
-                var $this = $(this);
-
-                // Remove selected class from others
-                $('.zeroclipboard').removeClass('zeroclipboard-selected');
-
-                // Add class to current element
-                $this.addClass('zeroclipboard-selected');
-            });
-
-            // Animated GIF
-            $('.meme-img.animated').on('click', function(e) {
-                var $this      = $(this);
-                var $reference = $this.find('.animated-reference');
-                var $thumbnail = $this.find('.animated-thumbnail');
-                
-                // Prevent default
-                e.preventDefault();
-                
-                // Check if image is loading
-                if ($this.hasClass('loading')) {
-                    // Stop propagation
-                    return false;
-                }
-
-                // Check if image is loaded
-                if (!$reference.find('img').size()) {
-                    // Add class
-                    $this.addClass('loading');
-                    
-                    // Set size
-                    $this.css('height', $thumbnail.find('img').height());
-                    $this.css('width', $thumbnail.find('img').width());
-                    
-                    // Append preloader
-                    $this.append("<div class=\"preload\"></div>");
-                    
-                    // Clone image
-                    var $clone = $thumbnail.find('img').clone();
-
-                    // Set source
-                    $clone
-                        .attr('src', $reference.data('image'))
-                        .load(function() {
-                            // Remove preloader
-                            $this.find('.preload').remove();
-
-                            // Append element
-                            $reference.append($clone);
-                            
-                            // Toggle class
-                            $reference.removeClass('hide').addClass('presenting');
-                            $thumbnail.removeClass('presenting').addClass('hide');
-                            
-                            // Remove class
-                            $this.removeClass('loading');
-                        })
-                    ;
-                }
-
-                // Toggle class
-                $reference.toggleClass('hide').toggleClass('presenting');
-                $thumbnail.toggleClass('presenting').toggleClass('hide');
-
-                // Stop propagation
-                return false;
-            });
-
-            // Meme generator preview
-            var img = $('#preview');
-            var src = img.attr('src');
-            
-            $('[name=top]').focusout(function(){
-                if($.trim($(this).val()) != "") {                      
-                    SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), src, 'topText');
-                }
-            });
-
-            $('[name=bottom]').focusout(function(){
-                if($.trim($(this).val()) != "") {
-                    SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), src, 'bottomText');
-                }
-            });
-
-            function SendAjaxRequest(umsg, dmsg, src, type)
-            { 
-                $.ajax({
-                    url: '<?php echo $this->url('preview') ?>',
-                    type: 'POST',
-                    data: { 
-                        upmsg : umsg, 
-                        downmsg : dmsg, 
-                        imgsrc: src,
-                        position: type 
-                    },                         
-                    success: function(response) {
-                        d = new Date();
-                        $('#preview').attr('src', response.name + "?timestamp=" + d.getTime());
-                    }
-                }); 
-                
-                // Prevent default action
-               // e.preventDefault();
-            }  
-        });
-             
-    </script>
 </head>
 <body>
     <!-- #Navigation Bar -->
@@ -286,6 +108,29 @@
         
     </div><!-- /.container -->
     
-    <?php echo $this->inlineScript() ?>
+    <?php echo $this->inlineScript()
+        ->prependFile('/js/bootstrap.min.js')
+        ->prependFile('/js/jquery.gagchan.js')
+        ->prependFile('/js/jquery.prettySocial.min.js')
+        ->prependFile('/js/jquery.zeroclipboard.min.js')
+    ?>
+    
+    <script>
+        // Google Plus One
+        (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/platform.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+
+        // Facebook Like
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/sl_SI/sdk.js#xfbml=1&appId=782048061815836&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 </body>
 </html>
