@@ -58,9 +58,15 @@ class MemeGenerator
      * @return Image
      */
     public function processImg($name)
-    {
-        // Add extension to the image name
-        $name .= '.jpg';
+    {        
+        // Location of created image
+        $location = '/media/generator/';
+        
+        // Relative path to the file
+        $relPath = $location . $name . '.jpg';
+        
+        // Absolute path to the file
+        $absPath = 'public' . $relPath;
         
         // Top text
         $topText    = $this->getTopText();
@@ -79,19 +85,18 @@ class MemeGenerator
         }
         
         // Create a JPEG from given image
-        imagejpeg($this->getImage(), $name);
+        imagejpeg($this->getImage(), $absPath);
         
         // Free memory associated with image
         imagedestroy($this->getImage());
 
-        // Temporary file
-     //   $temp = tempnam(sys_get_temp_dir(), '');
-
         // Copy file from URL
-       //  copy($this->getImage(), $temp);        
+       //  copy($this->getImage(), $temp);      
+        
+        // Delete the image
 
-        // Return the created image via ajax callback
-        return $name;
+        // Return the path to created image
+        return $relPath;
     }    
     
     /**

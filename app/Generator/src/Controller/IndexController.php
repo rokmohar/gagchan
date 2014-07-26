@@ -143,6 +143,7 @@ class IndexController extends AbstractActionController
         // Generate meme
         $name = $this->generate($upmsg, $downmsg, $path);
         
+        // Retrun create image path
         return  new JsonModel(array('name' => $name));
     }
     
@@ -212,12 +213,10 @@ class IndexController extends AbstractActionController
         $img->setBottomText($bottomText);
      
         // Image name
-        $name = 'public/media/generator/created';
-     
-        // Process the image
-        $img->processImg($name);
-        
-        return '/media/generator/created.jpg';
+        $name = 'created';
+
+        // Process the image and return the file path
+        return $img->processImg($name);
     }
 
     /**
