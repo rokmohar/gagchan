@@ -76,6 +76,7 @@ class Module implements
                 'user.mapper.confirmation' => 'User\Factory\Mapper\ConfirmationMapperFactory',
                 'user.mapper.recover'      => 'User\Factory\Mapper\RecoverMapperFactory',
                 'user.mapper.user'         => 'User\Factory\Mapper\UserMapperFactory',
+                'user.navigation'          => 'User\Factory\Navigation\Service\UserNavigationFactory',
                 'user.options.module'      => 'User\Factory\Options\ModuleOptionsFactory',
             ),
         );

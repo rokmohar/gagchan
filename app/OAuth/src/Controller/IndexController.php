@@ -29,6 +29,11 @@ class IndexController extends AbstractActionController
     protected $oauthMapper;
     
     /**
+     * @var \User\Manager\UserManagerInterface
+     */
+    protected $userManager;
+    
+    /**
      * @return mixed
      */
     public function hybridAuthAction()
@@ -72,14 +77,13 @@ class IndexController extends AbstractActionController
             ));
         }
         
-        // Get auth service
-        $authService = $this->user()->getAuthService();
+        // Get user manager
+        $userManager = $this->getUserManager();
         
-        // Add param
-        $authService->addParam('provider', $provider);
-        
-        // Perform authentication
-        $result = $authService->authenticate();
+        // Perform an authentication
+        $result = $userManager->authenticate(array(
+            'provider' => $provider,
+        ));
         
         // Check if authentication is not valid
         if (!$result->isValid()) {
@@ -263,5 +267,21 @@ class IndexController extends AbstractActionController
         }
         
         return $this->oauthMapper;
+    }
+    
+    /**
+     * Return the user manager.
+     * 
+     * @return \User\Manager\UserManagerInterface
+     */
+    public function getUserManager()
+    {
+        if ($this->userManager === null) {
+            return $this->userManager = $this->getServiceLocator()->get(
+                'user.manager.user'
+            );
+        }
+        
+        return $this->userManager;
     }
 }

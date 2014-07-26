@@ -1,8 +1,6 @@
 To do
 ================================================================================
 - Import error template
-- Add navigation logic
-- Make generator grid responsive
 - Add titles on pages
 
 Modules
