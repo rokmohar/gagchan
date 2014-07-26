@@ -22,6 +22,7 @@ class GeneratorForm extends Form
         $this
             ->addTop()
             ->addBottom()
+            ->addToken()
             ->addDownload()
             ->addPublish()
         ;
@@ -47,7 +48,7 @@ class GeneratorForm extends Form
         ));
         
         return $this;
-    }    
+    }
     
     /**
      * Add the bottom positioned text
@@ -69,7 +70,22 @@ class GeneratorForm extends Form
         ));
         
         return $this;
-    }    
+    }
+    
+    /**
+     * Add the bottom positioned text
+     * 
+     * @return \Generator\Form
+     */
+    protected function addToken()
+    {
+        $this->add(array(
+            'name' => 'token',
+            'type' => 'Zend\Form\Element\Hidden',
+        ));
+        
+        return $this;
+    }
     
     /**
      * Add the download form element.
