@@ -115,6 +115,8 @@ class IndexController extends AbstractActionController
                 'token'     => $token,
             ));
         }
+        
+        var_dump($form->getData()); die();
        
         // Get data
         $data = $form->getData();
