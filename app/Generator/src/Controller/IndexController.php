@@ -6,6 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
+use Core\File\UploadedFile;
 use Generator\Utils\MemeGenerator;
 
 /**
@@ -53,7 +54,7 @@ class IndexController extends AbstractActionController
      * @return array 
      */
     public function editAction()
-    {
+    {                
         // Select media
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
@@ -77,12 +78,23 @@ class IndexController extends AbstractActionController
         // Get form
         $form = $this->getGeneratorForm();
         
+        // Create generator for meme unique ID
+        $tokenGenerator = \Core\Utils\TokenGenerator::getInstance();
+        
+        // Path to generated meme
+        $filePath = '/media/generator/';
+
+        // Generate unique ID of length 6
+        while (file_exists($filePath . 
+                $token = $tokenGenerator->getToken(6)) . 'jpg' == false);
+
         // Check if PRG is GET
         if ($prg === false) {
             // Return view
             return new ViewModel(array(
                 'form'      => $form,
                 'generator' => $generator,
+                'token'     => $token,
             ));
         }
         
@@ -95,6 +107,7 @@ class IndexController extends AbstractActionController
             return new ViewModel(array(
                 'form'      => $form,
                 'generator' => $generator,
+                'token'     => $token,
             ));
         }
        
@@ -112,15 +125,33 @@ class IndexController extends AbstractActionController
         
         // Path to image
         $path = $bucketUrl . $ref;
-
+        
         // Process download
-        if ($form->get('download')->getValue()) { 
+        if ($form->has('download') && !empty($form->get('download')->getValue())) { 
 
+            die("download");
             
         // Generate publish
-        } else if ($form->get('publish')->getValue()) {
-        
+        } else if ($form->has('publish') && !empty($form->get('publish')->getValue())) {
             
+            die("publish");
+            
+            // Redirect to route
+            return $this->redirect()->toRoute('publish', array(
+                'slug' => $token,
+            ));
+        
+            // Create uploaded image
+            $image = new UploadedFile(
+                $filePath . $token . 'jpg',
+                $file['name'],
+                $file['type'],
+                $file['size'],
+                $file['error']
+            );            
+            
+            // Delete image from server
+            unlink($filePath . $token . 'jpg');
         }
 
         // Redirect to route
@@ -136,15 +167,98 @@ class IndexController extends AbstractActionController
     public function previewAction()
     {
         // Get data from ajax call
+        // Top text
         $upmsg   = $_POST['upmsg'];
+        
+        // Bottom text
         $downmsg = $_POST['downmsg'];
+        
+        // Image (default) source
         $path    = $_POST['imgsrc'];
+        
+        // Image token (unique ID)
+        $token   = $_POST['token'];
 
         // Generate meme
-        $name = $this->generate($upmsg, $downmsg, $path);
+        $name = $this->generate($upmsg, $downmsg, $path, $token);
         
         // Retrun create image path
         return  new JsonModel(array('name' => $name));
+    }
+    
+    /**
+     * @return array 
+     */       
+    public function publishAction()
+    {
+        // Check is user is not logged in
+        if (!$this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+        
+        // Get reqest
+        $request = $this->getRequest();
+        
+        // Get form
+        $uploadForm = $this->getUploadMediaForm();
+        
+        // Check if page is not posted
+        if (!$request->isPost()) {
+            // Return view
+            return new ViewModel(array(
+                'uploadForm' => $uploadForm,
+            ));
+        }
+        
+        // Bind entity
+        $uploadForm->bind(new \Media\Entity\MediaEntity());
+        
+        // Set data
+        $uploadForm->setData(array_merge(
+            $request->getPost()->toarray(),
+            $request->getFiles()->toarray()
+        ));
+        
+        // Check if form is not valid
+        if (!$uploadForm->isValid()) {
+            // Return view
+            return new ViewModel(array(
+                'uploadForm' => $uploadForm,
+            ));
+        }
+        
+        die("POSTED");
+        
+        // Get data
+        $media = $uploadForm->getData();
+        
+        // Set user
+        $media->setUserId($this->user()->getIdentity()->getId());
+
+        // Get posted data
+        $file = $uploadForm->get('file')->getValue();
+        
+        // Create uploaded image
+        $image = new UploadedFile(
+            $file['tmp_name'],
+            $file['name'],
+            $file['type'],
+            $file['size'],
+            $file['error']
+        );
+        
+        // Media manager
+        $mediaManager = $this->getMediaManager();
+
+        // Upload image
+        $mediaManager->uploadImage($image, $media);
+        
+        // Redirect to route
+        return $this->redirect()->toRoute('gag', array(
+            'slug' => $media->getSlug(),
+        ));        
+        
     }
     
     /**
@@ -201,8 +315,8 @@ class IndexController extends AbstractActionController
      * @param array  $data
      * @param String $path
      */
-    public function generate($topText, $bottomText, $path)
-    {   
+    public function generate($topText, $bottomText, $path, $token)
+    {           
         // Create new meme
         $img = new MemeGenerator($path);
 
@@ -211,12 +325,9 @@ class IndexController extends AbstractActionController
         
         // Set bottom text
         $img->setBottomText($bottomText);
-     
-        // Image name
-        $name = 'created';
 
         // Process the image and return the file path
-        return $img->processImg($name);
+        return $img->processImg($token);
     }
 
     /**

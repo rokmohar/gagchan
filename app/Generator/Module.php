@@ -60,6 +60,7 @@ class Module implements
         return array(
             'factories' => array(
                 'generator' => 'Generator\Factory\View\Helper\GeneratorHelperFactory',
+                'publish'    => 'Media\Factory\View\Helper\MediaHelperFactory',                
             ),
         );
     }    

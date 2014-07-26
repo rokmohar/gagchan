@@ -17,7 +17,7 @@ return array(
                         'action' => 'index',
                     ),
                 ),
-            ),
+            ),           
             'edit' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
@@ -50,7 +50,20 @@ return array(
                         'action'     => 'preview',
                     ),
                 ),
-            ),            
+            ),
+            'publish' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/generator/publish/[:slug]',
+                    'defaults' => array(
+                        'controller' => 'Generator\IndexController',
+                        'action' => 'publish',
+                        'constraints' => array(
+                            'slug' => '[a-zA-Z][a-zA-Z0-9]*',
+                        ),                        
+                    ),
+                ),
+            ),             
         ),
     ),
     'view_manager' => array(
