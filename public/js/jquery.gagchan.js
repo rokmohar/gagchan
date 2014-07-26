@@ -119,22 +119,23 @@ jQuery(document).ready(function($) {
     });
 
     // Meme generator preview
-    var img = $('#preview');
-    var src = img.attr('src');
+    var $img   = $('#preview');
+    var $src   = $img.attr('src');
+    var $token = $img.attr('data-token');
 
     $('[name=top]').focusout(function() {
         if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), src, 'topText');
+            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token, 'topText');
         }
     });
 
     $('[name=bottom]').focusout(function() {
         if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), src, 'bottomText');
+            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token, 'bottomText');
         }
     });
 
-    function SendAjaxRequest(umsg, dmsg, src, type)
+    function SendAjaxRequest(umsg, dmsg, src, token, type)
     {
         $.ajax({
             url: '/preview',
@@ -143,11 +144,11 @@ jQuery(document).ready(function($) {
                 upmsg:    umsg,
                 downmsg:  dmsg,
                 imgsrc:   src,
+                token:    token,
                 position: type
             },
             success: function(response) {
-                var $d = new Date();
-                $('#preview').attr('src', response.name + "?timestamp=" + $d.getTime());
+                $('#preview').attr('src', response.name + "?token=" + token);
             }
         });
     }

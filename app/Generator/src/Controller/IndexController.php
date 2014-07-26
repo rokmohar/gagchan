@@ -128,13 +128,9 @@ class IndexController extends AbstractActionController
         
         // Process download
         if (isset($data['download'])) { 
-
-            die("download");
             
         // Generate publish
         } else if (isset($data['publish'])) {
-            
-            die("publish");
             
             // Redirect to route
             return $this->redirect()->toRoute('publish', array(

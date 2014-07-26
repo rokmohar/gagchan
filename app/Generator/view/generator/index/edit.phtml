@@ -7,7 +7,7 @@
             <h3 class="widget-title"><?php echo $generator->getName(); ?></h3>
 
             <div class="meme clearfix">
-                <img src="<?php echo $this->generator()->url($generator, true) ?>" id="preview" alt="" class="img-responsive" />
+                <img src="<?php echo $this->generator()->url($generator, true) ?>" id="preview" data-token="<?php echo $token ?>" alt="" class="img-responsive" />
             </div>
         
             <!-- #Upper text -->
