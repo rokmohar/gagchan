@@ -21,8 +21,21 @@ class UploadFormFactory implements FactoryInterface
         // Module options
         //$options = $serviceLocator->get('media.options.module');
         
+        // Get media mapper
+        $mediaMapper = $serviceLocator->get('media.mapper.media');
+        
+        // Get user mapper
+        $userMapper = $serviceLocator->get('user.mapper.user');
+        
+        // Get category mapper
+        $categoryMapper = $serviceLocator->get('category.mapper.category');
+        
         // Create form
-        $form = new UploadForm('media');
+        $form = new UploadForm('media', array(
+            'media_mapper'    => $mediaMapper,
+            'user_mapper'     => $userMapper,
+            'category_mapper' => $categoryMapper,
+        ));
         
         // Set validation group
         $form->setValidationGroup(array(
@@ -42,7 +55,11 @@ class UploadFormFactory implements FactoryInterface
         //$form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \Media\InputFilter\UploadFilter();
+        $inputFilter = new \Media\InputFilter\UploadFilter(array(
+            'media_mapper'    => $mediaMapper,
+            'user_mapper'     => $userMapper,
+            'category_mapper' => $categoryMapper,
+        ));
         
         // Set input filter
         $form->setInputFilter($inputFilter);
