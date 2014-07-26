@@ -33,7 +33,7 @@ class MediaForm extends Form
      * @param string $name
      * @param array  $options
      */
-    public function __construct($name, $options)
+    public function __construct($name, array $options = array())
     {
         parent::__construct($name, $options);
         
