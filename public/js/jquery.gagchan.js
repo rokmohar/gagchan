@@ -148,7 +148,7 @@ jQuery(document).ready(function($) {
                 position: type
             },
             success: function(response) {
-                $('#preview').attr('src', response.name + "?token=" + token);
+                $('#preview').attr('src', response.name + '?' + Math.random());
             }
         });
     }
