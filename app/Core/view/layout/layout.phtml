@@ -122,12 +122,21 @@
                 
                 // Prevent default
                 e.preventDefault();
+                
+                // Check if image is loading
+                if ($reference.hasClass('loading')) {
+                    // Stop propagation
+                    return false;
+                }
 
                 // Check if image is loaded
-                if (!$reference.find('img').length) {
+                if (!$reference.find('img').size()) {
+                    // Add class
+                    $reference.addClass('loading');
+                    
                     // Set size
-                    $this.height($thumbnail.find('img').height());
-                    $this.width($thumbnail.find('img').width());
+                    $this.css('height', $thumbnail.find('img').height());
+                    $this.css('width', $thumbnail.find('img').width());
                     
                     // Append preloader
                     $this.append("<div class=\"preload\"></div>");
@@ -141,9 +150,16 @@
                         .load(function() {
                             // Remove preloader
                             $this.find('.preload').remove();
-                            
+
                             // Append element
                             $reference.append($clone);
+                            
+                            // Remove class
+                            $reference.removeClass('loading');
+
+                            // Toggle class
+                            $reference.removeClass('hide').addClass('presenting');
+                            $thumbnail.removeClass('presenting').addClass('hide');
                         })
                     ;
                 }
