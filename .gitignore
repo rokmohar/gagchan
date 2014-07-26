@@ -1,3 +1,4 @@
 /config/autoload/*.local.php
 /nbproject/
+/public/media/
 /vendor/

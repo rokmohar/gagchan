@@ -235,22 +235,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .meme > .meme-img,
-.meme > .meme-img > img {
-    position: relative;
-    
-    display: block;
-    float: none;
-}
-
-.meme > .meme-img {
-    margin: 0 0 20px;
-    padding: 0;
-}
-
-.meme > .meme-img > img {
+.meme > .meme-img img {
     margin: 0;
     padding: 0;
     
+    position: relative;
+    display: block;
+}
+
+.meme > .meme-img {
+    margin-bottom: 20px;
+}
+
+.meme > .meme-img img {
     width: 100%;
 }
 
@@ -645,7 +642,7 @@ h1, h2, h3, h4, h5, h6 {
     
     color: #fff;
     font-size: 20px;
-    line-height: 50px;
+    line-height: 52px;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;

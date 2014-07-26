@@ -113,29 +113,30 @@
                 $this.addClass('zeroclipboard-selected');
             });
 
-            // GIF play on click
-            $('a.meme-img').has('.play').click(function(){
-                var $this = $(this);
-                var $img  = $this.find('img');
+            // Animated GIF
+            $('.meme-img.animated').on('click', function(e) {
+                var $this      = $(this);
+                var $reference = $this.find('.animated-reference');
+                var $thumbnail = $this.find('.animated-thumbnail');
+                
+                // Prevent default
+                e.preventDefault();
 
-                if (!this.playing) {
-                    // Change source to GIF
-                    $img.attr('src', $img.attr('src').replace('s_v1.jpg', 'sa_v1.gif'));
+                // Check if image is loaded
+                if (!$reference.has('img').length) {
+                    // Clone image
+                    var $clone = $thumbnail.find('img').clone();
 
-                    // Hide span 
-                    $this.find('.play').hide();
-                    this.playing = true;
+                    // Set source
+                    $clone.attr('src', $reference.data('image'));
+
+                    // Append element
+                    $reference.append($clone);
                 }
-                else {
-                    // Change source to static image                
-                    $img.attr('src', $img.attr('src').replace('sa_v1.gif', 's_v1.jpg'));
-
-                    // Show span
-                    $this.find('.play').show();
-                    this.playing = false;
-                }
-
-                return false;
+                
+                // Toggle class
+                $reference.toggleClass('hide').toggleClass('presenting');
+                $thumbnail.toggleClass('presenting').toggleClass('hide');
             });
 
             // Meme generator preview
