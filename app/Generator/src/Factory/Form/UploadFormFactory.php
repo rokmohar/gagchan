@@ -22,7 +22,7 @@ class UploadFormFactory implements FactoryInterface
         //$options = $serviceLocator->get('media.options.module');
         
         // Create form
-        $form = new UploadForm('media');
+        $form = new UploadForm('media', array());
         
         // Set validation group
         $form->setValidationGroup(array(
