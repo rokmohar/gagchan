@@ -19,28 +19,6 @@ class UserForm extends Form implements UserMapperAwareInterface
     protected $userMapper;
     
     /**
-     * @param string $name
-     * @param array  $options
-     */
-    public function __construct($name, array $options = array())
-    {
-        parent::__construct($name, $options);
-        
-        // Add elements
-        $this
-            ->addCsrf()
-            ->addId()
-            ->addUsername()
-            ->addEmail()
-            ->addPassword()
-            ->addPasswordVerify()
-            ->addState()
-            ->addCaptcha()
-            ->addSubmit()
-        ;
-    }
-    
-    /**
      * Add the CSRF element.
      * 
      * @return \User\Form\AbstractForm
@@ -60,7 +38,7 @@ class UserForm extends Form implements UserMapperAwareInterface
      * 
      * @return \User\Form\UserForm
      */
-    protected function addId()
+    public function addId()
     {
         $this->add(array(
             'name' => 'id',
@@ -75,7 +53,7 @@ class UserForm extends Form implements UserMapperAwareInterface
      * 
      * @return \User\Form\UserForm
      */
-    protected function addUsername()
+    public function addUsername()
     {
         $this->add(array(
             'name'    => 'username',
@@ -97,7 +75,7 @@ class UserForm extends Form implements UserMapperAwareInterface
      * 
      * @return \User\Form\UserForm
      */
-    protected function addEmail()
+    public function addEmail()
     {
         $this->add(array(
             'name'    => 'email',
@@ -119,7 +97,7 @@ class UserForm extends Form implements UserMapperAwareInterface
      * 
      * @return \User\Form\UserForm
      */
-    protected function addPassword()
+    public function addPassword()
     {
         $this->add(array(
             'name'    => 'password',
@@ -141,7 +119,7 @@ class UserForm extends Form implements UserMapperAwareInterface
      * 
      * @return \User\Form\UserForm
      */
-    protected function addPasswordVerify()
+    public function addPasswordVerify()
     {
         $this->add(array(
             'name'    => 'password_verify',
@@ -163,7 +141,7 @@ class UserForm extends Form implements UserMapperAwareInterface
      * 
      * @return \User\Form\UserForm
      */
-    protected function addState()
+    public function addState()
     {
         $this->add(array(
             'name'    => 'state',
@@ -235,12 +213,6 @@ class UserForm extends Form implements UserMapperAwareInterface
      */
     public function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set the user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     

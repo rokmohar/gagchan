@@ -22,15 +22,7 @@ class RecoverFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new UserForm('recover', array(
-            'user_mapper' => $userMapper,
-        ));
-        
-        // Set validation group
-        $form->setValidationGroup(array(
-            'csrf',
-            'email',
-        ));
+        $form = new UserForm('recover');
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -39,15 +31,34 @@ class RecoverFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \User\InputFilter\UserFilter(array(
-            'user_mapper' => $userMapper,
-        ));
+        $inputFilter = new \User\InputFilter\UserFilter();
         
-        // Enable record exists for the email address
-        $inputFilter->enableEmailRecordExists();
+        // Set user mapper
+        $inputFilter->setUserMapper($userMapper);
+        
+        // Add filters
+        $inputFilter
+            ->addCsrf()
+            ->addEmail()
+        ;
+        
+        // Enable validators
+        $inputFilter
+            ->enableEmailRecordExists()
+        ;
         
         // Set input filter
         $form->setInputFilter($inputFilter);
+        
+        // Set user mapper
+        $form->setUserMapper($userMapper);
+        
+        // Add elements
+        $form
+            ->addCsrf()
+            ->addEmail()
+            ->addSubmit()
+        ;
         
         // Return form
         return $form;

@@ -22,19 +22,7 @@ class SignupFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new UserForm('signup', array(
-            'user_mapper' => $userMapper,
-        ));
-        
-        // Set validation group
-        $form->setValidationGroup(array(
-            'csrf',
-            'username',
-            'email',
-            'password',
-            'password_verify',
-            'captcha',
-        ));
+        $form = new UserForm('signup');
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -43,21 +31,44 @@ class SignupFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \User\InputFilter\UserFilter(array(
-            'user_mapper' => $userMapper,
-        ));
+        $inputFilter = new \User\InputFilter\UserFilter();
         
-        // Enable unique record for the username
-        $inputFilter->enableUsernameUniqueRecord();
+        // Set user mapper
+        $inputFilter->setUserMapper($userMapper);
         
-        // Enable unique record for the email address
-        $inputFilter->enableEmailUniqueRecord();
+        // Add filters
+        $inputFilter
+            //->addCaptcha()
+            ->addCsrf()
+            ->addEmail()
+            ->addPassword()
+            ->addPasswordVerify()
+            ->addUsername()
+        ;
         
-        // Enable string length for the password
-        $inputFilter->enablePasswordStringLength();
+        // Enable validators
+        $inputFilter
+            ->enableEmailNoRecordExists()
+            ->enablePasswordStringLength()
+            ->enableUsernameNoRecordExists()
+        ;
         
         // Set input filter
         $form->setInputFilter($inputFilter);
+        
+        // Set user mapper
+        $form->setUserMapper($userMapper);
+        
+        // Add elements
+        $form
+            ->addCaptcha()
+            ->addCsrf()
+            ->addEmail()
+            ->addPassword()
+            ->addPasswordVerify()
+            ->addUsername()
+            ->addSubmit()
+        ;
         
         // Return form
         return $form;

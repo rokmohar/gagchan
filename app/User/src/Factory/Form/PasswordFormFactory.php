@@ -22,16 +22,7 @@ class PasswordFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new UserForm('password_settings', array(
-            'user_mapper' => $userMapper,
-        ));
-        
-        // Set validation group
-        $form->setValidationGroup(array(
-            'csrf',
-            'password',
-            'password_verify',
-        ));
+        $form = new UserForm('password');
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -40,15 +31,36 @@ class PasswordFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \User\InputFilter\UserFilter(array(
-            'user_mapper' => $userMapper,
-        ));
+        $inputFilter = new \User\InputFilter\UserFilter();
         
-        // Enable string length for the password
-        $inputFilter->enablePasswordStringLength();
+        // Set user mapper
+        $inputFilter->setUserMapper($userMapper);
+        
+        // Add filters
+        $inputFilter
+            ->addCsrf()
+            ->addPassword()
+            ->addPasswordVerify()
+        ;
+        
+        // Enable validators
+        $inputFilter
+            ->enablePasswordStringLength()
+        ;
         
         // Set input filter
         $form->setInputFilter($inputFilter);
+        
+        // Set user mapper
+        $form->setUserMapper($userMapper);
+        
+        // Add elements
+        $form
+            ->addCsrf()
+            ->addPassword()
+            ->addPasswordVerify()
+            ->addSubmit()
+        ;
         
         // Return form
         return $form;

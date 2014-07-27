@@ -2,14 +2,15 @@
 
 namespace User\InputFilter;
 
-use Core\InputFilter\AbstractFilter;
+use Zend\InputFilter\InputFilter;
+
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserFilter extends AbstractFilter
+class UserFilter extends InputFilter
 {
     /**
      * @var \User\Mapper\UserMapperInterface
@@ -17,30 +18,11 @@ class UserFilter extends AbstractFilter
     protected $userMapper;
     
     /**
-     * @param array $options
-     */
-    public function __construct(array $options = array())
-    {
-        parent::__construct($options);
-        
-        // Add filters
-        $this
-            ->addCsrf()
-            ->addId()
-            ->addUsername()
-            ->addEmail()
-            ->addPassword()
-            ->addPasswordVerify()
-            ->addState()
-        ;
-    }
-    
-    /**
      * Add input filter for the CSRF.
      * 
      * @return \User\InputFilter\UserFilter
      */
-    protected function addCsrf()
+    public function addCsrf()
     {
         $this->add(array(
             'name'       => 'csrf',
@@ -60,7 +42,7 @@ class UserFilter extends AbstractFilter
      * 
      * @return \User\InputFilter\UserFilter
      */
-    protected function addId()
+    public function addId()
     {
         $this->add(array(
             'name'     => 'id',
@@ -78,7 +60,7 @@ class UserFilter extends AbstractFilter
      * 
      * @return \User\InputFilter\UserFilter
      */
-    protected function addUsername()
+    public function addUsername()
     {
         $this->add(array(
             'name'       => 'username',
@@ -116,7 +98,7 @@ class UserFilter extends AbstractFilter
      * 
      * @return \User\InputFilter\UserFilter
      */
-    protected function addEmail()
+    public function addEmail()
     {
         $this->add(array(
             'name'       => 'email',
@@ -141,7 +123,7 @@ class UserFilter extends AbstractFilter
      * 
      * @return \User\InputFilter\UserFilter
      */
-    protected function addPassword()
+    public function addPassword()
     {
         $this->add(array(
             'name'     => 'password',
@@ -161,7 +143,7 @@ class UserFilter extends AbstractFilter
      * 
      * @return \User\InputFilter\UserFilter
      */
-    protected function addPasswordVerify()
+    public function addPasswordVerify()
     {
         $this->add(array(
             'name'       => 'password_verify',
@@ -189,7 +171,7 @@ class UserFilter extends AbstractFilter
      * 
      * @return \User\InputFilter\UserFilter
      */
-    protected function addState()
+    public function addState()
     {
         $this->add(array(
             'name'       => 'password_verify',
@@ -226,7 +208,7 @@ class UserFilter extends AbstractFilter
         if (!$this->has('username')) {
             // Throw an exception
             throw new \RuntimeException(
-                sprintf("Could not attach \"%s\", because the element does not exist.", $name)
+                sprintf("Element with name \"%s\" does not exist.", $name)
             );
         }
         
@@ -253,7 +235,7 @@ class UserFilter extends AbstractFilter
         if (!$this->has('username')) {
             // Throw an exception
             throw new \RuntimeException(
-                sprintf("Could not attach \"%s\", because the element does not exist.", $name)
+                sprintf("Element with name \"%s\" does not exist.", $name)
             );
         }
         
@@ -280,7 +262,7 @@ class UserFilter extends AbstractFilter
         if (!$this->has('email')) {
             // Throw an exception
             throw new \RuntimeException(
-                sprintf("Could not attach \"%s\", because the element does not exist.", $name)
+                sprintf("Element with name \"%s\" does not exist.", $name)
             );
         }
         
@@ -307,7 +289,7 @@ class UserFilter extends AbstractFilter
         if (!$this->has('email')) {
             // Throw an exception
             throw new \RuntimeException(
-                sprintf("Could not attach \"%s\", because the element does not exist.", $name)
+                sprintf("Element with name \"%s\" does not exist.", $name)
             );
         }
         
@@ -334,7 +316,7 @@ class UserFilter extends AbstractFilter
         if (!$this->has('password')) {
             // Throw an exception
             throw new \RuntimeException(
-                sprintf("Could not attach \"%s\", because the element does not exist.", $name)
+                sprintf("Element with name \"%s\" does not exist.", $name)
             );
         }
         
@@ -361,7 +343,7 @@ class UserFilter extends AbstractFilter
         if (!$this->has('password')) {
             // Throw an exception
             throw new \RuntimeException(
-                sprintf("Could not attach \"%s\", because the element does not exist.", $name)
+                sprintf("Element with name \"%s\" does not exist.", $name)
             );
         }
         
@@ -387,7 +369,9 @@ class UserFilter extends AbstractFilter
         // Check if user mapper is empty
         if (empty($userMapper)) {
             // Throw an exception
-            throw new \RuntimeException("User mapper is required, none given.");
+            throw new \RuntimeException(
+                sprintf("Element with name \"%s\" does not exist.", $name)
+            );
         }
         
         // Attact validator
@@ -520,7 +504,7 @@ class UserFilter extends AbstractFilter
     public function enablePasswordStringLength()
     {
         // Add validator
-        return $this->attactEmailValidator('Zend\Validator\StringLength', array(
+        return $this->attachPasswordValidator('Zend\Validator\StringLength', array(
             'min' => 8,
             'max' => 64,
         ));
@@ -533,12 +517,6 @@ class UserFilter extends AbstractFilter
      */
     public function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set the user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     

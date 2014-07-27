@@ -31,9 +31,9 @@ class RecoverController extends AbstractActionController
     protected $recoverMapper;
     
     /**
-     * @var \User\Form\ResetForm
+     * @var \User\Form\PasswordForm
      */
-    protected $resetForm;
+    protected $passwordForm;
     
     /**
      * @var \User\Mapper\UserMapperInterface
@@ -153,24 +153,24 @@ class RecoverController extends AbstractActionController
         }
         
         // Get form
-        $resetForm = $this->getResetForm();
+        $passwordForm = $this->getPasswordForm();
         
         // Check if PRG is GET
         if ($prg === false) {
             // Return view
             return new ViewModel(array(
-                'resetForm' => $resetForm,
+                'passwordForm' => $passwordForm,
             ));
         }
         
-        // Set posted data
-        $resetForm->setData($prg);
+        // Set data
+        $passwordForm->setData($prg);
         
         // Check if form is not valid
-        if (!$resetForm->isValid()) {
+        if (!$passwordForm->isValid()) {
             // Return view
             return new ViewModel(array(
-                'resetForm' => $resetForm,
+                'passwordForm' => $passwordForm,
             ));
         }
         
@@ -187,7 +187,7 @@ class RecoverController extends AbstractActionController
         
         // Set password
         $user->setPassword($crypt->create(
-            $resetForm->get('password')->getValue()
+            $passwordForm->get('password')->getValue()
         ));
         
         // Update user
@@ -260,19 +260,19 @@ class RecoverController extends AbstractActionController
     }
     
     /**
-     * Return the reset form.
+     * Return the password form.
      * 
-     * @return \User\Form\ResetForm
+     * @return \User\Form\PasswordForm
      */
-    public function getResetForm()
+    public function getPasswordForm()
     {
-        if ($this->resetForm === null) {
-            return $this->resetForm = $this->getServiceLocator()->get(
-                'user.form.reset'
+        if ($this->passwordForm === null) {
+            return $this->passwordForm = $this->getServiceLocator()->get(
+                'user.form.password'
             );
         }
         
-        return $this->resetForm;
+        return $this->passwordForm;
     }
     
     /**

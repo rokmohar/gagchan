@@ -5,10 +5,10 @@
     <div class="widget">
         <h3 class="widget-title">Reset password</h3>
         
-         <?php echo $this->form()->openTag($resetForm) ?>
+         <?php echo $this->form()->openTag($passwordForm) ?>
             
             <!-- #CSRF -->
-            <?php echo $this->formHidden($resetForm->get('csrf')) ?>
+            <?php echo $this->formHidden($passwordForm->get('csrf')) ?>
             
             <!-- #Password -->
             <div class="form-row">
@@ -16,10 +16,10 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-envelope"></span>
                     </span>
-                    <?php echo $this->formInput($resetForm->get('password')) ?>
+                    <?php echo $this->formInput($passwordForm->get('password')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($resetForm->get('password')) ?>
+                <?php echo $this->formElementErrors($passwordForm->get('password')) ?>
             </div>
             
             <div class="form-row">
@@ -27,15 +27,15 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-envelope"></span>
                     </span>
-                    <?php echo $this->formInput($resetForm->get('password_verify')) ?>
+                    <?php echo $this->formInput($passwordForm->get('password_verify')) ?>
                 </div>
 
-                <?php echo $this->formElementErrors($resetForm->get('password_verify')) ?>
+                <?php echo $this->formElementErrors($passwordForm->get('password_verify')) ?>
             </div>
             
             <!-- #Submit -->
             <div class="input-group">
-                <?php echo $this->formSubmit($resetForm->get('submit')) ?>
+                <?php echo $this->formSubmit($passwordForm->get('submit')) ?>
             </div>
             
         <?php echo $this->form()->closeTag() ?>
