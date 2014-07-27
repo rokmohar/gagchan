@@ -117,21 +117,22 @@ jQuery(document).ready(function($) {
         // Stop propagation
         return false;
     });
-
+    
     // Meme generator preview
     var $img   = $('#preview');
-    var $src   = $img.attr('src');
-    var $token = $img.attr('data-token');
+    var $token = $('[name=token]');
+    
+    alert($token);
 
     $('[name=top]').focusout(function() {
         if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token, 'topText');
+            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $img.attr('src'), $token.val(), 'topText');
         }
     });
 
     $('[name=bottom]').focusout(function() {
         if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token, 'bottomText');
+            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $img.attr('src'), $token.val(), 'bottomText');
         }
     });
 
