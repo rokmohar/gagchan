@@ -22,7 +22,14 @@ class LoginFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new UserForm('login');
+        $form = new UserForm($userMapper);
+        
+        // Set validation group
+        $form->setValidationGroup(array(
+            'csrf',
+            'email',
+            'password',
+        ));
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -31,31 +38,10 @@ class LoginFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \User\InputFilter\UserFilter();
-        
-        // Set user mapper
-        $inputFilter->setUserMapper($userMapper);
-        
-        // Add filters
-        $inputFilter
-            ->addCsrf()
-            ->addEmail()
-            ->addPassword()
-        ;
+        $inputFilter = new \User\InputFilter\UserFilter($userMapper);
         
         // Set input filter
         $form->setInputFilter($inputFilter);
-        
-        // Set user mapper
-        $form->setUserMapper($userMapper);
-        
-        // Add elements
-        $form
-            ->addCsrf()
-            ->addEmail()
-            ->addPassword()
-            ->addSubmit()
-        ;
         
         // Return form
         return $form;

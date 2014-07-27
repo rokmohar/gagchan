@@ -185,6 +185,12 @@ class IndexController extends AbstractActionController
      */
     public function confirmAction()
     {
+        // Check if user has identity
+        if ($this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('home');
+        }
+        
         // Get confirmation mapper
         $confirmationMapper = $this->getConfirmationMapper();
         

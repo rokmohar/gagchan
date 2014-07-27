@@ -128,6 +128,12 @@ class RecoverController extends AbstractActionController
      */
     public function resetAction()
     {
+        // Check if user has identity
+        if ($this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('home');
+        }
+        
         // Get recover mapper
         $recoverMapper = $this->getRecoverMapper();
         

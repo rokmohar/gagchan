@@ -5,16 +5,12 @@ namespace User\View\Helper;
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\View\Helper\AbstractHelper;
 
-use User\Authentication\AuthenticationServiceAwareInterface;
-use User\Mapper\UserMapperAwareInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-class UserHelper extends AbstractHelper implements
-    AuthenticationServiceAwareInterface,
-    UserMapperAwareInterface
+class UserHelper extends AbstractHelper
 {
     /**
      * @var \Zend\Authentication\AuthenticationServiceInterface

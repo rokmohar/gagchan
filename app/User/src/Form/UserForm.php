@@ -4,14 +4,13 @@ namespace User\Form;
 
 use Zend\Form\Form;
 
-use User\Mapper\UserMapperAwareInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserForm extends Form implements UserMapperAwareInterface
+class UserForm extends Form implements UserFormInterface
 {
     /**
      * @var \User\Mapper\UserMapperInterface
@@ -19,149 +18,31 @@ class UserForm extends Form implements UserMapperAwareInterface
     protected $userMapper;
     
     /**
-     * Add the CSRF element.
-     * 
-     * @return \User\Form\AbstractForm
+     * @var \User\Mapper\UserMapperInterface $userMapper
      */
-    public function addCsrf()
+    public function __construct(UserMapperInterface $userMapper)
     {
-        $this->add(array(
-            'name' => 'csrf',
-            'type' => 'Zend\Form\Element\Csrf',
-        ));
+        parent::__construct();
         
-        return $this;
+        // Set user mapper
+        $this->setUserMapper($userMapper);
+        
+        // Add elements
+        $this
+            ->addCaptcha()
+            ->addCsrf()
+            ->addEmail()
+            ->addId()
+            ->addPassword()
+            ->addPasswordVerify()
+            ->addState()
+            ->addUsername()
+            ->addSubmit()
+        ;
     }
     
     /**
-     * Add the identifier element.
-     * 
-     * @return \User\Form\UserForm
-     */
-    public function addId()
-    {
-        $this->add(array(
-            'name' => 'id',
-            'type' => 'Zend\Form\Element\Hidden',
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the username element.
-     * 
-     * @return \User\Form\UserForm
-     */
-    public function addUsername()
-    {
-        $this->add(array(
-            'name'    => 'username',
-            'type'    => 'Zend\Form\Element\Text',
-            'options' => array(
-                'label' => 'Username',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'Username',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the email address element.
-     * 
-     * @return \User\Form\UserForm
-     */
-    public function addEmail()
-    {
-        $this->add(array(
-            'name'    => 'email',
-            'type'    => 'Zend\Form\Element\Text',
-            'options' => array(
-                'label' => 'Email address',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'Email address',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the password element.
-     * 
-     * @return \User\Form\UserForm
-     */
-    public function addPassword()
-    {
-        $this->add(array(
-            'name'    => 'password',
-            'type'    => 'Zend\Form\Element\Password',
-            'options' => array(
-                'label' => 'Password',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'Password',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the password verify element.
-     * 
-     * @return \User\Form\UserForm
-     */
-    public function addPasswordVerify()
-    {
-        $this->add(array(
-            'name'    => 'password_verify',
-            'type'    => 'Zend\Form\Element\Password',
-            'options' => array(
-                'label' => 'Password verify',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'Password verify',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the state element.
-     * 
-     * @return \User\Form\UserForm
-     */
-    public function addState()
-    {
-        $this->add(array(
-            'name'    => 'state',
-            'type'    => 'Zend\Form\Element\Text',
-            'options' => array(
-                'label' => 'State',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'State',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the captcha element.
-     * 
-     * @return \User\Form\UserForm
+     * {@inheritDoc}
      */
     public function addCaptcha()
     {
@@ -185,9 +66,113 @@ class UserForm extends Form implements UserMapperAwareInterface
     }
     
     /**
-     * Add the submit element.
-     * 
-     * @return \User\Form\UserForm
+     * {@inheritDoc}
+     */
+    public function addCsrf()
+    {
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addEmail()
+    {
+        $this->add(array(
+            'name'    => 'email',
+            'type'    => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'Email address',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Email address',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addId()
+    {
+        $this->add(array(
+            'name' => 'id',
+            'type' => 'Zend\Form\Element\Hidden',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addPassword()
+    {
+        $this->add(array(
+            'name'    => 'password',
+            'type'    => 'Zend\Form\Element\Password',
+            'options' => array(
+                'label' => 'Password',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Password',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addPasswordVerify()
+    {
+        $this->add(array(
+            'name'    => 'password_verify',
+            'type'    => 'Zend\Form\Element\Password',
+            'options' => array(
+                'label' => 'Password verify',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Password verify',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addState()
+    {
+        $this->add(array(
+            'name'    => 'state',
+            'type'    => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'State',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'State',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public function addSubmit()
     {
@@ -207,9 +192,27 @@ class UserForm extends Form implements UserMapperAwareInterface
     }
     
     /**
-     * Return the user mapper.
-     * 
-     * @return \User\Mapper\UserMapperInterface
+     * {@inheritDoc}
+     */
+    public function addUsername()
+    {
+        $this->add(array(
+            'name'    => 'username',
+            'type'    => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'Username',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Username',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public function getUserMapper()
     {
@@ -217,9 +220,7 @@ class UserForm extends Form implements UserMapperAwareInterface
     }
     
     /**
-     * Set the user mapper.
-     * 
-     * @param \User\Mapper\UserMapperInterface $userMapper
+     * {@inheritDoc}
      */
     public function setUserMapper(UserMapperInterface $userMapper)
     {

@@ -10,7 +10,7 @@ use User\Mapper\UserMapperInterface;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserFilter extends InputFilter
+class UserFilter extends InputFilter implements UserFilterInterface
 {
     /**
      * @var \User\Mapper\UserMapperInterface
@@ -18,9 +18,27 @@ class UserFilter extends InputFilter
     protected $userMapper;
     
     /**
-     * Add input filter for the CSRF.
-     * 
-     * @return \User\InputFilter\UserFilter
+     * @var \User\Mapper\UserMapperInterface $userMapper
+     */
+    public function __construct(UserMapperInterface $userMapper)
+    {
+        // Set user mapper
+        $this->setUserMapper($userMapper);
+        
+        // Add elements
+        $this
+            ->addCsrf()
+            ->addEmail()
+            ->addId()
+            ->addPassword()
+            ->addPasswordVerify()
+            ->addState()
+            ->addUsername()
+        ;
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public function addCsrf()
     {
@@ -38,65 +56,7 @@ class UserFilter extends InputFilter
     }
     
     /**
-     * Add input filter for the identifier.
-     * 
-     * @return \User\InputFilter\UserFilter
-     */
-    public function addId()
-    {
-        $this->add(array(
-            'name'     => 'id',
-            'required' => true,
-            'filters'  => array(
-                array('name' => 'Zend\Filter\Int'),
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add input filter for the username.
-     * 
-     * @return \User\InputFilter\UserFilter
-     */
-    public function addUsername()
-    {
-        $this->add(array(
-            'name'       => 'username',
-            'required'   => true,
-            'validators' => array(
-                array(
-                    'name'    => 'Zend\Validator\Regex',
-                    'options' => array(
-                        'pattern'  => '/^[a-zA-Z0-9\.\_]*$/',
-                        'messages' => array(
-                            \Zend\Validator\Regex::NOT_MATCH => 'Value can only contain letters, numbers, dots and underscores.',
-                        ),
-                    ),
-                ),
-                array(
-                    'name'    => 'Zend\Validator\StringLength',
-                    'options' => array(
-                        'min' => 4,
-                        'max' => 32,
-                    ),
-                ),
-            ),
-            'filters' => array(
-                array('name' => 'Zend\Filter\HtmlEntities'),
-                array('name' => 'Zend\Filter\StringTrim'),
-                array('name' => 'Zend\Filter\StripTags'),
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add input filter for the email address.
-     * 
-     * @return \User\InputFilter\UserFilter
+     * {@inheritDoc}
      */
     public function addEmail()
     {
@@ -119,9 +79,23 @@ class UserFilter extends InputFilter
     }
     
     /**
-     * Add input filter for the password.
-     * 
-     * @return \User\InputFilter\UserFilter
+     * {@inheritDoc}
+     */
+    public function addId()
+    {
+        $this->add(array(
+            'name'     => 'id',
+            'required' => true,
+            'filters'  => array(
+                array('name' => 'Zend\Filter\Int'),
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public function addPassword()
     {
@@ -139,9 +113,7 @@ class UserFilter extends InputFilter
     }
     
     /**
-     * Add input filter for the password verify.
-     * 
-     * @return \User\InputFilter\UserFilter
+     * {@inheritDoc}
      */
     public function addPasswordVerify()
     {
@@ -167,9 +139,7 @@ class UserFilter extends InputFilter
     }
     
     /**
-     * Add input filter for the state.
-     * 
-     * @return \User\InputFilter\UserFilter
+     * {@inheritDoc}
      */
     public function addState()
     {
@@ -181,6 +151,42 @@ class UserFilter extends InputFilter
                     'name'    => 'Zend\Validator\Identical',
                     'options' => array(
                         'token' => 'password',
+                    ),
+                ),
+            ),
+            'filters' => array(
+                array('name' => 'Zend\Filter\HtmlEntities'),
+                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\StripTags'),
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addUsername()
+    {
+        $this->add(array(
+            'name'       => 'username',
+            'required'   => true,
+            'validators' => array(
+                array(
+                    'name'    => 'Zend\Validator\Regex',
+                    'options' => array(
+                        'pattern'  => '/^[a-zA-Z0-9\.\_]*$/',
+                        'messages' => array(
+                            \Zend\Validator\Regex::NOT_MATCH => 'Value can only contain letters, numbers, dots and underscores.',
+                        ),
+                    ),
+                ),
+                array(
+                    'name'    => 'Zend\Validator\StringLength',
+                    'options' => array(
+                        'min' => 4,
+                        'max' => 32,
                     ),
                 ),
             ),
@@ -511,9 +517,7 @@ class UserFilter extends InputFilter
     }
     
     /**
-     * Return the user mapper.
-     * 
-     * @return \User\Mapper\UserMapperInterface
+     * {@inheritDoc}
      */
     public function getUserMapper()
     {
@@ -521,9 +525,7 @@ class UserFilter extends InputFilter
     }
     
     /**
-     * Set the user mapper.
-     * 
-     * @param \User\Mapper\UserMapperInterface $userMapper
+     * {@inheritDoc}
      */
     public function setUserMapper(UserMapperInterface $userMapper)
     {

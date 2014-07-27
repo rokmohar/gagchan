@@ -22,7 +22,17 @@ class SignupFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new UserForm('signup');
+        $form = new UserForm($userMapper);
+        
+        // Set validation group
+        $form->setValidationGroup(array(
+            'captcha',
+            'csrf',
+            'email',
+            'password',
+            'password_verify',
+            'username',
+        ));
         
         // Get hydrator
         $hydrator = new \User\Hydrator\UserHydrator();
@@ -31,20 +41,7 @@ class SignupFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \User\InputFilter\UserFilter();
-        
-        // Set user mapper
-        $inputFilter->setUserMapper($userMapper);
-        
-        // Add filters
-        $inputFilter
-            //->addCaptcha()
-            ->addCsrf()
-            ->addEmail()
-            ->addPassword()
-            ->addPasswordVerify()
-            ->addUsername()
-        ;
+        $inputFilter = new \User\InputFilter\UserFilter($userMapper);
         
         // Enable validators
         $inputFilter
@@ -55,20 +52,6 @@ class SignupFormFactory implements FactoryInterface
         
         // Set input filter
         $form->setInputFilter($inputFilter);
-        
-        // Set user mapper
-        $form->setUserMapper($userMapper);
-        
-        // Add elements
-        $form
-            ->addCaptcha()
-            ->addCsrf()
-            ->addEmail()
-            ->addPassword()
-            ->addPasswordVerify()
-            ->addUsername()
-            ->addSubmit()
-        ;
         
         // Return form
         return $form;

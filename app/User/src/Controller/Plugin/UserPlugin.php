@@ -6,16 +6,13 @@ use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 use User\Authentication\AuthenticationService;
-use User\Authentication\AuthenticationServiceAwareInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserPlugin extends AbstractPlugin implements
-    AuthenticationServiceAwareInterface
+class UserPlugin extends AbstractPlugin
 {
-
     /**
      * @var \User\Authentication\AuthenticationService
      */
