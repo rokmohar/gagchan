@@ -3,6 +3,7 @@
 namespace OAuth\Manager;
 
 use OAuth\Mapper\OAuthMapperInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -13,16 +14,18 @@ interface OAuthManagerInterface
     /**
      * Connect the user to OAuth provider.
      * 
-     * @param array $params
+     * @param \User\Entity\UserEntityInterface $user
+     * @param string                           $provider
      */
-    public function connect(array $params);
+    public function connect(UserEntityInterface $user, $provider);
     
     /**
      * Disconnect the user from OAuth provider.
      * 
-     * @param array $params
+     * @param \User\Entity\UserEntityInterface $user
+     * @param string                           $provider
      */
-    public function disconnect(array $params);
+    public function disconnect(UserEntityInterface $user, $provider);
     
     /**
      * Return the hybrid auth.

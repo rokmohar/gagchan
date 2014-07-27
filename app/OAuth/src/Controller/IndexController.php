@@ -4,10 +4,7 @@ namespace OAuth\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
-use OAuth\Entity\OAuthEntity;
 use OAuth\Manager\Exception\InvalidProviderException;
-use OAuth\Manager\Exception\MissingParameterException;
-
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -107,10 +104,10 @@ class IndexController extends AbstractActionController
         
         try {
             // Connect to provider
-            $this->getOAuthManager()->connect(array(
-                'provider' => $this->params()->fromRoute('provider'),
-                'user'     => $this->user()->getIdentity(),
-            ));
+            $this->getOAuthManager()->connect(
+                $this->user()->getIdentity(),
+                $this->params()->fromRoute('provider')
+            );
         }
         catch (InvalidProviderException $e) {
             // Provider not found
@@ -133,11 +130,11 @@ class IndexController extends AbstractActionController
         }
         
         try {
-            // Disconnect from provider
-            $this->getOAuthManager()->disconnect(array(
-                'provider' => $this->params()->fromRoute('provider'),
-                'user'     => $this->user()->getIdentity(),
-            ));
+            // Disconnect to provider
+            $this->getOAuthManager()->disconnect(
+                $this->user()->getIdentity(),
+                $this->params()->fromRoute('provider')
+            );
         }
         catch (InvalidProviderException $e) {
             // Provider not found

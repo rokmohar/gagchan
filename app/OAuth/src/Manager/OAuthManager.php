@@ -2,9 +2,7 @@
 
 namespace OAuth\Manager;
 
-use OAuth\Manager\Exception\InvalidArgumentException;
 use OAuth\Manager\Exception\InvalidProviderException;
-use OAuth\Manager\Exception\MissingParameterException;
 use OAuth\Entity\OAuthEntity;
 use OAuth\Mapper\OAuthMapperInterface;
 use User\Entity\UserEntityInterface;
@@ -28,35 +26,8 @@ class OAuthManager implements OAuthManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function connect(array $params)
+    public function connect(UserEntityInterface $user, $provider)
     {
-        // Check if user is not given
-        if (!array_key_exists('user', $params)) {
-            // Throw an exception
-            throw new MissingParameterException("Parameters must contain a user.");
-        }
-        
-        // Get user
-        $user = $params['user'];
-        
-        // Check if user does not have correct class
-        if (!$user instanceof UserEntityInterface) {
-            // Throw an exception
-            throw new InvalidArgumentException(sprintf(
-                "User must be an instance of \User\Entity\UserEntityInterface, \"%s\" given.",
-                is_object($user) ? get_class($user) : gettype($user)
-            ));
-        }
-        
-        // Check if provider is not given
-        if (!array_key_exists('provider', $params)) {
-            // Throw an exception
-            throw new MissingParameterException("Parameters must contain a provider.");
-        }
-        
-        // Get provider
-        $provider = $params['provider'];
-        
         // Get hybrid auth
         $hybridAuth = $this->getHybridAuth();
         
@@ -103,35 +74,8 @@ class OAuthManager implements OAuthManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function disconnect(array $params)
+    public function disconnect(UserEntityInterface $user, $provider)
     {
-        // Check if user is not given
-        if (!array_key_exists('user', $params)) {
-            // Throw an exception
-            throw new MissingParameterException("Parameters must contain a user.");
-        }
-        
-        // Get user
-        $user = $params['user'];
-        
-        // Check if user does not have correct class
-        if (!$user instanceof UserEntityInterface) {
-            // Throw an exception
-            throw new InvalidArgumentException(sprintf(
-                "User must be an instance of \User\Entity\UserEntityInterface, \"%s\" given.",
-                is_object($user) ? get_class($user) : gettype($user)
-            ));
-        }
-        
-        // Check if provider is not given
-        if (!array_key_exists('provider', $params)) {
-            // Throw an exception
-            throw new MissingParameterException("Parameters must contain a provider.");
-        }
-        
-        // Get provider
-        $provider = $params['provider'];
-        
         // Get hybrid auth
         $hybridAuth = $this->getHybridAuth();
         
