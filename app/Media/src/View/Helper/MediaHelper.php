@@ -39,7 +39,7 @@ class MediaHelper extends AbstractHelper
     protected $voteMapper;
     
     /**
-     * @var \Media\Options\ModuleOptions $options
+     * @var \Media\Options\ModuleOptions
      */
     protected $options;
     

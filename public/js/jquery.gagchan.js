@@ -122,8 +122,6 @@ jQuery(document).ready(function($) {
     var $img   = $('#preview');
     var $token = $('[name=token]');
     
-    alert($token);
-
     $('[name=top]').focusout(function() {
         if($.trim($(this).val()) !== "") {
             SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $img.attr('src'), $token.val(), 'topText');
@@ -135,7 +133,7 @@ jQuery(document).ready(function($) {
             SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $img.attr('src'), $token.val(), 'bottomText');
         }
     });
-
+    
     function SendAjaxRequest(umsg, dmsg, src, token, type)
     {
         $.ajax({

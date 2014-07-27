@@ -6,42 +6,33 @@ use Zend\View\Helper\AbstractHelper;
 
 use Generator\Entity\PrototypeEntityInterface;
 use Generator\Mapper\PrototypeMapperInterface;
-use Generator\Options\ModuleOptions;
+use Media\Options\ModuleOptions;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class GeneratorHelper extends AbstractHelper
-{    
+class PrototypeHelper extends AbstractHelper
+{
+    
     /**
-     * @var \Generator\Mapper\MediaMapperInterface
+     * @var \Generator\Mapper\PrototypeMapperInterface
      */
     protected $prototypeMapper;
-
+    
     /**
-     * @var \Generator\Options\ModuleOptions $options
+     * @var \Media\Options\ModuleOptions
      */
-    protected $options;
+    protected $mediaOptions;
     
     /**
      * @param \Generator\Mapper\PrototypeMapperInterface $prototypeMapper
-     * @param \Generator\Options\ModuleOptions           $options
+     * @param \Media\Options\ModuleOptions               $mediaOptions
      */
-    public function __construct(
-        PrototypeMapperInterface $prototypeMapper,
-        ModuleOptions $options
-    ) {
-        $this->mediaMapper  = $prototypeMapper;
-        $this->options      = $options;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function __invoke()
+    public function __construct(PrototypeMapperInterface $prototypeMapper, ModuleOptions $mediaOptions)
     {
-        return $this;
+        $this->prototypeMapper = $prototypeMapper;
+        $this->mediaOptions    = $mediaOptions;
     }
     
     /**
@@ -54,10 +45,9 @@ class GeneratorHelper extends AbstractHelper
     public function url(PrototypeEntityInterface $prototype)
     {
         // Get bucket URL
-        $bucketUrl = $this->options->getBucketUrl();
+        $bucketUrl = $this->mediaOptions->getBucketUrl();
         
         // Return original image
         return $bucketUrl . $prototype->getReference();
     }
-    
 }

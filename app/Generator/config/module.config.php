@@ -30,17 +30,7 @@ return array(
                         ),
                     ),
                 ),
-            ), 
-            'prototype' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/upload-prototype',
-                    'defaults' => array(
-                        'controller' => 'Generator\IndexController',
-                        'action'     => 'prototype',
-                    ),
-                ),
-            ),   
+            ),
             'preview' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
@@ -52,18 +42,15 @@ return array(
                 ),
             ),
             'publish' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Segment',
+                'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/generator/publish/[:slug]',
+                    'route'    => '/generator/publish',
                     'defaults' => array(
                         'controller'  => 'Generator\IndexController',
                         'action'      => 'publish',
-                        'constraints' => array(
-                            'slug' => '[a-zA-Z0-9]*',
-                        ),                        
                     ),
                 ),
-            ),             
+            ),
         ),
     ),
     'view_manager' => array(

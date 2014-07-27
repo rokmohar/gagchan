@@ -5,7 +5,6 @@ namespace Media;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
-use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>

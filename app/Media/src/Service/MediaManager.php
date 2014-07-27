@@ -173,12 +173,9 @@ class MediaManager implements MediaManagerInterface
         // Generate a slug
         $slug = $this->generateString(8);
         
-        // Media mapper
-        $mediaMapper = $this->getMediaMapper();
-        
         // Check if slug is unique
-        if (empty($mediaMapper->isUniqueSlug($slug))) {
-            // Return unique slug
+        if (empty($this->getMediaMapper()->selectRowBySlug($slug))) {
+            // Return slug
             return $slug;
         }
         

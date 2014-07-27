@@ -76,8 +76,6 @@ class UploadController extends AbstractActionController
             ));
         }
         
-        die("POSTED");
-        
         // Get data
         $media = $uploadForm->getData();
         

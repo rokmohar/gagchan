@@ -2,6 +2,7 @@
 
 namespace Generator\Controller;
 
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
@@ -16,30 +17,24 @@ use Generator\Utils\MemeGenerator;
 class IndexController extends AbstractActionController
 {
     /**
-     *
-     * @var array 
-     */
-    protected $data;
-    
-    /**
      * @var \Generator\Form\GeneratorForm
      */    
     protected $generatorForm;
     
     /**
-     * @var \Generator\Form\UploadForm
-     */    
-    protected $uploadForm;    
+     * @var \Media\Service\MediaManagerInterface
+     */
+    protected $mediaManager;
     
     /**
      * @var \Generator\Mapper\PrototypeMapperInterface
      */
-    protected $prototypeMapper;    
+    protected $prototypeMapper;
     
     /**
-     * @var \Generator\Options\ModuleOptions
-     */
-    protected $options;
+     * @var \Generator\Form\UploadForm
+     */    
+    protected $uploadForm;
     
     /**
      * @return array 
@@ -81,87 +76,51 @@ class IndexController extends AbstractActionController
         }
         
         // Get form
-        $form = $this->getGeneratorForm();
+        $prototypeForm = $this->getGeneratorForm();
         
-        // Create generator for meme unique ID
-        $tokenGenerator = \Core\Utils\TokenGenerator::getInstance();
-        
-        // Path to generated meme
-        $filePath = '/media/generator/';
-
-        // Generate unique ID of length 6
-        while (file_exists($filePath . 
-                $token = $tokenGenerator->getToken(6)) . 'jpg' == false);
-
         // Check if PRG is GET
         if ($prg === false) {
             // Return view
             return new ViewModel(array(
-                'form'      => $form,
+                'form'      => $prototypeForm,
                 'generator' => $generator,
-                'token'     => $token,
             ));
         }
         
         // Set data
-        $form->setData($prg);
+        $prototypeForm->setData($prg);
         
         // Check if form is not valid
-        if ($form->isValid() === false) {
+        if ($prototypeForm->isValid() === false) {
             // Return view
             return new ViewModel(array(
-                'form'      => $form,
+                'form'      => $prototypeForm,
                 'generator' => $generator,
-                'token'     => $token,
             ));
         }
         
-        var_dump($form->getData()); die();
-       
         // Get data
-        $data = $form->getData();
+        $data = $prototypeForm->getData();
         
-        // Get options
-        $options = $this->getPrototypeOptions();
-        
-        // Bucket URL
-        $bucketUrl = $this->options->getBucketUrl();
-        
-        // Reference to image
-        $ref = $generator->getReference();
-        
-        // Path to image
-        $path = $bucketUrl . $ref;
-        
-        // Process download
+        // Process form
         if (isset($data['download'])) { 
             
-        // Generate publish
-        } else if (isset($data['publish'])) {
+        }
+        else if (isset($data['publish'])) {
+            // Flash messenger
+            $fm = $this->flashMessenger()->setNamespace('generator.index.publish');
             
-            // Redirect to route
-            return $this->redirect()->toRoute('publish', array(
-                'token' => $token,
-            ));
-        
-            // Create uploaded image
-            $image = new UploadedFile(
-                $filePath . $token . 'jpg',
-                $file['name'],
-                $file['type'],
-                $file['size'],
-                $file['error']
-            );            
+            // Add message
+            $fm->addMessage(array('token' => $data['token']));
             
-            // Delete image from server
-            unlink($filePath . $token . 'jpg');
+            // Forward to publish
+            return $this->redirect()->toRoute('publish');
         }
 
         // Redirect to route
         return $this->redirect()->toRoute('edit', array(
             'slug' => $generator->getSlug(),
         ));     
-
     }
     
     /**
@@ -200,14 +159,35 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('login');
         }
         
-        // Get reqest
-        $request = $this->getRequest();
+        // Get PRG
+        $prg = $this->prg();
         
-        // Get form
+        // Check if PRG is response
+        if ($prg instanceof Response) {
+            // Return response
+            return $prg;
+        }
+        
+        // Get upload form
         $uploadForm = $this->getUploadForm();
         
-        // Check if page is not posted
-        if (!$request->isPost()) {
+        // Check if PRG is GET
+        if ($prg === false) {
+            // Get flash messenger
+            $fm = $this->flashMessenger()->setNamespace('generator.index.publish');
+
+            // Get messages
+            $messages = $fm->getMessages();
+
+            // Check if messages exist
+            if (!count($messages) || !array_key_exists('token', $messages[0])) {
+                // Redirect to route
+                return $this->redirect()->toRoute('generator');
+            }
+
+            // Set token value
+            $uploadForm->setTokenValue($messages[0]['token']);
+
             // Return view
             return new ViewModel(array(
                 'uploadForm' => $uploadForm,
@@ -218,10 +198,7 @@ class IndexController extends AbstractActionController
         $uploadForm->bind(new \Media\Entity\MediaEntity());
         
         // Set data
-        $uploadForm->setData(array_merge(
-            $request->getPost()->toarray(),
-            $request->getFiles()->toarray()
-        ));
+        $uploadForm->setData($prg);
         
         // Check if form is not valid
         if (!$uploadForm->isValid()) {
@@ -231,29 +208,26 @@ class IndexController extends AbstractActionController
             ));
         }
         
-        die("POSTED");
-        
         // Get data
         $media = $uploadForm->getData();
         
         // Set user
         $media->setUserId($this->user()->getIdentity()->getId());
-
-        // Get posted data
-        $file = $uploadForm->get('file')->getValue();
+        
+        // Get file
+        $file = sprintf('public/media/generator/%s.jpg',
+            $uploadForm->get('token')->getValue()
+        );
         
         // Create uploaded image
         $image = new UploadedFile(
-            $file['tmp_name'],
-            $file['name'],
-            $file['type'],
-            $file['size'],
-            $file['error']
+            $file,
+            basename($file)
         );
         
         // Media manager
         $mediaManager = $this->getMediaManager();
-
+        
         // Upload image
         $mediaManager->uploadImage($image, $media);
         
@@ -261,55 +235,6 @@ class IndexController extends AbstractActionController
         return $this->redirect()->toRoute('gag', array(
             'slug' => $media->getSlug(),
         ));        
-        
-    }
-    
-    /**
-     * @return array 
-     */    
-    public function prototypeAction()
-    {
-        // Amazon storage
-        $aws = $this->serviceLocator->get('aws');
-        $client = $aws->get('s3');
-        
-        $iterator = $client->getIterator('ListObjects', array(
-            'Bucket' => 'gagchan.dev',
-            'Marker' => 'prototype/',
-            'Prefix' => 'prototype/',
-        ));
-        
-        /*$prototypeMapper = $this->getPrototypeMapper();
-        
-        foreach ($iterator as $object) {
-            preg_match('/prototype\/([a-zA-Z0-9-]*).jpg/', $object['Key'], $matches);
-            
-            $slug = $matches[1];
-            $name = str_replace('-', ' ', $matches[1]);
-            
-            $prototype = new \Generator\Entity\PrototypeEntity();
-            
-            $prototype->setSlug(strtolower($slug));
-            $prototype->setName($name);
-            $prototype->setReference('/' . strtolower(str_replace('-', '_', $object['Key'])));
-            $prototype->setWidth(400);
-            $prototype->setHeight(400);
-            $prototype->setSize($object['Size']);
-            $prototype->setContentType('image/jpeg');
-            $prototype->setCreatedAt(new \DateTime());
-            $prototype->setUpdatedAt(new \DateTime());
-            
-            $prototypeMapper->insertRow($prototype);
-        }*/
-        
-        /*$result = $result = $client->headObject(array(
-            'Bucket' => 'gagchan.dev',
-            'Key'    => 'photo_prototype/10-Guy.jpg',
-        ));
-        
-        var_dump($result);*/
-        
-        die();
     }
     
     /**
@@ -350,20 +275,18 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * Return the uplaod form.
-     * 
-     * @return \Generator\Form\UploadForm
+     * @return \Media\Service\MediaManagerInterface
      */
-    public function getUploadForm()
+    public function getMediaManager()
     {
-        if ($this->uploadForm === null) {
-            return $this->uploadForm = $this->getServiceLocator()->get(
-                'generator.form.upload'
+        if ($this->mediaManager === null) {
+            return $this->mediaManager = $this->getServiceLocator()->get(
+                'media.service.media_manager'
             );
         }
         
-        return $this->uploadForm;
-    }    
+        return $this->mediaManager;
+    }
     
     /**
      * @return \Generator\Mapper\PrototypeMapperInterface
@@ -377,19 +300,30 @@ class IndexController extends AbstractActionController
         }
         
         return $this->prototypeMapper;
-    }    
-    
+    }
     /**
-     * @return \Generator\Options\ModuleOptions
+     * Return the upload form.
+     * 
+     * @return \Generator\Form\UploadForm
      */
-    public function getPrototypeOptions()
+    public function getUploadForm()
     {
-        if ($this->options === null) {
-            return $this->options = $this->getServiceLocator()->get(
-                'generator.options.module'
+        if ($this->uploadForm === null) {
+            return $this->uploadForm = $this->getServiceLocator()->get(
+                'generator.form.publish'
             );
         }
         
-        return $this->options;
-    }     
+        return $this->uploadForm;
+    }
+    
+    /**
+     * Return the session.
+     * 
+     * @return \Zend\Session\Container
+     */
+    public function getSession()
+    {
+        
+    }
 }

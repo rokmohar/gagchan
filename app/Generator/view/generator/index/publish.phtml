@@ -1,3 +1,9 @@
+<?php echo $this->headTitle()->prepend('Publish') ?>
+
+<?php
+    $uploadForm->setAttribute('action', $this->url('publish'));
+?>
+
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
     <div class="widget">
@@ -43,6 +49,9 @@
 
                 <?php echo $this->formElementErrors($uploadForm->get('delay_at')) ?>
             </div>
+            
+            <!-- #Token -->
+            <?php echo $this->formHidden($uploadForm->get('token')) ?>
 
             <div class="input-group">
                 <?php echo $this->formButton($uploadForm->get('submit')) ?>

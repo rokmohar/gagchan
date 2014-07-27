@@ -9,7 +9,7 @@
             <?php foreach($generator as $index=>$g):?>
 
             <a href="<?php echo $this->url('edit', array('slug' => $g->getSlug())) ?>" class="meme-img">
-                <img src="<?php echo $this->generator()->url($g) ?>" alt="" class="img-responsive" />
+                <img src="<?php echo $this->prototype()->url($g) ?>" alt="" class="img-responsive" />
             </a>
         
             <?php endforeach ?>

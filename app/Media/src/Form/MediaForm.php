@@ -64,7 +64,6 @@ class MediaForm extends Form
      */
     protected function addCsrf()
     {
-        // Media name
         $this->add(array(
             'name' => 'csrf',
             'type' => 'Zend\Form\Element\Csrf',
@@ -80,7 +79,6 @@ class MediaForm extends Form
      */
     protected function addSlug()
     {
-        // Media name
         $this->add(array(
             'name'    => 'slug',
             'type'    => 'Zend\Form\Element\Text',
@@ -103,7 +101,6 @@ class MediaForm extends Form
      */
     protected function addName()
     {
-        // Media name
         $this->add(array(
             'name'    => 'name',
             'type'    => 'Zend\Form\Element\Text',
@@ -126,7 +123,6 @@ class MediaForm extends Form
      */
     protected function addReference()
     {
-        // Media name
         $this->add(array(
             'name'    => 'reference',
             'type'    => 'Zend\Form\Element\Text',
@@ -149,7 +145,6 @@ class MediaForm extends Form
      */
     protected function addThumbnail()
     {
-        // Media name
         $this->add(array(
             'name'    => 'thumbnail',
             'type'    => 'Zend\Form\Element\Text',
@@ -235,7 +230,6 @@ class MediaForm extends Form
      */
     protected function addHeight()
     {
-        // Media name
         $this->add(array(
             'name'    => 'height',
             'type'    => 'Zend\Form\Element\Text',
@@ -258,7 +252,6 @@ class MediaForm extends Form
      */
     protected function addWidth()
     {
-        // Media name
         $this->add(array(
             'name'    => 'width',
             'type'    => 'Zend\Form\Element\Text',
@@ -281,7 +274,6 @@ class MediaForm extends Form
      */
     protected function addSize()
     {
-        // Media name
         $this->add(array(
             'name'    => 'size',
             'type'    => 'Zend\Form\Element\Text',
@@ -304,7 +296,6 @@ class MediaForm extends Form
      */
     protected function addContentType()
     {
-        // Media name
         $this->add(array(
             'name'    => 'content_type',
             'type'    => 'Zend\Form\Element\Text',
@@ -327,7 +318,6 @@ class MediaForm extends Form
      */
     protected function addIsFeatured()
     {
-        // Media name
         $this->add(array(
             'name'    => 'is_featured',
             'type'    => 'Zend\Form\Element\Checkbox',
@@ -350,7 +340,6 @@ class MediaForm extends Form
      */
     protected function addState()
     {
-        // Media name
         $this->add(array(
             'name'    => 'state',
             'type'    => 'Zend\Form\Element\Checkbox',

@@ -5,22 +5,19 @@ namespace Generator\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Media\Form\UploadForm;
+use Generator\Form\PublishForm;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UploadFormFactory implements FactoryInterface
+class PublishFormFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        // Module options
-        $options = $serviceLocator->get('media.options.module');
-        
         // Get media mapper
         $mediaMapper = $serviceLocator->get('media.mapper.media');
         
@@ -31,7 +28,7 @@ class UploadFormFactory implements FactoryInterface
         $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
-        $form = new UploadForm('media', array(
+        $form = new PublishForm('media', array(
             'media_mapper'    => $mediaMapper,
             'user_mapper'     => $userMapper,
             'category_mapper' => $categoryMapper,
@@ -45,8 +42,7 @@ class UploadFormFactory implements FactoryInterface
         ));
         
         // Get hydrator
-        $hydratorClass = $options->getMediaHydrator();
-        $hydrator      = new $hydratorClass();
+        $hydrator = new \Media\Hydrator\MediaHydrator();
         
         // Set hydrator
         $form->setHydrator($hydrator);

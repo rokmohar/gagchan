@@ -51,27 +51,6 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     }
     
     /**
-     * @param \Media\Entity\MediaEntityInterface $media
-     * 
-     * @return bool
-     */
-    public function hasUniqueSlug(MediaEntityInterface $media)
-    {
-        return $this->isUniqueSlug($media->getSlug());
-    }
-    
-    /**
-     * @param string $slug
-     * 
-     * @return bool
-     */
-    public function isUniqueSlug($slug)
-    {
-        // Check if no match exists
-        return empty($this->selectRow(array('slug' => $slug)));
-    }
-    
-    /**
      * {@inheritDoc}
      */
     public function selectAll(array $where = array(), array $order = array())

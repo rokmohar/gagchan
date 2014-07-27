@@ -27,7 +27,6 @@ class MemeGenerator
      * @var Integer
      */
     protected $size;
-    
     /**
      *
      * @var Color
