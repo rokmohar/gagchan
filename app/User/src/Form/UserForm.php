@@ -4,13 +4,14 @@ namespace User\Form;
 
 use Zend\Form\Form;
 
+use User\Mapper\UserMapperAwareInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserForm extends Form
+class UserForm extends Form implements UserMapperAwareInterface
 {
     /**
      * @var \User\Mapper\UserMapperInterface

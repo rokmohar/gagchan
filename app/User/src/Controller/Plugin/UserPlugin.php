@@ -2,15 +2,18 @@
 
 namespace User\Controller\Plugin;
 
+use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 use User\Authentication\AuthenticationService;
+use User\Authentication\AuthenticationServiceAwareInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserPlugin extends AbstractPlugin
+class UserPlugin extends AbstractPlugin implements
+    AuthenticationServiceAwareInterface
 {
 
     /**
@@ -61,7 +64,7 @@ class UserPlugin extends AbstractPlugin
     /**
      * Return the authentication service.
      *
-     * @return \User\Authentication\AuthenticationService
+     * @return \User\Authentication\AuthenticationServiceInterface
      */
     public function getAuthService()
     {
@@ -71,9 +74,9 @@ class UserPlugin extends AbstractPlugin
     /**
      * Return the authentication service.
      *
-     * @param \User\Authentication\AuthenticationService $authService
+     * @param \User\Authentication\AuthenticationServiceInterface $authService
      */
-    public function setAuthService(AuthenticationService $authService)
+    public function setAuthService(AuthenticationServiceInterface $authService)
     {
         $this->authService = $authService;
         

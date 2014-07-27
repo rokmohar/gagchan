@@ -11,108 +11,7 @@ use Zend\Form\Form;
 class ContactForm extends Form
 {
     /**
-     * @param string $name
-     * @param array  $options
-     */    
-    public function __construct($name, array $options = array())
-    {
-        parent::__construct($name, $options);
-
-        // Add elements
-        $this
-            ->addCsrf()
-            ->addEmail()
-            ->addSubject()
-            ->addMessage()
-            ->addCaptcha()
-            ->addSubmit()
-        ;
-    }
-    
-    /**
-     * Add the CSRF element.
-     * 
-     * @return \Contact\Form\ContactForm
-     */
-    public function addCsrf()
-    {
-        $this->add(array(
-            'name' => 'csrf',
-            'type' => 'Zend\Form\Element\Csrf',
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the email address element.
-     * 
-     * @return \Contact\Form\ContactForm
-     */
-    protected function addEmail()
-    {
-        $this->add(array(
-            'name'    => 'email',
-            'type'    => 'Zend\Form\Element\Text',
-            'options' => array(
-                'label' => 'Your email address',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'Your email address',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the subject element.
-     * 
-     * @return \Contact\Form\ContactForm
-     */
-    protected function addSubject()
-    {
-        $this->add(array(
-            'name'    => 'subject',
-            'type'    => 'Zend\Form\Element\Text',
-            'options' => array(
-                'label' => 'Subject',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'Subject',
-            ),            
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the message element.
-     * 
-     * @return \Contact\Form\ContactForm
-     */
-    protected function addMessage()
-    {
-        $this->add(array(
-            'name'    => 'message',
-            'type'    => 'Zend\Form\Element\Textarea',
-            'options' => array(
-                'label' => 'Your message',
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'style'       => 'resize: vertical;',                
-                'placeholder' => 'Your message',
-            ),            
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add captcha element.
+     * Add the captcha element.
      * 
      * @return \User\Form\AbstractUserForm
      */
@@ -138,7 +37,89 @@ class ContactForm extends Form
     }
     
     /**
-     * Add submit element.
+     * Add the CSRF element.
+     * 
+     * @return \Contact\Form\ContactForm
+     */
+    public function addCsrf()
+    {
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the email address element.
+     * 
+     * @return \Contact\Form\ContactForm
+     */
+    public function addEmail()
+    {
+        $this->add(array(
+            'name'    => 'email',
+            'type'    => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'Your email address',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Your email address',
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the message element.
+     * 
+     * @return \Contact\Form\ContactForm
+     */
+    public function addMessage()
+    {
+        $this->add(array(
+            'name'    => 'message',
+            'type'    => 'Zend\Form\Element\Textarea',
+            'options' => array(
+                'label' => 'Your message',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'style'       => 'resize: vertical;',                
+                'placeholder' => 'Your message',
+            ),            
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the subject element.
+     * 
+     * @return \Contact\Form\ContactForm
+     */
+    public function addSubject()
+    {
+        $this->add(array(
+            'name'    => 'subject',
+            'type'    => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'Subject',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Subject',
+            ),            
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the submit element.
      * 
      * @return \Contact\Form\ContactForm
      */

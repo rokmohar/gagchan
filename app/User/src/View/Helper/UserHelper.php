@@ -2,18 +2,22 @@
 
 namespace User\View\Helper;
 
+use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\View\Helper\AbstractHelper;
 
-use User\Authentication\AuthenticationService;
+use User\Authentication\AuthenticationServiceAwareInterface;
+use User\Mapper\UserMapperAwareInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-class UserHelper extends AbstractHelper
+class UserHelper extends AbstractHelper implements
+    AuthenticationServiceAwareInterface,
+    UserMapperAwareInterface
 {
     /**
-     * @var \User\Authentication\AuthenticationService
+     * @var \Zend\Authentication\AuthenticationServiceInterface
      */
     protected $authService;
     
@@ -23,13 +27,15 @@ class UserHelper extends AbstractHelper
     protected $userMapper;
     
     /**
-     * @param \User\Authentication\AuthenticationService $authService
-     * @param \User\Mapper\UserMapperInterface           $userMapper
+     * @param \Zend\Authentication\AuthenticationServiceInterface $authService
+     * @param \User\Mapper\UserMapperInterface                    $userMapper
      */
-    public function __construct(AuthenticationService $authService, UserMapperInterface $userMapper)
-    {
-        $this->authService = $authService;
-        $this->userMapper  = $userMapper;
+    public function __construct(
+        AuthenticationServiceInterface $authService,
+        UserMapperInterface $userMapper
+    ) {
+        $this->setAuthService($authService);
+        $this->setUserMapper($userMapper);
     }
     
     /**
@@ -47,22 +53,63 @@ class UserHelper extends AbstractHelper
      */
     public function findById($id)
     {
-        return $this->userMapper->selectRowById($id);
+        return $this->getUserMapper()->selectRowById($id);
     }
     
     /**
+     * Check whether the user has identity.
+     * 
      * @return bool
      */
     public function hasIdentity()
     {
-        return $this->authService->hasIdentity();
+        return $this->getAuthService()->hasIdentity();
     }
     
     /**
+     * Returnthe identity.
+     * 
      * @return mixed
      */
     public function getIdentity()
     {
-        return $this->authService->getIdentity();
+        return $this->getAuthService()->getIdentity();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAuthService()
+    {
+        return $this->authService;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setAuthService(AuthenticationServiceInterface $authService)
+    {
+        $this->authService = $authService;
+        
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUserMapper()
+    {
+        return $this->userMapper;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUserMapper(UserMapperInterface $userMapper)
+    {
+        $this->userMapper = $userMapper;
+        
+        return $this;
+    }
+
 }

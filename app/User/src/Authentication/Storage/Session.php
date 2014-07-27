@@ -13,7 +13,7 @@ class Session extends ZendSession implements StorageInterface
     /**
      * {@inheritDoc}
      */
-    public function rememberMe($ttl = 604800)
+    public function rememberMe($ttl)
     {
         $this->session->getManager()->rememberMe($ttl);
         
