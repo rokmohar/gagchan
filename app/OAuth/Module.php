@@ -48,6 +48,7 @@ class Module implements
             ),
             'factories' => array(
                 'oauth.hybridauth'     => 'OAuth\Factory\HybridAuthFactory',
+                'oauth.manager.oauth'  => 'OAuth\Factory\Manager\OAuthManagerFactory',
                 'oauth.mapper.oauth'   => 'OAuth\Factory\Mapper\OAuthMapperFactory',
                 'oauth.options.module' => 'OAuth\Factory\Options\ModuleOptionsFactory'
             ),
