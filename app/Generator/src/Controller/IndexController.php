@@ -145,7 +145,9 @@ class IndexController extends AbstractActionController
         $name = $this->generate($upmsg, $downmsg, $path, $token);
         
         // Retrun create image path
-        return  new JsonModel(array('name' => $name));
+        return  new JsonModel(array(
+            'name' => $name,
+        ));
     }
     
     /**

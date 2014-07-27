@@ -120,17 +120,18 @@ jQuery(document).ready(function($) {
     
     // Meme generator preview
     var $img   = $('#preview');
+    var $src   = $img.attr('src');
     var $token = $('[name=token]');
     
     $('[name=top]').focusout(function() {
         if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $img.attr('src'), $token.val(), 'topText');
+            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token.val(), 'topText');
         }
     });
 
     $('[name=bottom]').focusout(function() {
         if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $img.attr('src'), $token.val(), 'bottomText');
+            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token.val(), 'bottomText');
         }
     });
     
