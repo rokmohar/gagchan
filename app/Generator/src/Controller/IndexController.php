@@ -59,7 +59,7 @@ class IndexController extends AbstractActionController
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
         );
-               
+        
         // Check if generator is empty
         if (empty($generator)) {
             // Media not found
@@ -111,7 +111,7 @@ class IndexController extends AbstractActionController
             // Path to file
             $file = 'public/media/generator/' . $token . '.jpg';
             
-            // File is not file
+            // Not a file
             if(is_file($file) == false) {
                 return $this->redirect()->toRoute('generator');
             }            
@@ -129,14 +129,13 @@ class IndexController extends AbstractActionController
             $headers
                     ->clearHeaders()
                     ->addHeaderLine('Content-Type', 'application/force-download')
-                    ->addHeaderLine('Content-Disposition',  sprintf('attachment; filename="%s"', $file))
+                    ->addHeaderLine('Content-Disposition',  sprintf('attachment; filename="%s"', $generator->getName() . '.jpg'))
             ;
             
             // Return response
             return $response;            
             
-        }
-        else if (isset($data['publish'])) {
+        } else if (isset($data['publish'])) {
             // Flash messenger
             $fm = $this->flashMessenger()->setNamespace('generator.index.publish');
             
@@ -170,8 +169,6 @@ class IndexController extends AbstractActionController
         
         // Image token (unique ID)
         $token   = $_POST['token'];
-
-        //echo $upmsg . " " . $downmsg . " " . " " .$path . " " . $token; die();
         
         // Generate meme
         $name = $this->generate($upmsg, $downmsg, $path, $token);
