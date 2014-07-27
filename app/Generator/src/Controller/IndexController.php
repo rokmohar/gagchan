@@ -105,6 +105,36 @@ class IndexController extends AbstractActionController
         // Process form
         if (isset($data['download'])) { 
             
+            // Token
+            $token = $data['token'];
+            
+            // Path to file
+            $file = 'public/media/generator/' . $token . '.jpg';
+            
+            // File is not file
+            if(is_file($file) == false) {
+                return $this->redirect()->toRoute('generator');
+            }            
+            
+            // Get response
+            $response = $this->getResponse();
+
+            // Set content
+            $response->setContent(file_get_contents($file));
+
+            // Get headers
+            $headers = $response->getHeaders();
+            
+            // Set headers
+            $headers
+                    ->clearHeaders()
+                    ->addHeaderLine('Content-Type', 'application/force-download')
+                    ->addHeaderLine('Content-Disposition',  sprintf('attachment; filename="%s"', $file))
+            ;
+            
+            // Return response
+            return $response;            
+            
         }
         else if (isset($data['publish'])) {
             // Flash messenger
@@ -141,6 +171,8 @@ class IndexController extends AbstractActionController
         // Image token (unique ID)
         $token   = $_POST['token'];
 
+        //echo $upmsg . " " . $downmsg . " " . " " .$path . " " . $token; die();
+        
         // Generate meme
         $name = $this->generate($upmsg, $downmsg, $path, $token);
         
