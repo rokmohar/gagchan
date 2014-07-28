@@ -68,7 +68,7 @@ class MediaFilter extends AbstractFilter
                     'name'    => 'Zend\Validator\StringLength',
                     'options' => array(
                         'min' => 4,
-                        'max' => 32,
+                        'max' => 64,
                     ),
                 ),
             ),
