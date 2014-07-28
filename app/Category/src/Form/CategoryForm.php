@@ -18,12 +18,14 @@ class CategoryForm extends Form
     protected $categoryMapper;
     
     /**
-     * @param string $name
-     * @param array  $options
+     * @param \Category\Mapper\CategoryMapperInterface $categoryMapper
      */
-    public function __construct($name, array $options = array())
+    public function __construct(CategoryMapperInterface $categoryMapper)
     {
-        parent::__construct($name, $options);
+        parent::__construct();
+        
+        // Set category mapper
+        $this->setCategoryMapper($categoryMapper);
         
         // Add form elements
         $this
@@ -130,12 +132,6 @@ class CategoryForm extends Form
      */
     public function getCategoryMapper()
     {
-        // Check if category mapper is empty
-        if ($this->categoryMapper === null) {
-            // Set category mapper
-            $this->setCategoryMapper($this->getOption('category_mapper'));
-        }
-        
         return $this->categoryMapper;
     }
     

@@ -28,11 +28,7 @@ class PublishFormFactory implements FactoryInterface
         $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
-        $form = new PublishForm('media', array(
-            'media_mapper'    => $mediaMapper,
-            'user_mapper'     => $userMapper,
-            'category_mapper' => $categoryMapper,
-        ));
+        $form = new PublishForm($mediaMapper, $userMapper, $categoryMapper);
         
         // Set validation group
         $form->setValidationGroup(array(
@@ -48,11 +44,11 @@ class PublishFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \Media\InputFilter\UploadFilter(array(
-            'media_mapper'    => $mediaMapper,
-            'user_mapper'     => $userMapper,
-            'category_mapper' => $categoryMapper,
-        ));
+        $inputFilter = new \Media\InputFilter\UploadFilter(
+            $mediaMapper,
+            $userMapper,
+            $categoryMapper
+        );
         
         // Set input filter
         $form->setInputFilter($inputFilter);

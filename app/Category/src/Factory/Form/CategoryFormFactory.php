@@ -22,9 +22,7 @@ class CategoryFormFactory implements FactoryInterface
         $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
-        $form = new CategoryForm('category', array(
-            'category_mapper' => $categoryMapper,
-        ));
+        $form = new CategoryForm($categoryMapper);
         
         // Get hydrator
         $hydrator = new \Category\Hydrator\CategoryHydrator();
@@ -33,9 +31,7 @@ class CategoryFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \Category\InputFilter\CategoryFilter(array(
-            'category_mapper' => $categoryMapper,
-        ));
+        $inputFilter = new \Category\InputFilter\CategoryFilter($categoryMapper);
         
         // Set input filter
         $form->setInputFilter($inputFilter);

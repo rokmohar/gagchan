@@ -4,8 +4,8 @@ namespace Media\Form;
 
 use Zend\Form\Form;
 
-use Media\Mapper\MediaMapperInterface;
 use Category\Mapper\CategoryMapperInterface;
+use Media\Mapper\MediaMapperInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
@@ -30,12 +30,25 @@ class MediaForm extends Form
     protected $categoryMapper;
     
     /**
-     * @param string $name
-     * @param array  $options
+     * @param \Media\Mapper\MediaMapperInterface    $mediaMapper
+     * @param \User\Mapper\UserMapperInterface      $userMapper
+     * @param \Media\Mapper\CategoryMapperInterface $categoryMapper
      */
-    public function __construct($name, array $options = array())
-    {
-        parent::__construct($name, $options);
+    public function __construct(
+        MediaMapperInterface $mediaMapper,
+        UserMapperInterface $userMapper,
+        CategoryMapperInterface $categoryMapper
+    ) {
+        parent::__construct();
+        
+        // Set media mapper
+        $this->setMediaMapper($mediaMapper);
+        
+        // Set user mapper
+        $this->setUserMapper($userMapper);
+        
+        // Set category mapper
+        $this->setCategoryMapper($categoryMapper);
         
         // Add elements
         $this
@@ -406,12 +419,6 @@ class MediaForm extends Form
      */
     protected function getMediaMapper()
     {
-        // Check if media mapper is empty
-        if ($this->mediaMapper === null) {
-            // Set media mapper
-            $this->setMediaMapper($this->getOption('media_mapper'));
-        }
-        
         return $this->mediaMapper;
     }
     
@@ -434,12 +441,6 @@ class MediaForm extends Form
      */
     protected function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     
@@ -462,12 +463,6 @@ class MediaForm extends Form
      */
     protected function getCategoryMapper()
     {
-        // Check if category mapper is empty
-        if ($this->categoryMapper === null) {
-            // Set category mapper
-            $this->setCategoryMapper($this->getOption('category_mapper'));
-        }
-        
         return $this->categoryMapper;
     }
     

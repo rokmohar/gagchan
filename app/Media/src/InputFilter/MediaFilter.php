@@ -2,16 +2,17 @@
 
 namespace Media\InputFilter;
 
-use Core\InputFilter\AbstractFilter;
-use Media\Mapper\MediaMapperInterface;
+use Zend\InputFilter\InputFilter;
+
 use Category\Mapper\CategoryMapperInterface;
+use Media\Mapper\MediaMapperInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class MediaFilter extends AbstractFilter
+class MediaFilter extends InputFilter
 {
     /**
      * @var \Media\Mapper\MediaMapperInterface
@@ -29,11 +30,24 @@ class MediaFilter extends AbstractFilter
     protected $categoryMapper;
     
     /**
-     * @param array $options
+     * @param \Media\Mapper\MediaMapperInterface    $mediaMapper
+     * @param \User\Mapper\UserMapperInterface      $userMapper
+     * @param \Media\Mapper\CategoryMapperInterface $categoryMapper
      */
-    public function __construct(array $options = array())
-    {
-        parent::__construct($options);
+    public function __construct(
+        MediaMapperInterface $mediaMapper,
+        UserMapperInterface $userMapper,
+        CategoryMapperInterface $categoryMapper
+            
+    ) {
+        // Set media mapper
+        $this->setMediaMapper($mediaMapper);
+        
+        // Set user mapper
+        $this->setUserMapper($userMapper);
+        
+        // Set category mapper
+        $this->setCategoryMapper($categoryMapper);
         
         // Add filters
         $this
@@ -313,12 +327,6 @@ class MediaFilter extends AbstractFilter
      */
     public function getMediaMapper()
     {
-        // Check if media mapper is empty
-        if ($this->mediaMapper === null) {
-            // Set media mapper
-            $this->setMediaMapper($this->getOption('media_mapper'));
-        }
-        
         return $this->mediaMapper;
     }
     
@@ -329,7 +337,7 @@ class MediaFilter extends AbstractFilter
      */
     public function setMediaMapper(MediaMapperInterface $mediaMapper)
     {
-        $this->$mediaMapper = $mediaMapper;
+        $this->mediaMapper = $mediaMapper;
         
         return $this;
     }
@@ -341,12 +349,6 @@ class MediaFilter extends AbstractFilter
      */
     public function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     
@@ -369,12 +371,6 @@ class MediaFilter extends AbstractFilter
      */
     public function getCategoryMapper()
     {
-        // Check if category mapper is empty
-        if ($this->categoryMapper === null) {
-            // Set category mapper
-            $this->setCategoryMapper($this->getOption('category_mapper'));
-        }
-        
         return $this->categoryMapper;
     }
     

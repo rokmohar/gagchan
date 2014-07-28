@@ -2,6 +2,10 @@
 
 namespace Media\InputFilter;
 
+use Category\Mapper\CategoryMapperInterface;
+use Media\Mapper\MediaMapperInterface;
+use User\Mapper\UserMapperInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -9,11 +13,17 @@ namespace Media\InputFilter;
 class UploadFilter extends MediaFilter
 {
     /**
-     * @param array $options
+     * @param \Media\Mapper\MediaMapperInterface    $mediaMapper
+     * @param \User\Mapper\UserMapperInterface      $userMapper
+     * @param \Media\Mapper\CategoryMapperInterface $categoryMapper
      */
-    public function __construct(array $options = array())
-    {
-        parent::__construct($options);
+    public function __construct(
+        MediaMapperInterface $mediaMapper,
+        UserMapperInterface $userMapper,
+        CategoryMapperInterface $categoryMapper
+            
+    ) {
+        parent::__construct($mediaMapper, $userMapper, $categoryMapper);
         
         // Add filters
         $this

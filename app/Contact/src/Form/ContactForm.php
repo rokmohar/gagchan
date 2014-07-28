@@ -11,6 +11,25 @@ use Zend\Form\Form;
 class ContactForm extends Form
 {
     /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        
+        // Add elements
+        $this
+            ->addCaptcha()
+            ->addCsrf()
+            ->addEmail()
+            ->addMessage()
+            ->addSubject()
+            ->addSubmit()
+        ;
+        
+    }
+    
+    /**
      * Add the captcha element.
      * 
      * @return \User\Form\AbstractUserForm

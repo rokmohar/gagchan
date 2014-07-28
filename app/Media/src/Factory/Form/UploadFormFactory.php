@@ -31,11 +31,7 @@ class UploadFormFactory implements FactoryInterface
         $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
-        $form = new UploadForm('media', array(
-            'media_mapper'    => $mediaMapper,
-            'user_mapper'     => $userMapper,
-            'category_mapper' => $categoryMapper,
-        ));
+        $form = new UploadForm($mediaMapper, $userMapper, $categoryMapper);
         
         // Set validation group
         $form->setValidationGroup(array(
@@ -57,11 +53,11 @@ class UploadFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \Media\InputFilter\UploadFilter(array(
-            'media_mapper'    => $mediaMapper,
-            'user_mapper'     => $userMapper,
-            'category_mapper' => $categoryMapper,
-        ));
+        $inputFilter = new \Media\InputFilter\UploadFilter(
+            $mediaMapper,
+            $userMapper,
+            $categoryMapper
+        );
         
         // Set input filter
         $form->setInputFilter($inputFilter);
