@@ -6,8 +6,12 @@ namespace Generator\Utils;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
+
+header('Content-Type: text/html; charset=utf-8');
+
 class MemeGenerator
 {
+    
     /**
      * @var Color
      */
@@ -69,12 +73,14 @@ class MemeGenerator
 
         // Top text
         $topText    = $this->getTopText();
-
+        
         // Bottom text
         $bottomText = $this->getBottomText();
 
         // Add top text, if not empty
         if(!empty($topText)) {
+            
+            
             $this->addText($topText, 30, 'topText');
         }
 
@@ -414,6 +420,13 @@ class MemeGenerator
         // Return the bounding box in pixels
         return imagettfbbox($size, 0, $this->getFont() , $text);
     }
+    
+    private function setProperText($text){
+
+        $text = mb_convert_encoding($text, "HTML-ENTITIES", "UTF-8");
+        $text = preg_replace('~^(&([a-zA-Z0-9]);)~',htmlentities('${1}'),$text);
+        return($text); 
+    }    
 
     /**
      * @return int
@@ -536,7 +549,7 @@ class MemeGenerator
     public function setTopText($text)
     {
         $this->topText = strtoupper($text);
-
+              
         return $this;
     }
 
