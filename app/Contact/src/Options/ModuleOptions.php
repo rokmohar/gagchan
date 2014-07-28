@@ -1,9 +1,6 @@
 <?php
-
 namespace Contact\Options;
-
 use Zend\Stdlib\AbstractOptions;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -14,7 +11,6 @@ class ModuleOptions extends AbstractOptions
      * @var bool
      */
     protected $__strictMode__ = false;
-    
     /**
      * @var array
      */
@@ -22,12 +18,10 @@ class ModuleOptions extends AbstractOptions
         'class'   => 'Zend\Mail\Transport\Sendmail',
         'options' => array(),
     );
-    
     /**
      * @var array
      */
     protected $message = array();
-    
     /**
      * @return array
      */
@@ -35,17 +29,14 @@ class ModuleOptions extends AbstractOptions
     {
         return $this->transport;
     }
-    
     /**
      * @param array $transport
      */
     public function setTransport(array $transport)
     {
         $this->transport = $transport;
-        
         return $this;
     }
-    
     /**
      * @return array
      */
@@ -53,14 +44,12 @@ class ModuleOptions extends AbstractOptions
     {
         return $this->message;
     }
-    
     /**
      * @param array $message
      */
     public function setMessage(array $message)
     {
         $this->message = $message;
-        
         return $this;
     }
 }

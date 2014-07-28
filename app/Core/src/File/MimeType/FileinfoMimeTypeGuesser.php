@@ -1,10 +1,7 @@
 <?php
-
 namespace Core\File\MimeType;
-
 use Core\File\Exception\AccessDeniedException;
 use Core\File\Exception\FileNotFoundException;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -12,7 +9,6 @@ use Core\File\Exception\FileNotFoundException;
 class FileinfoMimeTypeGuesser implements MimeTypeGuesserInterface
 {
     private $magicFile;
-
     /**
      * @param string $magicFile
      */
@@ -20,7 +16,6 @@ class FileinfoMimeTypeGuesser implements MimeTypeGuesserInterface
     {
         $this->magicFile = $magicFile;
     }
-
     /**
      * @return bool
      */
@@ -28,7 +23,6 @@ class FileinfoMimeTypeGuesser implements MimeTypeGuesserInterface
     {
         return function_exists('finfo_open');
     }
-
     /**
      * {@inheritdoc}
      */
@@ -37,19 +31,15 @@ class FileinfoMimeTypeGuesser implements MimeTypeGuesserInterface
         if (!is_file($path)) {
             throw new FileNotFoundException($path);
         }
-
         if (!is_readable($path)) {
             throw new AccessDeniedException($path);
         }
-
         if (!self::isSupported()) {
             return;
         }
-
         if (!$finfo = new \finfo(FILEINFO_MIME_TYPE, $this->magicFile)) {
             return;
         }
-
         return $finfo->file($path);
     }
 }

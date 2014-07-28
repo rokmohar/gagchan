@@ -1,7 +1,5 @@
 <?php
-
 namespace Core\File\Extension;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -12,12 +10,10 @@ class ExtensionGuesser implements ExtensionGuesserInterface
      * @var \Core\File\Extension\ExtensionGuesser
      */
     private static $instance = null;
-
     /**
      * @var array
      */
     protected $guessers = array();
-
     /**
      * @return \Core\File\Extension\ExtensionGuesser
      */
@@ -27,10 +23,8 @@ class ExtensionGuesser implements ExtensionGuesserInterface
             // Create an instance
             return self::$instance = new self();
         }
-
         return self::$instance;
     }
-
     /**
      * Constructor.
      */
@@ -38,7 +32,6 @@ class ExtensionGuesser implements ExtensionGuesserInterface
     {
         $this->register(new MimeTypeExtensionGuesser());
     }
-
     /**
      *
      * @param \Core\File\Extension\ExtensionGuesserInterface $guesser
@@ -46,10 +39,8 @@ class ExtensionGuesser implements ExtensionGuesserInterface
     public function register(ExtensionGuesserInterface $guesser)
     {
         array_unshift($this->guessers, $guesser);
-        
         return $this;
     }
-
     /**
      * @param string $mimeType The mime type
      *
@@ -63,7 +54,6 @@ class ExtensionGuesser implements ExtensionGuesserInterface
                 return $extension;
             }
         }
-        
         return null;
     }
 }

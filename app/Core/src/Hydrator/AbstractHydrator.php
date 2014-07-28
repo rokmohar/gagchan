@@ -1,9 +1,6 @@
 <?php
-
 namespace Core\Hydrator;
-
 use Zend\Stdlib\Hydrator\ClassMethods;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -16,7 +13,6 @@ abstract class AbstractHydrator extends ClassMethods
     public function extract($object)
     {
         $data = parent::extract($object);
-        
         // Iterate over data
         foreach (array_keys($data) as $key) {
             // Check if array key does not exist
@@ -24,19 +20,15 @@ abstract class AbstractHydrator extends ClassMethods
                 // Skip iteration
                 continue;
             }
-            
             // Get data type
             $type = $this->dataMap[$key];
-            
             if ($type == 'DateTime' && !is_null($data[$key])) {
                 // Format date
                 $data[$key] = $data[$key]->format("Y-m-d H:i:s");
             }
         }
-        
         return $data;
     }
-    
     /**
      * {@inheritDoc}
      */
@@ -49,10 +41,8 @@ abstract class AbstractHydrator extends ClassMethods
                 // Skip iteration
                 continue;
             }
-            
             // Get data type
             $type = $this->dataMap[$key];
-            
             if ($type == 'boolean' && !is_null($data[$key])) {
                 // Convert to boolean
                 $data[$key] = (bool) $data[$key];
@@ -70,7 +60,6 @@ abstract class AbstractHydrator extends ClassMethods
                 $data[$key] = new \DateTime($data[$key]);
             }
         }
-        
         return parent::hydrate($data, $object);
     }
 }

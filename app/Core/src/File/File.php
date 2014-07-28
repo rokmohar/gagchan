@@ -1,12 +1,9 @@
 <?php
-
 namespace Core\File;
-
 use Core\File\Exception\FileException;
 use Core\File\Exception\FileNotFoundException;
 use Core\File\Extension\ExtensionGuesser;
 use Core\File\MimeType\MimeTypeGuesser;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -22,10 +19,8 @@ class File extends \SplFileInfo
         if ($checkPath && !is_file($path)) {
             throw new FileNotFoundException($path);
         }
-
         parent::__construct($path);
     }
-    
     /**
      * @return string
      */
@@ -33,7 +28,6 @@ class File extends \SplFileInfo
     {
         return pathinfo($this->getBasename(), PATHINFO_EXTENSION);
     }
-
     /**
      * @param string $name
      *
@@ -43,10 +37,8 @@ class File extends \SplFileInfo
     {
         $originalName = str_replace('\\', '/', $name);
         $pos          = strrpos($originalName, '/');
-
         return ($pos === false) ? $originalName : substr($originalName, $pos + 1);
     }
-    
     /**
      * @param string $directory
      * @param string $name
@@ -62,32 +54,25 @@ class File extends \SplFileInfo
         } elseif (!is_writable($directory)) {
             throw new FileException(sprintf('Unable to write in the "%s" directory', $directory));
         }
-
         $target = rtrim($directory, '/\\').DIRECTORY_SEPARATOR.(null === $name ? $this->getBasename() : $this->getName($name));
-
         return new File($target, false);
     }
-    
     /**
      * @return string
      */
     public function guessExtension()
     {
         $guesser = ExtensionGuesser::getInstance();
-
         return $guesser->guess($this->guessMimeType());
     }
-    
     /**
      * @return string
      */
     public function guessMimeType()
     {
         $guesser = MimeTypeGuesser::getInstance();
-
         return $guesser->guess($this->getPathname());
     }
-    
     /**
      * @param string $directory
      * @param string $name
@@ -97,15 +82,11 @@ class File extends \SplFileInfo
     public function move($directory, $name = null)
     {
         $target = $this->getTargetFile($directory, $name);
-
         if (!@rename($this->getPathname(), $target)) {
             $error = error_get_last();
             throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s)', $this->getPathname(), $target, strip_tags($error['message'])));
         }
-
         @chmod($target, 0666 & ~umask());
-
         return $target;
     }
-
 }

@@ -1,11 +1,7 @@
 <?php
-
 namespace Media\InputFilter;
-
 use Zend\InputFilter\InputFilter;
-
 use Category\Mapper\CategoryMapperInterface;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -16,7 +12,6 @@ class CategoryFilter extends InputFilter
      * @var \Category\Mapper\CategoryMapperInterface
      */
     protected $categoryMapper;
-    
     /**
      * @param \Category\Mapper\CategoryMapperInterface $categoryMapper
      */
@@ -24,7 +19,6 @@ class CategoryFilter extends InputFilter
     {
         // Set category mapper
         $this->setCategoryMapper($categoryMapper);
-        
         // Add form elements
         $this
             ->addSlug()
@@ -32,10 +26,9 @@ class CategoryFilter extends InputFilter
             ->addPriority()
         ;
     }
-    
     /**
      * Add filter for the slug element.
-     * 
+     *
      * @return \Category\InputFilter\CategoryFilter
      */
     protected function addSlug()
@@ -58,10 +51,9 @@ class CategoryFilter extends InputFilter
             ),
         ));
     }
-    
     /**
      * Add filter for the name element.
-     * 
+     *
      * @return \Category\InputFilter\CategoryFilter
      */
     protected function addName()
@@ -76,10 +68,9 @@ class CategoryFilter extends InputFilter
             ),
         ));
     }
-    
     /**
      * Add filter for the priority element.
-     * 
+     *
      * @return \Category\InputFilter\CategoryFilter
      */
     protected function addPriority()
@@ -92,26 +83,23 @@ class CategoryFilter extends InputFilter
             ),
         ));
     }
-    
     /**
      * Return the category mapper.
-     * 
+     *
      * @return \Category\Mapper\CategoryMapperInterface
      */
     public function getCategoryMapper()
     {
         return $this->categoryMapper;
     }
-    
     /**
      * Set the category mapper.
-     * 
+     *
      * @param \Category\Mapper\CategoryMapperInterface $categoryMapper
      */
     public function setCategoryMapper(CategoryMapperInterface $categoryMapper)
     {
         $this->categoryMapper = $categoryMapper;
-        
         return $this;
     }
 }

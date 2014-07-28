@@ -1,9 +1,6 @@
 <?php
-
 namespace Contact\Form;
-
 use Zend\Form\Form;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -16,7 +13,6 @@ class ContactForm extends Form
     public function __construct()
     {
         parent::__construct();
-        
         // Add elements
         $this
             ->addCaptcha()
@@ -26,12 +22,10 @@ class ContactForm extends Form
             ->addSubject()
             ->addSubmit()
         ;
-        
     }
-    
     /**
      * Add the captcha element.
-     * 
+     *
      * @return \User\Form\AbstractUserForm
      */
     public function addCaptcha()
@@ -51,13 +45,11 @@ class ContactForm extends Form
                 ),
             ),
         ));
-        
         return $this;
     }
-    
     /**
      * Add the CSRF element.
-     * 
+     *
      * @return \Contact\Form\ContactForm
      */
     public function addCsrf()
@@ -66,13 +58,11 @@ class ContactForm extends Form
             'name' => 'csrf',
             'type' => 'Zend\Form\Element\Csrf',
         ));
-        
         return $this;
     }
-    
     /**
      * Add the email address element.
-     * 
+     *
      * @return \Contact\Form\ContactForm
      */
     public function addEmail()
@@ -88,13 +78,11 @@ class ContactForm extends Form
                 'placeholder' => 'Your email address',
             ),
         ));
-        
         return $this;
     }
-    
     /**
      * Add the message element.
-     * 
+     *
      * @return \Contact\Form\ContactForm
      */
     public function addMessage()
@@ -107,17 +95,15 @@ class ContactForm extends Form
             ),
             'attributes' => array(
                 'class'       => 'form-control',
-                'style'       => 'resize: vertical;',                
+                'style'       => 'resize: vertical;',
                 'placeholder' => 'Your message',
-            ),            
+            ),
         ));
-        
         return $this;
     }
-    
     /**
      * Add the subject element.
-     * 
+     *
      * @return \Contact\Form\ContactForm
      */
     public function addSubject()
@@ -131,15 +117,13 @@ class ContactForm extends Form
             'attributes' => array(
                 'class'       => 'form-control',
                 'placeholder' => 'Subject',
-            ),            
+            ),
         ));
-        
         return $this;
     }
-    
     /**
      * Add the submit element.
-     * 
+     *
      * @return \Contact\Form\ContactForm
      */
     public function addSubmit()
@@ -155,7 +139,6 @@ class ContactForm extends Form
                 'value' => 'Send',
             ),
         ));
-        
         return $this;
     }
 }

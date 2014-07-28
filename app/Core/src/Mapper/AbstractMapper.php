@@ -1,11 +1,8 @@
 <?php
-
 namespace Core\Mapper;
-
 use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Sql\Sql;
 use Zend\Stdlib\Hydrator\HydratorInterface;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
@@ -15,27 +12,22 @@ abstract class AbstractMapper implements MapperInterface
      * @var \Zend\Db\Adapter\Adapter
      */
     protected $dbAdapter;
-    
     /**
      * @var string
      */
     protected $entityClass;
-    
     /**
      * @var \Zend\Stdlib\Hydrator\HydratorInterface
      */
     protected $hydrator;
-    
     /**
      * @var \Zend\Db\Sql\Sql
      */
     protected $sql;
-    
     /**
      * @var string
      */
     protected $tableName;
-    
     /**
      * @param \Zend\Db\Adapter\Adapter                $dbAdapter
      * @param string                                  $tableName
@@ -53,7 +45,6 @@ abstract class AbstractMapper implements MapperInterface
         $this->entityClass = $entityClass;
         $this->hydrator    = $hydrator;
     }
-    
     /**
      * @return \Zend\Db\Sql\Delete;
      */
@@ -61,7 +52,6 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->getSql()->delete($this->getTableName());
     }
-    
     /**
      * {@inheritDoc}
      */
@@ -69,7 +59,6 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->dbAdapter;
     }
-    
     /**
      * {@inheritDoc}
      */
@@ -77,7 +66,6 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->entityClass;
     }
-    
     /**
      * {@inheritDoc}
      */
@@ -85,7 +73,6 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->hydrator;
     }
-    
     /**
      * @return \Zend\Db\Sql\Insert;
      */
@@ -93,7 +80,6 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->getSql()->insert($this->getTableName());
     }
-    
     /**
      * @return \Zend\Db\Sql\Select;
      */
@@ -101,7 +87,6 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->getSql()->select($this->getTableName());
     }
-    
     /**
      * {@inheritDoc}
      */
@@ -110,10 +95,8 @@ abstract class AbstractMapper implements MapperInterface
         if ($this->sql === null) {
             return $this->sql = new Sql($this->getDbAdapter());
         }
-        
         return $this->sql;
     }
-    
     /**
      * {@inheritDoc}
      */
@@ -121,7 +104,6 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->tableName;
     }
-    
     /**
      * @return \Zend\Db\Sql\Update;
      */

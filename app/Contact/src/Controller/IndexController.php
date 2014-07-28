@@ -1,11 +1,8 @@
 <?php
-
 namespace Contact\Controller;
-
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -14,31 +11,26 @@ class IndexController extends AbstractActionController
 {
     /**
      * @var \Contact\Form\ContactForm
-     */    
+     */
     protected $contactForm;
-    
     /**
      * @var \Contact\Mailer\MailerInterface
      */
     protected $mailer;
-    
     /**
-     * @return array 
+     * @return array
      */
     public function contactAction()
     {
         // Get PRG
         $prg = $this->prg();
-        
         // Check if PRG is response
         if ($prg instanceof Response) {
             // Return response
             return $prg;
         }
-        
         // Get form
         $contactForm = $this->getContactForm();
-        
         // Check if PRG is GET
         if ($prg === false) {
             // Return view
@@ -46,13 +38,10 @@ class IndexController extends AbstractActionController
                 'form' => $contactForm,
             ));
         }
-        
         // Bind model
         $contactForm->bind(new \Contact\Model\ContactModel());
-        
         // Set data
         $contactForm->setData($prg);
-        
         // Check if form is not valid
         if (!$contactForm->isValid()) {
             // Return view
@@ -60,36 +49,28 @@ class IndexController extends AbstractActionController
                 'form' => $contactForm,
             ));
         }
-        
         // Get data
         $contact = $contactForm->getData();
-        
         // Set remote address
         $contact->setRemoteAddress(
             $this->getRequest()->getServer('REMOTE_ADDR')
         );
-        
         // Get mailer
         $mailer = $this->getMailer();
-        
         // Send message
         $mailer->sendContactMessage($contact);
-        
         // Create view
         $view = new ViewModel(array(
             'contact' => $contact,
         ));
-        
         // Set template
         $view->setTemplate('contact/index/contact_success');
-                     
         // Return view
         return $view;
     }
-    
     /**
      * Return the contact form.
-     * 
+     *
      * @return \Contact\Form\ContactForm
      */
     public function getContactForm()
@@ -99,13 +80,11 @@ class IndexController extends AbstractActionController
                 'contact.form.contact'
             );
         }
-        
         return $this->contactForm;
     }
-    
     /**
      * Return the mailer.
-     * 
+     *
      * @return \Contact\Mailer\MailerInterface
      */
     public function getMailer()
@@ -115,13 +94,11 @@ class IndexController extends AbstractActionController
                 'contact.mailer.amazon'
             );
         }
-        
         return $this->mailer;
     }
-    
     /**
      * Return the message.
-     * 
+     *
      * @return \Zend\Mail\Message
      */
     public function getMessage()
@@ -131,13 +108,11 @@ class IndexController extends AbstractActionController
                 'contact.mail.message'
             );
         }
-        
         return $this->message;
     }
-    
     /**
      * Return the transport.
-     * 
+     *
      * @return \Zend\Mail\Transport
      */
     public function getTransport()
@@ -147,7 +122,6 @@ class IndexController extends AbstractActionController
                 'contact.mail.transport'
             );
         }
-        
         return $this->transport;
     }
 }
