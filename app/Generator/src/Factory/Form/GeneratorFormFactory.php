@@ -6,7 +6,6 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Generator\Form\GeneratorForm;
-use Generator\InputFilter\GeneratorFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -17,13 +16,13 @@ class GeneratorFormFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */    
-    public function createService(ServiceLocatorInterface $services)
+    public function createService(ServiceLocatorInterface $erviceLocator)
     {
         // Create form
         $form = new GeneratorForm('contact');
         
         // Set filter 
-        $form->setInputFilter(new GeneratorFilter());
+        $form->setInputFilter(new \Generator\InputFilter\GeneratorFilter());
         
         // Return form
         return $form;

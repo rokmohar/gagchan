@@ -2,14 +2,15 @@
 
 namespace Media\InputFilter;
 
+use Zend\InputFilter\InputFilter;
+
 use Category\Mapper\CategoryMapperInterface;
-use Core\InputFilter\AbstractFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class CategoryFilter extends AbstractFilter
+class CategoryFilter extends InputFilter
 {
     /**
      * @var \Category\Mapper\CategoryMapperInterface
@@ -17,11 +18,12 @@ class CategoryFilter extends AbstractFilter
     protected $categoryMapper;
     
     /**
-     * @param array $options
+     * @param \Category\Mapper\CategoryMapperInterface $categoryMapper
      */
-    public function __construct(array $options = array())
+    public function __construct(CategoryMapperInterface $categoryMapper)
     {
-        parent::__construct($options);
+        // Set category mapper
+        $this->setCategoryMapper($categoryMapper);
         
         // Add form elements
         $this
@@ -98,12 +100,6 @@ class CategoryFilter extends AbstractFilter
      */
     public function getCategoryMapper()
     {
-        // Check if category mapper is empty
-        if ($this->categoryMapper === null) {
-            // Set category mapper
-            $this->setCategoryMapper($this->getOption('category_mapper'));
-        }
-        
         return $this->categoryMapper;
     }
     

@@ -19,7 +19,7 @@ class ContactFormFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         // Create form
-        $form = new ContactForm('contact');
+        $form = new ContactForm();
         
         // Get hydrator
         $hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
@@ -32,16 +32,6 @@ class ContactFormFactory implements FactoryInterface
         
         // Set input filter 
         $form->setInputFilter($inputFilter);
-        
-        // Add elements
-        $form
-            ->addCaptcha()
-            ->addCsrf()
-            ->addEmail()
-            ->addMessage()
-            ->addSubject()
-            ->addSubmit()
-        ;
         
         // Return form
         return $form;

@@ -16,9 +16,9 @@ class GeneratorForm extends Form
      * @param string $name
      * @param array  $options
      */    
-    public function __construct($name, array $options = array())
+    public function __construct()
     {
-        parent::__construct($name, $options);
+        parent::__construct();
 
         // Add elements
         $this

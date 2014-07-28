@@ -10,13 +10,13 @@ $generatorDir = 'public/media/generator';
 $ctime = new \DateTime();
 
 foreach (scandir($generatorDir) as $file) {
-    // Skip directory
-    if ($file == '.' || $file == '..') {
-        continue;
-    }
-    
     // Get filename
     $filename = sprintf("%s/%s", $generatorDir, $file);
+    
+    // Skip if not file
+    if (!is_file($filename)) {
+        continue;
+    }
     
     // Get last modified time
     $mtime = new \DateTime();
@@ -24,7 +24,7 @@ foreach (scandir($generatorDir) as $file) {
     
     $diff  = $mtime->diff(new \DateTime());
     
-    if (6 <= $diff->h) {
+    if (1 <= $diff->h) {
         // Delete file
         unlink($filename);
     }
