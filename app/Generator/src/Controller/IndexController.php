@@ -4,6 +4,7 @@ namespace Generator\Controller;
 
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Validator\File\Exists;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
@@ -55,12 +56,12 @@ class IndexController extends AbstractActionController
      */
     public function editAction()
     {                
-        // Select media
+        // Select a row
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
         );
         
-        // Check if generator is empty
+        // Check if row exists
         if (empty($generator)) {
             // Media not found
             return $this->notFoundAction();
@@ -102,19 +103,19 @@ class IndexController extends AbstractActionController
         // Get data
         $data = $prototypeForm->getData();
         
+        // Get validator
+        $validator = new Exists('public/media/generator');
+        
+        // Check if file does not exist
+        if (!$validator->isValid(sprintf("%s.jpg", $data['token']))) {
+            // Redirect to route
+            return $this->redirect()->toRoute('generator');
+        }
+        
         // Process form
         if (isset($data['download'])) { 
-            
-            // Token
-            $token = $data['token'];
-            
             // Path to file
-            $file = 'public/media/generator/' . $token . '.jpg';
-            
-            // Not a file
-            if(is_file($file) == false) {
-                return $this->redirect()->toRoute('generator');
-            }            
+            $file = sprintf("public/media/generator/%s.jpg", $data['token']);
             
             // Get response
             $response = $this->getResponse();
@@ -158,17 +159,10 @@ class IndexController extends AbstractActionController
      */  
     public function previewAction()
     {
-        // Get data from ajax call
-        // Top text
+        // Get data
         $upmsg   = $_POST['upmsg'];
-        
-        // Bottom text
         $downmsg = $_POST['downmsg'];
-        
-        // Image (default) source
         $path    = $_POST['imgsrc'];
-        
-        // Image token (unique ID)
         $token   = $_POST['token'];
         
         // Create new meme
@@ -226,8 +220,20 @@ class IndexController extends AbstractActionController
                 return $this->redirect()->toRoute('generator');
             }
 
+            // Get token
+            $token = $messages[0]['token'];
+
+            // Get validator
+            $validator = new Exists('public/media/generator');
+
+            // Check if file does not exist
+            if (!$validator->isValid(sprintf("%s.jpg", $token))) {
+                // Redirect to route
+                return $this->redirect()->toRoute('generator');
+            }
+
             // Set token value
-            $uploadForm->setTokenValue($messages[0]['token']);
+            $uploadForm->setTokenValue($token);
 
             // Return view
             return new ViewModel(array(
@@ -252,13 +258,23 @@ class IndexController extends AbstractActionController
         // Get data
         $media = $uploadForm->getData();
         
+        // Get token
+        $token = $uploadForm->get('token')->getValue();
+
+        // Get validator
+        $validator = new Exists('public/media/generator');
+
+        // Check if file does not exist
+        if (!$validator->isValid(sprintf("%s.jpg", $token))) {
+            // Redirect to route
+            return $this->redirect()->toRoute('generator');
+        }
+
         // Set user
         $media->setUserId($this->user()->getIdentity()->getId());
         
         // Get file
-        $file = sprintf('public/media/generator/%s.jpg',
-            $uploadForm->get('token')->getValue()
-        );
+        $file = sprintf('public/media/generator/%s.jpg', $token);
         
         // Create uploaded image
         $image = new UploadedFile(

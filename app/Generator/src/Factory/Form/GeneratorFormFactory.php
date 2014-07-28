@@ -16,13 +16,16 @@ class GeneratorFormFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */    
-    public function createService(ServiceLocatorInterface $erviceLocator)
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
         // Create form
-        $form = new GeneratorForm('contact');
+        $form = new GeneratorForm();
         
-        // Set filter 
-        $form->setInputFilter(new \Generator\InputFilter\GeneratorFilter());
+        // Get input filter
+        $inputFilter = new \Generator\InputFilter\GeneratorFilter();
+        
+        // Set input filter 
+        $form->setInputFilter($inputFilter);
         
         // Return form
         return $form;

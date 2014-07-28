@@ -36,6 +36,8 @@
 
                 <!-- #Token -->
                 <?php echo $this->formHidden($form->get('token')) ?>
+                
+                <?php echo $this->formElementErrors($form->get('token')) ?>
         </div>
 
     </section>

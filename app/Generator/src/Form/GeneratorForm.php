@@ -13,8 +13,7 @@ use Core\Utils\TokenGenerator;
 class GeneratorForm extends Form
 {
     /**
-     * @param string $name
-     * @param array  $options
+     * Constructor.
      */    
     public function __construct()
     {
@@ -31,7 +30,7 @@ class GeneratorForm extends Form
     }
     
     /**
-     * Add the top positioned text
+     * Add the top text element.
      * 
      * @return \Generator\Form
      */
@@ -39,11 +38,11 @@ class GeneratorForm extends Form
     {
         $this->add(array(
             'name'    => 'top',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Top Text',
             ),
             'attributes' => array(
-                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Top Text',
             ),
@@ -53,7 +52,7 @@ class GeneratorForm extends Form
     }
     
     /**
-     * Add the bottom positioned text
+     * Add the bottom text element.
      * 
      * @return \Generator\Form
      */
@@ -61,11 +60,11 @@ class GeneratorForm extends Form
     {
         $this->add(array(
             'name'    => 'bottom',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Bottom Text',
             ),
             'attributes' => array(
-                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Bottom Text',
             ),            
@@ -75,7 +74,7 @@ class GeneratorForm extends Form
     }
     
     /**
-     * Add the bottom positioned text
+     * Add the token element.
      * 
      * @return \Generator\Form
      */
@@ -100,12 +99,12 @@ class GeneratorForm extends Form
     public function addDownload()
     {
         $this->add(array(
-            'name' => 'download',
+            'name'    => 'download',
+            'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
                 'label' => 'Download',
             ),
             'attributes' => array(
-                'type'  => 'Zend\Form\Element\Submit',
                 'class' => 'btn btn-primary',
                 'value' => 'Download',
             ),
@@ -122,12 +121,12 @@ class GeneratorForm extends Form
     public function addPublish()
     {
         $this->add(array(
-            'name' => 'publish',
+            'name'    => 'publish',
+            'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
                 'label' => 'Publish',
             ),
             'attributes' => array(
-                'type'  => 'Zend\Form\Element\Submit',
                 'class' => 'btn btn-primary',
                 'value' => 'Publish',
             ),
