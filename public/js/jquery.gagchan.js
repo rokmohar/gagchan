@@ -125,8 +125,9 @@ jQuery(document).ready(function($) {
     
     $('[name=top], [name=bottom]').on('focusout', function() {
         $.ajax({
-            url: '/preview',
-            type: 'POST',
+            url:      '/preview',
+            type:     'POST',
+            dataType: 'json',
             data: {
                 top:     $('[name=top]').val(),
                 bottom:  $('[name=bottom]').val(),
