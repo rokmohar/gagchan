@@ -1,10 +1,12 @@
 <?php
 namespace Generator\Controller;
+
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Validator\File\Exists;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
+
 use Core\File\UploadedFile;
 use Generator\Utils\MemeGenerator;
 /**

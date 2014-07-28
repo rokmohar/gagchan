@@ -32,7 +32,7 @@ class GeneratorFilter extends InputFilter
     {
         $this->add(array(
             'name'     => 'top',
-            'required' => false,
+            'required' => true,
             'filters'  => array(
                 array('name' => 'Zend\Filter\HtmlEntities'),
                 array('name' => 'Zend\Filter\StringTrim'),
@@ -52,7 +52,7 @@ class GeneratorFilter extends InputFilter
     {
         $this->add(array(
             'name'     => 'bottom',
-            'required' => false,
+            'required' => true,
             'filters'  => array(
                 array('name' => 'Zend\Filter\HtmlEntities'),
                 array('name' => 'Zend\Filter\StringTrim'),

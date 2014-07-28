@@ -123,26 +123,19 @@ jQuery(document).ready(function($) {
     var $src   = $img.attr('src');
     var $token = $('[name=token]');
     
-    $('[name=top], [name=bottom]').focusout(function() {
-        if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token.val());
-        }
-    });
-    
-    function SendAjaxRequest(umsg, dmsg, src, token)
-    {
+    $('[name=top], [name=bottom]').on('focusout', function() {
         $.ajax({
             url: '/preview',
             type: 'POST',
             data: {
-                top:      umsg,
-                bottom:   dmsg,
-                source:   src,
-                token:    token
+                top:     $('[name=top]').val(),
+                bottom:  $('[name=bottom]').val(),
+                source:  $src,
+                token:   $token.val()
             },
             success: function(response) {
-                $('#preview').attr('src', response.name + '?' + Math.random());
+                $('#preview').attr('src', response.name + '?' + new Date().getTime());
             }
         });
-    }
+    });
 });
