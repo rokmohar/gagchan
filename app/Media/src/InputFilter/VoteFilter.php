@@ -2,16 +2,23 @@
 
 namespace Media\InputFilter;
 
-use Core\InputFilter\AbstractFilter;
+use Zend\InputFilter\InputFilter;
+
 use Media\Mapper\MediaMapperInterface;
+use Media\Mapper\VoteMapperInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class VoteFilter extends AbstractFilter
+class VoteFilter extends InputFilter
 {
+    /**
+     * @var \Media\Mapper\VoteMapperInterface
+     */
+    protected $voteMapper;
+    
     /**
      * @var \Media\Mapper\MediaMapperInterface
      */
@@ -23,11 +30,23 @@ class VoteFilter extends AbstractFilter
     protected $userMapper;
     
     /**
-     * @param array $options
+     * @param \Media\Mapper\VoteMapperInterface  $voteMapper
+     * @param \Media\Mapper\MediaMapperInterface $mediaMapper
+     * @param \User\Mapper\UserMapperInterface   $userMapper
      */
-    public function __construct(array $options = array())
-    {
-        parent::__construct($options);
+    public function __construct(
+        VoteMapperInterface $voteMapper,
+        MediaMapperInterface $mediaMapper,
+        UserMapperInterface $userMapper
+    ) {
+        // Set vote mapper
+        $this->setVoteMapper($voteMapper);
+        
+        // Set media mapper
+        $this->setMediaMapper($mediaMapper);
+        
+        // Set user mapper
+        $this->setUserMapper($userMapper);
         
         // Add input filters
         $this
@@ -63,7 +82,7 @@ class VoteFilter extends AbstractFilter
             'required'   => true,
             'validators' => array(
                 array(
-                    'name'    => 'Inarray',
+                    'name'    => 'InArray',
                     'options' => array(
                         'haystack' => array('up', 'down'),
                     ),
@@ -75,18 +94,34 @@ class VoteFilter extends AbstractFilter
     }
     
     /**
+     * Return the vote mapper.
+     * 
+     * @return \Media\Mapper\VoteMapperInterface
+     */
+    public function getVoteMapper()
+    {
+        return $this->voteMapper;
+    }
+    
+    /**
+     * Set the vote mapper.
+     * 
+     * @param \Media\Mapper\VoteMapperInterface $voteMapper
+     */
+    public function setVoteMapper(VoteMapperInterface $voteMapper)
+    {
+        $this->voteMapper = $voteMapper;
+        
+        return $this;
+    }
+    
+    /**
      * Return the media mapper.
      * 
      * @return \Media\Mapper\MediaMapperInterface
      */
     public function getMediaMapper()
     {
-        // Check if media mapper is empty
-        if ($this->mediaMapper === null) {
-            // Set media mapper
-            $this->setMediaMapper($this->getOption('media_mapper'));
-        }
-        
         return $this->mediaMapper;
     }
     
@@ -109,12 +144,6 @@ class VoteFilter extends AbstractFilter
      */
     public function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     

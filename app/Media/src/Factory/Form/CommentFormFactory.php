@@ -22,6 +22,9 @@ class CommentFormFactory implements FactoryInterface
         // Module options
         $options = $serviceLocator->get('media.options.module');
         
+        // Get comment mapper
+        $commentMapper = $serviceLocator->get('media.mapper.comment');
+        
         // Get media mapper
         $mediaMapper = $serviceLocator->get('media.mapper.media');
         
@@ -29,10 +32,7 @@ class CommentFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new CommentForm('comment', array(
-            'media_mapper' => $mediaMapper,
-            'user_mapper'  => $userMapper,
-        ));
+        $form = new CommentForm($commentMapper, $mediaMapper, $userMapper);
         
         // Get hydrator
         $hydratorClass = $options->getCommentHydrator();
@@ -41,11 +41,11 @@ class CommentFormFactory implements FactoryInterface
         // Set hydrator
         $form->setHydrator($hydrator);
         
+        // Get input filter
+        $inputFilter = new CommentFilter($commentMapper, $mediaMapper, $userMapper);
+        
         // Set input filter
-        $form->setInputFilter(new CommentFilter(array(
-            'media_mapper' => $mediaMapper,
-            'user_mapper'  => $userMapper,
-        )));
+        $form->setInputFilter($inputFilter);
 
         // Return form
         return $form;

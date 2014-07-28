@@ -22,6 +22,9 @@ class VoteFormFactory implements FactoryInterface
         // Module options
         $options = $serviceLocator->get('media.options.module');
         
+        // Get vote mapper
+        $voteMapper = $serviceLocator->get('media.mapper.vote');
+        
         // Get media mapper
         $mediaMapper = $serviceLocator->get('media.mapper.media');
         
@@ -29,10 +32,7 @@ class VoteFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new VoteForm('vote', array(
-            'media_mapper' => $mediaMapper,
-            'user_mapper'  => $userMapper,
-        ));
+        $form = new VoteForm($voteMapper, $mediaMapper, $userMapper);
         
         // Get hydrator
         $hydratorClass = $options->getVoteHydrator();
@@ -41,11 +41,11 @@ class VoteFormFactory implements FactoryInterface
         // Set hydrator
         $form->setHydrator($hydrator);
         
+        // Get input filter
+        $inputFilter = new VoteFilter($voteMapper, $mediaMapper, $userMapper);
+        
         // Set input filter
-        $form->setInputFilter(new VoteFilter(array(
-            'media_mapper' => $mediaMapper,
-            'user_mapper'  => $userMapper,
-        )));
+        $form->setInputFilter($inputFilter);
 
         // Return form
         return $form;
