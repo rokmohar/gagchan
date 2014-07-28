@@ -1,7 +1,11 @@
 <?php
+
 namespace Category\Form;
+
 use Zend\Form\Form;
+
 use Category\Mapper\CategoryMapperInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -12,14 +16,17 @@ class CategoryForm extends Form
      * @var \Category\Mapper\CategoryMapperInterface
      */
     protected $categoryMapper;
+    
     /**
      * @param \Category\Mapper\CategoryMapperInterface $categoryMapper
      */
     public function __construct(CategoryMapperInterface $categoryMapper)
     {
         parent::__construct();
+        
         // Set category mapper
         $this->setCategoryMapper($categoryMapper);
+        
         // Add form elements
         $this
             ->addSlug()
@@ -27,9 +34,10 @@ class CategoryForm extends Form
             ->addPriority()
         ;
     }
+    
     /**
      * Add the name element.
-     *
+     * 
      * @return \Category\Form\CategoryForm
      */
     protected function addName()
@@ -46,11 +54,13 @@ class CategoryForm extends Form
                 'placeholder' => 'Name',
             ),
         ));
+        
         return $this;
     }
+    
     /**
      * Add the slug element.
-     *
+     * 
      * @return \Category\Form\CategoryForm
      */
     protected function addSlug()
@@ -67,11 +77,13 @@ class CategoryForm extends Form
                 'placeholder' => 'Slug',
             ),
         ));
+        
         return $this;
     }
+    
     /**
      * Add the priority element.
-     *
+     * 
      * @return \Category\Form\CategoryForm
      */
     protected function addPriority()
@@ -88,11 +100,13 @@ class CategoryForm extends Form
                 'placeholder' => 'Priority',
             ),
         ));
+        
         return $this;
     }
+    
     /**
      * Add the submit element.
-     *
+     * 
      * @return \Category\Form\CategoryForm
      */
     protected function addSubmit()
@@ -107,25 +121,29 @@ class CategoryForm extends Form
                 'class' => 'btn btn-primary',
             ),
         ));
+        
         return $this;
     }
+    
     /**
      * Return the category mapper.
-     *
+     * 
      * @return \Category\Mapper\CategoryMapperInterface
      */
     public function getCategoryMapper()
     {
         return $this->categoryMapper;
     }
+    
     /**
      * Set the category mapper.
-     *
+     * 
      * @param \Category\Mapper\CategoryMapperInterface $categoryMapper
      */
     public function setCategoryMapper(CategoryMapperInterface $categoryMapper)
     {
         $this->categoryMapper = $categoryMapper;
+        
         return $this;
     }
 }

@@ -1,8 +1,10 @@
 <?php
+
 namespace Generator\Entity;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
- * @author Rok Založnik <tugamer@gmail.com>
+ * @author Rok Založnik <tugamer@gmail.com> 
  */
 class PrototypeEntity implements PrototypeEntityInterface
 {
@@ -10,42 +12,52 @@ class PrototypeEntity implements PrototypeEntityInterface
      * @var int
      */
     protected $id;
+    
     /**
      * @var string
      */
     protected $slug;
+    
     /**
      * @var string
      */
     protected $name;
+    
     /**
      * @var string
      */
     protected $reference;
+    
     /**
      * @var int
      */
     protected $height;
+    
     /**
      * @var int
      */
     protected $width;
+    
     /**
      * @var int
      */
     protected $size;
+    
     /**
      * @var string
      */
     protected $contentType;
+
     /**
      * @var \DateTime
      */
     protected $createdAt;
+    
     /**
      * @var \DateTime
      */
     protected $updatedAt;
+    
     /**
      * Constructor.
      */
@@ -54,6 +66,7 @@ class PrototypeEntity implements PrototypeEntityInterface
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -61,14 +74,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->id;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setId($id)
     {
         $this->id = $id;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -76,14 +92,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->slug;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -91,14 +110,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->name;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setName($name)
     {
         $this->name = $name;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -106,14 +128,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->reference;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setReference($reference)
     {
         $this->reference = $reference;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -121,14 +146,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->height;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setHeight($height)
     {
         $this->height = $height;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -136,14 +164,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->width;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setWidth($width)
     {
         $this->width = $width;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -151,14 +182,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->size;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setSize($size)
     {
         $this->size = $size;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -166,14 +200,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->contentType;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setContentType($contentType)
     {
         $this->contentType = $contentType;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -181,14 +218,17 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->createdAt;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+        
         return $this;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -196,17 +236,20 @@ class PrototypeEntity implements PrototypeEntityInterface
     {
         return $this->updatedAt;
     }
+    
     /**
      * {@inheritDoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
         return $this;
     }
+    
     /**
      * Pre-insert initialization.
-     *
+     * 
      * @return \Generator\Entity\MediaPrototypeEntity
      */
     public function preInsert()
@@ -214,9 +257,10 @@ class PrototypeEntity implements PrototypeEntityInterface
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
     }
+    
     /**
      * Pre-update initialization.
-     *
+     * 
      * @return \Generator\Entity\MediaPrototypeEntity
      */
     public function preUpdate()

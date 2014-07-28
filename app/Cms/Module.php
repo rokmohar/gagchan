@@ -1,5 +1,7 @@
 <?php
+
 namespace Cms;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -13,6 +15,7 @@ class Module
     {
         return include __DIR__ . '/config/module.config.php';
     }
+
     /**
      * @return array
      */
@@ -26,6 +29,7 @@ class Module
             ),
         );
     }
+
     /**
      * @return array
      */

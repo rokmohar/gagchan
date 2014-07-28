@@ -1,7 +1,10 @@
 <?php
+
 namespace Contact\InputFilter;
+
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\Hostname;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -10,7 +13,7 @@ class ContactFilter extends InputFilter
 {
     /**
      * {@inheritDoc}
-     */
+     */    
     public function __construct()
     {
         // Add input filters
@@ -20,12 +23,13 @@ class ContactFilter extends InputFilter
             ->addMessage()
         ;
     }
+    
     /**
      * Add filter for the email address.
-     *
+     *      
      * @return \Contact\InputFilter\ContactFilter
      */
-    protected function addEmail()
+    protected function addEmail() 
     {
         $this->add(array(
             'name'       => 'email',
@@ -44,12 +48,14 @@ class ContactFilter extends InputFilter
                 array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
-        ));
+        ));        
+        
         return $this;
     }
+    
     /**
      * Add filter for the subject.
-     *
+     *      
      * @return \Contact\InputFilter\ContactFilter
      */
     protected function addSubject()
@@ -62,12 +68,14 @@ class ContactFilter extends InputFilter
                 array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
-        ));
-        return $this;
+        ));      
+        
+        return $this;        
     }
+    
     /**
      * Add filter for the message.
-     *
+     *      
      * @return \Contact\InputFilter\ContactFilter
      */
     protected function addMessage()
@@ -80,7 +88,8 @@ class ContactFilter extends InputFilter
                 array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
-        ));
-        return $this;
+        ));     
+        
+        return $this;        
     }
 }

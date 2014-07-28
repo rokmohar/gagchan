@@ -1,6 +1,9 @@
 <?php
+
 namespace Category\Options;
+
 use Zend\Stdlib\AbstractOptions;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -11,18 +14,22 @@ class ModuleOptions extends AbstractOptions
      * @var bool
      */
     protected $__strictMode__ = false;
+    
     /**
      * @var string
      */
     protected $categoryEntity = 'Category\Entity\CategoryEntity';
+    
     /**
      * @var string
      */
     protected $categoryHydrator = 'Category\Hydrator\CategoryHydrator';
+    
     /**
      * @var string
      */
     protected $categoryMapper = 'Category\Mapper\CategoryMapper';
+    
     /**
      * @return string
      */
@@ -30,6 +37,7 @@ class ModuleOptions extends AbstractOptions
     {
         return $this->categoryEntity;
     }
+    
     /**
      * @return string
      */
@@ -37,6 +45,7 @@ class ModuleOptions extends AbstractOptions
     {
         return $this->categoryHydrator;
     }
+    
     /**
      * @return string
      */

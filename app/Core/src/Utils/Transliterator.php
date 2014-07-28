@@ -1,24 +1,29 @@
 <?php
+
 namespace Core\Utils;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
 class Transliterator
 {
+    
     /**
      * @var \Core\Utils\Transliterator
      */
     private static $instance;
+    
     /**
      * @param string $string
-     *
+     * 
      * @return string
      */
     static public function transliterate($string)
     {
         // Make sure string is in UTF-8 and strip invalid UTF-8 characters
 	$string = mb_convert_encoding($string, 'UTF-8', mb_list_encodings());
+        
         $charmap = array(
             // Decompositions for Latin-1 Supplement
             chr(195) . chr(128) => 'A', chr(195) . chr(129) => 'A',
@@ -115,9 +120,11 @@ class Transliterator
             chr(197) . chr(188) => 'z', chr(197) . chr(189) => 'Z',
             chr(197) . chr(190) => 'z', chr(197) . chr(191) => 's',
         );
+        
         // transliterate
         return str_replace(array_keys($charmap), $charmap, $string);
     }
+    
     /**
      * @return \Core\Utils\Transliterator
      */
@@ -128,6 +135,7 @@ class Transliterator
             // Create an instance
             self::$instance = new self();
         }
+        
         return self::$instance;
     }
 }

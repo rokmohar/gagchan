@@ -1,7 +1,10 @@
 <?php
+
 namespace Contact;
+
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -17,6 +20,7 @@ class Module implements
     {
         return include __DIR__ . '/config/module.config.php';
     }
+    
     /**
      * @return array
      */
@@ -30,6 +34,7 @@ class Module implements
             ),
         );
     }
+    
     /**
      * @return array
      */

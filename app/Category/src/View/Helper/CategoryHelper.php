@@ -1,7 +1,11 @@
 <?php
+
 namespace Category\View\Helper;
+
 use Zend\View\Helper\AbstractHelper;
+
 use Category\Mapper\CategoryMapperInterface;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -12,6 +16,7 @@ class CategoryHelper extends AbstractHelper
      * @var \Media\Mapper\CategoryMapperInterface
      */
     protected $categoryMapper;
+    
     /**
      * @param \Media\Mapper\CategoryMapperInterface $categoryMapper
      */
@@ -19,6 +24,7 @@ class CategoryHelper extends AbstractHelper
     {
         $this->categoryMapper = $categoryMapper;
     }
+    
     /**
      * {@inheritDoc}
      */
@@ -26,9 +32,10 @@ class CategoryHelper extends AbstractHelper
     {
         return $this;
     }
+    
     /**
      * Return a list of categories.
-     *
+     * 
      * @return mixed
      */
     public function getCategories()

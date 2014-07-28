@@ -1,9 +1,13 @@
 <?php
+
 namespace Contact\Mailer;
+
 use Zend\View\Model\ViewModel;
 use Zend\View\Resolver\TemplateMapResolver;
+
 Use Contact\Model\ContactModelInterface;
 use Core\Mailer\AbstractAmazonMailer;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -14,6 +18,7 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
      * @var \Zend\View\Resolver\ResolverInterface
      */
     protected $resolver;
+    
     /**
      * {@inheritDoc}
      */
@@ -21,8 +26,10 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
     {
         // Get renderer
         $renderer = $this->getRenderer();
+        
         // Set resolver
         $renderer->setResolver($this->getResolver());
+        
         // Get view
         $view = new ViewModel(array(
             'host'    => $contact->getRemoteAddress(),
@@ -30,14 +37,19 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
             'subject' => $contact->getSubject(),
             'message' => $contact->getMessage(),
         ));
+        
         // Set HTML template
         $view->setTemplate('index/contact.html');
+        
         // Render HTML template
         $htmlBody = $renderer->render($view);
+        
         // Set text template
         $view->setTemplate('index/contact.text');
+        
         // Render text template
         $textBody = $renderer->render($view);
+        
         // Send a message
         $result = $this->sendMessage(
             $this->getOptions()->getFromEmail(),
@@ -46,12 +58,14 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
             $textBody,
             $htmlBody
         );
+        
         // Return result
         return $result;
     }
+    
     /**
      * Return the resolver.
-     *
+     * 
      * @return \Zend\View\Resolver\ResolverInterface
      */
     public function getResolver()
@@ -62,6 +76,7 @@ class AmazonMailer extends AbstractAmazonMailer implements MailerInterface
                 'index/contact.text' => __DIR__ . '/../../view/email/index/contact_text.phtml',
             ));
         }
+        
         return $this->resolver;
     }
 }

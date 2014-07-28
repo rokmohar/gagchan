@@ -1,10 +1,15 @@
 <?php echo $this->headTitle()->prepend($category->getName()) ?>
+
 <section class="col-lg-8 col-md-8 col-sm-8 col-xs-12 meme-listing">
+    
     <h3 class="category-name"><?php echo $category->getName() ?></h3>
+    
     <?php if (!count($media)): ?>
         There is no media in this category.
     <?php endif ?>
+    
     <?php foreach ($media as $m): ?>
+        
         <article class="meme clearfix" data-slug="<?php echo $m->getSlug() ?>">
             <div class="meme-title">
                 <a href="<?php echo $this->url('gag', array('slug' => $m->getSlug())) ?>">
@@ -30,6 +35,7 @@
             <ul class="meme-action clearfix">
                 <?php
                     $vote = $this->media()->getVote($m);
+                    
                     if(!$this->user()->hasIdentity()):
                 ?>
                     <li class="btn-group">
@@ -63,17 +69,25 @@
                 </li>
             </ul>
         </article>
+        
     <?php endforeach ?>
+    
     <?php echo $this->paginationControl($media, 'sliding', array('partial/paginator.phtml', 'Media'), array('route' => 'home')) ?>
+        
 </section>
+
 <section id="sidebar" class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
     <div class="widget meme-listing">
         <h3 class="widget-title">Featured</h3>
+
         <?php $featured = $this->media()->getFeatured() ?>
+        
         <?php if (!count($featured)): ?>
             There is no media right now.
         <?php endif ?>
+        
         <?php foreach ($featured as $f): ?>
+        
         <article class="meme">
             <a href="<?php echo $this->url('gag', array('slug' => $f->getSlug())) ?>" class="meme-img">
                 <img src="<?php echo $this->media()->url($f) ?>" alt="" class="img-responsive" />
@@ -84,10 +98,14 @@
                 </a>
             </div>
         </article>
+        
         <?php endforeach ?>
+        
     </div>
+    
     <div class="widget">
         <h3 class="widget-title">Share with your friends</h3>
+        
         <ul class="social-share clearfix">
             <li>
                 <div class="fb-like" data-href="https://www.facebook.com/pages/GAGchan/905727472786344" data-width="100" data-layout="box_count" data-action="like" data-show-faces="false" data-share="false"></div>
@@ -97,6 +115,7 @@
             </li>
         </ul>
     </div>
+    
     <ul class="quicknav clearfix">
         <li><a href="<?php echo $this->url('privacy') ?>">Privacy policy</a></li>
         <li>&#8226;</li>

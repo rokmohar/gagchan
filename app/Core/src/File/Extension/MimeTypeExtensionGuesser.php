@@ -1,5 +1,7 @@
 <?php
+
 namespace Core\File\Extension;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -780,6 +782,7 @@ class MimeTypeExtensionGuesser implements ExtensionGuesserInterface
         'video/x-smv' => 'smv',
         'x-conference/x-cooltalk' => 'ice',
     );
+
     /**
      * {@inheritdoc}
      */

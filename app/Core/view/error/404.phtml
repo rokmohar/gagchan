@@ -1,6 +1,8 @@
 <h1><?php echo $this->translate('A 404 error occurred') ?></h1>
 <h2><?php echo $this->message ?></h2>
+
 <?php if (isset($this->reason) && $this->reason): ?>
+
 <?php
 $reasonMessage= '';
 switch ($this->reason) {
@@ -21,9 +23,13 @@ switch ($this->reason) {
         break;
 }
 ?>
+
 <p><?php echo $reasonMessage ?></p>
+
 <?php endif ?>
+
 <?php if (isset($this->controller) && $this->controller): ?>
+
 <dl>
     <dt><?php echo $this->translate('Controller') ?>:</dt>
     <dd><?php echo $this->escapeHtml($this->controller) ?>
@@ -37,8 +43,11 @@ if (isset($this->controller_class)
 ?>
 </dd>
 </dl>
+
 <?php endif ?>
+
 <?php if (isset($this->display_exceptions) && $this->display_exceptions): ?>
+
 <?php if(isset($this->exception) && $this->exception instanceof Exception): ?>
 <hr/>
 <h2><?php echo $this->translate('Additional information') ?>:</h2>
@@ -88,7 +97,11 @@ if (isset($this->controller_class)
     ?>
 </ul>
 <?php endif; ?>
+
 <?php else: ?>
+
 <h3><?php echo $this->translate('No Exception available') ?></h3>
+
 <?php endif ?>
+
 <?php endif ?>

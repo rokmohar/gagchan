@@ -1,6 +1,9 @@
 <?php
+
 namespace Core\Mvc\Controller;
+
 use Zend\Mvc\Controller\AbstractActionController;
+
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */

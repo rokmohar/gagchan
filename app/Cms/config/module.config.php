@@ -1,4 +1,5 @@
 <?php
+
 return array(
     'controllers' => array(
         'invokables' => array(
@@ -26,7 +27,7 @@ return array(
                         'action'     => 'terms',
                     ),
                 ),
-            ),
+            ),            
         ),
     ),
     'view_manager' => array(
