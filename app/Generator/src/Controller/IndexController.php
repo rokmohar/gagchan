@@ -41,7 +41,7 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        // Select from database
+        // Select all rows
         $generator = $this->getPrototypeMapper()->selectAll();
         
         // Retun view
@@ -127,15 +127,16 @@ class IndexController extends AbstractActionController
             
             // Set headers
             $headers
-                    ->clearHeaders()
-                    ->addHeaderLine('Content-Type', 'application/force-download')
-                    ->addHeaderLine('Content-Disposition',  sprintf('attachment; filename="%s"', $generator->getName() . '.jpg'))
+                ->clearHeaders()
+                ->addHeaderLine('Content-Type', 'application/force-download')
+                ->addHeaderLine('Content-Disposition',  sprintf('attachment; filename="%s"', $generator->getName() . '.jpg'))
             ;
             
             // Return response
             return $response;            
             
-        } else if (isset($data['publish'])) {
+        }
+        else if (isset($data['publish'])) {
             // Flash messenger
             $fm = $this->flashMessenger()->setNamespace('generator.index.publish');
             
@@ -170,8 +171,17 @@ class IndexController extends AbstractActionController
         // Image token (unique ID)
         $token   = $_POST['token'];
         
-        // Generate meme
-        $name = $this->generate($upmsg, $downmsg, $path, $token);
+        // Create new meme
+        $img = new MemeGenerator($path);
+
+        // Set top text
+        $img->setTopText($upmsg);
+        
+        // Set bottom text
+        $img->setBottomText($downmsg);
+
+        // Process the image
+        $name = $img->processImg($token);
         
         // Retrun create image path
         return  new JsonModel(array(
@@ -269,27 +279,6 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * Generate the meme
-     * 
-     * @param array  $data
-     * @param String $path
-     */
-    public function generate($topText, $bottomText, $path, $token)
-    {           
-        // Create new meme
-        $img = new MemeGenerator($path);
-
-        // Set top text
-        $img->setTopText($topText);
-        
-        // Set bottom text
-        $img->setBottomText($bottomText);
-
-        // Process the image and return the file path
-        return $img->processImg($token);
-    }
-
-    /**
      * Return the generator form.
      * 
      * @return \Generator\Form\GeneratorForm
@@ -346,15 +335,5 @@ class IndexController extends AbstractActionController
         }
         
         return $this->uploadForm;
-    }
-    
-    /**
-     * Return the session.
-     * 
-     * @return \Zend\Session\Container
-     */
-    public function getSession()
-    {
-        
     }
 }
