@@ -1,16 +1,12 @@
 <?php
-
 namespace Generator\Controller;
-
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Validator\File\Exists;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-
 use Core\File\UploadedFile;
 use Generator\Utils\MemeGenerator;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -19,7 +15,7 @@ class IndexController extends AbstractActionController
 {
     /**
      * @var \Generator\Form\GeneratorForm
-     */    
+     */
     protected $generatorForm;
     
     /**
@@ -34,16 +30,16 @@ class IndexController extends AbstractActionController
     
     /**
      * @var \Generator\Form\PreviewForm
-     */    
+     */
     protected $previewForm;
     
     /**
      * @var \Generator\Form\PublishForm
-     */    
+     */
     protected $publishForm;
     
     /**
-     * @return array 
+     * @return array
      */
     public function indexAction()
     {
@@ -63,7 +59,7 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * @return array 
+     * @return array
      */
     public function editAction()
     {
@@ -109,7 +105,7 @@ class IndexController extends AbstractActionController
         $prototypeForm->setData($prg);
         
         // Check if form is not valid
-        if ($prototypeForm->isValid() === false) {
+        if (!$prototypeForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'form'      => $prototypeForm,
@@ -130,16 +126,16 @@ class IndexController extends AbstractActionController
         }
         
         // Process form
-        if (isset($data['download'])) { 
+        if (isset($data['download'])) {
             // Path to file
             $file = sprintf("public/media/generator/%s.jpg", $data['token']);
             
             // Get response
             $response = $this->getResponse();
-
+            
             // Set content
             $response->setContent(file_get_contents($file));
-
+            
             // Get headers
             $headers = $response->getHeaders();
             
@@ -151,8 +147,7 @@ class IndexController extends AbstractActionController
             ;
             
             // Return response
-            return $response;            
-            
+            return $response;
         }
         else if (isset($data['publish'])) {
             // Flash messenger
@@ -162,18 +157,17 @@ class IndexController extends AbstractActionController
             $fm->addMessage(array('token' => $data['token']));
             
             // Forward to publish
-            return $this->redirect()->toRoute('publish');
+            return $this->redirect()->toRoute('generator/publish');
         }
-
         // Redirect to route
         return $this->redirect()->toRoute('edit', array(
             'slug' => $generator->getSlug(),
-        ));     
+        ));
     }
     
     /**
-     * @return array 
-     */  
+     * @return array
+     */
     public function previewAction()
     {
         // Get request
@@ -203,7 +197,7 @@ class IndexController extends AbstractActionController
         
         // Get form
         $previewForm = $this->getPreviewForm();
-
+        
         // Set form data
         $previewForm->setData($request->getPost());
         
@@ -218,16 +212,16 @@ class IndexController extends AbstractActionController
         
         // Get data
         $data = $previewForm->getData();
-
+        
         // Create new meme
         $img = new MemeGenerator($data['source']);
-
+        
         // Set top text
         $img->setTopText($data['top']);
         
         // Set bottom text
         $img->setBottomText($data['bottom']);
-
+        
         // Process the image
         $name = $img->processImg($data['token']);
         
@@ -238,8 +232,8 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * @return array 
-     */       
+     * @return array
+     */
     public function publishAction()
     {
         // Check if user is not logged in
@@ -264,31 +258,31 @@ class IndexController extends AbstractActionController
         if ($prg === false) {
             // Get flash messenger
             $fm = $this->flashMessenger()->setNamespace('generator.index.publish');
-
+            
             // Get messages
             $messages = $fm->getMessages();
-
+            
             // Check if messages exist
             if (!count($messages) || !array_key_exists('token', $messages[0])) {
                 // Redirect to route
                 return $this->redirect()->toRoute('generator');
             }
-
+            
             // Get token
             $token = $messages[0]['token'];
-
+            
             // Get validator
             $validator = new Exists('public/media/generator');
-
+            
             // Check if file does not exist
             if (!$validator->isValid(sprintf("%s.jpg", $token))) {
                 // Redirect to route
                 return $this->redirect()->toRoute('generator');
             }
-
+            
             // Set token value
             $publishForm->setTokenValue($token);
-
+            
             // Return view
             return new ViewModel(array(
                 'publishForm' => $publishForm,
@@ -314,16 +308,16 @@ class IndexController extends AbstractActionController
         
         // Get token
         $token = $publishForm->get('token')->getValue();
-
+        
         // Get validator
         $validator = new Exists('public/media/generator');
-
+        
         // Check if file does not exist
         if (!$validator->isValid(sprintf("%s.jpg", $token))) {
             // Redirect to route
             return $this->redirect()->toRoute('generator');
         }
-
+        
         // Set user
         $media->setUserId($this->user()->getIdentity()->getId());
         
@@ -345,12 +339,12 @@ class IndexController extends AbstractActionController
         // Redirect to route
         return $this->redirect()->toRoute('gag', array(
             'slug' => $media->getSlug(),
-        ));        
+        ));
     }
     
     /**
      * Return the generator form.
-     * 
+     *
      * @return \Generator\Form\GeneratorForm
      */
     public function getGeneratorForm()
@@ -394,7 +388,7 @@ class IndexController extends AbstractActionController
     
     /**
      * Return the preview form.
-     * 
+     *
      * @return \Generator\Form\PreviewForm
      */
     public function getPreviewForm()
@@ -410,7 +404,7 @@ class IndexController extends AbstractActionController
     
     /**
      * Return the upload form.
-     * 
+     *
      * @return \Generator\Form\PublishForm
      */
     public function getPublishForm()
