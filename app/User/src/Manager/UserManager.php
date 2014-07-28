@@ -156,7 +156,11 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      */
     public function sendConfirmationMessage(array $data)
     {
-        var_dump($data); die();
+        // Get user
+        $user = $data['user'];
+        
+        // Get request
+        $request = $data['request'];
         
         // Create confirmation entity
         $confirmation = new \User\Entity\ConfirmationEntity();
@@ -164,7 +168,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         $confirmation->setUserId($user->getId());
         $confirmation->setEmail($user->getEmail());
         $confirmation->setRemoteAddress(
-            $this->getRequest()->getServer('REMOTE_ADDR')
+            $request->getServer('REMOTE_ADDR')
         );
         $confirmation->setRequestAt(new \DateTime());
         $confirmation->setRequestToken($this->generateToken());
@@ -225,6 +229,20 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         }
         
         return $this->authService;
+    }
+    
+    /**
+     * Generate random token.
+     * 
+     * @return string
+     */
+    public function generateToken()
+    {
+        // Get token generator
+        $generator = \Core\Utils\TokenGenerator::getInstance();
+        
+        // Generate token
+        return $generator->getToken(32);
     }
     
     /**
@@ -349,7 +367,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         // Check if user manager is empty
         if ($this->userMapper === null) {
             // Set the user manager
-            $this->setUserManager($this->getServiceLocator()->get(
+            $this->setUserMapper($this->getServiceLocator()->get(
                 'user.mapper.user'
             ));
         }

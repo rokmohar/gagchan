@@ -236,20 +236,6 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * Generate random token.
-     * 
-     * @return string
-     */
-    public function generateToken()
-    {
-        // Get token generator
-        $generator = \Core\Utils\TokenGenerator::getInstance();
-        
-        // Generate token
-        return $generator->getToken(32);
-    }
-    
-    /**
      * Return the confirmation mapper.
      * 
      * @return \User\Mapper\ConfirmationMapperInterface
