@@ -102,12 +102,12 @@ class MemeGenerator
      */
     private function addText($text, $size, $type)
     {
-        // Set Y coordinates of text
+        // Set vertical margin (10px)
         if($type == 'topText') {
-            $textHeight = 40;
+            $textHeight = 30 + 10;
         }
         else {
-            $textHeight = $this->getHeight() - 14;
+            $textHeight = $this->getHeight() - (8 + 10);
         }
 
         while (true) {
@@ -129,7 +129,7 @@ class MemeGenerator
             }
 
             //Check if the text exceed image width
-            if ($this->isTextInsideImage(
+            if (!$this->isTextInsideImage(
                 $this->getWidth(),
                 $coords[2] - $coords[0]
             )) {
@@ -146,13 +146,13 @@ class MemeGenerator
                  // Minimum font, then break into lines
                 if ($size <= 20) {
                     if ($type == 'topText') {
-                        $this->setTopText($this->breakInLines($text, $type, 30));
+                        $this->setTopText($this->breakInLines($text, $type, (20 + 10)));
                         $text = $this->getTopText();
 
                         return;
                     }
                     else {
-                        $this->setBottomText($this->breakInLines($text, $type, $this->getHeight() - 14));
+                        $this->setBottomText($this->breakInLines($text, $type, $this->getHeight() - (8 + 10)));
                         $text = $this->getBottomText();
 
                         return;
@@ -203,16 +203,20 @@ class MemeGenerator
     {
         // Break text into words
         $brokenText = explode(' ', $text);
-
+        
         // Multiline text
         $multilineText = '';
-
+        
+        // Count number of lines
+        $lines = $this->countLines($brokenText);
+                 
         if ($type != 'topText') {
-            // Get text height base on number of words
-            $textHeight = $this->getHeight() - ((count($brokenText) / 2) * 3);
+            // Get text height, based on number of lines
+            $textHeight = $this->getHeight() - ($lines * 26) - 10;
         }
 
-        for ($i = 0; $i < count($brokenText); $i++) {	
+        foreach ($brokenText as $i=>$i) {
+            
             $temp           = $multilineText;
             $multilineText .= $brokenText[$i] . ' ';
 
@@ -220,14 +224,14 @@ class MemeGenerator
             $dimensions = $this->getFontCoords($multilineText, 20);
 
             // Check if the sentence is exceeding the image with new word appended
-            if ($this->isTextInsideImage(
-                $this->getWidth(),
-                $dimensions[2] - $dimensions[0]
-            )) {
+            if (!$this->isTextInsideImage($this->getWidth(),
+                                $dimensions[2] - $dimensions[0])
+                ) {
                 // Append new word
                 $dimensions = $this->getFontCoords($temp, 20);
                 $locx       = $this->getHorizontalAlignment($this->getWidth(), $dimensions[4]);
 
+                // Place new word on image
                 $this->placeTextOnImage(
                     20,
                     $locx,
@@ -238,15 +242,16 @@ class MemeGenerator
 
                 $multilineText = $brokenText[$i];
 
-                // Line height
+                // Line height (go to new line)
                 $textHeight    = $textHeight + 26;
-            }
+            } 
 
             // Last word
             if ($i == count($brokenText) - 1) {
                 $dimensions = $this->getFontCoords($multilineText, 20);
                 $locx       = $this->getHorizontalAlignment($this->getWidth(), $dimensions[4]);
 
+                // Place last word on image
                 $this->placeTextOnImage(
                     20,
                     $locx,
@@ -256,11 +261,46 @@ class MemeGenerator
                 );
             }
         }
-
+        
         // Return text in multiple lines
         return $multilineText;		
     }
 
+    /**
+     * Return number of lines for given text (seperated by spaces)
+     * 
+     * @param String $brokenTxt
+     * @return Integer
+     */
+    private function countLines($brokenTxt)
+    {
+        $lines = 0;
+        $multilineTxt = '';
+        
+        foreach ($brokenTxt as $i=>$i) {
+            
+            $tmp           = $multilineTxt;
+            $multilineTxt .= $brokenTxt[$i] . ' ';             
+                          
+            // Get the sentence placement coordinates
+            $dim = $this->getFontCoords($multilineTxt, 20);
+             
+            // Check if the sentence is exceeding the image with new word appended
+            if (!$this->isTextInsideImage($this->getWidth(), $dim[2] - $dim[0])) {
+                // Append new word
+                $dim = $this->getFontCoords($tmp, 20);
+                $multilineTxt = $brokenTxt[$i];
+                
+                // New line
+                $lines++;
+            }
+                    
+        }  
+        
+        // Return number of lines
+        return $lines;
+    }
+    
     /**
      * Retrun image from given path
      *
@@ -342,10 +382,10 @@ class MemeGenerator
     private function isTextInsideImage($imgWidth, $fontWidth)
     {
         if($imgWidth < $fontWidth + 20) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
