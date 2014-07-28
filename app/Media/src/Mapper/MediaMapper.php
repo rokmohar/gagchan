@@ -59,12 +59,12 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         $select = $this->getSelect();
         
         $select
-            ->where($where)
+            ->where($where, 'AND')
             ->order($order)
         ;
         
         // Condition for delay
-        $select->where('`delay_at` IS NULL OR `delay_at` <= \'' . date("Y-m-d H:i:s") . '\'');
+        $select->where('(`delay_at` IS NULL OR `delay_at` <= \'' . date("Y-m-d H:i:s") . '\')', 'AND');
         
         // Get result set
         $resultSet = new HydratingResultSet(
@@ -90,6 +90,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
     {
         return $this->selectAll(array(
             'category_id' => $category->getId(),
+            'state'       => 1,
         ));
     }
     
@@ -103,6 +104,7 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
         return $this->selectAll(
             array(
                 'is_featured' => 1,
+                'state'       => 1,
             ),
             array('created_at DESC'),
             10
@@ -116,7 +118,14 @@ class MediaMapper extends AbstractMapper implements MediaMapperInterface
      */
     public function selectLatest()
     {
-        return $this->selectAll(array(), array('created_at DESC'));
+        return $this->selectAll(
+            array(
+                'state' => 1,
+            ),
+            array(
+                'created_at DESC',
+            )
+        );
     }
     
     /**

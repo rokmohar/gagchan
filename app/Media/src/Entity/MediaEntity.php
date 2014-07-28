@@ -94,7 +94,7 @@ class MediaEntity implements MediaEntityInterface
     public function __construct()
     {
         $this->isFeatured = false;
-        $this->state      = MediaEntity::STATE_DISABLED;
+        $this->state      = MediaEntity::STATE_CONFIRMED;
         $this->createdAt  = new \DateTime();
         $this->updatedAt  = new \DateTime();
     }
