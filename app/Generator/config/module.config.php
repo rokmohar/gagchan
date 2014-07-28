@@ -1,5 +1,4 @@
 <?php
-
 return array(
     'controllers' => array(
         'invokables' => array(
@@ -17,16 +16,29 @@ return array(
                         'action'     => 'index',
                     ),
                 ),
-            ),           
-            'edit' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Segment',
-                'options' => array(
-                    'route'    => '/edit/[:slug]',
-                    'defaults' => array(
-                        'controller' => 'Generator\IndexController',
-                        'action'      => 'edit',
-                        'constraints' => array(
-                            'slug' => '[a-zA-Z][a-zA-Z\-]*',
+                'may_terminate' => true,
+                'child_routes'  => array(
+                    'edit' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => '/[:slug]',
+                            'defaults' => array(
+                                'controller' => 'Generator\IndexController',
+                                'action'      => 'edit',
+                                'constraints' => array(
+                                    'slug' => '[a-zA-Z][a-zA-Z\-]*',
+                                ),
+                            ),
+                        ),
+                    ),
+                    'publish' => array(
+                        'type'    => 'Zend\Mvc\Router\Http\Literal',
+                        'options' => array(
+                            'route'    => '/publish',
+                            'defaults' => array(
+                                'controller'  => 'Generator\IndexController',
+                                'action'      => 'publish',
+                            ),
                         ),
                     ),
                 ),
@@ -38,16 +50,6 @@ return array(
                     'defaults' => array(
                         'controller' => 'Generator\IndexController',
                         'action'     => 'preview',
-                    ),
-                ),
-            ),
-            'publish' => array(
-                'type'    => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/generator/publish',
-                    'defaults' => array(
-                        'controller'  => 'Generator\IndexController',
-                        'action'      => 'publish',
                     ),
                 ),
             ),

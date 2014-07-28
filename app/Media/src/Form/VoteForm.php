@@ -5,6 +5,7 @@ namespace Media\Form;
 use Zend\Form\Form;
 
 use Media\Mapper\MediaMapperInterface;
+use Media\Mapper\VoteMapperInterface;
 use User\Mapper\UserMapperInterface;
 
 /**
@@ -13,6 +14,11 @@ use User\Mapper\UserMapperInterface;
  */
 class VoteForm extends Form
 {
+    /**
+     * @var \Media\Mapper\VoteMapperInterface
+     */
+    protected $voteMapper;
+    
     /**
      * @var \Media\Mapper\MediaMapperInterface
      */
@@ -24,12 +30,25 @@ class VoteForm extends Form
     protected $userMapper;
     
     /**
-     * @param string $name
-     * @param array  $options
+     * @param \Media\Mapper\VoteMapperInterface  $voteMapper
+     * @param \Media\Mapper\MediaMapperInterface $mediaMapper
+     * @param \User\Mapper\UserMapperInterface   $userMapper
      */
-    public function __construct($name, array $options = array())
-    {
-        parent::__construct($name, $options);
+    public function __construct(
+        VoteMapperInterface $voteMapper,
+        MediaMapperInterface $mediaMapper,
+        UserMapperInterface $userMapper
+    ) {
+        parent::__construct();
+        
+        // Set vote mapper
+        $this->setVoteMapper($voteMapper);
+        
+        // Set media mapper
+        $this->setMediaMapper($mediaMapper);
+        
+        // Set user mapper
+        $this->setUserMapper($userMapper);
         
         // Add form elements
         $this
@@ -74,18 +93,34 @@ class VoteForm extends Form
     }
     
     /**
+     * Return the vote mapper.
+     * 
+     * @return \Media\Mapper\VoteMapperInterface
+     */
+    public function getVoteMapper()
+    {
+        return $this->voteMapper;
+    }
+    
+    /**
+     * Set the vote mapper.
+     * 
+     * @param \Media\Mapper\VoteMapperInterface $voteMapper
+     */
+    public function setVoteMapper(VoteMapperInterface $voteMapper)
+    {
+        $this->voteMapper = $voteMapper;
+        
+        return $this;
+    }
+    
+    /**
      * Return the media mapper.
      * 
      * @return \Media\Mapper\MediaMapperInterface
      */
     public function getMediaMapper()
     {
-        // Check if media mapper is empty
-        if ($this->mediaMapper === null) {
-            // Set media mapper
-            $this->setMediaMapper($this->getOption('media_mapper'));
-        }
-        
         return $this->mediaMapper;
     }
     
@@ -108,12 +143,6 @@ class VoteForm extends Form
      */
     public function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     

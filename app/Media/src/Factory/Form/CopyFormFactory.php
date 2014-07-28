@@ -6,6 +6,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Media\Form\UploadForm;
+use Media\InputFilter\UploadFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -31,11 +32,7 @@ class CopyFormFactory implements FactoryInterface
         $categoryMapper = $serviceLocator->get('category.mapper.category');
         
         // Create form
-        $form = new UploadForm('media', array(
-            'media_mapper'    => $mediaMapper,
-            'user_mapper'     => $userMapper,
-            'category_mapper' => $categoryMapper,
-        ));
+        $form = new UploadForm($mediaMapper, $userMapper, $categoryMapper);
         
         // Set validation group
         $form->setValidationGroup(array(
@@ -54,11 +51,7 @@ class CopyFormFactory implements FactoryInterface
         $form->setHydrator($hydrator);
         
         // Get input filter
-        $inputFilter = new \Media\InputFilter\UploadFilter(array(
-            'media_mapper'    => $mediaMapper,
-            'user_mapper'     => $userMapper,
-            'category_mapper' => $categoryMapper,
-        ));
+        $inputFilter = new UploadFilter($mediaMapper, $userMapper, $categoryMapper);
         
         // Set input filter
         $form->setInputFilter($inputFilter);

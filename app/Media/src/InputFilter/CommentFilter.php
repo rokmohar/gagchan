@@ -2,7 +2,8 @@
 
 namespace Media\InputFilter;
 
-use Core\InputFilter\AbstractFilter;
+use Zend\InputFilter\InputFilter;
+
 use Media\Mapper\CommentMapperInterface;
 use Media\Mapper\MediaMapperInterface;
 use User\Mapper\UserMapperInterface;
@@ -11,7 +12,7 @@ use User\Mapper\UserMapperInterface;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class CommentFilter extends AbstractFilter
+class CommentFilter extends InputFilter
 {
     /**
      * @var \Media\Mapper\CommentMapperInterface
@@ -29,11 +30,23 @@ class CommentFilter extends AbstractFilter
     protected $userMapper;
     
     /**
-     * @param array $options
+     * @param \Media\Mapper\CommentMapperInterface $commentMapper
+     * @param \Media\Mapper\MediaMapperInterface   $mediaMapper
+     * @param \User\Mapper\UserMapperInterface     $userMapper
      */
-    public function __construct(array $options = array())
-    {
-        parent::__construct($options);
+    public function __construct(
+        CommentMapperInterface $commentMapper,
+        MediaMapperInterface $mediaMapper,
+        UserMapperInterface $userMapper
+    ) {
+        // Set comment mapper
+        $this->setCommentMapper($commentMapper);
+        
+        // Set media mapper
+        $this->setMediaMapper($mediaMapper);
+        
+        // Set user mapper
+        $this->setUserMapper($userMapper);
         
         // Add form elements
         $this
@@ -53,7 +66,6 @@ class CommentFilter extends AbstractFilter
                 array(
                     'name'    => 'stringLength',
                     'options' => array(
-                        'min' => 8,
                         'max' => 255,
                     ),
                 ),
@@ -73,12 +85,6 @@ class CommentFilter extends AbstractFilter
      */
     public function getCommentMapper()
     {
-        // Check if comment mapper is empty
-        if ($this->commentMapper === null) {
-            // Set comment mapper
-            $this->setCommentMapper($this->getOption('comment_mapper'));
-        }
-        
         return $this->commentMapper;
     }
     
@@ -101,12 +107,6 @@ class CommentFilter extends AbstractFilter
      */
     public function getMediaMapper()
     {
-        // Check if media mapper is empty
-        if ($this->mediaMapper === null) {
-            // Set media mapper
-            $this->setMediaMapper($this->getOption('media_mapper'));
-        }
-        
         return $this->mediaMapper;
     }
     
@@ -129,12 +129,6 @@ class CommentFilter extends AbstractFilter
      */
     public function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     

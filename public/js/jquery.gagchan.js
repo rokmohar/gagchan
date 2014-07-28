@@ -123,29 +123,22 @@ jQuery(document).ready(function($) {
     var $src   = $img.attr('src');
     var $token = $('[name=token]');
     
-    $('[name=top]').focusout(function() {
+    $('[name=top], [name=bottom]').focusout(function() {
         if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token.val(), 'topText');
-        }
-    });
-
-    $('[name=bottom]').focusout(function() {
-        if($.trim($(this).val()) !== "") {
-            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token.val(), 'bottomText');
+            SendAjaxRequest($('[name=top]').val(), $('[name=bottom]').val(), $src, $token.val());
         }
     });
     
-    function SendAjaxRequest(umsg, dmsg, src, token, type)
+    function SendAjaxRequest(umsg, dmsg, src, token)
     {
         $.ajax({
             url: '/preview',
             type: 'POST',
             data: {
-                upmsg:    umsg,
-                downmsg:  dmsg,
-                imgsrc:   src,
-                token:    token,
-                position: type
+                top:      umsg,
+                bottom:   dmsg,
+                source:   src,
+                token:    token
             },
             success: function(response) {
                 $('#preview').attr('src', response.name + '?' + Math.random());

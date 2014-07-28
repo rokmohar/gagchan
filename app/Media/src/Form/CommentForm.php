@@ -30,12 +30,25 @@ class CommentForm extends Form
     protected $userMapper;
     
     /**
-     * @param string $name
-     * @param array  $options
+     * @param \Media\Mapper\CommentMapperInterface $commentMapper
+     * @param \Media\Mapper\MediaMapperInterface   $mediaMapper
+     * @param \User\Mapper\UserMapperInterface     $userMapper
      */
-    public function __construct($name, array $options = array())
-    {
-        parent::__construct($name, $options);
+    public function __construct(
+        CommentMapperInterface $commentMapper,
+        MediaMapperInterface $mediaMapper,
+        UserMapperInterface $userMapper
+    ) {
+        parent::__construct();
+        
+        // Set comment mapper
+        $this->setCommentMapper($commentMapper);
+        
+        // Set media mapper
+        $this->setMediaMapper($mediaMapper);
+        
+        // Set user mapper
+        $this->setUserMapper($userMapper);
         
         // Add elements
         $this
@@ -95,12 +108,6 @@ class CommentForm extends Form
      */
     public function getCommentMapper()
     {
-        // Check if comment mapper is empty
-        if ($this->commentMapper === null) {
-            // Set comment mapper
-            $this->setCommentMapper($this->getOption('comment_mapper'));
-        }
-        
         return $this->commentMapper;
     }
     
@@ -123,12 +130,6 @@ class CommentForm extends Form
      */
     public function getMediaMapper()
     {
-        // Check if media mapper is empty
-        if ($this->mediaMapper === null) {
-            // Set media mapper
-            $this->setMediaMapper($this->getOption('media_mapper'));
-        }
-        
         return $this->mediaMapper;
     }
     
@@ -151,12 +152,6 @@ class CommentForm extends Form
      */
     public function getUserMapper()
     {
-        // Check if user mapper is empty
-        if ($this->userMapper === null) {
-            // Set user mapper
-            $this->setUserMapper($this->getOption('user_mapper'));
-        }
-        
         return $this->userMapper;
     }
     

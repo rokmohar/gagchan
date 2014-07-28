@@ -1,15 +1,12 @@
 <?php
-
 namespace Generator\Controller;
-
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Validator\File\Exists;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-
 use Core\File\UploadedFile;
 use Generator\Utils\MemeGenerator;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -18,66 +15,83 @@ class IndexController extends AbstractActionController
 {
     /**
      * @var \Generator\Form\GeneratorForm
-     */    
+     */
     protected $generatorForm;
-    
+
     /**
      * @var \Media\Service\MediaManagerInterface
      */
     protected $mediaManager;
-    
+
     /**
      * @var \Generator\Mapper\PrototypeMapperInterface
      */
     protected $prototypeMapper;
-    
+
     /**
-     * @var \Generator\Form\UploadForm
-     */    
-    protected $uploadForm;
-    
+     * @var \Generator\Form\PreviewForm
+     */
+    protected $previewForm;
+
     /**
-     * @return array 
+     * @var \Generator\Form\PublishForm
+     */
+    protected $publishForm;
+
+    /**
+     * @return array
      */
     public function indexAction()
     {
+        // Check if user is not logged in
+        if (!$this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+
         // Select all rows
         $generator = $this->getPrototypeMapper()->selectAll();
-        
+
         // Retun view
         return new ViewModel(array(
             'generator' => $generator,
         ));
     }
-    
+
     /**
-     * @return array 
+     * @return array
      */
     public function editAction()
-    {                
-        // Select media
+    {
+        // Check if user is not logged in
+        if (!$this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+
+        // Select a row
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
         );
-        
-        // Check if generator is empty
+
+        // Check if row exists
         if (empty($generator)) {
             // Media not found
             return $this->notFoundAction();
         }
-        
+
         // Get PRG
         $prg = $this->prg();
-        
+
         // Check if PRG is response
         if ($prg instanceof Response) {
             // Return response
             return $prg;
         }
-        
+
         // Get form
         $prototypeForm = $this->getGeneratorForm();
-        
+
         // Check if PRG is GET
         if ($prg === false) {
             // Return view
@@ -86,36 +100,36 @@ class IndexController extends AbstractActionController
                 'generator' => $generator,
             ));
         }
-        
+
         // Set data
         $prototypeForm->setData($prg);
-        
+
         // Check if form is not valid
-        if ($prototypeForm->isValid() === false) {
+        if (!$prototypeForm->isValid()) {
             // Return view
             return new ViewModel(array(
                 'form'      => $prototypeForm,
                 'generator' => $generator,
             ));
         }
-        
+
         // Get data
         $data = $prototypeForm->getData();
-        
+
+        // Get validator
+        $validator = new Exists('public/media/generator');
+
+        // Check if file does not exist
+        if (!$validator->isValid(sprintf("%s.jpg", $data['token']))) {
+            // Redirect to route
+            return $this->redirect()->toRoute('generator');
+        }
+
         // Process form
-        if (isset($data['download'])) { 
-            
-            // Token
-            $token = $data['token'];
-            
+        if (isset($data['download'])) {
             // Path to file
-            $file = 'public/media/generator/' . $token . '.jpg';
-            
-            // Not a file
-            if(is_file($file) == false) {
-                return $this->redirect()->toRoute('generator');
-            }            
-            
+            $file = sprintf("public/media/generator/%s.jpg", $data['token']);
+
             // Get response
             $response = $this->getResponse();
 
@@ -124,94 +138,123 @@ class IndexController extends AbstractActionController
 
             // Get headers
             $headers = $response->getHeaders();
-            
+
             // Set headers
             $headers
                 ->clearHeaders()
                 ->addHeaderLine('Content-Type', 'application/force-download')
                 ->addHeaderLine('Content-Disposition',  sprintf('attachment; filename="%s"', $generator->getName() . '.jpg'))
             ;
-            
+
             // Return response
-            return $response;            
-            
+            return $response;
         }
         else if (isset($data['publish'])) {
             // Flash messenger
             $fm = $this->flashMessenger()->setNamespace('generator.index.publish');
-            
+
             // Add message
             $fm->addMessage(array('token' => $data['token']));
-            
+
             // Forward to publish
-            return $this->redirect()->toRoute('publish');
+            return $this->redirect()->toRoute('generator/publish');
         }
 
         // Redirect to route
         return $this->redirect()->toRoute('edit', array(
             'slug' => $generator->getSlug(),
-        ));     
+        ));
     }
-    
+
     /**
-     * @return array 
-     */  
+     * @return array
+     */
     public function previewAction()
     {
-        // Get data from ajax call
-        // Top text
-        $upmsg   = $_POST['upmsg'];
-        
-        // Bottom text
-        $downmsg = $_POST['downmsg'];
-        
-        // Image (default) source
-        $path    = $_POST['imgsrc'];
-        
-        // Image token (unique ID)
-        $token   = $_POST['token'];
-        
+        // Get request
+        $request = $this->getRequest();
+
+        // Check if request is not JSON
+        if (!$request->isXmlHttpRequest()) {
+            // Redirect user to home
+            return $this->redirect()->toRoute('home');
+        }
+
+        // Check if user is not logged in
+        if (!$this->user()->hasIdentity()) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => 'not_logged_in',
+            ));
+        }
+
+        // Check if page is not posted
+        if (!$request->isPost()) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => 'not_post',
+            ));
+        }
+
+        // Get form
+        $previewForm = $this->getPreviewForm();
+
+        // Set form data
+        $previewForm->setData($request->getPost());
+
+        // Check if for is not valid
+        if (!$previewForm->isValid()) {
+            // Return JSON
+            return new JsonModel(array(
+                'result'   => 'not_valid',
+                'messages' => $previewForm->getMessages(),
+            ));
+        }
+
+        // Get data
+        $data = $previewForm->getData();
+
         // Create new meme
-        $img = new MemeGenerator($path);
+        $img = new MemeGenerator($data['source']);
 
         // Set top text
-        $img->setTopText($upmsg);
-        
+        $img->setTopText($data['top']);
+
         // Set bottom text
-        $img->setBottomText($downmsg);
+        $img->setBottomText($data['bottom']);
 
         // Process the image
-        $name = $img->processImg($token);
-        
+        $name = $img->processImg($data['token']);
+
         // Retrun create image path
         return  new JsonModel(array(
             'name' => $name,
         ));
     }
-    
+
     /**
-     * @return array 
-     */       
+     * @return array
+     */
     public function publishAction()
     {
-        // Check is user is not logged in
+        // Check if user is not logged in
         if (!$this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('login');
         }
-        
+
         // Get PRG
         $prg = $this->prg();
-        
+
         // Check if PRG is response
         if ($prg instanceof Response) {
             // Return response
             return $prg;
         }
-        
+
         // Get upload form
-        $uploadForm = $this->getUploadForm();
-        
+        $publishForm = $this->getPublishForm();
+
         // Check if PRG is GET
         if ($prg === false) {
             // Get flash messenger
@@ -226,61 +269,83 @@ class IndexController extends AbstractActionController
                 return $this->redirect()->toRoute('generator');
             }
 
+            // Get token
+            $token = $messages[0]['token'];
+
+            // Get validator
+            $validator = new Exists('public/media/generator');
+
+            // Check if file does not exist
+            if (!$validator->isValid(sprintf("%s.jpg", $token))) {
+                // Redirect to route
+                return $this->redirect()->toRoute('generator');
+            }
+
             // Set token value
-            $uploadForm->setTokenValue($messages[0]['token']);
+            $publishForm->setTokenValue($token);
 
             // Return view
             return new ViewModel(array(
-                'uploadForm' => $uploadForm,
+                'publishForm' => $publishForm,
             ));
         }
-        
+
         // Bind entity
-        $uploadForm->bind(new \Media\Entity\MediaEntity());
-        
+        $publishForm->bind(new \Media\Entity\MediaEntity());
+
         // Set data
-        $uploadForm->setData($prg);
-        
+        $publishForm->setData($prg);
+
         // Check if form is not valid
-        if (!$uploadForm->isValid()) {
+        if (!$publishForm->isValid()) {
             // Return view
             return new ViewModel(array(
-                'uploadForm' => $uploadForm,
+                'publishForm' => $publishForm,
             ));
         }
-        
+
         // Get data
-        $media = $uploadForm->getData();
-        
+        $media = $publishForm->getData();
+
+        // Get token
+        $token = $publishForm->get('token')->getValue();
+
+        // Get validator
+        $validator = new Exists('public/media/generator');
+
+        // Check if file does not exist
+        if (!$validator->isValid(sprintf("%s.jpg", $token))) {
+            // Redirect to route
+            return $this->redirect()->toRoute('generator');
+        }
+
         // Set user
         $media->setUserId($this->user()->getIdentity()->getId());
-        
+
         // Get file
-        $file = sprintf('public/media/generator/%s.jpg',
-            $uploadForm->get('token')->getValue()
-        );
-        
+        $file = sprintf('public/media/generator/%s.jpg', $token);
+
         // Create uploaded image
         $image = new UploadedFile(
             $file,
             basename($file)
         );
-        
+
         // Media manager
         $mediaManager = $this->getMediaManager();
-        
+
         // Upload image
         $mediaManager->uploadImage($image, $media);
-        
+
         // Redirect to route
         return $this->redirect()->toRoute('gag', array(
             'slug' => $media->getSlug(),
-        ));        
+        ));
     }
-    
+
     /**
      * Return the generator form.
-     * 
+     *
      * @return \Generator\Form\GeneratorForm
      */
     public function getGeneratorForm()
@@ -290,10 +355,10 @@ class IndexController extends AbstractActionController
                 'generator.form.generator'
             );
         }
-        
+
         return $this->generatorForm;
     }
-    
+
     /**
      * @return \Media\Service\MediaManagerInterface
      */
@@ -304,10 +369,10 @@ class IndexController extends AbstractActionController
                 'media.service.media_manager'
             );
         }
-        
+
         return $this->mediaManager;
     }
-    
+
     /**
      * @return \Generator\Mapper\PrototypeMapperInterface
      */
@@ -318,22 +383,39 @@ class IndexController extends AbstractActionController
                 'generator.mapper.prototype'
             );
         }
-        
+
         return $this->prototypeMapper;
     }
+
+    /**
+     * Return the preview form.
+     *
+     * @return \Generator\Form\PreviewForm
+     */
+    public function getPreviewForm()
+    {
+        if ($this->previewForm === null) {
+            return $this->previewForm = $this->getServiceLocator()->get(
+                'generator.form.preview'
+            );
+        }
+
+        return $this->previewForm;
+    }
+
     /**
      * Return the upload form.
-     * 
-     * @return \Generator\Form\UploadForm
+     *
+     * @return \Generator\Form\PublishForm
      */
-    public function getUploadForm()
+    public function getPublishForm()
     {
-        if ($this->uploadForm === null) {
-            return $this->uploadForm = $this->getServiceLocator()->get(
+        if ($this->publishForm === null) {
+            return $this->publishForm = $this->getServiceLocator()->get(
                 'generator.form.publish'
             );
         }
-        
-        return $this->uploadForm;
+
+        return $this->publishForm;
     }
 }

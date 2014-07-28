@@ -13,8 +13,7 @@ use Core\Utils\TokenGenerator;
 class GeneratorForm extends Form
 {
     /**
-     * @param string $name
-     * @param array  $options
+     * Constructor.
      */    
     public function __construct()
     {
@@ -22,6 +21,7 @@ class GeneratorForm extends Form
 
         // Add elements
         $this
+            ->addCsrf()
             ->addTop()
             ->addBottom()
             ->addToken()
@@ -31,19 +31,34 @@ class GeneratorForm extends Form
     }
     
     /**
-     * Add the top positioned text
+     * Add the CSRF element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
+     */
+    protected function addCsrf()
+    {
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * Add the top text element.
+     * 
+     * @return \Generator\Form\GeneratorForm
      */
     protected function addTop()
     {
         $this->add(array(
             'name'    => 'top',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Top Text',
             ),
             'attributes' => array(
-                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Top Text',
             ),
@@ -53,19 +68,19 @@ class GeneratorForm extends Form
     }
     
     /**
-     * Add the bottom positioned text
+     * Add the bottom text element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     protected function addBottom()
     {
         $this->add(array(
             'name'    => 'bottom',
+            'type'    => 'Zend\Form\Element\Text',
             'options' => array(
                 'label' => 'Bottom Text',
             ),
             'attributes' => array(
-                'type'        => 'Zend\Form\Element\Text',
                 'class'       => 'form-control',
                 'placeholder' => 'Bottom Text',
             ),            
@@ -75,9 +90,9 @@ class GeneratorForm extends Form
     }
     
     /**
-     * Add the bottom positioned text
+     * Add the token element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     protected function addToken()
     {
@@ -95,17 +110,17 @@ class GeneratorForm extends Form
     /**
      * Add the download form element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     public function addDownload()
     {
         $this->add(array(
-            'name' => 'download',
+            'name'    => 'download',
+            'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
                 'label' => 'Download',
             ),
             'attributes' => array(
-                'type'  => 'Zend\Form\Element\Submit',
                 'class' => 'btn btn-primary',
                 'value' => 'Download',
             ),
@@ -117,17 +132,17 @@ class GeneratorForm extends Form
     /**
      * Add the publish form element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     public function addPublish()
     {
         $this->add(array(
-            'name' => 'publish',
+            'name'    => 'publish',
+            'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
                 'label' => 'Publish',
             ),
             'attributes' => array(
-                'type'  => 'Zend\Form\Element\Submit',
                 'class' => 'btn btn-primary',
                 'value' => 'Publish',
             ),

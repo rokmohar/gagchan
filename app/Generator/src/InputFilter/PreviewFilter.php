@@ -8,7 +8,7 @@ use Zend\InputFilter\InputFilter;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class GeneratorFilter extends InputFilter
+class PreviewFilter extends InputFilter
 {
     /**
      * {@inheritDoc}
@@ -19,6 +19,7 @@ class GeneratorFilter extends InputFilter
         $this
             ->addTop()
             ->addBottom()
+            ->addSource()
             ->addToken()
         ;
     }
@@ -26,7 +27,7 @@ class GeneratorFilter extends InputFilter
     /**
      * Add filter for the top text element.
      *      
-     * @return \Generator\InputFilter\GeneratorFilter
+     * @return \Generator\InputFilter\PreviewFilter
      */
     protected function addTop()
     {
@@ -42,11 +43,10 @@ class GeneratorFilter extends InputFilter
         
         return $this;        
     }
-    
     /**
      * Add filter for the bottom text element.
      *      
-     * @return \Generator\InputFilter\GeneratorFilter
+     * @return \Generator\InputFilter\PreviewFilter
      */
     protected function addBottom()
     {
@@ -64,9 +64,29 @@ class GeneratorFilter extends InputFilter
     }
     
     /**
+     * Add filter for the source element.
+     *      
+     * @return \Generator\InputFilter\PreviewFilter
+     */
+    protected function addSource()
+    {
+        $this->add(array(
+            'name'     => 'source',
+            'required' => true,
+            'filters'  => array(
+                array('name' => 'Zend\Filter\HtmlEntities'),
+                array('name' => 'Zend\Filter\StringTrim'),
+                array('name' => 'Zend\Filter\StripTags'),
+            ),
+        ));      
+        
+        return $this;        
+    }
+    
+    /**
      * Add filter for the token element.
      *      
-     * @return \Generator\InputFilter\GeneratorFilter
+     * @return \Generator\InputFilter\PreviewFilter
      */
     protected function addToken()
     {
