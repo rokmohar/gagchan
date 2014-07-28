@@ -32,7 +32,7 @@ class Module implements
             ),
         );
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -52,7 +52,7 @@ class Module implements
             ),
         );
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -80,7 +80,7 @@ class Module implements
             ),
         );
     }
-    
+
     /**
      * {@inheritDoc}
      */

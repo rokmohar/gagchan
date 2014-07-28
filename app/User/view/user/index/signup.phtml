@@ -4,12 +4,12 @@
 
     <div class="widget">
         <h3 class="widget-title">Sign up</h3>
-        
+
         <?php echo $this->form()->openTag($signupForm) ?>
-        
+
             <!-- #CSRF -->
             <?php echo $this->formHidden($signupForm->get('csrf')) ?>
-        
+
             <!-- #Username -->
             <div class="form-row">
                 <div class="input-group">
@@ -21,7 +21,7 @@
 
                 <?php echo $this->formElementErrors($signupForm->get('username')) ?>
             </div>
-            
+
             <!-- #Email -->
             <div class="form-row">
                 <div class="input-group">
@@ -33,7 +33,7 @@
 
                 <?php echo $this->formElementErrors($signupForm->get('email')) ?>
             </div>
-            
+
             <!-- #Password -->
             <div class="form-row">
                 <div class="input-group">
@@ -45,7 +45,7 @@
 
                 <?php echo $this->formElementErrors($signupForm->get('password')) ?>
             </div>
-            
+
             <div class="form-row">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -56,18 +56,18 @@
 
                 <?php echo $this->formElementErrors($signupForm->get('password_verify')) ?>
             </div>
-            
+
             <!-- #Captcha -->
             <div class="form-row">
                 <?php echo $this->formCaptcha($signupForm->get('captcha')) ?>
 
                 <?php echo $this->formElementErrors($signupForm->get('captcha')) ?>
             </div>
-            
+
             <div class="input-group">
                 <?php echo $this->formButton($signupForm->get('submit')) ?>
             </div>
-            
+
         <?php echo $this->form()->closeTag() ?>
     </div>
 
@@ -89,7 +89,7 @@
 
 </section>
 
-<section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">          
+<section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
     <div class="widget">
         <h3 class="widget-title">Already have an account?</h3>

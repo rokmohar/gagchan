@@ -27,22 +27,22 @@ class UserEntity implements UserEntityInterface
      * @var string
      */
     protected $password;
-    
+
     /**
      * @var int
      */
     protected $state;
-    
+
     /**
      * @var \DateTime
      */
     protected $createdAt;
-    
+
     /**
      * @var \DateTime
      */
     protected $updatedAt;
-    
+
     /**
      * Constructor.
      */
@@ -66,7 +66,7 @@ class UserEntity implements UserEntityInterface
     public function setId($id)
     {
         $this->id = $id;
-        
+
         return $this;
     }
 
@@ -84,7 +84,7 @@ class UserEntity implements UserEntityInterface
     public function setUsername($username)
     {
         $this->username = $username;
-        
+
         return $this;
     }
 
@@ -102,7 +102,7 @@ class UserEntity implements UserEntityInterface
     public function setEmail($email)
     {
         $this->email = $email;
-        
+
         return $this;
     }
 
@@ -120,10 +120,10 @@ class UserEntity implements UserEntityInterface
     public function setPassword($password)
     {
         $this->password = $password;
-        
+
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -131,17 +131,17 @@ class UserEntity implements UserEntityInterface
     {
         return $this->state;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function setState($state)
     {
         $this->state = $state;
-        
+
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -149,7 +149,7 @@ class UserEntity implements UserEntityInterface
     {
         return $this->createdAt;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -157,7 +157,7 @@ class UserEntity implements UserEntityInterface
     {
         $this->createdAt = $createdAt;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -165,7 +165,7 @@ class UserEntity implements UserEntityInterface
     {
         return $this->updatedAt;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -173,10 +173,10 @@ class UserEntity implements UserEntityInterface
     {
         $this->updatedAt = $updatedAt;
     }
-    
+
     /**
      * Pre-insert initialization.
-     * 
+     *
      * @return \Media\Entity\CommentEntityInterface
      */
     public function preInsert()
@@ -184,10 +184,10 @@ class UserEntity implements UserEntityInterface
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
     }
-    
+
     /**
      * Pre-update initialization.
-     * 
+     *
      * @return \Media\Entity\CommentEntityInterface
      */
     public function preUpdate()
