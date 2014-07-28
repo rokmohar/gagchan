@@ -32,7 +32,7 @@ class GeneratorFilter extends InputFilter
     {
         $this->add(array(
             'name'       => 'top',
-            'required'   => true,
+            'required'   => false,
             'validators' => array(
                 array(
                     'name' => 'StringLength',
