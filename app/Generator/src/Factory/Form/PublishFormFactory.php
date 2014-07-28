@@ -35,6 +35,7 @@ class PublishFormFactory implements FactoryInterface
             'csrf',
             'name',
             'category_id',
+            'delay_at',
         ));
         
         // Get hydrator
