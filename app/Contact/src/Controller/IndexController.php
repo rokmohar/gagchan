@@ -82,7 +82,7 @@ class IndexController extends AbstractActionController
         
         // Set template
         $view->setTemplate('contact/index/contact_success');
-        
+                     
         // Return view
         return $view;
     }
