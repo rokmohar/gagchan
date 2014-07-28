@@ -548,7 +548,7 @@ class MemeGenerator
      */
     public function setTopText($text)
     {
-        $this->topText = strtoupper($text);
+        $this->topText = mb_strtoupper($text, 'UTF-8');
               
         return $this;
     }
@@ -566,7 +566,7 @@ class MemeGenerator
      */
     public function setBottomText($text)
     {
-        $this->bottomText = strtoupper($text);
+        $this->bottomText = mb_strtoupper($text, 'UTF-8');
 
         return $this;
     }
