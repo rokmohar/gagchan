@@ -6,9 +6,6 @@ namespace Generator\Utils;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-
-header('Content-Type: text/html; charset=utf-8');
-
 class MemeGenerator
 {
     
@@ -567,6 +564,7 @@ class MemeGenerator
     public function setBottomText($text)
     {
         $this->bottomText = mb_strtoupper($text, 'UTF-8');
+        
 
         return $this;
     }
