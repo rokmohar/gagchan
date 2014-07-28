@@ -34,7 +34,7 @@ class GeneratorFilter extends InputFilter
             'name'     => 'top',
             'required' => true,
             'filters'  => array(
-                array('name' => 'Zend\Filter\HtmlEntities'),
+                //array('name' => 'Zend\Filter\HtmlEntities'),
                 array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
@@ -54,7 +54,7 @@ class GeneratorFilter extends InputFilter
             'name'     => 'bottom',
             'required' => true,
             'filters'  => array(
-                array('name' => 'Zend\Filter\HtmlEntities'),
+                //array('name' => 'Zend\Filter\HtmlEntities'),
                 array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),

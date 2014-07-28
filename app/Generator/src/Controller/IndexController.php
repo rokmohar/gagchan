@@ -220,9 +220,9 @@ class IndexController extends AbstractActionController
         $img = new MemeGenerator($data['source']);
 
         // Set top text
-        $img->setTopText(html_entity_decode($data['top']));
+        $img->setTopText($data['top']);
         
-        $img->setBottomText(html_entity_decode($data['bottom']));
+        $img->setBottomText($data['bottom']);
 
         // Process the image
         $name = $img->processImg($data['token']);

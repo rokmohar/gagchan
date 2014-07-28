@@ -35,7 +35,7 @@ class PreviewFilter extends InputFilter
             'name'     => 'top',
             'required' => false,
             'filters'  => array(
-                array('name' => 'Zend\Filter\HtmlEntities'),
+                //array('name' => 'Zend\Filter\HtmlEntities'),
                 array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
@@ -54,7 +54,7 @@ class PreviewFilter extends InputFilter
             'name'     => 'bottom',
             'required' => false,
             'filters'  => array(
-                array('name' => 'Zend\Filter\HtmlEntities'),
+                //array('name' => 'Zend\Filter\HtmlEntities'),
                 array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
