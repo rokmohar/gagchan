@@ -15,7 +15,7 @@ class Module
     {
         return include __DIR__ . '/config/module.config.php';
     }
-    
+
     /**
      * @return array
      */
@@ -29,7 +29,7 @@ class Module
             ),
         );
     }
-    
+
     /**
      * @return array
      */

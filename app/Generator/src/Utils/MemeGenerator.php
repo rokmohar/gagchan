@@ -12,17 +12,17 @@ class MemeGenerator
      * @var Color
      */
     protected $background;
-    
+
     /**
      * @var String
      */
     private $font;
-    
+
     /**
      * @var Image
      */
     protected $img;
-       
+
     /**
      * @var Integer
      */
@@ -32,12 +32,12 @@ class MemeGenerator
      * @var Color
      */
     protected $strokeColor;
-    
+
     /**
      * @param string  $path
-     */    
+     */
     public function __construct($path)
-    {          
+    {
         $this
             ->setImage($path)
             ->setFont('public/fonts/impact.ttf')
@@ -45,31 +45,31 @@ class MemeGenerator
             ->setBackground($this->getImage())
             ->getStrokeColor($this->getImage())
         ;
-          
+
         // Define a color as transparent
         imagecolortransparent($this->getImage(), $this->getBackground());
     }
-    
+
    /**
      * Process the image
-     * 
-     * @param String $name 
+     *
+     * @param String $name
      * @return Image
      */
     public function processImg($name)
-    {        
+    {
         // Location of created image
         $location = '/media/generator/';
-        
+
         // Relative path to the file
         $relPath = $location . $name . '.jpg';
-        
+
         // Absolute path to the file
         $absPath = 'public' . $relPath;
-        
+
         // Top text
         $topText    = $this->getTopText();
-        
+
         // Bottom text
         $bottomText = $this->getBottomText();
 
@@ -82,25 +82,25 @@ class MemeGenerator
         if(!empty($bottomText)) {
            $this->addText($bottomText, 30, 'bottomText');
         }
-        
+
         // Create a JPEG from given image
         imagejpeg($this->getImage(), $absPath);
-        
+
         // Free memory associated with image
         imagedestroy($this->getImage());
 
         // Copy file from URL
-       //  copy($this->getImage(), $temp);      
-        
+       //  copy($this->getImage(), $temp);
+
         // Delete the image
 
         // Return the path to created image
         return $relPath;
-    }    
-    
+    }
+
     /**
      * Work on image
-     * 
+     *
      * @param String  $text
      * @param Integer $size
      * @param String  $type
@@ -122,7 +122,7 @@ class MemeGenerator
             if($type == 'topText') {
                 $topTextX = $this->getHorizontalAlignment($this->getWidth(), $coords[4]);
             } else {
-                $bottomTextX = $this->getHorizontalAlignment($this->getWidth(), $coords[4]); 
+                $bottomTextX = $this->getHorizontalAlignment($this->getWidth(), $coords[4]);
             }
 
             //Check if the text exceed image width
@@ -138,16 +138,16 @@ class MemeGenerator
 
                  // Minimum font, then break into lines
                 if ($size <= 20) {
-                    
+
                     if ($type == 'topText') {
                         $this->setTopText($this->breakInLines($text, $type, 30));
                         $text = $this->getTopText();
-                        
+
                         return;
                     } else {
                         $this->setBottomText($this->breakInLines($text, $type, $this->getHeight() - 14));
                         $text = $this->getBottomText();
-                        
+
                         return;
                     }
                 } else {
@@ -162,30 +162,30 @@ class MemeGenerator
 
         // Place top text
         if($type == 'topText') {
-            $this->placeTextOnImage($this->getImage(), $size, $topTextX, 
+            $this->placeTextOnImage($this->getImage(), $size, $topTextX,
                 $textHeight, $this->getFont(),  $this->getTopText());
-                        
+
         // Place bottom text
         } else {
             $this->placeTextOnImage($this->getImage(), $size, $bottomTextX,
                 $textHeight, $this->getFont(), $this->getBottomText());
         }
     }
-    
+
     /**
      * Break text into multiple lines
-     * 
+     *
      * @param String  $text
      * @param String  $type
      * @param Integer $textHeight
-     * 
+     *
      * @return String
      */
     private function breakInLines($text, $type, $textHeight)
     {
         // Break text into words
         $brokenText = explode(' ', $text);
-        
+
         // Multiline text
         $multilineText = '';
 
@@ -195,34 +195,34 @@ class MemeGenerator
         }
 
         for ($i = 0; $i < count($brokenText); $i++) {	
-            
+
             $temp           = $multilineText;
             $multilineText .= $brokenText[$i] . ' ';
-            
+
             // Get the sentence placement coordinates
             $dimensions = $this->getFontCoords($multilineText, 20);
 
             // Check if the sentence is exceeding the image with new word appended
             if ($this->isTextInsideImage(
-                    $this->getWidth(), 
+                    $this->getWidth(),
                     $dimensions[2] - $dimensions[0])
                 ) {
-                
+
                 // Append new word
                 $dimensions = $this->getFontCoords($temp, 20);
                 $locx       = $this->getHorizontalAlignment($this->getWidth(), $dimensions[4]);
-                
+
                 $this->placeTextOnImage(
-                    $this->getImage(), 
-                    20, 
-                    $locx, 
-                    $textHeight, 
-                    $this->getFont(), 
+                    $this->getImage(),
+                    20,
+                    $locx,
+                    $textHeight,
+                    $this->getFont(),
                     $temp
                 );
-                
+
                 $multilineText = $brokenText[$i];
-                
+
                 // Line height
                 $textHeight    = $textHeight + 26;
             }
@@ -231,25 +231,25 @@ class MemeGenerator
             if ($i == count($brokenText) - 1) {
                 $dimensions = $this->getFontCoords($multilineText, 20);
                 $locx       = $this->getHorizontalAlignment($this->getWidth(), $dimensions[4]);
-                
+
                 $this->placeTextOnImage(
-                    $this->getImage(), 
-                    20, 
-                    $locx, 
-                    $textHeight, 
-                    $this->getFont(), 
+                    $this->getImage(),
+                    20,
+                    $locx,
+                    $textHeight,
+                    $this->getFont(),
                     $multilineText
                 );
             }
         }
-        
+
         // Return text in multiple lines
         return $multilineText;		
-    }      
-    
+    }
+
     /**
      * Retrun image from given path
-     * 
+     *
      * @param String $path
      * @return Image
      */
@@ -268,13 +268,13 @@ class MemeGenerator
         } else if($ext == 'gif') {
             // Create a new image from GIF
             return imagecreatefromgif($path);
-            
+
         }
-    }    
-    
+    }
+
     /**
      * Place text on image
-     * 
+     *
      * @param Image   $img
      * @param Integer $fontsize
      * @param Integer $x
@@ -284,61 +284,61 @@ class MemeGenerator
      */
     private function placeTextOnImage
     (
-        $img, 
-        $fontsize, 
-        $x, 
-        $y, 
-        $font, 
+        $img,
+        $fontsize,
+        $x,
+        $y,
+        $font,
         $text
     )
     {
         // Stroke width in pixels
         $stroke = 1;
-        
+
         // Draw the outline stroke on the text
         for ($ox = -$stroke; $ox <= $stroke; $ox++) {
             for ($oy = -$stroke; $oy <= $stroke; $oy++) {
-                imagettftext($this->getImage(), $fontsize, 0, $x+$ox, $y+$oy, 
+                imagettftext($this->getImage(), $fontsize, 0, $x+$ox, $y+$oy,
                                 $this->getStrokeColor(), $font, $text);
             }
-        }           
-        
+        }
+
         // Write the given text into the image
         imagettftext($this->getImage(), $fontsize, 0, $x, $y,
             (int) $this->getBackground(), $font,  $text);		
-    }    
-            
+    }
+
     /**
      * Check if the text width exceed the image
-     * 
+     *
      * @param Integer $imgWidth
      * @param Integer $fontWidth
      * @return boolean
      */
-    private function isTextInsideImage($imgWidth, $fontWidth) 
+    private function isTextInsideImage($imgWidth, $fontWidth)
     {
         if($imgWidth < $fontWidth + 20 ) {
             return true;
-        } 
-        
+        }
+
         return false;
-    }      
-    
+    }
+
     /**
      * Get horizontal text alignment
-     * 
+     *
      * @param Integer $imgWidth
      * @param Integer $topRightPixel
      * @return Integer
-     */    
+     */
     private function getHorizontalAlignment($imgWidth, $topRightPixel)
     {
         return ceil(($imgWidth - $topRightPixel) / 2);
-    }  
-    
+    }
+
     /**
      * Calculate the bounding box of a text
-     * 
+     *
      * @param String $text
      * @param Int    $fontSize
      * @return Integer
@@ -347,16 +347,16 @@ class MemeGenerator
     {
         // Return the bounding box in pixels
         return imagettfbbox($fontSize, 0, $this->getFont() , $text);
-    }   
-    
+    }
+
     /**
      * {@inheritDoc}
-     */    
+     */
     public function getBackground()
     {
         return $this->background;
-    }    
-    
+    }
+
     /**
      * @param Image $img
      * @return \Generator\Utils\MemeGenerator
@@ -364,18 +364,18 @@ class MemeGenerator
     public function setBackground($img)
     {
         $this->background = imagecolorallocate($img, 255, 255, 255);
-        
+
         return $this;
-    }    
-    
+    }
+
     /**
      * {@inheritDoc}
-     */    
+     */
     public function getImage()
     {
         return $this->img;
     }
-    
+
     /**
      * @param String $path
      * @return \Generator\Utils\MemeGenerator
@@ -383,19 +383,19 @@ class MemeGenerator
     public function setImage($path)
     {
         $this->img = $this->returnImageFromPath($path);
-        
+
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
      * @return array
-     */    
+     */
     public function getSize()
     {
         return $this->size;
-    } 
-    
+    }
+
     /**
      * @param String $path
      * @return \Generator\Utils\MemeGenerator
@@ -403,42 +403,42 @@ class MemeGenerator
     public function setSize($path)
     {
         $this->size = getimagesize($path);
-        
+
         return $this;
-    }    
-    
+    }
+
     /**
      * {@inheritDoc}
-     */       
+     */
     public function getStrokeColor()
     {
         return $this->strokeColor;
     }
 
     /**
-     * 
+     *
      * @param Image $img
      * @return \Generator\Utils\MemeGenerator
      */
-    public function setStrokeColor($img) 
+    public function setStrokeColor($img)
     {
-        $this->strokeColor = imagecolorallocate($img, 0, 0, 0);    
-        
+        $this->strokeColor = imagecolorallocate($img, 0, 0, 0);
+
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
-     */     
+     */
     public function getWidth()
     {
         // Return height
         return $this->size[0];
     }
-    
+
     /**
      * {@inheritDoc}
-     */     
+     */
     public function getHeight()
     {
         // Return width
@@ -447,60 +447,59 @@ class MemeGenerator
 
     /**
      * {@inheritDoc}
-     */      
+     */
     public function getFont()
     {
         return $this->font;
     }
-    
+
     /**
      * @return \Generator\Utils\MemeGenerator
      */
     public function setFont($fontPath)
     {
         $this->font = $fontPath;
-        
+
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
-     */    
+     */
     public function getTopText()
     {
         return $this->topText;
-    }    
-    
+    }
+
     /**
      * @param String $txt
      * @return \Generator\Utils\MemeGenerator
      */
-    public function setTopText($txt) 
-    { 
+    public function setTopText($txt)
+    {
         // Transform to uppercase
-        $this->topText = strtoupper($txt); 
-        
+        $this->topText = strtoupper($txt);
+
         return $this;
     }
-    
+
     /**
      * {@inheritDoc}
-     */    
+     */
     public function getBottomText()
     {
         return $this->bottomText;
-    }      
-    
+    }
+
     /**
      * @param String $txt
      * @return \Generator\Utils\MemeGenerator
      */
     public function setBottomText($txt)
-    { 
+    {
         // Transform to uppercase
-        $this->bottomText = strtoupper($txt);   
-        
+        $this->bottomText = strtoupper($txt);
+
         return $this;
-    }       
-    
+    }
 }

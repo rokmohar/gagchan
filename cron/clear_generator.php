@@ -13,7 +13,7 @@ foreach (scandir($generatorDir) as $file) {
     // Get filename
     $filename = sprintf("%s/%s", $generatorDir, $file);
     
-    // Skip if directory
+    // Skip if not file
     if (!is_file($filename)) {
         continue;
     }
