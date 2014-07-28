@@ -21,6 +21,7 @@ class GeneratorForm extends Form
 
         // Add elements
         $this
+            ->addCsrf()
             ->addTop()
             ->addBottom()
             ->addToken()
@@ -30,9 +31,24 @@ class GeneratorForm extends Form
     }
     
     /**
+     * Add the CSRF element.
+     * 
+     * @return \Generator\Form\GeneratorForm
+     */
+    protected function addCsrf()
+    {
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+        
+        return $this;
+    }
+    
+    /**
      * Add the top text element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     protected function addTop()
     {
@@ -54,7 +70,7 @@ class GeneratorForm extends Form
     /**
      * Add the bottom text element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     protected function addBottom()
     {
@@ -76,7 +92,7 @@ class GeneratorForm extends Form
     /**
      * Add the token element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     protected function addToken()
     {
@@ -94,7 +110,7 @@ class GeneratorForm extends Form
     /**
      * Add the download form element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     public function addDownload()
     {
@@ -116,7 +132,7 @@ class GeneratorForm extends Form
     /**
      * Add the publish form element.
      * 
-     * @return \Generator\Form
+     * @return \Generator\Form\GeneratorForm
      */
     public function addPublish()
     {

@@ -40,15 +40,26 @@ class VoteController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
         
+        // Check if user is provided
+        if (!$this->user()->hasIdentity()) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => 'not_logged_in',
+            ));
+        }
+                
         // Check if page is not posted
         if (!$request->isPost()) {
             // Return JSON
             return new JsonModel(array(
-                'result' => 'notPost',
+                'result' => 'not_post',
             ));
         }
+        
         // Get form
         $form = $this->getVoteForm();
+        
+        // Bind entity
         $form->bind(new \Media\Entity\VoteEntity());
 
         // Set form data
@@ -58,31 +69,25 @@ class VoteController extends AbstractActionController
         if (!$form->isValid()) {
             // Return JSON
             return new JsonModel(array(
-                'result' => 'notValid',
+                'result' => 'not_valid',
             ));
         }
 
         // Get form data
         $data = $form->getData();
         
-        // Get user
-        $user = $this->user()->getIdentity();
-        
-        // Check if user is provided
-        if (empty($user)) {
-            // Return JSON
-            return new JsonModel(array(
-                'result' => 'notLoggedIn',
-            ));
-        }
-        
         // Get media
         $media = $this->getMediaMapper()->selectRowBySlug(
             $form->get('slug')->getValue()
         );
         
-        // Set identifier
+        // Set media identifier
         $data->setMediaId($media->getId());
+        
+        // Get user
+        $user = $this->user()->getIdentity();
+
+        // Set user identifier
         $data->setUserId($user->getId());
 
         // Insert or update vote

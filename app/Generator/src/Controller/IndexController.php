@@ -33,9 +33,14 @@ class IndexController extends AbstractActionController
     protected $prototypeMapper;
     
     /**
-     * @var \Generator\Form\UploadForm
+     * @var \Generator\Form\PreviewForm
      */    
-    protected $uploadForm;
+    protected $previewForm;
+    
+    /**
+     * @var \Generator\Form\PublishForm
+     */    
+    protected $publishForm;
     
     /**
      * @return array 
@@ -159,23 +164,60 @@ class IndexController extends AbstractActionController
      */  
     public function previewAction()
     {
-        // Get data
-        $upmsg   = $_POST['upmsg'];
-        $downmsg = $_POST['downmsg'];
-        $path    = $_POST['imgsrc'];
-        $token   = $_POST['token'];
+        // Get request
+        $request = $this->getRequest();
         
+        // Check if request is not JSON
+        if (!$request->isXmlHttpRequest()) {
+            // Redirect user to home
+            return $this->redirect()->toRoute('home');
+        }
+        
+        // Check if user is provided
+        if (!$this->user()->hasIdentity()) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => 'not_logged_in',
+            ));
+        }
+        
+        // Check if page is not posted
+        if (!$request->isPost()) {
+            // Return JSON
+            return new JsonModel(array(
+                'result' => 'not_post',
+            ));
+        }
+        
+        // Get form
+        $previewForm = $this->getPreviewForm();
+
+        // Set form data
+        $previewForm->setData($request->getPost());
+        
+        // Check if for is not valid
+        if (!$previewForm->isValid()) {
+            // Return JSON
+            return new JsonModel(array(
+                'result'   => 'not_valid',
+                'messages' => $previewForm->getMessages(),
+            ));
+        }
+        
+        // Get data
+        $data = $previewForm->getData();
+
         // Create new meme
-        $img = new MemeGenerator($path);
+        $img = new MemeGenerator($data['source']);
 
         // Set top text
-        $img->setTopText($upmsg);
+        $img->setTopText($data['top']);
         
         // Set bottom text
-        $img->setBottomText($downmsg);
+        $img->setBottomText($data['bottom']);
 
         // Process the image
-        $name = $img->processImg($token);
+        $name = $img->processImg($data['token']);
         
         // Retrun create image path
         return  new JsonModel(array(
@@ -204,7 +246,7 @@ class IndexController extends AbstractActionController
         }
         
         // Get upload form
-        $uploadForm = $this->getUploadForm();
+        $publishForm = $this->getPublishForm();
         
         // Check if PRG is GET
         if ($prg === false) {
@@ -233,33 +275,33 @@ class IndexController extends AbstractActionController
             }
 
             // Set token value
-            $uploadForm->setTokenValue($token);
+            $publishForm->setTokenValue($token);
 
             // Return view
             return new ViewModel(array(
-                'uploadForm' => $uploadForm,
+                'publishForm' => $publishForm,
             ));
         }
         
         // Bind entity
-        $uploadForm->bind(new \Media\Entity\MediaEntity());
+        $publishForm->bind(new \Media\Entity\MediaEntity());
         
         // Set data
-        $uploadForm->setData($prg);
+        $publishForm->setData($prg);
         
         // Check if form is not valid
-        if (!$uploadForm->isValid()) {
+        if (!$publishForm->isValid()) {
             // Return view
             return new ViewModel(array(
-                'uploadForm' => $uploadForm,
+                'publishForm' => $publishForm,
             ));
         }
         
         // Get data
-        $media = $uploadForm->getData();
+        $media = $publishForm->getData();
         
         // Get token
-        $token = $uploadForm->get('token')->getValue();
+        $token = $publishForm->get('token')->getValue();
 
         // Get validator
         $validator = new Exists('public/media/generator');
@@ -337,19 +379,36 @@ class IndexController extends AbstractActionController
         
         return $this->prototypeMapper;
     }
+    
+    /**
+     * Return the preview form.
+     * 
+     * @return \Generator\Form\PreviewForm
+     */
+    public function getPreviewForm()
+    {
+        if ($this->previewForm === null) {
+            return $this->previewForm = $this->getServiceLocator()->get(
+                'generator.form.preview'
+            );
+        }
+        
+        return $this->previewForm;
+    }
+    
     /**
      * Return the upload form.
      * 
-     * @return \Generator\Form\UploadForm
+     * @return \Generator\Form\PublishForm
      */
-    public function getUploadForm()
+    public function getPublishForm()
     {
-        if ($this->uploadForm === null) {
-            return $this->uploadForm = $this->getServiceLocator()->get(
+        if ($this->publishForm === null) {
+            return $this->publishForm = $this->getServiceLocator()->get(
                 'generator.form.publish'
             );
         }
         
-        return $this->uploadForm;
+        return $this->publishForm;
     }
 }
