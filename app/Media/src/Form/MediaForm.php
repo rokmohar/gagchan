@@ -400,7 +400,7 @@ class MediaForm extends Form
     {
         $this->add(array(
             'name'    => 'submit',
-            'type'    => 'Zend\Form\Element\submit',
+            'type'    => 'Zend\Form\Element\Submit',
             'options' => array(
                 'label' => 'Upload',
             ),
