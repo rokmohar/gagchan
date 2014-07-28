@@ -88,7 +88,7 @@ class MediaFilter extends InputFilter
             ),
             'filters' => array(
                 array('name' => 'Zend\Filter\HtmlEntities'),
-                array('name' => 'Zend\Filter\stringTrim'),
+                array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
@@ -117,7 +117,7 @@ class MediaFilter extends InputFilter
             ),
             'filters' => array(
                 array('name' => 'Zend\Filter\HtmlEntities'),
-                array('name' => 'Zend\Filter\stringTrim'),
+                array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
@@ -137,7 +137,7 @@ class MediaFilter extends InputFilter
             'required' => true,
             'filters'  => array(
                 array('name' => 'Zend\Filter\HtmlEntities'),
-                array('name' => 'Zend\Filter\stringTrim'),
+                array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
@@ -157,7 +157,7 @@ class MediaFilter extends InputFilter
             'required' => true,
             'filters'  => array(
                 array('name' => 'Zend\Filter\HtmlEntities'),
-                array('name' => 'Zend\Filter\stringTrim'),
+                array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
@@ -261,7 +261,7 @@ class MediaFilter extends InputFilter
             'required' => true,
             'filters'  => array(
                 array('name' => 'Zend\Filter\HtmlEntities'),
-                array('name' => 'Zend\Filter\stringTrim'),
+                array('name' => 'Zend\Filter\StringTrim'),
                 array('name' => 'Zend\Filter\StripTags'),
             ),
         ));
