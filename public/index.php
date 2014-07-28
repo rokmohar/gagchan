@@ -1,4 +1,5 @@
 <?php
+
 // Make everything relative to the application root
 chdir(dirname(__DIR__));
 
