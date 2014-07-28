@@ -16,7 +16,7 @@
         <h3 class="widget-title">Facebook</h3>
         
         <?php if (empty($isFacebook)): ?>
-            Not connected &#8226; <a href="<?php echo $this->url('connect', array('provider' => 'facebook')) ?>">Connect</a><br />
+            Not connected &#8226; <a href="<?php echo $this->url('connect', array('provider' => 'Facebook')) ?>">Connect</a><br />
             <br />
             <div class="alert alert-info" role="alert">
                 You might need to confirm that you agree that we gather some of
@@ -24,7 +24,7 @@
                 to confirm your identity.<br />
             </div>
         <?php else: ?>
-            You are connected &#8226; <a href="<?php echo $this->url('disconnect', array('provider' => 'facebook')) ?>">Disconnect</a><br />
+            You are connected &#8226; <a href="<?php echo $this->url('disconnect', array('provider' => 'Facebook')) ?>">Disconnect</a><br />
             <br />
             <div class="alert alert-info" role="alert">
                 If you disconnect your account from social network you might
@@ -38,7 +38,7 @@
         <h3 class="widget-title">Google</h3>
         
         <?php if (empty($isGoogle)): ?>
-            Not connected &#8226; <a href="<?php echo $this->url('connect', array('provider' => 'google')) ?>">Connect</a><br />
+            Not connected &#8226; <a href="<?php echo $this->url('connect', array('provider' => 'Google')) ?>">Connect</a><br />
             <br />
             <div class="alert alert-info" role="alert">
                 You might need to confirm that you agree that we gather some of
@@ -46,7 +46,7 @@
                 to confirm your identity.<br />
             </div>
         <?php else: ?>
-            You are connected &#8226; <a href="<?php echo $this->url('disconnect', array('provider' => 'google')) ?>">Disconnect</a><br />
+            You are connected &#8226; <a href="<?php echo $this->url('disconnect', array('provider' => 'Google')) ?>">Disconnect</a><br />
             <br />
             <div class="alert alert-info" role="alert">
                 If you disconnect your account from social network you might

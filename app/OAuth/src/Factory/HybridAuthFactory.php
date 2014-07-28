@@ -27,7 +27,7 @@ class HybridAuthFactory implements FactoryInterface
         $hybridAuth = new Hybrid_Auth(array(
             'base_url'  => $this->getBaseUrl($serviceLocator),
             'providers' => array(
-                'facebook' => array(
+                'Facebook' => array(
                     'enabled' => true,
                     'keys'    => array(
                         'id'     => '786792028008106',
@@ -37,7 +37,7 @@ class HybridAuthFactory implements FactoryInterface
                     //'display'        => 'page',
                     //'trustForwarded' => false,
                 ),
-                'google'   => array(
+                'Google'   => array(
                     'enabled' => true,
                     'keys'    => array(
                         'id'     => '93393983104-j9q4vgn3drbosrcenpr87fg6tn04uqte.apps.googleusercontent.com',
