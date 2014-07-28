@@ -47,6 +47,12 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
+        // Check if user is not logged in
+        if (!$this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+        
         // Select all rows
         $generator = $this->getPrototypeMapper()->selectAll();
         
@@ -60,7 +66,13 @@ class IndexController extends AbstractActionController
      * @return array 
      */
     public function editAction()
-    {                
+    {
+        // Check if user is not logged in
+        if (!$this->user()->hasIdentity()) {
+            // Redirect to route
+            return $this->redirect()->toRoute('login');
+        }
+        
         // Select a row
         $generator = $this->getPrototypeMapper()->selectRowBySlug(
             $this->params()->fromRoute('slug')
@@ -173,7 +185,7 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
         
-        // Check if user is provided
+        // Check if user is not logged in
         if (!$this->user()->hasIdentity()) {
             // Return JSON
             return new JsonModel(array(
@@ -230,7 +242,7 @@ class IndexController extends AbstractActionController
      */       
     public function publishAction()
     {
-        // Check is user is not logged in
+        // Check if user is not logged in
         if (!$this->user()->hasIdentity()) {
             // Redirect to route
             return $this->redirect()->toRoute('login');

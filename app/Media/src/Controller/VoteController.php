@@ -69,7 +69,8 @@ class VoteController extends AbstractActionController
         if (!$form->isValid()) {
             // Return JSON
             return new JsonModel(array(
-                'result' => 'not_valid',
+                'result'   => 'not_valid',
+                'messages' => $previewForm->getMessages(),
             ));
         }
 
