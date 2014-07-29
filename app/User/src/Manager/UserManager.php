@@ -8,10 +8,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Entity\UserEntityInterface;
-use User\Form\ConfirmationFormInterface;
 use User\Form\UserForm;
-use User\Mailer\MailerInterface;
-use User\Mapper\ConfirmationMapperInterface;
 use User\Mapper\UserMapperInterface;
 use User\Options\UserOptionsInterface;
 
@@ -25,31 +22,6 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      * @var \Zend\Authentication\AuthenticationServiceInterface
      */
     protected $authService;
-    
-    /**
-     * @var \User\Form\ConfirmationFormInterface
-     */
-    protected $confirmationForm;
-    
-    /**
-     * @var \User\Mapper\ConfirmationMapperInterface
-     */
-    protected $confirmationMapper;
-    
-    /**
-     * @var \User\Mailer\MailerInterface
-     */
-    protected $mailer;
-    
-    /**
-     * @var \User\Form\RecoverFormInterface
-     */
-    protected $recoverForm;
-    
-    /**
-     * @var \User\Mapper\RecoverMapperInterface
-     */
-    protected $recoverMapper;
     
     /**
      * @var \Zend\ServiceManager\ServiceLocatorInterface
@@ -169,101 +141,6 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     }
     
     /**
-     * {@inheritDoc}
-     */
-    public function createConfirmation(array $data)
-    {
-        // Get confirmation form
-        $confirmationForm = $this->getConfirmationForm();
-        
-        // Get confirmation class
-        $confirmationClass = $this->getUserOptions()->getConfirmationEntityClass();
-        
-        // Bind entity
-        $confirmationForm->bind(new $confirmationClass);
-        
-        // Set data
-        $confirmationForm->setData($data);
-        
-        // Check if data is valid
-        if (!$confirmationForm->isValid()) {
-            // Data is not valid
-            return false;
-        }
-        
-        // Get data
-        $data = $confirmationForm->getData();
-        
-        // Get confirmation mapper
-        $confirmationMapper = $this->getConfirmationMapper();
-        
-        // Insert a row
-        return $confirmationMapper->insertRow($data);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function createRecover(array $data)
-    {
-        // Get recover form
-        $recoverForm = $this->getRecoverForm();
-        
-        // Get confirmation class
-        $recoverClass = $this->getUserOptions()->getRecoverEntityClass();
-        
-        // Bind entity
-        $recoverForm->bind(new $recoverClass);
-        
-        // Set data
-        $recoverForm->setData($data);
-        
-        // Check if data is valid
-        if (!$recoverForm->isValid()) {
-            // Data is not valid
-            return false;
-        }
-        
-        // Get data
-        $data = $recoverForm->getData();
-        
-        // Get recover mapper
-        $recoverMapper = $this->getRecoverMapper();
-        
-        // Insert a row
-        return $recoverMapper->insertRow($data);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function sendConfirmationMessage(
-        UserEntityInterface $user,
-        ConfirmationEntityInterface $confirmation
-    ) {
-        // Get mailer
-        $mailer = $this->getMailer();
-        
-        // Send confirmation message
-        return $mailer->sendConfirmationMessage($user, $confirmation);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function sendRecoverMessage(
-        UserEntityInterface $user,
-        RecoverEntityInterface $recover
-    ) {
-        // Get mailer
-        $mailer = $this->getMailer();
-        
-        // Send recover message
-        return $mailer->sendRecoverMessage($user, $recover);
-        
-    }
-    
-    /**
      * Generate random token.
      * 
      * @return string
@@ -317,94 +194,6 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     public function setConfirmationForm(ConfirmationFormInterface $confirmationForm)
     {
         $this->confirmationForm = $confirmationForm;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getConfirmationMapper()
-    {
-        if ($this->confirmationMapper === null) {
-            $this->setConfirmationMapper($this->getServiceLocator()->get('user.mapper.confirmation'));
-        }
-        
-        return $this->confirmationMapper;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setConfirmationMapper(ConfirmationMapperInterface $confirmationMapper)
-    {
-        $this->confirmationMapper = $confirmationMapper;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getMailer()
-    {
-        if ($this->mailer === null) {
-            $this->setMailer($this->getServiceLocator()->get('user.mailer.amazon'));
-        }
-        
-        return $this->mailer;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setMailer(MailerInterface $mailer)
-    {
-        $this->mailer = $mailer;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getRecoverForm()
-    {
-        if ($this->recoverForm === null) {
-            $this->setRecoverForm($this->getServiceLocator()->get('user.form.recover'));
-        }
-        
-        return $this->recoverForm;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setRecoverForm(RecoverFormInterface $recoverForm)
-    {
-        $this->recoverForm = $recoverForm;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getRecoverMapper()
-    {
-        if ($this->recoverMapper === null) {
-            $this->setRecoverMapper($this->getServiceLocator()->get('user.mapper.recover'));
-        }
-        
-        return $this->recoverMapper;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setRecoverMapper(ConfirmationMapperInterface $recoverMapper)
-    {
-        $this->recoverMapper = $recoverMapper;
         
         return $this;
     }
