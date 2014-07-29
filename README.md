@@ -9,6 +9,9 @@ To do
 - Optimize configuration
 - Code optimization
 
+================================================================================
+- Delay date format: YYYY-MM-DD HH:II:SS
+
 Font
 ================================================================================
 - Designosaur
