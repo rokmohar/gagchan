@@ -8,10 +8,12 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Entity\UserEntityInterface;
+use User\Form\ConfirmationFormInterface;
 use User\Form\UserForm;
 use User\Mailer\MailerInterface;
 use User\Mapper\ConfirmationMapperInterface;
 use User\Mapper\UserMapperInterface;
+use User\Options\UserOptionsInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -19,6 +21,11 @@ use User\Mapper\UserMapperInterface;
  */
 class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
 {
+    /**
+     * @var \User\Form\ConfirmationFormInterface
+     */
+    protected $confirmationForm;
+    
     /**
      * @var \User\Mapper\ConfirmationMapperInterface
      */
@@ -53,6 +60,11 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      * @var \User\Mapper\UserMapperInterface
      */
     protected $userMapper;
+    
+    /**
+     * @var \User\Options\UserOptionsInterface
+     */
+    protected $userOptions;
     
     /**
      * {@inheritDoc}
@@ -154,6 +166,44 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
+    public function testSendConfirmationMessage(array $data)
+    {
+        // Get confirmation form
+        $confirmationForm = $this->getConfirmationForm();
+        
+        // Bind entity
+        $confirmationForm->bind(new \User\Entity\ConfirmationEntity());
+        
+        // Set data
+        $confirmationForm->setData($data);
+        
+        // Validate data
+        if (!$confirmationForm->isValid()) {
+            // Data is not valid
+            return false;
+        }
+        
+        // Get data
+        $data = $confirmationForm->getData();
+        
+        var_dump($data); die();
+        
+        // Get confirmation mapper
+        $confirmationMapper = $this->getConfirmationMapper();
+        
+        // Insert a row
+        $confirmationMapper->insertRow($data);
+        
+        // Get mailer
+        $mailer = $this->getMailer();
+        
+        // Send confirmation message
+        return $mailer->sendConfirmationMessage($user, $data);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function sendConfirmationMessage(array $data)
     {
         // Get user
@@ -216,22 +266,6 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     }
     
     /**
-     * {@inheritDoc}
-     */
-    public function getAuthService()
-    {
-        // Check if authentication service is empty
-        if ($this->authService === null) {
-            // Set the authentication service
-            $this->setAuthService($this->getServiceLocator()->get(
-                'user.auth.service'
-            ));
-        }
-        
-        return $this->authService;
-    }
-    
-    /**
      * Generate random token.
      * 
      * @return string
@@ -246,9 +280,19 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     }
     
     /**
-     * Set the authentication service.
-     * 
-     * @param \Zend\Authentication\AuthenticationServiceInterface $authService
+     * {@inheritDoc}
+     */
+    public function getAuthService()
+    {
+        if ($this->authService === null) {
+            $this->setAuthService($this->getServiceLocator()->get('user.auth.service'));
+        }
+        
+        return $this->authService;
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public function setAuthService(AuthenticationServiceInterface $authService)
     {
@@ -260,23 +304,39 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
+    public function getConfirmationForm()
+    {
+        if ($this->confirmationForm === null) {
+            $this->setConfirmationForm($this->getServiceLocator()->get('user.form.confirmation'));
+        }
+        
+        return $this->confirmationForm;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function setConfirmationForm(ConfirmationFormInterface $confirmationForm)
+    {
+        $this->confirmationForm = $confirmationForm;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function getConfirmationMapper()
     {
-        // Check if confirmation mapper is empty
         if ($this->confirmationMapper === null) {
-            // Set the confirmation mapper
-            $this->setConfirmationMapper($this->getServiceLocator()->get(
-                'user.mapper.confirmation'
-            ));
+            $this->setConfirmationMapper($this->getServiceLocator()->get('user.mapper.confirmation'));
         }
         
         return $this->confirmationMapper;
     }
     
     /**
-     * Set the confirmation mapper.
-     * 
-     * @param \User\Mapper\ConfirmationMapperInterface $confirmationMapper
+     * {@inheritDoc}
      */
     public function setConfirmationMapper(ConfirmationMapperInterface $confirmationMapper)
     {
@@ -290,21 +350,15 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      */
     public function getMailer()
     {
-        // Check if mailer is empty
         if ($this->mailer === null) {
-            // Set the mailer
-            $this->setMailer($this->getServiceLocator()->get(
-                'user.mailer.amazon'
-            ));
+            $this->setMailer($this->getServiceLocator()->get('user.mailer.amazon'));
         }
         
         return $this->mailer;
     }
     
     /**
-     * Set the mailer.
-     * 
-     * @param \User\Mailer\MailerInterface $mailer
+     * {@inheritDoc}
      */
     public function setMailer(MailerInterface $mailer)
     {
@@ -336,21 +390,15 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      */
     public function getSignupForm()
     {
-        // Check if user form is empty
         if ($this->signupForm === null) {
-            // Set the user form
-            $this->setSignupForm($this->getServiceLocator()->get(
-                'user.form.signup'
-            ));
+            $this->setSignupForm($this->getServiceLocator()->get('user.form.signup'));
         }
         
         return $this->signupForm;
     }
     
     /**
-     * Set the sign up form.
-     * 
-     * @param \User\Form\UserForm $signupForm
+     * {@inheritDoc}
      */
     public function setSignupForm(UserForm $signupForm)
     {
@@ -364,25 +412,41 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      */
     public function getUserMapper()
     {
-        // Check if user manager is empty
         if ($this->userMapper === null) {
-            // Set the user manager
-            $this->setUserMapper($this->getServiceLocator()->get(
-                'user.mapper.user'
-            ));
+            $this->setUserMapper($this->getServiceLocator()->get('user.mapper.user'));
         }
         
         return $this->userMapper;
     }
     
     /**
-     * Set the user mapper.
-     * 
-     * @param \User\Mapper\UserMapperInterface $userMapper
+     * {@inheritDoc}
      */
     public function setUserMapper(UserMapperInterface $userMapper)
     {
         $this->userMapper = $userMapper;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getUserOptions()
+    {
+        if ($this->userOptions === null) {
+            $this->setUserOptions($this->getServiceLocator()->get('user.options.user'));
+        }
+        
+        return $this->userOptions;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function setUserOptions(UserOptionsInterface $userOptions)
+    {
+        $this->userOptions = $userOptions;
         
         return $this;
     }

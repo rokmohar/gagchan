@@ -65,6 +65,7 @@ class RecoverEntity implements RecoverEntityInterface
     {
         $this->requestAt   = new \DateTime();
         $this->isRecovered = false;
+        $this->recoveredAt = null;
         $this->createdAt   = new \DateTime();
         $this->updatedAt   = new \DateTime();
     }
@@ -256,6 +257,7 @@ class RecoverEntity implements RecoverEntityInterface
      */
     public function preInsert()
     {
+        $this->setRequestAt(new \DateTime());
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
     }

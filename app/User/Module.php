@@ -67,6 +67,7 @@ class Module implements
             'factories' => array(
                 'user.auth.service'        => 'User\Factory\Authentication\AuthenticationServiceFactory',
                 'user.form.account'        => 'User\Factory\Form\AccountFormFactory',
+                'user.form.confirmation'   => 'User\Factory\Form\ConfirmationFormFactory',
                 'user.form.login'          => 'User\Factory\Form\LoginFormFactory',
                 'user.form.password'       => 'User\Factory\Form\PasswordFormFactory',
                 'user.form.recover'        => 'User\Factory\Form\RecoverFormFactory',
@@ -76,7 +77,7 @@ class Module implements
                 'user.mapper.recover'      => 'User\Factory\Mapper\RecoverMapperFactory',
                 'user.mapper.user'         => 'User\Factory\Mapper\UserMapperFactory',
                 'user.navigation'          => 'User\Factory\Navigation\Service\UserNavigationFactory',
-                'user.options.module'      => 'User\Factory\Options\ModuleOptionsFactory',
+                'user.options.user'        => 'User\Factory\Options\UserOptionsFactory',
             ),
         );
     }

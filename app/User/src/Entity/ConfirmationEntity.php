@@ -65,6 +65,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
     {
         $this->requestAt   = new \DateTime();
         $this->isConfirmed = false;
+        $this->confirmedAt = null;
         $this->createdAt   = new \DateTime();
         $this->updatedAt   = new \DateTime();
     }
@@ -262,6 +263,7 @@ class ConfirmationEntity implements ConfirmationEntityInterface
      */
     public function preInsert()
     {
+        $this->setRequestAt(new \DateTime());
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
     }

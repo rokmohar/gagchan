@@ -50,6 +50,16 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
         
+        /*$this->getUserManager()->testSendConfirmationMessage(array(
+            'user_id'        => 1,
+            'email'          => 'rok.mohar@gmail.com',
+            'remote_address' => '127.0.0.1',
+            'request_at'     => new \DateTime(),
+            'request_token'  => 'abc123',
+            //'confirmed_at'   => null,
+            'is_confirmed'   => 'true',
+        ));*/
+        
         // Get PRG
         $prg = $this->prg();
         

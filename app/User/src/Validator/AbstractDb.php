@@ -4,27 +4,12 @@ namespace User\Validator;
 
 use Zend\Validator\AbstractValidator;
 
-use User\Mapper\UserMapperInterface;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
 abstract class AbstractDb extends AbstractValidator
 {
-    /**#@+*/
-    const ERROR_NO_RECORD_FOUND = 'noRecordFound';
-    const ERROR_RECORD_FOUND    = 'recordFound';
-    /**#@-*/
-    
-    /**
-     * @var array
-     */
-    protected $messageTemplates = array(
-        self::ERROR_NO_RECORD_FOUND => "No record matching the input was found",
-        self::ERROR_RECORD_FOUND    => "A record matching the input was found",
-    );
-    
     /**
      * @param string
      */
@@ -41,15 +26,11 @@ abstract class AbstractDb extends AbstractValidator
     public function __construct(array $options = array())
     {
         if (!isset($options['field'])) {
-            throw new \InvalidArgumentException(
-                "Field is required, nothing given."
-            );
+            throw new \InvalidArgumentException("Option \"field\" is required.");
         }
         
-        if (!isset($options['mapper']) || !$options['mapper'] instanceof UserMapperInterface) {
-            throw new \InvalidArgumentException(
-                "Mapper is required and must be instance of User\Mapper\UserMapperInterface."
-            );
+        if (!isset($options['mapper'])) {
+            throw new \InvalidArgumentException("Option \"mapper\" is required");
         }
         
         $this->field  = $options['field'];

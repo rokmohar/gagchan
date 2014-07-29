@@ -8,18 +8,26 @@ namespace User\Validator;
  */
 class NoRecordExists extends AbstractDb
 {
+    /**#@+*/
+    const ERROR_RECORD_FOUND = 'recordFound';
+    /**#@-*/
+    
+    /**
+     * @var array
+     */
+    protected $messageTemplates = array(
+        self::ERROR_RECORD_FOUND => "A record matching the input was found",
+    );
+    
     /**
      * {@inheritDoc}
      */
     public function isValid($value)
     {
-        // Get where
-        $where = array();
-        
-        $where[$this->field] = $value;
-        
         // Find match
-        $match = $this->mapper->selectRow($where);
+        $match = $this->mapper->selectRow(array(
+            $this->field => $value,
+        ));
         
         // Check if match is empty
         if (empty($match)) {

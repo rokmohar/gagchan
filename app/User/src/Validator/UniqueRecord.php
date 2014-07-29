@@ -11,7 +11,7 @@ use User\Mapper\UserMapperInterface;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UniqueRecord extends AbstractValidator
+class UniqueRecord extends AbstractDb
 {
     /**#@+*/
     const ERROR_RECORD_FOUND = 'recordFound';
@@ -41,13 +41,13 @@ class UniqueRecord extends AbstractValidator
     {
         if (!isset($options['field'])) {
             throw new \InvalidArgumentException(
-                "Field is required, nothing given."
+                "Option \"field\" is required, nothing given."
             );
         }
         
         if (!isset($options['mapper']) || !$options['mapper'] instanceof UserMapperInterface) {
             throw new \InvalidArgumentException(
-                "Mapper is required and must be instance of User\Mapper\UserMapperInterface."
+                "Option \"mapper\" must be an instance of User\Mapper\UserMapperInterface."
             );
         }
         
@@ -65,13 +65,10 @@ class UniqueRecord extends AbstractValidator
      */
     public function isValid($value, $context = null)
     {
-        // Get where
-        $where = array();
-        
-        $where[$this->field] = $value;
-        
         // Find match
-        $match = $this->mapper->selectRow($where);
+        $match = $this->mapper->selectRow(array(
+            $this->field => $value,
+        ));
         
         // Check if match is empty
         if (empty($match)) {
@@ -104,16 +101,12 @@ class UniqueRecord extends AbstractValidator
     protected function getExpectedIdentifiers(array $context)
     {
         if (!array_key_exists('id', $context)) {
-            throw new \InvalidArgumentException(
-                "Identifier is required, nothing given."
-            );
+            throw new \InvalidArgumentException("Identifier is required, nothing given.");
         }
         
-        $result = array(
+        return array(
             'id' => $context['id'],
         );
-        
-        return $result;
     }
     
     /**
@@ -123,10 +116,8 @@ class UniqueRecord extends AbstractValidator
      */
     protected function getFoundIdentifiers(UserEntityInterface $match)
     {
-        $result = array(
+        return array(
             'id' => $match->getId(),
         );
-        
-        return $result;
     }
 }

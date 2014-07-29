@@ -20,7 +20,7 @@ abstract class AbstractHydrator extends ClassMethods
         // Iterate over data
         foreach (array_keys($data) as $key) {
             // Check if array key does not exist
-            if (!array_key_exists($key, $this->dataMap)) {
+            if (!array_key_exists($key, $this->dataMap) || is_null($data[$key])) {
                 // Skip iteration
                 continue;
             }
@@ -28,7 +28,7 @@ abstract class AbstractHydrator extends ClassMethods
             // Get data type
             $type = $this->dataMap[$key];
             
-            if ($type == 'DateTime' && !is_null($data[$key])) {
+            if ($type == 'DateTime' && $data[$key] instanceof \DateTime) {
                 // Format date
                 $data[$key] = $data[$key]->format("Y-m-d H:i:s");
             }
@@ -45,7 +45,7 @@ abstract class AbstractHydrator extends ClassMethods
         // Iterate over data
         foreach (array_keys($data) as $key) {
             // Check if array key does not exist
-            if (!array_key_exists($key, $this->dataMap)) {
+            if (!array_key_exists($key, $this->dataMap) || is_null($data[$key])) {
                 // Skip iteration
                 continue;
             }
@@ -53,19 +53,19 @@ abstract class AbstractHydrator extends ClassMethods
             // Get data type
             $type = $this->dataMap[$key];
             
-            if ($type == 'boolean' && !is_null($data[$key])) {
+            if ($type == 'boolean' && !is_bool($data[$key])) {
                 // Convert to boolean
                 $data[$key] = (bool) $data[$key];
             }
-            else if ($type == 'integer' && !is_null($data[$key])) {
+            else if ($type == 'integer' && !is_int($data[$key])) {
                 // Convert to integer
                 $data[$key] = (int) $data[$key];
             }
-            else if ($type == 'string' && !is_null($data[$key])) {
+            else if ($type == 'string' && !is_string($data[$key])) {
                 // Convert to string
                 $data[$key] = (string) $data[$key];
             }
-            else if ($type == 'DateTime' && !is_null($data[$key])) {
+            else if ($type == 'DateTime' && !$data[$key] instanceof \DateTime) {
                 // Convert to date
                 $data[$key] = new \DateTime($data[$key]);
             }
