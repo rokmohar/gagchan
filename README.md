@@ -1,7 +1,11 @@
 To do
 ================================================================================
 - Import error template
-- Implement user profile interface (picture, some personal data, statistics)
+- Implement user profile
+- Add admin panel
+- Implement ACL
+- Implement layout processor
+- Implement cron processor
 
 Font
 ================================================================================
