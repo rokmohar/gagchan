@@ -4,6 +4,7 @@ namespace User\Manager;
 
 use User\Form\ConfirmationFormInterface;
 use User\Mapper\ConfirmationMapperInterface;
+use User\Options\UserOptionsInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>

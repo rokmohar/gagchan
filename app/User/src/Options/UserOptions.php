@@ -133,4 +133,112 @@ class UserOptions extends AbstractOptions implements UserOptionsInterface
         
         return $this;
     }
+    
+    /**
+     * @return string
+     */
+    public function getRecoverEntityClass()
+    {
+        return $this->recoverEntityClass;
+    }
+    
+    /**
+     * @param string $recoverEntityClass
+     */
+    public function setRecoverEntityClass($recoverEntityClass)
+    {
+        $this->recoverEntityClass = $recoverEntityClass;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getRecoverHydratorClass()
+    {
+        return $this->recoverHydratorClass;
+    }
+    
+    /**
+     * @param string $recoverHydratorClass
+     */
+    public function setRecoverHydratorClass($recoverHydratorClass)
+    {
+        $this->recoverHydratorClass = $recoverHydratorClass;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getRecoverHydratorMapper()
+    {
+        return $this->recoverHydratorMapper;
+    }
+    
+    /**
+     * @param string $recoverHydratorMapper
+     */
+    public function setRecoverHydratorMapper($recoverHydratorMapper)
+    {
+        $this->recoverHydratorMapper = $recoverHydratorMapper;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getUserEntityClass()
+    {
+        return $this->userEntityClass;
+    }
+    
+    /**
+     * @param string $userEntityClass
+     */
+    public function setUserEntityClass($userEntityClass)
+    {
+        $this->userEntityClass = $userEntityClass;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getUserHydratorClass()
+    {
+        return $this->userHydratorClass;
+    }
+    
+    /**
+     * @param string $userHydratorClass
+     */
+    public function setUserHydratorClass($userHydratorClass)
+    {
+        $this->userHydratorClass = $userHydratorClass;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getUserHydratorMapper()
+    {
+        return $this->userHydratorMapper;
+    }
+    
+    /**
+     * @param string $userHydratorMapper
+     */
+    public function setUserHydratorMapper($userHydratorMapper)
+    {
+        $this->userHydratorMapper = $userHydratorMapper;
+        
+        return $this;
+    }
 }

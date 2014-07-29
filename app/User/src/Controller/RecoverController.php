@@ -31,6 +31,11 @@ class RecoverController extends AbstractActionController
     protected $recoverMapper;
     
     /**
+     * @var \User\Manager\RecoverManagerInterface
+     */
+    protected $recoverManager;
+    
+    /**
      * @var \User\Form\PasswordForm
      */
     protected $passwordForm;
@@ -50,6 +55,16 @@ class RecoverController extends AbstractActionController
             // Redirect to route
             return $this->redirect()->toRoute('home');
         }
+        
+        var_dump($this->getRecoverManager()->createRecover(array(
+            'user_id'        => 1,
+            'email'          => 'rok.mohar@gmail.com',
+            'remote_address' => '127.0.0.1',
+            'request_at'     => new \DateTime(),
+            'request_token'  => 'abc123',
+            //'recovered_at'   => null,
+            'is_confirmed'   => 'true',
+        ))); die();
         
         // Get PRG
         $prg = $this->prg();
@@ -295,6 +310,22 @@ class RecoverController extends AbstractActionController
         }
         
         return $this->recoverMapper;
+    }
+    
+    /**
+     * Return the recover manager.
+     * 
+     * @return \User\Manager\RecoverManagerInterface
+     */
+    public function getRecoverManager()
+    {
+        if ($this->recoverManager === null) {
+            return $this->recoverManager = $this->getServiceLocator()->get(
+                'user.manager.recover'
+            );
+        }
+        
+        return $this->recoverManager;
     }
     
     /**

@@ -4,6 +4,7 @@ namespace User\Manager;
 
 use User\Form\RecoverFormInterface;
 use User\Mapper\RecoverMapperInterface;
+use User\Options\UserOptionsInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>

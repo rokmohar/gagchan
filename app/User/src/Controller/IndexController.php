@@ -20,6 +20,11 @@ class IndexController extends AbstractActionController
     protected $confirmationMapper;
     
     /**
+     * @var \User\Manager\ConfirmationManagerInterface
+     */
+    protected $confirmationManager;
+    
+    /**
      * @var \User\Form\LoginForm
      */
     protected $loginForm;
@@ -50,7 +55,7 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toRoute('home');
         }
         
-        /*$this->getUserManager()->testSendConfirmationMessage(array(
+        var_dump($this->getConfirmationManager()->createConfirmation(array(
             'user_id'        => 1,
             'email'          => 'rok.mohar@gmail.com',
             'remote_address' => '127.0.0.1',
@@ -58,7 +63,7 @@ class IndexController extends AbstractActionController
             'request_token'  => 'abc123',
             //'confirmed_at'   => null,
             'is_confirmed'   => 'true',
-        ));*/
+        ))); die();
         
         // Get PRG
         $prg = $this->prg();
@@ -259,6 +264,22 @@ class IndexController extends AbstractActionController
         }
         
         return $this->confirmationMapper;
+    }
+    
+    /**
+     * Return the confirmation manager.
+     * 
+     * @return \User\Manager\ConfirmationManagerInterface
+     */
+    public function getConfirmationManager()
+    {
+        if ($this->confirmationManager === null) {
+            return $this->confirmationManager = $this->getServiceLocator()->get(
+                'user.manager.confirmation'
+            );
+        }
+        
+        return $this->confirmationManager;
     }
     
     /**

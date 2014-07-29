@@ -68,6 +68,8 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         // Get data
         $data = $confirmationForm->getData();
         
+        var_dump($data); die();
+        
         // Get confirmation mapper
         $confirmationMapper = $this->getConfirmationMapper();
         
@@ -94,7 +96,11 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
      */
     public function getMailer()
     {
+        if ($this->mailer === null) {
+            $this->setMailer($this->getServiceLocator()->get('user.mailer.amazon'));
+        }
         
+        return $this->mailer;
     }
     
     /**
@@ -112,7 +118,11 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
      */
     public function getConfirmationForm()
     {
+        if ($this->confirmationForm === null) {
+            $this->setConfirmationForm($this->getServiceLocator()->get('user.form.confirmation'));
+        }
         
+        return $this->confirmationForm;
     }
 
     /**
@@ -120,7 +130,9 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
      */
     public function setConfirmationForm(ConfirmationFormInterface $confirmationForm)
     {
+        $this->confirmationForm = $confirmationForm;
         
+        return $this;
     }
 
     /**
@@ -128,7 +140,11 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
      */
     public function getConfirmationMapper()
     {
+        if ($this->confirmationMapper === null) {
+            $this->setConfirmationMapper($this->getServiceLocator()->get('user.mapper.confirmation'));
+        }
         
+        return $this->confirmationMapper;
     }
 
     /**
@@ -164,7 +180,11 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
      */
     public function getUserOptions()
     {
+        if ($this->userOptions === null) {
+            $this->setUserOptions($this->getServiceLocator()->get('user.options.user'));
+        }
         
+        return $this->userOptions;
     }
 
     /**

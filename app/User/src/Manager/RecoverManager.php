@@ -67,6 +67,8 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
         // Get data
         $data = $recoverForm->getData();
         
+        var_dump($data); die();
+        
         // Get recover mapper
         $recoverMapper = $this->getRecoverMapper();
         
@@ -94,7 +96,11 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
      */
     public function getMailer()
     {
+        if ($this->mailer === null) {
+            $this->setMailer($this->getServiceLocator()->get('user.mailer.amazon'));
+        }
         
+        return $this->mailer;
     }
     
     /**
@@ -112,7 +118,11 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
      */
     public function getRecoverForm()
     {
+        if ($this->recoverForm === null) {
+            $this->setRecoverForm($this->getServiceLocator()->get('user.form.recover'));
+        }
         
+        return $this->recoverForm;
     }
 
     /**
@@ -120,7 +130,9 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
      */
     public function setRecoverForm(RecoverFormInterface $recoverForm)
     {
+        $this->recoverForm = $recoverForm;
         
+        return $this;
     }
 
     /**
@@ -128,7 +140,11 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
      */
     public function getRecoverMapper()
     {
+        if ($this->recoverMapper === null) {
+            $this->setRecoverMapper($this->getServiceLocator()->get('user.mapper.recover'));
+        }
         
+        return $this->recoverMapper;
     }
 
     /**
@@ -164,7 +180,11 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
      */
     public function getUserOptions()
     {
+        if ($this->userOptions === null) {
+            $this->setUserOptions($this->getServiceLocator()->get('user.options.user'));
+        }
         
+        return $this->userOptions;
     }
 
     /**

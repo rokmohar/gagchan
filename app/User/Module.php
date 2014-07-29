@@ -60,9 +60,11 @@ class Module implements
     {
         return array(
             'invokables' => array(
-                'user.auth.adapter.db' => 'User\Authentication\Adapter\DbAdapter',
-                'user.auth.storage.db' => 'User\Authentication\Storage\DbStorage',
-                'user.manager.user'    => 'User\Manager\UserManager',
+                'user.auth.adapter.db'      => 'User\Authentication\Adapter\DbAdapter',
+                'user.auth.storage.db'      => 'User\Authentication\Storage\DbStorage',
+                'user.manager.confirmation' => 'User\Manager\ConfirmationManager',
+                'user.manager.recover'      => 'User\Manager\RecoverManager',
+                'user.manager.user'         => 'User\Manager\UserManager',
             ),
             'factories' => array(
                 'user.auth.service'        => 'User\Factory\Authentication\AuthenticationServiceFactory',
