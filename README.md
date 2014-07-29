@@ -1,6 +1,7 @@
 To do
 ================================================================================
 - Import error template
+- Implement user profile interface (picture, some personal data, statistics)
 
 Font
 ================================================================================
