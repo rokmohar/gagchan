@@ -22,6 +22,11 @@ use User\Options\UserOptionsInterface;
 class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
 {
     /**
+     * @var \Zend\Authentication\AuthenticationServiceInterface
+     */
+    protected $authService;
+    
+    /**
      * @var \User\Form\ConfirmationFormInterface
      */
     protected $confirmationForm;
@@ -32,19 +37,19 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     protected $confirmationMapper;
     
     /**
-     * @var \Zend\Authentication\AuthenticationServiceInterface
-     */
-    protected $authService;
-    
-    /**
      * @var \User\Mailer\MailerInterface
      */
     protected $mailer;
     
     /**
-     * @var \Zend\Stdlib\RequestInterface
+     * @var \User\Form\RecoverFormInterface
      */
-    protected $request;
+    protected $recoverForm;
+    
+    /**
+     * @var \User\Mapper\RecoverMapperInterface
+     */
+    protected $recoverMapper;
     
     /**
      * @var \Zend\ServiceManager\ServiceLocatorInterface
@@ -166,18 +171,21 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function testSendConfirmationMessage(array $data)
+    public function createConfirmation(array $data)
     {
         // Get confirmation form
         $confirmationForm = $this->getConfirmationForm();
         
+        // Get confirmation class
+        $confirmationClass = $this->getUserOptions()->getConfirmationEntityClass();
+        
         // Bind entity
-        $confirmationForm->bind(new \User\Entity\ConfirmationEntity());
+        $confirmationForm->bind(new $confirmationClass);
         
         // Set data
         $confirmationForm->setData($data);
         
-        // Validate data
+        // Check if data is valid
         if (!$confirmationForm->isValid()) {
             // Data is not valid
             return false;
@@ -186,51 +194,53 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         // Get data
         $data = $confirmationForm->getData();
         
-        var_dump($data); die();
-        
         // Get confirmation mapper
         $confirmationMapper = $this->getConfirmationMapper();
         
         // Insert a row
-        $confirmationMapper->insertRow($data);
-        
-        // Get mailer
-        $mailer = $this->getMailer();
-        
-        // Send confirmation message
-        return $mailer->sendConfirmationMessage($user, $data);
+        return $confirmationMapper->insertRow($data);
     }
     
     /**
      * {@inheritDoc}
      */
-    public function sendConfirmationMessage(array $data)
+    public function createRecover(array $data)
     {
-        // Get user
-        $user = $data['user'];
+        // Get recover form
+        $recoverForm = $this->getRecoverForm();
         
-        // Get request
-        $request = $data['request'];
+        // Get confirmation class
+        $recoverClass = $this->getUserOptions()->getRecoverEntityClass();
         
-        // Create confirmation entity
-        $confirmation = new \User\Entity\ConfirmationEntity();
+        // Bind entity
+        $recoverForm->bind(new $recoverClass);
         
-        $confirmation->setUserId($user->getId());
-        $confirmation->setEmail($user->getEmail());
-        $confirmation->setRemoteAddress(
-            $request->getServer('REMOTE_ADDR')
-        );
-        $confirmation->setRequestAt(new \DateTime());
-        $confirmation->setRequestToken($this->generateToken());
-        //$confirmation->setConfirmedAt();
-        $confirmation->setIsConfirmed(false);
+        // Set data
+        $recoverForm->setData($data);
         
-        // Get confirmation mapper
-        $confirmationMapper = $this->getConfirmationMapper();
+        // Check if data is valid
+        if (!$recoverForm->isValid()) {
+            // Data is not valid
+            return false;
+        }
+        
+        // Get data
+        $data = $recoverForm->getData();
+        
+        // Get recover mapper
+        $recoverMapper = $this->getRecoverMapper();
         
         // Insert a row
-        $confirmationMapper->insertRow($confirmation);
-        
+        return $recoverMapper->insertRow($data);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function sendConfirmationMessage(
+        UserEntityInterface $user,
+        ConfirmationEntityInterface $confirmation
+    ) {
         // Get mailer
         $mailer = $this->getMailer();
         
@@ -241,28 +251,16 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function sendRecoverMessage(array $data)
-    {
-        var_dump($data); die();
+    public function sendRecoverMessage(
+        UserEntityInterface $user,
+        RecoverEntityInterface $recover
+    ) {
+        // Get mailer
+        $mailer = $this->getMailer();
         
-        // Create class
-        $recover = new \User\Entity\RecoverEntity();
+        // Send recover message
+        return $mailer->sendRecoverMessage($user, $recover);
         
-        $recover->setUserId($user->getId());
-        $recover->setEmail($user->getEmail());
-        $recover->setRemoteAddress(
-            $this->getRequest()->getServer('REMOTE_ADDR')
-        );
-        $recover->setRequestAt(new \DateTime());
-        $recover->setRequestToken($this->generateToken());
-        $recover->setRecoveredAt();
-        $recover->setIsRecovered(false);
-        
-        // Get recover mapper
-        $this->getRecoverMapper()->insertRow($recover);
-        
-        // Send message
-        return $this->getMailer()->sendRecoverMessage($user, $recover);
     }
     
     /**
@@ -363,6 +361,50 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     public function setMailer(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getRecoverForm()
+    {
+        if ($this->recoverForm === null) {
+            $this->setRecoverForm($this->getServiceLocator()->get('user.form.recover'));
+        }
+        
+        return $this->recoverForm;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function setRecoverForm(RecoverFormInterface $recoverForm)
+    {
+        $this->recoverForm = $recoverForm;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getRecoverMapper()
+    {
+        if ($this->recoverMapper === null) {
+            $this->setRecoverMapper($this->getServiceLocator()->get('user.mapper.recover'));
+        }
+        
+        return $this->recoverMapper;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function setRecoverMapper(ConfirmationMapperInterface $recoverMapper)
+    {
+        $this->recoverMapper = $recoverMapper;
         
         return $this;
     }
