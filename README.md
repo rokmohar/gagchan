@@ -2,10 +2,12 @@ To do
 ================================================================================
 - Import error template
 - Implement user profile
-- Add admin panel
+- Add administration panel
 - Implement ACL
 - Implement layout processor
 - Implement cron processor
+- Optimize configuration
+- Code optimization
 
 Font
 ================================================================================
