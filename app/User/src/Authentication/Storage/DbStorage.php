@@ -104,7 +104,7 @@ class DbStorage implements ServiceManagerAwareInterface, ZendStorageInterface
         $this->getStorage()->write($contents);
         
         // Remember this session
-        $this->getStorage()->rememberMe(604800);
+        $this->getStorage()->rememberMe(604800000);
         
         return $this;
     }

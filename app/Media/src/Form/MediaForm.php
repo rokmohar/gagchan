@@ -385,7 +385,7 @@ class MediaForm extends Form
             'attributes' => array(
                 'class'       => 'form-control',
                 'placeholder' => 'Delay at',
-                'value'       => new \DateTime(),
+                //'value'       => new \DateTime(),
             ),
         ));
         
