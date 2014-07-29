@@ -10,7 +10,7 @@ To do
 - Code optimization
 
 ================================================================================
-- Delay date format: YYYY-MM-DD HH:II-SS
+- Delay date format: YYYY-MM-DD HH:II:SS
 
 Font
 ================================================================================
