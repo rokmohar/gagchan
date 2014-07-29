@@ -27,6 +27,10 @@ MAIL access
 - MAIL user: info@gagchan.com, no-reply@gagchan.com
 - MAIL pass: s8e$AdeS
 
+- MAIL/FB user: gagchan.com@gmx.com
+- MAIL pass: banana16
+
+
 SafeSSL certificate
 ================================================================================
 - SSL pass: fraDEFu6r5Gu
