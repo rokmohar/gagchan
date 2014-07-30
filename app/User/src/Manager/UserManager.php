@@ -78,29 +78,16 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function recoverRequest(array $data)
-    {
-        die("@todo: No method logic");
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function recoverReset(array $data)
-    {
-        die("@todo: No method logic");
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function register(array $data)
+    public function createUser(array $data)
     {
         // Get form
         $signupForm = $this->getSignupForm();
         
+        // Get class
+        $userClass = $this->getUserOptions()->getUserEntityClass();
+        
         // Bind entity
-        $signupForm->bind(new \User\Entity\UserEntity());
+        $signupForm->bind(new $userClass);
         
         // Set data
         $signupForm->setData($data);
@@ -114,44 +101,64 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         // Get data
         $user = $signupForm->getData();
         
-        // Encryption service
-        $crypt = new Bcrypt(array(
-            'cost' => 14,
-        ));
+        var_dump($user);
         
-        // Encrypt the password
-        $user->setPassword($crypt->create($user->getPassword()));
+        // Encrypt password
+        $user->setPassword($this->encryptPassword($user->getPassword()));
         
-        // Set defautl state
+        // Set state
         $user->setState(UserEntityInterface::STATE_UNCONFIRMED);
         
         // Insert a row
-        $this->getUserMapper()->insertRow($user);
-        
-        // Return user
-        return $user;
+        return $this->getUserMapper()->insertRow($user);
     }
     
     /**
      * {@inheritDoc}
      */
-    public function registerConfirm(array $data)
+    public function updateUser(array $data)
     {
-        die("@todo: No method logic");
+        // Get form
+        $signupForm = $this->getSignupForm();
+        
+        // Get class
+        //$userClass = $this->getUserOptions()->getUserEntityClass();
+        
+        // Bind entity
+        //$signupForm->bind(new \User\Entity\UserEntity());
+        
+        // Set data
+        $signupForm->setData($data);
+        
+        // Check if form is not valid
+        if (!$signupForm->isValid()) {
+            // Validation failed
+            return false;
+        }
+        
+        // Get data
+        $user = $signupForm->getData();
+        
+        var_dump($user);
+        
+        // Encrypt password
+        $user->setPassword($this->encryptPassword($user->getPassword()));
+        
+        // Update a row
+        return $this->getUserMapper()->updateRow($user);
     }
     
     /**
-     * Generate random token.
-     * 
-     * @return string
+     * {@inheritDoc}
      */
-    public function generateToken()
+    public function encryptPassword($password)
     {
-        // Get token generator
-        $generator = \Core\Utils\TokenGenerator::getInstance();
+        // Encryption service
+        $crypt = new Bcrypt(array(
+            'cost' => 14,
+        ));
         
-        // Generate token
-        return $generator->getToken(32);
+        return $crypt->create($password);
     }
     
     /**

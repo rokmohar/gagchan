@@ -49,7 +49,7 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
         // Get recover form
         $recoverForm = $this->getRecoverForm();
         
-        // Get recover class
+        // Get class
         $recoverClass = $this->getUserOptions()->getRecoverEntityClass();
         
         // Bind entity
@@ -79,6 +79,41 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     /**
      * {@inheritDoc}
      */
+    public function updateRecover(array $data)
+    {
+        // Get recover form
+        $recoverForm = $this->getRecoverForm();
+        
+        // Get class
+        //$recoverClass = $this->getUserOptions()->getRecoverEntityClass();
+        
+        // Bind entity
+        //$recoverForm->bind(new $recoverClass);
+        
+        // Set data
+        $recoverForm->setData($data);
+        
+        // Check if data is valid
+        if (!$recoverForm->isValid()) {
+            // Data is not valid
+            return false;
+        }
+        
+        // Get data
+        $data = $recoverForm->getData();
+        
+        var_dump($data); die();
+        
+        // Get recover mapper
+        $recoverMapper = $this->getRecoverMapper();
+        
+        // Insert a row
+        return $recoverMapper->updateRow($data);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function sendRecoverMessage(
         UserEntityInterface $user,
         RecoverEntityInterface $recover
@@ -89,6 +124,20 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
         // Send recover message
         return $mailer->sendRecoverMessage($user, $recover);
         
+    }
+    
+    /**
+     * Generate random token.
+     * 
+     * @return string
+     */
+    public function generateToken()
+    {
+        // Get token generator
+        $generator = \Core\Utils\TokenGenerator::getInstance();
+        
+        // Generate token
+        return $generator->getToken(32);
     }
     
     /**

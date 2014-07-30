@@ -19,7 +19,7 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     /**
      * @var \User\Mailer\MailerInterface
      */
-    protected $mailer;
+    protected $userMailer;
     
     /**
      * @var \User\Form\ConfirmationFormInterface
@@ -41,7 +41,6 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
      */
     protected $userOptions;
     
-    
     /**
      * {@inheritDoc}
      */
@@ -50,11 +49,45 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         // Get confirmation form
         $confirmationForm = $this->getConfirmationForm();
         
-        // Get confirmation class
+        // Get class
         $confirmationClass = $this->getUserOptions()->getConfirmationEntityClass();
         
         // Bind entity
         $confirmationForm->bind(new $confirmationClass);
+        
+        // Set data
+        $confirmationForm->setData($data);
+        
+        // Check if data is valid
+        if (!$confirmationForm->isValid()) {
+            // Data is not valid
+            return false;
+        }
+        
+        // Get data
+        $data = $confirmationForm->getData();
+        
+        var_dump($data); die();
+        
+        // Get confirmation mapper
+        $confirmationMapper = $this->getConfirmationMapper();
+        
+        // Insert a row
+        return $confirmationMapper->insertRow($data);
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function updateConfirmation(array $data)
+    {
+        // Get confirmation form
+        $confirmationForm = $this->getConfirmationForm();
+        
+        // Get class
+        //$confirmationClass = $this->getUserOptions()->getConfirmationEntityClass();
+        
+        // Bind entity
+        //$confirmationForm->bind(new $confirmationClass);
         
         // Set data
         $confirmationForm->setData($data);
@@ -84,31 +117,45 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         UserEntityInterface $user,
         ConfirmationEntityInterface $confirmation
     ) {
-        // Get mailer
-        $mailer = $this->getMailer();
+        // Get user mailer
+        $userMailer = $this->getUserMailer();
         
         // Send confirmation message
-        return $mailer->sendConfirmationMessage($user, $confirmation);
+        return $userMailer->sendConfirmationMessage($user, $confirmation);
+    }
+    
+    /**
+     * Generate random token.
+     * 
+     * @return string
+     */
+    public function generateToken()
+    {
+        // Get token generator
+        $generator = \Core\Utils\TokenGenerator::getInstance();
+        
+        // Generate token
+        return $generator->getToken(32);
     }
     
     /**
      * {@inheritDoc}
      */
-    public function getMailer()
+    public function getUserMailer()
     {
-        if ($this->mailer === null) {
-            $this->setMailer($this->getServiceLocator()->get('user.mailer.amazon'));
+        if ($this->userMailer === null) {
+            $this->setUserMailer($this->getServiceLocator()->get('user.mailer.amazon'));
         }
         
-        return $this->mailer;
+        return $this->userMailer;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function setMailer(MailerInterface $mailer)
+    public function setUserMailer(MailerInterface $userMailer)
     {
-        $this->mailer = $mailer;
+        $this->userMailer = $userMailer;
         
         return $this;
     }
