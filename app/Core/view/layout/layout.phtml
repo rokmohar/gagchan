@@ -27,6 +27,11 @@
         ->prependStylesheet('//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,latin-ext')
     ?>
 
+    <!-- Fonts -->
+    <?php echo $this->headLink()
+        ->prependStylesheet('/css/fonts/font-awesome.min.css')
+    ?>
+    
     <!-- Scripts -->
     <?php echo $this->headScript()
         ->prependFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js', 'text/javascript')

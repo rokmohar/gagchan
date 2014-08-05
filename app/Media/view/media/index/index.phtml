@@ -53,12 +53,16 @@
                     </li>
                 <?php endif ?>
                 <li>
-                    <a href="#" data-type="facebook" data-url="<?php echo $this->url('gag', array('slug' => $m->getSlug()), array('force_canonical' => true)) ?>" data-description="Click to see the pic and write a comment ..." data-title="<?php echo $m->getName() ?>" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-facebook">Facebook</a>
+                    <a href="#" data-type="facebook" data-url="<?php echo $this->url('gag', array('slug' => $m->getSlug()), array('force_canonical' => true)) ?>" data-description="Click to see the pic and write a comment ..." data-title="<?php echo $m->getName() ?>" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-facebook">
+                        <span class="fa fa-facebook"></span>
+                    </a>
                 </li>
                 <li>
-                    <a href="#" data-type="twitter" data-url="<?php echo $this->url('gag', array('slug' => $m->getSlug()), array('force_canonical' => true)) ?>" data-description="<?php echo $m->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-twitter">Twitter</a>
+                    <a href="#" data-type="twitter" data-url="<?php echo $this->url('gag', array('slug' => $m->getSlug()), array('force_canonical' => true)) ?>" data-description="<?php echo $m->getName() ?>" data-via="GAGchan" data-media="<?php echo $this->media()->url($m) ?>" class="btn btn-twitter">
+                        <span class="fa fa-twitter"></span>
+                    </a>
                 </li>
-                <li>
+                <li class="hidden-xs">
                     <a data-clipboard-text="<?php echo $this->url('gag', array('slug' => $m->getSlug()), array('force_canonical' => true)) ?>"  class="btn btn-default zeroclipboard">
                         <span class="glyphicon glyphicon-link"></span>
                     </a>

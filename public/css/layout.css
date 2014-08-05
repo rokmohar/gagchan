@@ -243,10 +243,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
 }
 
-.meme > .meme-img {
-    margin-bottom: 20px;
-}
-
+.meme > .meme-img,
 .meme > .meme-img img {
     width: 100%;
 }
@@ -260,7 +257,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .meme > .meme-action > li {
+    margin-top: 20px;
     margin-right: 10px;
+    
     float: left;
 }
 
@@ -435,8 +434,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-facebook {
-    background: #3b5998;
-    border-color: #3b5998;
+    background-color: #3b5998;
+    border-width: 0;
+    
     color: #ffffff;
 }
 
@@ -444,8 +444,9 @@ h1, h2, h3, h4, h5, h6 {
 .btn-facebook:active,
 .btn-facebook:focus,
 .btn-facebook:hover {
-    background: #5874b0;
-    border-color: #5874b0;
+    background-color: #5874b0;
+    border-width: 0;
+    
     color: #ffffff;
 }
 
