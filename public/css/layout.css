@@ -440,8 +440,6 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
 }
 
-.btn-facebook.active,
-.btn-facebook:active,
 .btn-facebook:focus,
 .btn-facebook:hover {
     background-color: #5874b0;
@@ -450,14 +448,20 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
 }
 
+.btn-facebook > .fa {
+    display: block;
+    
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
 .btn-google {
     background: #d34836;
     border-color: #d34836;
     color: #ffffff;
 }
 
-.btn-google.active,
-.btn-google:active,
 .btn-google:focus,
 .btn-google:hover {
     background: #e06b5b;
@@ -471,13 +475,19 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
 }
 
-.btn-twitter.active,
-.btn-twitter:active,
 .btn-twitter:focus,
 .btn-twitter:hover {
     background: #67aeff;
     border-color: #67aeff;
     color: #ffffff;
+}
+
+.btn-twitter > .fa {
+    display: block;
+    
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
 }
 
 /**
