@@ -3,55 +3,56 @@
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     
     <div class="widget">
-        <?php echo $this->form()->openTag($form) ?>
         
         <h3 class="widget-title">Contact us</h3>
             
-            <!-- #CSRF -->
-            <?php echo $this->formElement($form->get('csrf')) ?>
-        
-            <!-- #Email -->
-            <div class="form-row">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-user"></span>
-                    </span>
-                    <?php echo $this->formInput($form->get('email')) ?>
-                </div>
+        <?php echo $this->form()->openTag($form) ?>
 
-                <?php echo $this->formElementErrors($form->get('email')) ?>
-            </div>      
-            
-            <!-- #Subject -->
-            <div class="form-row">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                    </span>
-                    <?php echo $this->formInput($form->get('subject')) ?>
-                </div>
+        <!-- #CSRF -->
+        <?php echo $this->formElement($form->get('csrf')) ?>
 
-                <?php echo $this->formElementErrors($form->get('subject')) ?>
-            </div>            
-            
-            <!-- #Message -->
-            <div class="form-row">
-                <?php echo $this->formTextarea($form->get('message')) ?>
-                
-                <?php echo $this->formElementErrors($form->get('message')) ?>
-            </div>         
-            
-            <!-- #Captcha -->
-            <div class="form-row">
-                <?php echo $this->formCaptcha($form->get('captcha')) ?>
-                
-                <?php echo $this->formElementErrors($form->get('captcha')) ?>
-            </div>    
-            
+        <!-- #Email -->
+        <div class="form-row">
             <div class="input-group">
-                <?php echo $this->formSubmit($form->get('Send')) ?>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
+                <?php echo $this->formInput($form->get('email')) ?>
             </div>
-            
+
+            <?php echo $this->formElementErrors($form->get('email')) ?>
+        </div>      
+
+        <!-- #Subject -->
+        <div class="form-row">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                </span>
+                <?php echo $this->formInput($form->get('subject')) ?>
+            </div>
+
+            <?php echo $this->formElementErrors($form->get('subject')) ?>
+        </div>            
+
+        <!-- #Message -->
+        <div class="form-row">
+            <?php echo $this->formTextarea($form->get('message')) ?>
+
+            <?php echo $this->formElementErrors($form->get('message')) ?>
+        </div>         
+
+        <!-- #Captcha -->
+        <div class="form-row">
+            <?php echo $this->formCaptcha($form->get('captcha')) ?>
+
+            <?php echo $this->formElementErrors($form->get('captcha')) ?>
+        </div>    
+
+        <div class="input-group">
+            <?php echo $this->formSubmit($form->get('Send')) ?>
+        </div>
+
         <?php echo $this->form()->closeTag() ?>            
     </div>
 
@@ -59,14 +60,22 @@
 
 <section class="col-lg-6 col-md-6 col-sm-6 col-xs-12">          
 
-    <div class="widget">
-        <h3 class="widget-title">Have a question for us?</h3>
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            
+            <div class="panel-title">
+                Have a question for us?
+            </div> <!-- /.panel-title -->
+            
+        </div> <!-- /.panel-heading -->
 
-        <div class="widget-content">
-            Fill the form on the left side and send us your question.
-            <br><br>
-            We will try to answer you as soon as possible!
-        </div>
-    </div>
+        <div class="panel-body">
+            Fill the form on the left side and send us your question.<br />
+            <br />
+            We will try to answer you as soon as possible!<br />
+        </div> <!-- /.panel-body -->
+        
+    </div> <!-- /.panel -->
 
 </section>
