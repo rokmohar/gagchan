@@ -9,8 +9,14 @@ To do
 - Optimize configuration
 - Code optimization
 
+Important security updates (security issue)
 ================================================================================
-- Delay date format: YYYY-MM-DD HH:II:SS
+- Database session storage
+- Database remember me (cookie) token storage
+
+Delay date format
+================================================================================
+- YYYY-mm-dd HH:ii:ss
 
 Font
 ================================================================================
