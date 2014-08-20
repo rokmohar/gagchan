@@ -60,7 +60,7 @@ class UploadFilter extends MediaFilter
                         'minWidth'  => 80,
                         'minHeight' => 80,
                         'maxWidth'  => 2560,
-                        'maxHeight' => 2560,
+                        'maxHeight' => 4560,
                     ),
                 ),
                 array(

@@ -82,7 +82,7 @@ class MediaFilter extends InputFilter
                     'name'    => 'Zend\Validator\StringLength',
                     'options' => array(
                         'min' => 4,
-                        'max' => 64,
+                        'max' => 128,
                     ),
                 ),
             ),
