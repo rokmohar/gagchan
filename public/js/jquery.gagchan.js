@@ -140,10 +140,10 @@ jQuery(document).ready(function($) {
         });
     });
     
-    // Change pagination for mobile devices (450 width)
+    // Change pagination for mobile devices
     function checkWidth(init) {
         /*If browser resized, check width again */
-        if ($(window).width() <= 433) {
+        if ($(window).width() <= 513) {
             $('#pagination').addClass('pager');
             $('#pagination').removeClass('clearfix');
             $('#pagination').removeClass('pagination');
