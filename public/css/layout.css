@@ -633,6 +633,35 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
+/** Hide big pagination on mobile devices and show small one */
+#content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.active.pagination-small {
+  display: none !important;
+} 
+
+#content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.pagination-small {
+    display: none !important;
+}  
+
+@media (max-width: 450px) {
+    
+    #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.active.pagination-big {
+      display: none !important;
+    } 
+        
+    #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.disabled.pagination-big {
+        display: none !important;
+    }
+    
+    #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.active.pagination-small {
+      display: inline !important;
+    } 
+    
+    #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.pagination-small {
+        display: inline !important;
+    }  
+
+}
+
 /**
  * =============================================================================
  * #GIF Style
