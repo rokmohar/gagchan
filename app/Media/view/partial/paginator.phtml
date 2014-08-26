@@ -23,8 +23,8 @@
         <?php foreach ($this->pagesInRange as $page): ?>
         
             <?php if ($page != $this->current): ?>
-                <li>
-                    <a class="pagination-big" href="<?php echo $this->url($this->route);?>?page=<?php echo $page; ?>">
+                <li class="pagination-big">
+                    <a href="<?php echo $this->url($this->route);?>?page=<?php echo $page; ?>">
                         <?php echo $page; ?>
                     </a>
                 </li>

@@ -644,20 +644,17 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 450px) {
     
-    #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.active.pagination-big {
+    #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.pagination-big {
       display: none !important;
-    } 
-        
+    }  
+            
     #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.disabled.pagination-big {
         display: none !important;
     }
     
-    #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.active.pagination-small {
-      display: inline !important;
-    } 
-    
     #content > section.col-lg-8.col-md-8.col-sm-8.col-xs-12.meme-listing > ul > li.pagination-small {
         display: inline !important;
+        margin: 10px;
     }  
 
 }

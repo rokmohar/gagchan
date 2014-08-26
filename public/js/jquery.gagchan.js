@@ -143,7 +143,7 @@ jQuery(document).ready(function($) {
     // Change pagination for mobile devices (450 width)
     function checkWidth(init) {
         /*If browser resized, check width again */
-        if ($(window).width() <= 450) {
+        if ($(window).width() <= 433) {
             $('#pagination').addClass('pager');
             $('#pagination').removeClass('clearfix');
             $('#pagination').removeClass('pagination');
@@ -152,7 +152,7 @@ jQuery(document).ready(function($) {
             if (!init) {
                 $('#pagination').removeClass('pager');
                 $('#pagination').addClass('pagination');
-                ('#pagination').addClass('clearfix');
+                $('#pagination').addClass('clearfix');
             }
         }
     };
