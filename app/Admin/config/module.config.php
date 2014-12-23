@@ -3,17 +3,17 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Category\Index' => 'Category\Controller\IndexController',
+            'AdminIndex' => 'Admin\Controller\IndexController',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'category' => array(
+            'admin' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
-                    'route'    => '/category/[:slug]',
+                    'route'    => '/admin',
                     'defaults' => array(
-                        'controller'  => 'Category\Index',
+                        'controller'  => 'AdminIndex',
                         'action'      => 'index',
                         'constraints' => array(
                             'slug' => '[a-zA-Z][a-zA-Z0-9]*',
@@ -24,6 +24,9 @@ return array(
         ),
     ),
     'view_manager' => array(
+        'template_map' => array(
+            'layout/admin' => __DIR__ .  '/../view/layout/layout.phtml',
+        ),
         'template_path_stack' => array(__DIR__ . '/../view'),
     ),
 );

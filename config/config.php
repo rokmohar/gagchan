@@ -6,11 +6,13 @@ return array(
         'Aws',
         
         // Our modules
+        'Admin',
         'Category',
         'Cms',
         'Contact',
         'Core',
         'Generator',
+        'Layout',
         'Media',
         'OAuth',
         'User',
