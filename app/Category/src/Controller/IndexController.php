@@ -46,7 +46,7 @@ class IndexController extends AbstractActionController
         $media->setCurrentPageNumber($page);
         
         // Set items per page
-        $media->setItemCountPerPage(20);
+        $media->setItemCountPerPage(15);
         
         // Return view
         return new ViewModel(array(

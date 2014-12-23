@@ -139,4 +139,28 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    
+    // Change pagination for mobile devices
+    function checkWidth(init) {
+        /*If browser resized, check width again */
+        if ($(window).width() <= 513) {
+            $('#pagination').addClass('pager');
+            $('#pagination').removeClass('clearfix');
+            $('#pagination').removeClass('pagination');
+        }
+        else {
+            if (!init) {
+                $('#pagination').removeClass('pager');
+                $('#pagination').addClass('pagination');
+                $('#pagination').addClass('clearfix');
+            }
+        }
+    };
+    
+    checkWidth(true);
+
+    $(window).resize(function() {
+        checkWidth(false);
+    });
+    
 });

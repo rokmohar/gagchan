@@ -1,29 +1,35 @@
 
 <?php if ($this->pageCount): ?>
-    <ul class="pagination clearfix">
+    <ul id="pagination" class="pagination clearfix">
         
         <!-- Previous page link -->
         <?php if (isset($this->previous)): ?>
-            <li>
+            <li class="pagination-big">
                 <a href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->previous; ?>">&laquo;</a>
             </li>
+            <li class="pagination-small">
+                <a href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->previous; ?>">Previous</a>
+            </li>
         <?php else: ?>
-            <li class="disabled">
+            <li class="disabled pagination-big">
                 <a href="#">&laquo;</a>
             </li>
+            <li class="pagination-small">
+                <a href="#">Previous</a>
+            </li>            
         <?php endif ?>
             
         <!-- Numbered page links -->
         <?php foreach ($this->pagesInRange as $page): ?>
         
             <?php if ($page != $this->current): ?>
-                <li>
+                <li class="pagination-big">
                     <a href="<?php echo $this->url($this->route);?>?page=<?php echo $page; ?>">
                         <?php echo $page; ?>
                     </a>
                 </li>
             <?php else: ?>
-                <li class="active">
+                <li class="active pagination-big">
                     <a href="#"><?php echo $page; ?></a>
                 </li>
             <?php endif ?>
@@ -32,13 +38,19 @@
 
         <!-- Next page link -->
         <?php if (isset($this->next)): ?>
-            <li>
+            <li class="pagination-big">
                 <a href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->next; ?>">&raquo;</a>
             </li>
+            <li class="pagination-small">
+                <a href="<?php echo $this->url($this->route); ?>?page=<?php echo $this->next; ?>">Next</a>                
+            </li>
         <?php else: ?>
-            <li class="disabled">
+            <li class="disabled pagination-big">
                 <a href="#">&raquo;</a>
             </li>
+            <li class="pagination-small">
+                <a href="#">Next</a>
+            </li>            
         <?php endif ?>
             
     </ul>

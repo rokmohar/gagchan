@@ -67,6 +67,7 @@ class Module implements
             'factories' => array(
                 'comment'  => 'Media\Factory\View\Helper\CommentHelperFactory',
                 'media'    => 'Media\Factory\View\Helper\MediaHelperFactory',
+                'category' => 'Category\Factory\View\Helper\CategoryHelperFactory',
             ),
         );
     }
