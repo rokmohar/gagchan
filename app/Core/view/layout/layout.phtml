@@ -17,19 +17,19 @@
 
     <!-- Styles -->
     <?php echo $this->headLink()
-        ->prependStylesheet('/css/layout.css', 'screen')
-        ->prependStylesheet('/css/bootstrap.min.css')
+        ->prependStylesheet('/frontend/css/layout.css', 'screen')
+        ->prependStylesheet('/frontend/css/bootstrap.min.css')
     ?>
 
     <!-- Google Fonts -->
     <?php echo $this->headLink()
-        ->prependStylesheet('//fonts.googleapis.com/css?family=Roboto+Slab:400,700&subset=latin,latin-ext')
-        ->prependStylesheet('//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,latin-ext')
+        ->prependStylesheet('//fonts.googleapis.com/frontend/css?family=Roboto+Slab:400,700&subset=latin,latin-ext')
+        ->prependStylesheet('//fonts.googleapis.com/frontend/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,latin-ext')
     ?>
 
     <!-- Fonts -->
     <?php echo $this->headLink()
-        ->prependStylesheet('/css/fonts/font-awesome.min.css')
+        ->prependStylesheet('/frontend/css/fonts/font-awesome.min.css')
     ?>
     
     <!-- Scripts -->
@@ -114,10 +114,10 @@
     </div><!-- /.container -->
 
     <?php echo $this->inlineScript()
-        ->prependFile('/js/bootstrap.min.js')
-        ->prependFile('/js/jquery.gagchan.js')
-        ->prependFile('/js/jquery.prettySocial.min.js')
-        ->prependFile('/js/jquery.zeroclipboard.min.js')
+        ->prependFile('/frontend/js/bootstrap.min.js')
+        ->prependFile('/frontend/js/jquery.gagchan.js')
+        ->prependFile('/frontend/js/jquery.prettySocial.min.js')
+        ->prependFile('/frontend/js/jquery.zeroclipboard.min.js')
     ?>
 
     <script>
