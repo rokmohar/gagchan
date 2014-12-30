@@ -29,7 +29,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     protected $serviceLocator;
     
     /**
-     * @var \User\Form\UserForm
+     * @var \User\Form\User\UserFormInterface
      */
     protected $signupForm;
     
@@ -229,7 +229,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     public function getSignupForm()
     {
         if ($this->signupForm === null) {
-            $this->setSignupForm($this->getServiceLocator()->get('user.form.signup'));
+            $this->setSignupForm($this->getServiceLocator()->get('user.form.user.signup'));
         }
         
         return $this->signupForm;

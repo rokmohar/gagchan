@@ -13,27 +13,18 @@ use User\Entity\UserEntityInterface;
 interface MailerInterface
 {
     /**
-     * Send a confirmation email message.
+     * Send confirmation email message.
      * 
      * @param \User\Entity\UserEntityInterface         $user
      * @param \User\Entity\ConfirmationEntityInterface $confirmation
      */
-    public function sendConfirmationMessage(
-        UserEntityInterface $user,
-        ConfirmationEntityInterface $confirmation
-    );
+    public function sendConfirmationMessage(UserEntityInterface $user, ConfirmationEntityInterface $confirmation);
     
     /**
-     * Send a recover email message.
+     * Send recovery email message.
      * 
      * @param \User\Entity\UserEntityInterface    $user
      * @param \User\Entity\RecoverEntityInterface $recover
      */
-    /**
-     * {@inheritDoc}
-     */
-    public function sendRecoverMessage(
-        UserEntityInterface $user,
-        RecoverEntityInterface $recover
-    );
+    public function sendRecoverMessage(UserEntityInterface $user, RecoverEntityInterface $recover);
 }

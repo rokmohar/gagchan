@@ -1,19 +1,20 @@
 <?php
 
-namespace User\InputFilter\Recover;
+namespace User\Form\Recover;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class CreateRecoverFilter extends AbstractRecoverFilter
+class DefaultRecoverForm extends AbstractRecoverForm
 {
     /**
      * {@inheritDoc}
      */
-    protected function buildFilter()
+    protected function buildForm()
     {
         $this
+            ->addCsrf()
             ->addUserId()
             ->addEmail()
             ->addRemoteAddress()
@@ -22,6 +23,7 @@ class CreateRecoverFilter extends AbstractRecoverFilter
             ->addIsRecovered()
             ->addCreatedAt()
             ->addUpdatedAt()
+            ->addSubmit()
         ;
     }
 }

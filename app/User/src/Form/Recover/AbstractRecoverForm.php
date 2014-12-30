@@ -46,6 +46,19 @@ abstract class AbstractRecoverForm extends Form implements RecoverFormInterface
     /**
      * {@inheritDoc}
      */
+    public function addCsrf()
+    {
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function addUserId()
     {
         $this->add(array(
@@ -62,8 +75,15 @@ abstract class AbstractRecoverForm extends Form implements RecoverFormInterface
     public function addEmail()
     {
         $this->add(array(
-            'name' => 'email',
-            'type' => 'Zend\Form\Element\Text',
+            'name'    => 'email',
+            'type'    => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'Email address',
+            ),
+            'attributes' => array(
+                'class'       => 'form-control',
+                'placeholder' => 'Email address',
+            ),
         ));
         
         return $this;
@@ -155,6 +175,26 @@ abstract class AbstractRecoverForm extends Form implements RecoverFormInterface
         $this->add(array(
             'name' => 'updated_at',
             'type' => 'Zend\Form\Element\Text',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addSubmit()
+    {
+        $this->add(array(
+            'name'    => 'submit',
+            'type'    => 'Zend\Form\Element\Submit',
+            'options' => array(
+                'label' => 'Submit',
+            ),
+            'attributes' => array(
+                'class' => 'btn btn-primary',
+                'value' => 'Submit',
+            ),
         ));
         
         return $this;

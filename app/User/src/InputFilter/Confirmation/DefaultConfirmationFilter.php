@@ -6,7 +6,7 @@ namespace User\InputFilter\Confirmation;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UpdateConfirmationFilter extends AbstractConfirmationFilter
+class DefaultConfirmationFilter extends AbstractConfirmationFilter
 {
     /**
      * {@inheritDoc}
@@ -14,8 +14,13 @@ class UpdateConfirmationFilter extends AbstractConfirmationFilter
     protected function buildFilter()
     {
         $this
+            ->addUserId()
+            ->addEmail()
+            ->addRemoteAddress()
+            ->addRequestAt()
+            ->addRequestToken()
             ->addConfirmedAt()
-            ->addIsConfirmed()
+            ->addCreatedAt()
             ->addUpdatedAt()
         ;
     }

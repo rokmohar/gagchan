@@ -44,6 +44,24 @@ abstract class AbstractRecoverFilter extends InputFilter implements RecoverFilte
     /**
      * {@inheritDoc}
      */
+    public function addCsrf()
+    {
+        $this->add(array(
+            'name'       => 'csrf',
+            'required'   => true,
+            'validators' => array(
+                array(
+                    'name' => 'Zend\Validator\Csrf',
+                ),
+            ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function addUserId()
     {
         $this->add(array(

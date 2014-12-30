@@ -6,7 +6,7 @@ namespace User\Form\Confirmation;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class CreateConfirmationForm extends AbstractConfirmationForm
+class DefaultConfirmationForm extends AbstractConfirmationForm
 {
     /**
      * {@inheritDoc}
@@ -14,8 +14,14 @@ class CreateConfirmationForm extends AbstractConfirmationForm
     protected function buildForm()
     {
         $this
+            ->addUserId()
+            ->addEmail()
+            ->addRemoteAddress()
+            ->addRequestAt()
+            ->addRequestToken()
             ->addConfirmedAt()
             ->addIsConfirmed()
+            ->addCreatedAt()
             ->addUpdatedAt()
         ;
     }

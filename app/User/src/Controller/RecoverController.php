@@ -50,37 +50,24 @@ class RecoverController extends AbstractActionController
      */
     public function requestAction()
     {
-        // Check if user has identity
+        // Redirect, iff user has identity
         if ($this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('home');
         }
-        
-        var_dump($this->getRecoverManager()->createRecover(array(
-            'user_id'        => 1,
-            'email'          => 'rok.mohar@gmail.com',
-            'remote_address' => '127.0.0.1',
-            'request_at'     => new \DateTime(),
-            'request_token'  => 'abc123',
-            //'recovered_at'   => null,
-            'is_confirmed'   => 'true',
-        ))); die();
         
         // Get PRG
         $prg = $this->prg();
         
-        // Check if PRG is reponse
+        // Redirect, iff PRG is reponse
         if ($prg instanceof Reponse) {
-            // Return response
             return $prg;
         }
         
         // Get form
         $recoverForm = $this->getRecoverForm();
         
-        // Check if PRG is GET
+        // Return view, iff PRG is GET request
         if ($prg === false) {
-            // Return view
             return new ViewModel(array(
                 'recoverForm' => $recoverForm,
             ));
@@ -256,9 +243,8 @@ class RecoverController extends AbstractActionController
     public function getMailer()
     {
         if ($this->mailer === null) {
-            return $this->mailer = $this->getServiceLocator()->get(
-                'user.mailer.amazon'
-            );
+            // Get amazon mailer
+            $this->mailer = $this->getServiceLocator()->get('user.mailer.amazon');
         }
         
         return $this->mailer;
@@ -272,9 +258,8 @@ class RecoverController extends AbstractActionController
     public function getRecoverForm()
     {
         if ($this->recoverForm === null) {
-            return $this->recoverForm = $this->getServiceLocator()->get(
-                'user.form.recover'
-            );
+            // Get recover request form
+            $this->recoverForm = $this->getServiceLocator()->get('user.form.recover.request');
         }
         
         return $this->recoverForm;
@@ -288,9 +273,8 @@ class RecoverController extends AbstractActionController
     public function getPasswordForm()
     {
         if ($this->passwordForm === null) {
-            return $this->passwordForm = $this->getServiceLocator()->get(
-                'user.form.password'
-            );
+            // Get user password form
+            $this->passwordForm = $this->getServiceLocator()->get('user.form.user.password');
         }
         
         return $this->passwordForm;
@@ -304,9 +288,8 @@ class RecoverController extends AbstractActionController
     public function getRecoverMapper()
     {
         if ($this->recoverMapper === null) {
-            return $this->recoverMapper = $this->getServiceLocator()->get(
-                'user.mapper.recover'
-            );
+            // Get recover mapper
+            $this->recoverMapper = $this->getServiceLocator()->get('user.mapper.recover');
         }
         
         return $this->recoverMapper;
@@ -320,9 +303,8 @@ class RecoverController extends AbstractActionController
     public function getRecoverManager()
     {
         if ($this->recoverManager === null) {
-            return $this->recoverManager = $this->getServiceLocator()->get(
-                'user.manager.recover'
-            );
+            // Get recover manager
+            $this->recoverManager = $this->getServiceLocator()->get('user.manager.recover');
         }
         
         return $this->recoverManager;
@@ -336,9 +318,8 @@ class RecoverController extends AbstractActionController
     public function getUserMapper()
     {
         if ($this->userMapper === null) {
-            return $this->userMapper = $this->getServiceLocator()->get(
-                'user.mapper.user'
-            );
+            // Get user mapper
+            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
         }
         
         return $this->userMapper;

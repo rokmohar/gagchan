@@ -270,7 +270,7 @@ class IndexController extends AbstractActionController
     {
         if ($this->loginForm === null) {
             // Get login form
-            $this->loginForm = $this->getServiceLocator()->get('user.form.login');
+            $this->loginForm = $this->getServiceLocator()->get('user.form.user.login');
         }
         
         return $this->loginForm;
@@ -285,7 +285,7 @@ class IndexController extends AbstractActionController
     {
         if ($this->signupForm === null) {
             // Get signup form
-            $this->signupForm = $this->getServiceLocator()->get('user.form.signup');
+            $this->signupForm = $this->getServiceLocator()->get('user.form.user.signup');
         }
         
         return $this->signupForm;
