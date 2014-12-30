@@ -1,6 +1,5 @@
 To do
 ================================================================================
-- Import error template
 - Implement user profile
 - Add administration panel
 - Implement ACL
