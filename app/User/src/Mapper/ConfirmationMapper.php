@@ -16,16 +16,16 @@ class ConfirmationMapper extends AbstractMapper implements ConfirmationMapperInt
     /**
      * {@inheritDoc}
      */
-    public function insertRow(ConfirmationEntityInterface $confirmation)
+    public function insertRow(ConfirmationEntityInterface $entity)
     {
         // Check if entity has pre-insert method
-        if (method_exists($confirmation, 'preInsert')) {
+        if (method_exists($entity, 'preInsert')) {
             // Call a method
-            call_user_func(array($confirmation, 'preInsert'));
+            call_user_func(array($entity, 'preInsert'));
         }
         
         // Extract data
-        $data = $this->getHydrator()->extract($confirmation);
+        $data = $this->getHydrator()->extract($entity);
         
         // Get insert
         $insert = $this->getInsert();
@@ -41,7 +41,7 @@ class ConfirmationMapper extends AbstractMapper implements ConfirmationMapperInt
         $result = $statement->execute();
         
         // Set identifier
-        $confirmation->setId($result->getGeneratedValue());
+        $entity->setId($result->getGeneratedValue());
         
         // Return result
         return $result;
@@ -78,7 +78,7 @@ class ConfirmationMapper extends AbstractMapper implements ConfirmationMapperInt
     /**
      * {@inheritDoc}
      */
-    public function selectRow(array $where = array(), array $order = array())
+    public function selectRow(array $where, array $order = array())
     {
         // Get select
         $select = $this->getSelect();
@@ -121,16 +121,16 @@ class ConfirmationMapper extends AbstractMapper implements ConfirmationMapperInt
     /**
      * {@inheritDoc}
      */
-    public function updateRow(ConfirmationEntityInterface $confirmation)
+    public function updateRow(ConfirmationEntityInterface $entity)
     {
         // Check if entity has pre-update method
-        if (method_exists($confirmation, 'preUpdate')) {
+        if (method_exists($entity, 'preUpdate')) {
             // Call a method
-            call_user_func(array($confirmation, 'preUpdate'));
+            call_user_func(array($entity, 'preUpdate'));
         }
         
         // Extract data
-        $data = $this->getHydrator()->extract($confirmation);
+        $data = $this->getHydrator()->extract($entity);
         
         // Get update
         $update = $this->getUpdate();
@@ -138,7 +138,7 @@ class ConfirmationMapper extends AbstractMapper implements ConfirmationMapperInt
         $update
             ->set($data)
             ->where(array(
-                'id' => $confirmation->getId(),
+                'id' => $entity->getId(),
             ))
         ;
         

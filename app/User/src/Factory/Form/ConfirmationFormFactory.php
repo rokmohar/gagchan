@@ -5,9 +5,9 @@ namespace User\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\ConfirmationForm;
+use User\Form\Confirmation\CreateConfirmationForm;
 use User\Hydrator\ConfirmationHydrator;
-use User\InputFilter\ConfirmationFilter;
+use User\InputFilter\Confirmation\CreateConfirmationFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -27,16 +27,16 @@ class ConfirmationFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new ConfirmationForm($confirmationMapper, $userMapper);
+        $form = new CreateConfirmationForm($confirmationMapper, $userMapper);
         
-        // Get hydrator
+        // Create hydrator
         $hydrator = new ConfirmationHydrator();
         
         // Set hydrator
         $form->setHydrator($hydrator);
         
-        // Get input filter
-        $inputFilter = new ConfirmationFilter($confirmationMapper, $userMapper);
+        // Create input filter
+        $inputFilter = new CreateConfirmationFilter($confirmationMapper, $userMapper);
         
         // Set input filter
         $form->setInputFilter($inputFilter);

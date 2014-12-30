@@ -7,7 +7,7 @@ return array(
             'enable_route_layouts' => false,
         ),
         'mca_layouts'   => array(
-            'Admin' => 'layout/admin',
+            'Admin' => 'layout/backend',
         ),
         'route_layouts' => array(),
     ),

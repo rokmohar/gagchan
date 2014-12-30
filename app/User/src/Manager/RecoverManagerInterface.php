@@ -4,7 +4,7 @@ namespace User\Manager;
 
 use User\Form\RecoverFormInterface;
 use User\Mapper\RecoverMapperInterface;
-use User\Options\UserOptionsInterface;
+use User\Options\UserOptions;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -35,14 +35,14 @@ interface RecoverManagerInterface
     /**
      * Return the user options.
      * 
-     * @return \User\Options\UserOptionsInterface
+     * @return \User\Options\UserOptions
      */
     public function getUserOptions();
     
     /**
      * Set the user options.
      * 
-     * @param \User\Options\UserOptionsInterface $userOptions
+     * @param \User\Options\UserOptions $userOptions
      */
-    public function setUserOptions(UserOptionsInterface $userOptions);
+    public function setUserOptions(UserOptions $userOptions);
 }

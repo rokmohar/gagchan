@@ -8,7 +8,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use User\Form\RecoverFormInterface;
 use User\Mailer\MailerInterface;
 use User\Mapper\RecoverMapperInterface;
-use User\Options\UserOptionsInterface;
+use User\Options\UserOptions;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -37,7 +37,7 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     protected $serviceLocator;
     
     /**
-     * @var \User\Options\UserOptionsInterface
+     * @var \User\Options\UserOptions
      */
     protected $userOptions;
     
@@ -239,7 +239,7 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     /**
      * {@inheritDoc}
      */
-    public function setUserOptions(UserOptionsInterface $userOptions)
+    public function setUserOptions(UserOptions $userOptions)
     {
         $this->userOptions = $userOptions;
         

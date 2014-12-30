@@ -5,10 +5,7 @@ namespace User\Manager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\ConfirmationFormInterface;
-use User\Mailer\MailerInterface;
-use User\Mapper\ConfirmationMapperInterface;
-use User\Options\UserOptionsInterface;
+use User\Entity\ConfirmationEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -37,7 +34,7 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     protected $serviceLocator;
     
     /**
-     * @var \User\Options\UserOptionsInterface
+     * @var \User\Options\UserOptions
      */
     protected $userOptions;
     
@@ -49,56 +46,52 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         // Get confirmation form
         $confirmationForm = $this->getConfirmationForm();
         
-        // Get class
+        // Get confirmation entity
         $confirmationClass = $this->getUserOptions()->getConfirmationEntityClass();
         
-        // Bind entity
+        // Bind confirmation entity
         $confirmationForm->bind(new $confirmationClass);
         
-        // Set data
+        // Set form data
         $confirmationForm->setData($data);
         
-        // Check if data is valid
+        // Return false, iff data is not valid
         if (!$confirmationForm->isValid()) {
-            // Data is not valid
             return false;
         }
         
-        // Get data
+        // Get form data
         $data = $confirmationForm->getData();
-        
-        var_dump($data); die();
         
         // Get confirmation mapper
         $confirmationMapper = $this->getConfirmationMapper();
         
         // Insert a row
-        return $confirmationMapper->insertRow($data);
+        $confirmationMapper->insertRow($data);
+        
+        // Return data
+        return $data;
     }
     /**
      * {@inheritDoc}
      */
-    public function updateConfirmation(array $data)
+    public function updateConfirmation(ConfirmationEntityInterface $confirmation, array $data)
     {
         // Get confirmation form
         $confirmationForm = $this->getConfirmationForm();
         
-        // Get class
-        //$confirmationClass = $this->getUserOptions()->getConfirmationEntityClass();
+        // Bind confirmation entity
+        $confirmationForm->bind($confirmation);
         
-        // Bind entity
-        //$confirmationForm->bind(new $confirmationClass);
-        
-        // Set data
+        // Set form data
         $confirmationForm->setData($data);
         
-        // Check if data is valid
+        // Return false, iff data is not valid
         if (!$confirmationForm->isValid()) {
-            // Data is not valid
             return false;
         }
         
-        // Get data
+        // Get form data
         $data = $confirmationForm->getData();
         
         var_dump($data); die();
@@ -107,16 +100,16 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         $confirmationMapper = $this->getConfirmationMapper();
         
         // Insert a row
-        return $confirmationMapper->insertRow($data);
+        $confirmationMapper->updateRow($data);
+        
+        // Return data
+        return $data;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function sendConfirmationMessage(
-        UserEntityInterface $user,
-        ConfirmationEntityInterface $confirmation
-    ) {
+    public function sendConfirmationMessage(UserEntityInterface $user, ConfirmationEntityInterface $confirmation) {
         // Get user mailer
         $userMailer = $this->getUserMailer();
         
@@ -144,7 +137,8 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     public function getUserMailer()
     {
         if ($this->userMailer === null) {
-            $this->setUserMailer($this->getServiceLocator()->get('user.mailer.amazon'));
+            // Set user mailer
+            $this->userMailer = $this->getServiceLocator()->get('user.mailer.amazon');
         }
         
         return $this->userMailer;
@@ -153,20 +147,11 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     /**
      * {@inheritDoc}
      */
-    public function setUserMailer(MailerInterface $userMailer)
-    {
-        $this->userMailer = $userMailer;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public function getConfirmationForm()
     {
         if ($this->confirmationForm === null) {
-            $this->setConfirmationForm($this->getServiceLocator()->get('user.form.confirmation'));
+            // Set confirmation form
+            $this->confirmationForm = $this->getServiceLocator()->get('user.form.confirmation');
         }
         
         return $this->confirmationForm;
@@ -175,33 +160,14 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     /**
      * {@inheritDoc}
      */
-    public function setConfirmationForm(ConfirmationFormInterface $confirmationForm)
-    {
-        $this->confirmationForm = $confirmationForm;
-        
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getConfirmationMapper()
     {
         if ($this->confirmationMapper === null) {
-            $this->setConfirmationMapper($this->getServiceLocator()->get('user.mapper.confirmation'));
+            // Set confirmation mapper
+            $this->confirmationMapper = $this->getServiceLocator()->get('user.mapper.confirmation');
         }
         
         return $this->confirmationMapper;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setConfirmationMapper(ConfirmationMapperInterface $confirmationMapper)
-    {
-        $this->confirmationMapper = $confirmationMapper;
-        
-        return $this;
     }
 
     /**
@@ -211,7 +177,7 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     {
         return $this->serviceLocator;
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -221,6 +187,7 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         
         return $this;
     }
+    
 
     /**
      * {@inheritDoc}
@@ -228,19 +195,10 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     public function getUserOptions()
     {
         if ($this->userOptions === null) {
-            $this->setUserOptions($this->getServiceLocator()->get('user.options.user'));
+            // Set user options
+            $this->userOptions = $this->getServiceLocator()->get('user.options.user');
         }
         
         return $this->userOptions;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUserOptions(UserOptionsInterface $userOptions)
-    {
-        $this->userOptions = $userOptions;
-        
-        return $this;
     }
 }

@@ -49,49 +49,35 @@ class IndexController extends AbstractActionController
      */
     public function loginAction()
     {
-        // Check if user has identity
+        // Redirect, iff user is not logged in
         if ($this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('home');
         }
-        
-        var_dump($this->getConfirmationManager()->createConfirmation(array(
-            'user_id'        => 1,
-            'email'          => 'rok.mohar@gmail.com',
-            'remote_address' => '127.0.0.1',
-            'request_at'     => new \DateTime(),
-            'request_token'  => 'abc123',
-            //'confirmed_at'   => null,
-            'is_confirmed'   => 'true',
-        ))); die();
         
         // Get PRG
         $prg = $this->prg();
         
-        // Check if PRG is reponse
+        // Redirect, iff PRG is response
         if ($prg instanceof Response) {
-            // Return response
             return $prg;
         }
         
         // Get form
         $loginForm = $this->getLoginForm();
         
-        // Check if PRG is GET
+        // Return view, iff PRG is GET request
         if ($prg === false) {
-            // Return view
             return new ViewModel(array(
                 'messages'  => array(),
                 'loginForm' => $loginForm,
             ));
         }
         
-        // Set data
+        // Set form data
         $loginForm->setData($prg);
         
-        // Check if form is not valid
+        // Return view, iff form is not valid
         if (!$loginForm->isValid()) {
-            // Return view
             return new ViewModel(array(
                 'messages'  => array(),
                 'loginForm' => $loginForm,
@@ -101,19 +87,18 @@ class IndexController extends AbstractActionController
         // Get user manager
         $userManager = $this->getUserManager();
         
-        // Perform an authentication
+        // Perform authentication
         $result = $userManager->authenticate($loginForm->getData());
         
-        // Check if authentication is not valid
+        // Return view, iff authentication is not valid
         if (!$result->isValid()) {
-            // Return view
             return new ViewModel(array(
                 'messages'  => $result->getMessages(),
                 'loginForm' => $loginForm,
             ));
         }
         
-        // Redirect to route
+        // Redirect
         return $this->redirect()->toRoute('home');
     }
     
@@ -137,9 +122,8 @@ class IndexController extends AbstractActionController
      */
     public function signupAction()
     {
-        // Check if user has identity
+        // Redirect, iff user has identity
         if ($this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('home');
         }
         
@@ -155,9 +139,8 @@ class IndexController extends AbstractActionController
         // Get form
         $signupForm = $this->getSignupForm();
         
-        // Check if PRG is GET
+        // Return view, iff PRG is GET
         if ($prg === false) {
-            // Return view
             return new ViewModel(array(
                 'signupForm' => $signupForm,
             ));
@@ -167,11 +150,10 @@ class IndexController extends AbstractActionController
         $userManager = $this->getUserManager();
         
         // Perform a registration
-        $user = $userManager->register($prg);
+        $user = $userManager->createUser($prg);
         
-        // Check if form is not valid
+        // Return view, iff form is not valid
         if (empty($user)) {
-            // Return view
             return new ViewModel(array(
                 'signupForm' => $signupForm,
             ));
@@ -188,7 +170,7 @@ class IndexController extends AbstractActionController
             'user' => $user,
         ));
         
-        // Set template
+        // Change template
         $view->setTemplate('user/index/signup_success');
         
         // Return view
@@ -215,9 +197,8 @@ class IndexController extends AbstractActionController
             $this->params()->fromRoute('token')
         );
         
-        // Check if confirmation is empty
+        // Return not found, iff confirmation is empty
         if (empty($confirmation)) {
-            // Confirmation not found
             return $this->notFoundAction();
         }
         
@@ -258,9 +239,8 @@ class IndexController extends AbstractActionController
     public function getConfirmationMapper()
     {
         if ($this->confirmationMapper === null) {
-            return $this->confirmationMapper = $this->getServiceLocator()->get(
-                'user.mapper.confirmation'
-            );
+            // Get confirmation mapper
+            $this->confirmationMapper = $this->getServiceLocator()->get('user.mapper.confirmation');
         }
         
         return $this->confirmationMapper;
@@ -274,9 +254,8 @@ class IndexController extends AbstractActionController
     public function getConfirmationManager()
     {
         if ($this->confirmationManager === null) {
-            return $this->confirmationManager = $this->getServiceLocator()->get(
-                'user.manager.confirmation'
-            );
+            // Get confirmation manager
+            $this->confirmationManager = $this->getServiceLocator()->get('user.manager.confirmation');
         }
         
         return $this->confirmationManager;
@@ -290,9 +269,8 @@ class IndexController extends AbstractActionController
     public function getLoginForm()
     {
         if ($this->loginForm === null) {
-            return $this->loginForm = $this->getServiceLocator()->get(
-                'user.form.login'
-            );
+            // Get login form
+            $this->loginForm = $this->getServiceLocator()->get('user.form.login');
         }
         
         return $this->loginForm;
@@ -306,9 +284,8 @@ class IndexController extends AbstractActionController
     public function getSignupForm()
     {
         if ($this->signupForm === null) {
-            return $this->signupForm = $this->getServiceLocator()->get(
-                'user.form.signup'
-            );
+            // Get signup form
+            $this->signupForm = $this->getServiceLocator()->get('user.form.signup');
         }
         
         return $this->signupForm;
@@ -322,9 +299,8 @@ class IndexController extends AbstractActionController
     public function getUserManager()
     {
         if ($this->userManager === null) {
-            return $this->userManager = $this->getServiceLocator()->get(
-                'user.manager.user'
-            );
+            // Get user manager
+            $this->userManager = $this->getServiceLocator()->get('user.manager.user');
         }
         
         return $this->userManager;
@@ -338,9 +314,8 @@ class IndexController extends AbstractActionController
     public function getUserMapper()
     {
         if ($this->userMapper === null) {
-            return $this->userMapper = $this->getServiceLocator()->get(
-                'user.mapper.user'
-            );
+            // Get user mapper
+            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
         }
         
         return $this->userMapper;

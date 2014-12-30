@@ -135,6 +135,7 @@ class AuthenticationService implements
     public function getEvent()
     {
         if ($this->event === null) {
+            // Create event
             $this->setEvent(new AuthenticationEvent());
         }
         
@@ -147,6 +148,7 @@ class AuthenticationService implements
      */
     public function setEvent(AuthenticationEvent $e)
     {
+        // Set target
         $e->setTarget($this);
 
         $this->event = $e;
@@ -264,21 +266,10 @@ class AuthenticationService implements
     public function getStorage()
     {
         if ($this->storage === null) {
-            $this->setStorage(new Session(get_class($this)));
+            // Create storage
+            $this->storage = new Session(get_class($this));
         }
         
         return $this->storage;
-    }
-    
-    /**
-     * Set the storage.
-     * 
-     * @param \Zend\Authentication\Storage\StorageInterface $storage
-     */
-    public function setStorage(StorageInterface $storage)
-    {
-        $this->storage = $storage;
-        
-        return $this;
     }
 }

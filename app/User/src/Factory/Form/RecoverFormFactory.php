@@ -5,9 +5,9 @@ namespace User\Factory\Form;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\RecoverForm;
+use User\Form\Recover\CreateRecoverForm;
 use User\Hydrator\RecoverHydrator;
-use User\InputFilter\RecoverFilter;
+use User\InputFilter\Recover\CreateRecoverFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -27,16 +27,16 @@ class RecoverFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new RecoverForm($recoverMapper, $userMapper);
+        $form = new CreateRecoverForm($recoverMapper, $userMapper);
         
-        // Get hydrator
+        // Create hydrator
         $hydrator = new RecoverHydrator();
         
         // Set hydrator
         $form->setHydrator($hydrator);
         
-        // Get input filter
-        $inputFilter = new RecoverFilter($recoverMapper, $userMapper);
+        // Create input filter
+        $inputFilter = new CreateRecoverFilter($recoverMapper, $userMapper);
         
         // Set input filter
         $form->setInputFilter($inputFilter);

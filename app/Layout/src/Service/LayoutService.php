@@ -5,11 +5,9 @@ namespace Layout\Service;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
-//use Zend\Filter\Word\CamelCaseToDash;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\View\Http\ViewManager;
 use Zend\Stdlib\Parameters;
-//use Zend\View\Model\ViewModel;
 
 use Layout\Options\LayoutOptions;
 
@@ -34,11 +32,6 @@ class LayoutService implements
      * @var \Zend\Stdlib\Parameters
      */
     protected $params;
-    
-    /**
-     * @var mixed
-     */
-    protected $standardLayout;
     
     /**
      * @var \Zend\Mvc\View\Http\ViewManager
@@ -142,12 +135,8 @@ class LayoutService implements
             return false;
         }
 
-        // Return layout, iff the requested template exists
-        if ($key && isset($layouts[$key])) {
-            return $layouts[$key];
-        }
-        
-        return $this->getStandardLayout();
+        // Return layout, iff the requested key exists
+        return isset($layouts[$key]) ? $layouts[$key] : false;
     }
     
     /**
@@ -246,23 +235,6 @@ class LayoutService implements
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getStandardLayout()
-    {
-        if ($this->standardLayout === null) {
-            // Get configuration
-            $config = $this->getConfig();
-            
-            // Load standard layout from configuration
-            $this->standardLayout = isset($config['view_manager']['layout']) ?
-                $config['view_manager']['layout'] : false;
-        }
-        
-        return $this->standardLayout;
-    }
-    
     /**
      * @return \Zend\Mvc\View\Http\ViewManager
      */

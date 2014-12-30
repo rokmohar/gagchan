@@ -53,15 +53,15 @@ abstract class AbstractHydrator extends ClassMethods
             // Get data type
             $type = $this->dataMap[$key];
             
-            if ($type == 'boolean' && !is_bool($data[$key])) {
+            if ($type == 'boolean') {
                 // Convert to boolean
                 $data[$key] = (bool) $data[$key];
             }
-            else if ($type == 'integer' && !is_int($data[$key])) {
+            else if ($type == 'integer') {
                 // Convert to integer
                 $data[$key] = (int) $data[$key];
             }
-            else if ($type == 'string' && !is_string($data[$key])) {
+            else if ($type == 'string') {
                 // Convert to string
                 $data[$key] = (string) $data[$key];
             }

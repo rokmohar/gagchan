@@ -78,7 +78,7 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function selectRow(array $where = array(), array $order = array())
+    public function selectRow(array $where, array $order = array())
     {
         // Get select
         $select = $this->getSelect();

@@ -8,7 +8,7 @@ use Zend\Stdlib\AbstractOptions;
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class UserOptions extends AbstractOptions implements UserOptionsInterface
+class UserOptions extends AbstractOptions
 {
     /**
      * @var bool
@@ -119,17 +119,17 @@ class UserOptions extends AbstractOptions implements UserOptionsInterface
     /**
      * @return string
      */
-    public function getConfirmationHydratorMapper()
+    public function getConfirmationMapperClass()
     {
-        return $this->confirmationHydratorMapper;
+        return $this->confirmationMapperClass;
     }
     
     /**
-     * @param string $confirmationHydratorMapper
+     * @param string $confirmationMapperClass
      */
-    public function setConfirmationHydratorMapper($confirmationHydratorMapper)
+    public function setConfirmationMapperClass($confirmationMapperClass)
     {
-        $this->confirmationHydratorMapper = $confirmationHydratorMapper;
+        $this->confirmationMapperClass = $confirmationMapperClass;
         
         return $this;
     }
@@ -173,17 +173,17 @@ class UserOptions extends AbstractOptions implements UserOptionsInterface
     /**
      * @return string
      */
-    public function getRecoverHydratorMapper()
+    public function getRecoverMapperClass()
     {
-        return $this->recoverHydratorMapper;
+        return $this->recoverMapperClass;
     }
     
     /**
-     * @param string $recoverHydratorMapper
+     * @param string $recoverMapperClass
      */
-    public function setRecoverHydratorMapper($recoverHydratorMapper)
+    public function setRecoverMapperClass($recoverMapperClass)
     {
-        $this->recoverHydratorMapper = $recoverHydratorMapper;
+        $this->recoverMapperClass = $recoverMapperClass;
         
         return $this;
     }
@@ -227,17 +227,17 @@ class UserOptions extends AbstractOptions implements UserOptionsInterface
     /**
      * @return string
      */
-    public function getUserHydratorMapper()
+    public function getUserMapperClass()
     {
-        return $this->userHydratorMapper;
+        return $this->userMapperClass;
     }
     
     /**
-     * @param string $userHydratorMapper
+     * @param string $userMapperClass
      */
-    public function setUserHydratorMapper($userHydratorMapper)
+    public function setUserMapperClass($userMapperClass)
     {
-        $this->userHydratorMapper = $userHydratorMapper;
+        $this->userMapperClass = $userMapperClass;
         
         return $this;
     }

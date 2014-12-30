@@ -8,9 +8,9 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Entity\UserEntityInterface;
-use User\Form\UserForm;
+use User\Form\User\UserFormInterface;
 use User\Mapper\UserMapperInterface;
-use User\Options\UserOptionsInterface;
+use User\Options\UserOptions;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -39,7 +39,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     protected $userMapper;
     
     /**
-     * @var \User\Options\UserOptionsInterface
+     * @var \User\Options\UserOptions
      */
     protected $userOptions;
     
@@ -238,7 +238,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function setSignupForm(UserForm $signupForm)
+    public function setSignupForm(UserFormInterface $signupForm)
     {
         $this->signupForm = $signupForm;
         
@@ -282,7 +282,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function setUserOptions(UserOptionsInterface $userOptions)
+    public function setUserOptions(UserOptions $userOptions)
     {
         $this->userOptions = $userOptions;
         

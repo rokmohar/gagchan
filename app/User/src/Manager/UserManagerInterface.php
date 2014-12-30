@@ -32,7 +32,7 @@ interface UserManagerInterface
     /**
      * Return the user options.
      * 
-     * @return \User\Options\UserOptionsInterface
+     * @return \User\Options\UserOptions
      */
     public function getUserOptions();
 }
