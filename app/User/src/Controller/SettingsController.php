@@ -38,9 +38,8 @@ class SettingsController extends AbstractActionController
      */
     public function accountAction()
     {
-        // Check if user does not have identity
+        // Redirect, iff user does not have identity
         if (!$this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('login');
         }
         
@@ -50,9 +49,8 @@ class SettingsController extends AbstractActionController
         // Get PRG
         $prg = $this->prg();
         
-        // Check if PRG is response
+        // Redirect, iff PRG is response
         if ($prg instanceof Response) {
-            // Return redirect
             return $prg;
         }
         
@@ -64,9 +62,8 @@ class SettingsController extends AbstractActionController
         $settingsForm = $this->getAccountSettingsForm();
         $settingsForm->bind($user);
         
-        // Check if PRG is GET
+        // Return view, iff PRG is GET request
         if ($prg === false) {
-            // Return view
             return new ViewModel(array(
                 'messages'     => $fm->getMessages(),
                 'settingsForm' => $settingsForm,
@@ -78,9 +75,8 @@ class SettingsController extends AbstractActionController
             'id' => $user->getId(),
         )));
         
-        // Check if form is not valid
+        // Return view, iff form is not valid
         if (!$settingsForm->isValid()) {
-            // Return view
             return new ViewModel(array(
                 'messages'     => array(),
                 'settingsForm' => $settingsForm,
@@ -102,18 +98,16 @@ class SettingsController extends AbstractActionController
      */
     public function passwordAction()
     {
-        // Check if user does not have identity
+        // Redirect, iff user does not have identity
         if (!$this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('login');
         }
         
         // Get PRG
         $prg = $this->prg();
         
-        // Check if PRG is response
+        // Redirect, iff PRG is response
         if ($prg instanceof Response) {
-            // Return response
             return $prg;
         }
         
@@ -124,9 +118,8 @@ class SettingsController extends AbstractActionController
         // Get form
         $settingsForm = $this->getPasswordSettingsForm();
         
-        // Check if PRG is GET
+        // Return view, iff PRG is GET request
         if ($prg === false) {
-            // Return view
             return new ViewModel(array(
                 'messages'     => $fm->getMessages(),
                 'settingsForm' => $settingsForm,
@@ -139,9 +132,8 @@ class SettingsController extends AbstractActionController
         // Set data
         $settingsForm->setData($prg);
         
-        // Check if form is not valid
+        // Return view, iff form is not valid
         if (!$settingsForm->isValid()) {
-            // Return view
             return new ViewModel(array(
                 'messages'     => array(),
                 'settingsForm' => $settingsForm,
@@ -170,7 +162,7 @@ class SettingsController extends AbstractActionController
         // Add message
         $fm->addMessage('Password is successfully updated.');
         
-        // Redirect to route
+        // Redirect
         return $this->redirect()->toRoute('settings/password');
     }
     
@@ -179,9 +171,8 @@ class SettingsController extends AbstractActionController
      */
     public function socialAction()
     {
-        // Check if user does not have identity
+        // Redirect, iff user does not have identity
         if (!$this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('login');
         }
         
@@ -208,64 +199,52 @@ class SettingsController extends AbstractActionController
     }
     
     /**
-     * Return the account settings form.
-     * 
-     * @return \User\Form\AccountSettingsForm
+     * @return \User\Form\User\UserFormInterface
      */
-    public function getAccountSettingsForm()
+    public function getAccountForm()
     {
-        if ($this->accountSettingsForm === null) {
-            return $this->accountSettingsForm = $this->getServiceLocator()->get(
-                'user.form.account'
-            );
+        if ($this->accountForm === null) {
+            // Set account form
+            $this->accountForm = $this->getServiceLocator()->get('user.form.user.account');
         }
         
-        return $this->accountSettingsForm;
+        return $this->accountForm;
     }
     
     /**
-     * Return the OAuth mapper.
-     * 
      * @return \OAuth\Mapper\OAuthMapperInterface
      */
     public function getOAuthMapper()
     {
         if ($this->oauthMapper === null) {
-            return $this->oauthMapper = $this->getServiceLocator()->get(
-                'oauth.mapper.oauth'
-            );
+            // Set OAuth mapper
+            $this->oauthMapper = $this->getServiceLocator()->get('oauth.mapper.oauth');
         }
         
         return $this->oauthMapper;
     }
     
     /**
-     * Return the password settings form.
-     * 
-     * @return \User\Form\PasswordSettingsForm
+     * @return \User\Form\User\UserFormInterface
      */
-    public function getPasswordSettingsForm()
+    public function getPasswordForm()
     {
-        if ($this->passwordSettingsForm === null) {
-            return $this->passwordSettingsForm = $this->getServiceLocator()->get(
-                'user.form.password'
-            );
+        if ($this->passwordForm === null) {
+            // Set password form
+            $this->passwordForm = $this->getServiceLocator()->get('user.form.user.password');
         }
         
-        return $this->passwordSettingsForm;
+        return $this->passwordForm;
     }
     
     /**
-     * Return the user mapper.
-     * 
      * @return \User\Mapper\UserMapperInterface
      */
     public function getUserMapper()
     {
         if ($this->userMapper === null) {
-            return $this->userMapper = $this->getServiceLocator()->get(
-                'user.mapper.user'
-            );
+            // Set user mapper
+            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
         }
         
         return $this->userMapper;

@@ -6,6 +6,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Entity\RecoverEntityInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -55,7 +56,7 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
         // Set form data
         $form->setData($data);
         
-        // Return false, iff data is not valid
+        // Check if form data is valid
         if ($form->isValid()) {
             // Get form data
             $data = $form->getData();
@@ -84,8 +85,8 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
         // Set form data
         $form->setData($data);
         
-        // Validate form data
-        if (!$form->isValid()) {
+        // Check if form data is valid
+        if ($form->isValid()) {
             // Get form data
             $data = $form->getData();
 
@@ -107,7 +108,7 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
         // Get mailer
         $mailer = $this->getMailer();
         
-        // Send recover message
+        // Send recovery message
         return $mailer->sendRecoverMessage($user, $recover);
     }
     

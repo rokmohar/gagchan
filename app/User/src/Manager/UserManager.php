@@ -2,15 +2,11 @@
 
 namespace User\Manager;
 
-use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use User\Entity\UserEntityInterface;
-use User\Form\User\UserFormInterface;
-use User\Mapper\UserMapperInterface;
-use User\Options\UserOptions;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -19,9 +15,24 @@ use User\Options\UserOptions;
 class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
 {
     /**
+     * @var \User\Form\User\UserFormInterface
+     */
+    protected $accountForm;
+    
+    /**
      * @var \Zend\Authentication\AuthenticationServiceInterface
      */
     protected $authService;
+    
+    /**
+     * @var \User\Form\User\UserFormInterface
+     */
+    protected $loginForm;
+    
+    /**
+     * @var \User\Form\User\UserFormInterface
+     */
+    protected $passwordForm;
     
     /**
      * @var \Zend\ServiceManager\ServiceLocatorInterface
@@ -54,8 +65,16 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         // Set parameters
         $authService->setParams($params);
         
-        // Perform an authentication
+        // Perform authentication
         return $authService->authenticate();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function login(array $data)
+    {
+        // @TBD
     }
     
     /**
@@ -69,7 +88,7 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         // Set parameters
         $authService->setParams($params);
         
-        // Perform a logout
+        // Perform logout
         $authService->logout();
         
         return $this;
@@ -81,71 +100,64 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     public function createUser(array $data)
     {
         // Get form
-        $signupForm = $this->getSignupForm();
+        $form = $this->getSignupForm();
         
-        // Get class
+        // Get entity class
         $userClass = $this->getUserOptions()->getUserEntityClass();
         
-        // Bind entity
-        $signupForm->bind(new $userClass);
+        // Bind entity class
+        $form->bind(new $userClass);
         
         // Set data
-        $signupForm->setData($data);
+        $form->setData($data);
         
-        // Check if form is not valid
-        if (!$signupForm->isValid()) {
-            // Validation failed
-            return false;
+        // Check if form data is valid
+        if ($form->isValid()) {
+            // Get data
+            $user = $form->getData();
+
+            // Set default data
+            $user->setPassword($this->encryptPassword($user->getPassword()));
+            $user->setState(UserEntityInterface::STATE_UNCONFIRMED);
+
+            // Insert row
+            $this->getUserMapper()->insertRow($user);
+            
+            return $user;
         }
-        
-        // Get data
-        $user = $signupForm->getData();
-        
-        var_dump($user);
-        
-        // Encrypt password
-        $user->setPassword($this->encryptPassword($user->getPassword()));
-        
-        // Set state
-        $user->setState(UserEntityInterface::STATE_UNCONFIRMED);
-        
-        // Insert a row
-        return $this->getUserMapper()->insertRow($user);
+    
+        return false;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function updateUser(array $data)
+    public function updateUser(UserEntityInterface $user, array $data)
     {
         // Get form
         $signupForm = $this->getSignupForm();
         
-        // Get class
-        //$userClass = $this->getUserOptions()->getUserEntityClass();
-        
-        // Bind entity
-        //$signupForm->bind(new \User\Entity\UserEntity());
+        // Bind entity class
+        $signupForm->bind($user);
         
         // Set data
         $signupForm->setData($data);
         
-        // Check if form is not valid
-        if (!$signupForm->isValid()) {
-            // Validation failed
-            return false;
+        // Check if form data is valid
+        if ($signupForm->isValid()) {
+            // Get data
+            $user = $signupForm->getData();
+
+            // Encrypt password
+            $user->setPassword($this->encryptPassword($user->getPassword()));
+
+            // Update row
+            $this->getUserMapper()->updateRow($user);
+            
+            return $user;
         }
         
-        // Get data
-        $user = $signupForm->getData();
-        
-        var_dump($user);
-        
-        // Encrypt password
-        $user->setPassword($this->encryptPassword($user->getPassword()));
-        
-        // Update a row
-        return $this->getUserMapper()->updateRow($user);
+        return false;
     }
     
     /**
@@ -164,10 +176,24 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
+    public function getAccountForm()
+    {
+        if ($this->accountForm === null) {
+            // Set account form
+            $this->accountForm = $this->getServiceLocator()->get('user.form.user.account');
+        }
+        
+        return $this->accountForm;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function getAuthService()
     {
         if ($this->authService === null) {
-            $this->setAuthService($this->getServiceLocator()->get('user.auth.service'));
+            // Set auth service
+            $this->authService = $this->getServiceLocator()->get('user.auth.service');
         }
         
         return $this->authService;
@@ -176,33 +202,27 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function setAuthService(AuthenticationServiceInterface $authService)
+    public function getLoginForm()
     {
-        $this->authService = $authService;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getConfirmationForm()
-    {
-        if ($this->confirmationForm === null) {
-            $this->setConfirmationForm($this->getServiceLocator()->get('user.form.confirmation'));
+        if ($this->loginForm === null) {
+            // Set login form
+            $this->loginForm = $this->getServiceLocator()->get('user.form.user.login');
         }
         
-        return $this->confirmationForm;
+        return $this->loginForm;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function setConfirmationForm(ConfirmationFormInterface $confirmationForm)
+    public function getPasswordForm()
     {
-        $this->confirmationForm = $confirmationForm;
+        if ($this->passwordForm === null) {
+            // Set password form
+            $this->passwordForm = $this->getServiceLocator()->get('user.form.user.password');
+        }
         
-        return $this;
+        return $this->passwordForm;
     }
     
     /**
@@ -229,7 +249,8 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     public function getSignupForm()
     {
         if ($this->signupForm === null) {
-            $this->setSignupForm($this->getServiceLocator()->get('user.form.user.signup'));
+            // Set signup form
+            $this->signupForm = $this->getServiceLocator()->get('user.form.user.signup');
         }
         
         return $this->signupForm;
@@ -238,20 +259,11 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function setSignupForm(UserFormInterface $signupForm)
-    {
-        $this->signupForm = $signupForm;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public function getUserMapper()
     {
         if ($this->userMapper === null) {
-            $this->setUserMapper($this->getServiceLocator()->get('user.mapper.user'));
+            // Set user mapper
+            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
         }
         
         return $this->userMapper;
@@ -260,32 +272,13 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * {@inheritDoc}
      */
-    public function setUserMapper(UserMapperInterface $userMapper)
-    {
-        $this->userMapper = $userMapper;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public function getUserOptions()
     {
         if ($this->userOptions === null) {
-            $this->setUserOptions($this->getServiceLocator()->get('user.options.user'));
+            // Set user options
+            $this->userOptions = $this->getServiceLocator()->get('user.options.user');
         }
         
         return $this->userOptions;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setUserOptions(UserOptions $userOptions)
-    {
-        $this->userOptions = $userOptions;
-        
-        return $this;
     }
 }
