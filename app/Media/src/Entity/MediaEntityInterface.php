@@ -197,20 +197,6 @@ interface MediaEntityInterface
     public function setState($state);
     
     /**
-     * Return the delay at date.
-     * 
-     * @return \DateTime
-     */
-    public function getDelayAt();
-    
-    /**
-     * Set the delay at date.
-     * 
-     * @param \DateTime|null $delayAt
-     */
-    public function setDelayAt(\DateTime $delayAt  = null);
-    
-    /**
      * Return created at date.
      * 
      * @return \DateTime

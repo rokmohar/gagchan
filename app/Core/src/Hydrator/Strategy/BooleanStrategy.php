@@ -15,7 +15,7 @@ class BooleanStrategy implements StrategyInterface
      */
     public function extract($value)
     {
-        return (string) $value;
+        return ($value == true) ? "1" : "0";
     }
     
     /**
@@ -23,6 +23,6 @@ class BooleanStrategy implements StrategyInterface
      */
     public function hydrate($value)
     {
-        return (bool) $value;
+        return ($value == 1) ? true : false;
     }
 }

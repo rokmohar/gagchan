@@ -1,6 +1,6 @@
 <?php
 
-namespace User\InputFilter\User;
+namespace User\InputFilter;
 
 use Zend\InputFilter\InputFilter;
 
@@ -46,6 +46,19 @@ abstract class AbstractUserFilter extends InputFilter implements UserFilterInter
                     'name' => 'Zend\Validator\Csrf',
                 ),
             ),
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addId()
+    {
+        $this->add(array(
+            'name'     => 'id',
+            'required' => false,
         ));
         
         return $this;
@@ -416,12 +429,11 @@ abstract class AbstractUserFilter extends InputFilter implements UserFilterInter
      */
     public function enableUsernameRecordExists()
     {
-        // Get user mapper
+        // Get mapper
         $userMapper = $this->getUserMapper();
         
-        // Check if user mapper is empty
+        // Throw exception, iff user mapper is empty
         if (empty($userMapper)) {
-            // Throw an exception
             throw new \RuntimeException("User mapper is required, none given.");
         }
         
@@ -439,12 +451,11 @@ abstract class AbstractUserFilter extends InputFilter implements UserFilterInter
      */
     public function enableUsernameUniqueRecord()
     {
-        // Get user mapper
+        // Get mapper
         $userMapper = $this->getUserMapper();
         
-        // Check if user mapper is empty
+        // Throw exception, iff user mapper is empty
         if (empty($userMapper)) {
-            // Throw an exception
             throw new \RuntimeException("User mapper is required, none given.");
         }
         

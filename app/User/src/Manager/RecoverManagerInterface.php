@@ -2,6 +2,8 @@
 
 namespace User\Manager;
 
+use Zend\Stdlib\RequestInterface;
+
 use User\Entity\RecoverEntityInterface;
 use User\Entity\UserEntityInterface;
 
@@ -14,17 +16,18 @@ interface RecoverManagerInterface
     /**
      * Create recovery.
      * 
-     * @param array $data
+     * @param \User\Entity\UserEntityInterface $user
+     * @param \Zend\Stdlib\RequestInterface    $request
      */
-    public function createRecover(array $data);
+    public function createRecover(UserEntityInterface $user, RequestInterface $request);
     
     /**
-     * Update recovery.
+     * Complete account recovery.
      * 
+     * @param \User\Entity\UserEntityInterface    $user
      * @param \User\Entity\RecoverEntityInterface $recover
-     * @param array                               $data
      */
-    public function updateRecover(RecoverEntityInterface $recover, array $data);
+    public function processRecover(UserEntityInterface $user, RecoverEntityInterface $recover);
     
     /**
      * Send recovery message.
@@ -40,14 +43,16 @@ interface RecoverManagerInterface
     public function getMailer();
     
     /**
-     * @return \User\Form\Recover\RecoverFormInterface
-     */
-    public function getRecoverForm();
-    
-    /**
      * @return \User\Mapper\RecoverMapperInterface
      */
     public function getRecoverMapper();
+    
+    /**
+     * Return the user mapper.
+     * 
+     * @return \User\Mapper\UserMapper
+     */
+    public function getUserMapper();
     
     /**
      * Return the user options.

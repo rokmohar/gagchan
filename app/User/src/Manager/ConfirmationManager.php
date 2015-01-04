@@ -4,6 +4,7 @@ namespace User\Manager;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\RequestInterface;
 
 use User\Entity\ConfirmationEntityInterface;
 use User\Entity\UserEntityInterface;
@@ -14,11 +15,6 @@ use User\Entity\UserEntityInterface;
  */
 class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocatorAwareInterface
 {
-    /**
-     * @var \User\Form\ConfirmationFormInterface
-     */
-    protected $confirmationForm;
-    
     /**
      * @var \User\Mapper\ConfirmationMapperInterface
      */
@@ -35,6 +31,11 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     protected $serviceLocator;
     
     /**
+     * @var \User\Mapper\UserMapperInterface
+     */
+    protected $userMapper;
+    
+    /**
      * @var \User\Options\UserOptions
      */
     protected $userOptions;
@@ -42,67 +43,79 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     /**
      * {@inheritDoc}
      */
-    public function createConfirmation(array $data)
+    public function createConfirmation(UserEntityInterface $user, RequestInterface $request)
     {
-        // Get form
-        $form = $this->getConfirmationForm();
-        
-        // Get entity class
-        $class = $this->getUserOptions()->getConfirmationEntityClass();
-        
-        // Bind entity class
-        $form->bind(new $class);
-        
-        // Set form data
-        $form->setData($data);
-        
-        // Check form data is valid
-        if ($form->isValid()) {
-            // Get form data
-            $data = $form->getData();
-
-            // Get mapper
-            $mapper = $this->getConfirmationMapper();
-
-            // Insert row
-            $mapper->insertRow($data);
-
-            // Return data
-            return $data;
+        // Return false, iff state is not unconfirmed
+        if ($user->getState() !== UserEntityInterface::STATE_UNCONFIRMED) {
+            return false;
         }
         
-        return false;
+        // Get class
+        $class = $this->getUserOptions()->getConfirmationEntityClass();
+        
+        // Create confirmation
+        $confirmation = new $class;
+        
+        // Set confirmation data
+        $confirmation
+            ->setUserId($user->getId())
+            ->setEmail($user->getEmail())
+            ->setRemoteAddress($request->getServer('REMOTE_ADDR'))
+            ->setRequestAt(new \DateTime())
+            ->setRequestToken($this->generateToken())
+            ->setConfirmedAt(null)
+            ->setIsConfirmed(false)
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime())
+        ;
+        
+        // Get confirmation mapper
+        $confirmationMapper = $this->getConfirmationMapper();
+        
+        // Insert row
+        $confirmationMapper->insertRow($confirmation);
+        
+        // Return confirmation
+        return $confirmation;
     }
+    
     /**
      * {@inheritDoc}
      */
-    public function updateConfirmation(ConfirmationEntityInterface $confirmation, array $data)
+    public function processConfirmation(UserEntityInterface $user, ConfirmationEntityInterface $confirmation)
     {
-        // Get form
-        $form = $this->getConfirmationForm();
-        
-        // Bind entity class
-        $form->bind($confirmation);
-        
-        // Set form data
-        $form->setData($data);
-        
-        // Check if form data is valid
-        if ($form->isValid()) {
-            // Get form data
-            $data = $form->getData();
-
-            // Get mapper
-            $mapper = $this->getConfirmationMapper();
-
-            // Insert row
-            $mapper->updateRow($data);
-
-            // Return data
-            return $data;
+        // Return false, iff state is not unconfirmed
+        if ($user->getState() !== UserEntityInterface::STATE_UNCONFIRMED) {
+            return false;
         }
         
-        return false;
+        // Return false, iff confirmation is confirmed
+        if ($confirmation->isConfirmed() === true) {
+            return false;
+        }
+        
+        // Set confirmation data
+        $confirmation
+            ->setConfirmedAt(new \DateTime())
+            ->setIsConfirmed(true)
+        ;
+        
+        // Get confirmation mapper
+        $confirmationMapper = $this->getConfirmationMapper();
+        
+        // Update row
+        $confirmationMapper->updateRow($confirmation);
+        
+        // Set user data
+        /*$user
+            ->setState(UserEntityInterface::STATE_CONFIRMED)
+        ;*/
+        
+        // Get user mapper
+        //$userMapper = $this->getUserMapper();
+        
+        // Update row
+        //$userMapper->updateRow($user);
     }
     
     /**
@@ -118,9 +131,7 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
     }
     
     /**
-     * Generate random token.
-     * 
-     * @return string
+     * {@inheritDoc}
      */
     public function generateToken()
     {
@@ -131,19 +142,6 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         return $generator->getToken(32);
     }
     
-    /**
-     * {@inheritDoc}
-     */
-    public function getConfirmationForm()
-    {
-        if ($this->confirmationForm === null) {
-            // Set confirmation form
-            $this->confirmationForm = $this->getServiceLocator()->get('user.form.confirmation');
-        }
-        
-        return $this->confirmationForm;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -188,6 +186,19 @@ class ConfirmationManager implements ConfirmationManagerInterface, ServiceLocato
         return $this;
     }
     
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getUserMapper()
+    {
+        if ($this->userMapper === null) {
+            // Set user mapper
+            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
+        }
+        
+        return $this->userMapper;
+    }
 
     /**
      * {@inheritDoc}

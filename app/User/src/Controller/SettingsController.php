@@ -14,24 +14,14 @@ use Zend\View\Model\ViewModel;
 class SettingsController extends AbstractActionController
 {
     /**
-     * @var \User\Form\AccountSettingsForm
-     */
-    protected $accountSettingsForm;
-    
-    /**
      * @var \OAuth\Mapper\OAuthMapperInterface
      */
     protected $oauthMapper;
     
     /**
-     * @var \User\Form\PasswordSettingsForm
+     * @var \User\Manager\UserManagerInterface
      */
-    protected $passwordSettingsForm;
-    
-    /**
-     * @var \User\Mapper\UserMapperInterface
-     */
-    protected $userMapper;
+    protected $userManager;
     
     /**
      * @return \Zend\View\Model\ViewModel
@@ -42,9 +32,6 @@ class SettingsController extends AbstractActionController
         if (!$this->user()->hasIdentity()) {
             return $this->redirect()->toRoute('login');
         }
-        
-        // Get user
-        $user = $this->user()->getIdentity();
         
         // Get PRG
         $prg = $this->prg();
@@ -58,9 +45,11 @@ class SettingsController extends AbstractActionController
         $fm = $this->flashMessenger();
         $fm->setNamespace('user.settings.index');
         
-        // Get form
-        $settingsForm = $this->getAccountSettingsForm();
-        $settingsForm->bind($user);
+        // Get user manager
+        $userManager = $this->getUserManager();
+        
+        // Get settings form
+        $settingsForm = $userManager->getSettingsForm();
         
         // Return view, iff PRG is GET request
         if ($prg === false) {
@@ -70,13 +59,16 @@ class SettingsController extends AbstractActionController
             ));
         }
         
-        // Set data
-        $settingsForm->setData(array_merge($prg, array(
+        // Get user
+        $user = $this->user()->getIdentity();
+        
+        // Post settings form
+        $result = $userManager->postSettings(array_merge($prg, array(
             'id' => $user->getId(),
         )));
         
         // Return view, iff form is not valid
-        if (!$settingsForm->isValid()) {
+        if ($result === false) {
             return new ViewModel(array(
                 'messages'     => array(),
                 'settingsForm' => $settingsForm,
@@ -84,7 +76,7 @@ class SettingsController extends AbstractActionController
         }
         
         // Update user
-        $this->getUserMapper()->updateRow($user);
+        $userManager->updateUser($user, $result, false);
         
         // Add message
         $fm->addMessage('Settings are successfully updated.');
@@ -115,49 +107,36 @@ class SettingsController extends AbstractActionController
         $fm = $this->flashMessenger();
         $fm->setNamespace('user.settings.password');
         
-        // Get form
-        $settingsForm = $this->getPasswordSettingsForm();
+        // Get user manager
+        $userManager = $this->getUserManager();
+        
+        // Get password form
+        $passwordForm = $userManager->getPasswordSettingsForm();
         
         // Return view, iff PRG is GET request
         if ($prg === false) {
             return new ViewModel(array(
                 'messages'     => $fm->getMessages(),
-                'settingsForm' => $settingsForm,
+                'settingsForm' => $passwordForm,
             ));
         }
         
-        // Bind entity prototype
-        $settingsForm->bind(new \User\Entity\UserEntity());
-        
-        // Set data
-        $settingsForm->setData($prg);
+        // Post password form
+        $result = $userManager->postPassword($prg);
         
         // Return view, iff form is not valid
-        if (!$settingsForm->isValid()) {
+        if ($result === false) {
             return new ViewModel(array(
                 'messages'     => array(),
-                'settingsForm' => $settingsForm,
+                'settingsForm' => $passwordForm,
             ));
         }
-        
-        // Get posted data
-        $data = $settingsForm->getData();
         
         // Get user
         $user = $this->user()->getIdentity();
         
-        // Encryption service
-        $crypt = new Bcrypt(array(
-            'cost' => 14,
-        ));
-        
-        // Encrypt password
-        $user->setPassword(
-            $crypt->create($data->getPassword())
-        );
-        
         // Update user
-        $this->getUserMapper()->updateRow($user);
+        $userManager->updateUser($user, $result, true);
         
         // Add message
         $fm->addMessage('Password is successfully updated.');
@@ -180,11 +159,11 @@ class SettingsController extends AbstractActionController
         $fm = $this->flashMessenger();
         $fm->setNamespace('user.settings.index');
         
-        // Get user
-        $user = $this->user()->getIdentity();
-        
         // Get OAuth mapper
         $oauthMapper = $this->getOAuthMapper();
+        
+        // Get user
+        $user = $this->user()->getIdentity();
         
         // Check connected providers
         $isFacebook = $oauthMapper->selectRowByProvider($user->getId(), 'facebook');
@@ -196,19 +175,6 @@ class SettingsController extends AbstractActionController
             'isFacebook' => $isFacebook,
             'isGoogle'   => $isGoogle,
         ));
-    }
-    
-    /**
-     * @return \User\Form\User\UserFormInterface
-     */
-    public function getAccountForm()
-    {
-        if ($this->accountForm === null) {
-            // Set account form
-            $this->accountForm = $this->getServiceLocator()->get('user.form.user.account');
-        }
-        
-        return $this->accountForm;
     }
     
     /**
@@ -225,19 +191,6 @@ class SettingsController extends AbstractActionController
     }
     
     /**
-     * @return \User\Form\User\UserFormInterface
-     */
-    public function getPasswordForm()
-    {
-        if ($this->passwordForm === null) {
-            // Set password form
-            $this->passwordForm = $this->getServiceLocator()->get('user.form.user.password');
-        }
-        
-        return $this->passwordForm;
-    }
-    
-    /**
      * @return \User\Mapper\UserMapperInterface
      */
     public function getUserMapper()
@@ -248,5 +201,20 @@ class SettingsController extends AbstractActionController
         }
         
         return $this->userMapper;
+    }
+    
+    /**
+     * Return the user manager.
+     * 
+     * @return \User\Manager\UserManagerInterface
+     */
+    public function getUserManager()
+    {
+        if ($this->userManager === null) {
+            // Set user mapper
+            $this->userManager = $this->getServiceLocator()->get('user.manager.user');
+        }
+        
+        return $this->userManager;
     }
 }

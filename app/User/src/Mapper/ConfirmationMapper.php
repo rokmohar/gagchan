@@ -105,20 +105,6 @@ class ConfirmationMapper extends AbstractMapper implements ConfirmationMapperInt
     }
 
     /**
-     * Select a row by the request token.
-     * 
-     * @param
-     */
-    public function selectNotConfirmed($id, $requestToken)
-    {
-        return $this->selectRow(array(
-            'id'            => $id,
-            'request_token' => $requestToken,
-            'is_confirmed'  => false,
-        ));
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function updateRow(ConfirmationEntityInterface $entity)

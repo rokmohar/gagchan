@@ -63,7 +63,6 @@ class MediaFilter extends InputFilter
             ->addContentType()
             ->addIsFeatured()
             ->addState()
-            ->addDelayAt()
         ;
     }
     
@@ -300,21 +299,6 @@ class MediaFilter extends InputFilter
             'filters'  => array(
                 array('name' => 'Zend\Filter\Int'),
             ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add filter for the delay at form element.
-     * 
-     * @return \Media\InputFilter\MediaFilter
-     */
-    public function addDelayAt()
-    {
-        $this->add(array(
-            'name'     => 'delay_at',
-            'required' => false, // for admins
         ));
         
         return $this;

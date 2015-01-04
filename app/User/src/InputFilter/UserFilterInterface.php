@@ -1,6 +1,6 @@
 <?php
 
-namespace User\InputFilter\User;
+namespace User\InputFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -8,6 +8,11 @@ namespace User\InputFilter\User;
  */
 interface UserFilterInterface
 {
+    /**
+     * Add identifier.
+     */
+    public function addId();
+    
     /**
      * Add username filter.
      */

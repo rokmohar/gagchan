@@ -6,8 +6,6 @@ use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use User\Entity\UserEntityInterface;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -15,34 +13,14 @@ use User\Entity\UserEntityInterface;
 class IndexController extends AbstractActionController
 {
     /**
-     * @var \User\Mapper\ConfirmationMapperInterface
-     */
-    protected $confirmationMapper;
-    
-    /**
      * @var \User\Manager\ConfirmationManagerInterface
      */
     protected $confirmationManager;
     
     /**
-     * @var \User\Form\LoginForm
-     */
-    protected $loginForm;
-    
-    /**
-     * @var \User\Form\SignupForm
-     */
-    protected $signupForm;
-    
-    /**
      * @var \User\Manager\UserManagerInterface
      */
     protected $userManager;
-    
-    /**
-     * @var \User\Mapper\UserMapperInterface
-     */
-    protected $userMapper;
     
     /**
      * @return \Zend\View\Model\ViewModel
@@ -62,39 +40,34 @@ class IndexController extends AbstractActionController
             return $prg;
         }
         
+        // Get user manager
+        $userManager = $this->getUserManager();
+        
         // Get form
-        $loginForm = $this->getLoginForm();
+        $form = $userManager->getLoginForm();
         
         // Return view, iff PRG is GET request
         if ($prg === false) {
             return new ViewModel(array(
                 'messages'  => array(),
-                'loginForm' => $loginForm,
+                'loginForm' => $form,
             ));
         }
         
-        // Set form data
-        $loginForm->setData($prg);
+        // Perform login
+        $result = $userManager->login($prg);
         
         // Return view, iff form is not valid
-        if (!$loginForm->isValid()) {
+        if ($result === false) {
             return new ViewModel(array(
                 'messages'  => array(),
-                'loginForm' => $loginForm,
+                'loginForm' => $form,
             ));
         }
-        
-        // Get user manager
-        $userManager = $this->getUserManager();
-        
-        // Perform authentication
-        $result = $userManager->authenticate($loginForm->getData());
-        
-        // Return view, iff authentication is not valid
-        if (!$result->isValid()) {
+        else if (!$result->isValid()) {
             return new ViewModel(array(
                 'messages'  => $result->getMessages(),
-                'loginForm' => $loginForm,
+                'loginForm' => $form,
             ));
         }
         
@@ -107,13 +80,13 @@ class IndexController extends AbstractActionController
      */
     public function logoutAction()
     {
-        // Get user manager
-        $userManager = $this->getUserManager();
+        // Get manager
+        $manager = $this->getUserManager();
         
-        // Perform a logout
-        $userManager->logout();
+        // Perform logout
+        $manager->logout();
         
-        // Redirect to route
+        // Redirect
         return $this->redirect()->toRoute('login');
     }
     
@@ -136,34 +109,37 @@ class IndexController extends AbstractActionController
             return $prg;
         }
         
-        // Get form
-        $signupForm = $this->getSignupForm();
-        
-        // Return view, iff PRG is GET
-        if ($prg === false) {
-            return new ViewModel(array(
-                'signupForm' => $signupForm,
-            ));
-        }
-        
         // Get user manager
         $userManager = $this->getUserManager();
         
-        // Perform a registration
-        $user = $userManager->createUser($prg);
+        // Get form
+        $form = $userManager->getSignupForm();
         
-        // Return view, iff form is not valid
-        if (empty($user)) {
+        // Return view, iff PRG is GET request
+        if ($prg === false) {
             return new ViewModel(array(
-                'signupForm' => $signupForm,
+                'signupForm' => $form,
             ));
         }
         
-        // Send a confirmation message
-        $userManager->sendConfirmationMessage(array(
-            'request' => $this->getRequest(),
-            'user'    => $user,
-        ));
+        // Perform registration
+        $user = $userManager->createUser($prg);
+        
+        // Return view, iff user is not valid
+        if ($user === false) {
+            return new ViewModel(array(
+                'signupForm' => $form,
+            ));
+        }
+        
+        // Get confirmation manager
+        $confirmationManager = $this->getConfirmationManager();
+        
+        // Create confirmation
+        $confirmation = $confirmationManager->createConfirmation($user, $this->getRequest());
+        
+        // Send confirmation message
+        $confirmationManager->sendConfirmationMessage($user, $confirmation);
         
         // Create view
         $view = new ViewModel(array(
@@ -182,44 +158,45 @@ class IndexController extends AbstractActionController
      */
     public function confirmAction()
     {
-        // Check if user has identity
+        // Redirect, iff user has identity
         if ($this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('home');
         }
         
+        // Get confirmation manager
+        $confirmationManager = $this->getConfirmationManager();
+        
         // Get confirmation mapper
-        $confirmationMapper = $this->getConfirmationMapper();
+        $confirmationMapper = $confirmationManager->getConfirmationMapper();
         
         // Get confirmation
-        $confirmation = $confirmationMapper->selectNotConfirmed(
-            $this->params()->fromRoute('id'),
-            $this->params()->fromRoute('token')
-        );
+        $confirmation = $confirmationMapper->selectRow(array(
+            'id'            => $this->params()->fromRoute('id'),
+            'request_token' => $this->params()->fromRoute('token'),
+            'is_confirmed'  => false,
+        ));
         
         // Return not found, iff confirmation is empty
         if (empty($confirmation)) {
             return $this->notFoundAction();
         }
         
+        // Get user manager
+        $userManager = $this->getUserManager();
+        
         // Get user mapper
-        $userMapper = $this->getUserMapper();
+        $userMapper = $userManager->getUserMapper();
         
         // Get user
         $user = $userMapper->selectRowById($confirmation->getUserId());
         
-        // Set state
-        $user->setState(UserEntityInterface::STATE_CONFIRMED);
+        // Return not found, iff user is empty
+        if (empty($user)) {
+            return $this->notFoundAction();
+        }
         
-        // Update user
-        $userMapper->updateRow($user);
-        
-        // Set as confirmed
-        $confirmation->setConfirmedAt(new \DateTime());
-        $confirmation->setIsConfirmed(true);
-        
-        // Update confirmation
-        $confirmationMapper->updateRow($confirmation);
+        // Process confirmation
+        $confirmationManager->processConfirmation($user, $confirmation);
         
         // Create view
         $view = new ViewModel();
@@ -232,21 +209,6 @@ class IndexController extends AbstractActionController
     }
     
     /**
-     * Return the confirmation mapper.
-     * 
-     * @return \User\Mapper\ConfirmationMapperInterface
-     */
-    public function getConfirmationMapper()
-    {
-        if ($this->confirmationMapper === null) {
-            // Get confirmation mapper
-            $this->confirmationMapper = $this->getServiceLocator()->get('user.mapper.confirmation');
-        }
-        
-        return $this->confirmationMapper;
-    }
-    
-    /**
      * Return the confirmation manager.
      * 
      * @return \User\Manager\ConfirmationManagerInterface
@@ -254,41 +216,11 @@ class IndexController extends AbstractActionController
     public function getConfirmationManager()
     {
         if ($this->confirmationManager === null) {
-            // Get confirmation manager
+            // Set confirmation manager
             $this->confirmationManager = $this->getServiceLocator()->get('user.manager.confirmation');
         }
         
         return $this->confirmationManager;
-    }
-    
-    /**
-     * Return the login form.
-     * 
-     * @return \User\Form\LoginForm
-     */
-    public function getLoginForm()
-    {
-        if ($this->loginForm === null) {
-            // Get login form
-            $this->loginForm = $this->getServiceLocator()->get('user.form.user.login');
-        }
-        
-        return $this->loginForm;
-    }
-    
-    /**
-     * Return the signup form.
-     * 
-     * @return \User\Form\LoginForm
-     */
-    public function getSignupForm()
-    {
-        if ($this->signupForm === null) {
-            // Get signup form
-            $this->signupForm = $this->getServiceLocator()->get('user.form.user.signup');
-        }
-        
-        return $this->signupForm;
     }
     
     /**
@@ -299,25 +231,10 @@ class IndexController extends AbstractActionController
     public function getUserManager()
     {
         if ($this->userManager === null) {
-            // Get user manager
+            // Set user manager
             $this->userManager = $this->getServiceLocator()->get('user.manager.user');
         }
         
         return $this->userManager;
-    }
-    
-    /**
-     * Return the user mapper.
-     * 
-     * @return \User\Mapper\UserMapperInterface
-     */
-    public function getUserMapper()
-    {
-        if ($this->userMapper === null) {
-            // Get user mapper
-            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
-        }
-        
-        return $this->userMapper;
     }
 }

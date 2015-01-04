@@ -4,6 +4,7 @@ namespace User\Manager;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\RequestInterface;
 
 use User\Entity\RecoverEntityInterface;
 use User\Entity\UserEntityInterface;
@@ -20,11 +21,6 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     protected $mailer;
     
     /**
-     * @var \User\Form\Recover\RecoverFormInterface
-     */
-    protected $recoverForm;
-    
-    /**
      * @var \User\Mapper\RecoverMapperInterface
      */
     protected $recoverMapper;
@@ -35,6 +31,11 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     protected $serviceLocator;
     
     /**
+     * @var \User\Mapper\UserMapperInterface
+     */
+    protected $userMapper;
+    
+    /**
      * @var \User\Options\UserOptions
      */
     protected $userOptions;
@@ -42,62 +43,74 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     /**
      * {@inheritDoc}
      */
-    public function createRecover(array $data)
+    public function createRecover(UserEntityInterface $user, RequestInterface $request)
     {
-        // Get form
-        $form = $this->getRecoverForm();
-        
-        // Get entity class
-        $class = $this->getUserOptions()->getRecoverEntityClass();
-        
-        // Bind entity class
-        $form->bind(new $class);
-        
-        // Set form data
-        $form->setData($data);
-        
-        // Check if form data is valid
-        if ($form->isValid()) {
-            // Get form data
-            $data = $form->getData();
-
-            // Get mapper
-            $mapper = $this->getRecoverMapper();
-
-            // Insert row
-            return $mapper->insertRow($data);
+        // Return false, iff account is not confirmed
+        if ($user->getState() !== UserEntityInterface::STATE_CONFIRMED) {
+            return false;
         }
-        
-        return false;
+
+        // Get class
+        $class = $this->getUserOptions()->getRecoverEntityClass();
+
+        // Create recover
+        $recover = new $class;
+
+        // Set recover data
+        $recover
+            ->setUserId($user->getId())
+            ->setEmail($user->getEmail())
+            ->setRemoteAddress($request->getServer('REMOTE_ADDR'))
+            ->setRequestAt(new \DateTime())
+            ->setRequestToken($this->generateToken())
+            ->setRecoveredAt(null)
+            ->setIsRecovered(false)
+            ->setCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime())
+        ;
+
+        // Get recover mapper
+        $recoverMapper = $this->getRecoverMapper();
+
+        // Insert row
+        $recoverMapper->insertRow($recover);
+
+        // Return recover
+        return $recover;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function updateRecover(RecoverEntityInterface $recover, array $data)
+    public function processRecover(UserEntityInterface $user, RecoverEntityInterface $recover)
     {
-        // Get form
-        $form = $this->getRecoverForm();
-        
-        // Bind entity class
-        $form->bind($recover);
-        
-        // Set form data
-        $form->setData($data);
-        
-        // Check if form data is valid
-        if ($form->isValid()) {
-            // Get form data
-            $data = $form->getData();
-
-            // Get mapper
-            $mapper = $this->getRecoverMapper();
-
-            // Update row
-            return $mapper->updateRow($data);
+        // Return false, iff account is not confirmed
+        if ($user->getState() !== UserEntityInterface::STATE_CONFIRMED) {
+            return false;
         }
         
-        return false;
+        // Return false, iff account is recovered
+        if ($recover->isRecovered() === true) {
+            return false;
+        }
+        
+        // Set recover data
+        $recover
+            ->setRecoveredAt(new \DateTime())
+            ->setIsRecovered(true)
+        ;
+        
+        // Get recover mapper
+        $recoverMapper = $this->getRecoverMapper();
+        
+        // Update row
+        $recoverMapper->updateRow($recover);
+        
+        // Get user mapper
+        //$userMapper = $this->getUserMapper();
+        
+        // Update row
+        //$userMapper->updateRow($user);
     }
     
     /**
@@ -132,24 +145,11 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     public function getMailer()
     {
         if ($this->mailer === null) {
-            // Get mailer
+            // Set mailer
             $this->mailer = $this->getServiceLocator()->get('user.mailer.amazon');
         }
         
         return $this->mailer;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getRecoverForm()
-    {
-        if ($this->recoverForm === null) {
-            // Get recover request form
-            $this->recoverForm = $this->getServiceLocator()->get('user.form.recover.request');
-        }
-        
-        return $this->recoverForm;
     }
 
     /**
@@ -158,7 +158,7 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     public function getRecoverMapper()
     {
         if ($this->recoverMapper === null) {
-            // Get recover mapper
+            // Set recover mapper
             $this->recoverMapper = $this->getServiceLocator()->get('user.mapper.recover');
         }
         
@@ -186,10 +186,23 @@ class RecoverManager implements RecoverManagerInterface, ServiceLocatorAwareInte
     /**
      * {@inheritDoc}
      */
+    public function getUserMapper()
+    {
+        if ($this->userMapper === null) {
+            // Set user mapper
+            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
+        }
+        
+        return $this->userMapper;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getUserOptions()
     {
         if ($this->userOptions === null) {
-            // Get user options
+            // Set user options
             $this->userOptions = $this->getServiceLocator()->get('user.options.user');
         }
         

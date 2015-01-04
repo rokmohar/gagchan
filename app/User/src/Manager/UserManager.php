@@ -15,14 +15,14 @@ use User\Entity\UserEntityInterface;
 class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
 {
     /**
-     * @var \User\Form\User\UserFormInterface
-     */
-    protected $accountForm;
-    
-    /**
      * @var \Zend\Authentication\AuthenticationServiceInterface
      */
     protected $authService;
+    
+    /**
+     * @var \User\Form\UserFormInterface
+     */
+    protected $emailForm;
     
     /**
      * @var \User\Form\User\UserFormInterface
@@ -42,6 +42,11 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     /**
      * @var \User\Form\User\UserFormInterface
      */
+    protected $settingsForm;
+    
+    /**
+     * @var \User\Form\User\UserFormInterface
+     */
     protected $signupForm;
     
     /**
@@ -53,6 +58,11 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      * @var \User\Options\UserOptions
      */
     protected $userOptions;
+    
+    /**
+     * @var \User\Mapper\UserMapperInterface
+     */
+    protected $usernameForm;
     
     /**
      * {@inheritDoc}
@@ -74,7 +84,11 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      */
     public function login(array $data)
     {
-        // @TBD
+        // Post login form
+        $result = $this->postLogin($data);
+        
+        // Return authentication result
+        return is_array($result) ? $this->authenticate($result) : false;
     }
     
     /**
@@ -99,65 +113,222 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      */
     public function createUser(array $data)
     {
-        // Get form
-        $form = $this->getSignupForm();
+        // Post signup form
+        $result = $this->postSignup($data);
         
-        // Get entity class
-        $userClass = $this->getUserOptions()->getUserEntityClass();
-        
-        // Bind entity class
-        $form->bind(new $userClass);
-        
-        // Set data
-        $form->setData($data);
-        
-        // Check if form data is valid
-        if ($form->isValid()) {
-            // Get data
-            $user = $form->getData();
-
-            // Set default data
-            $user->setPassword($this->encryptPassword($user->getPassword()));
-            $user->setState(UserEntityInterface::STATE_UNCONFIRMED);
-
-            // Insert row
-            $this->getUserMapper()->insertRow($user);
+        // Check if result is valid
+        if ($result instanceof UserEntityInterface) {
+            // Set encrypted password
+            $result->setPassword($this->encryptPassword($result->getPassword()));
             
-            return $user;
+            // Get user mapper
+            $userMapper = $this->getUserMapper();
+            
+            // Insert row
+            $userMapper->insertRow($result);
+            
+            // Return result
+            return $result;
         }
-    
+        
         return false;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function updateUser(UserEntityInterface $user, array $data)
+    public function updateUser(UserEntityInterface $user, array $data, $encryptPassword = false)
     {
-        // Get form
-        $signupForm = $this->getSignupForm();
+        // Post settings form
+        $result = $this->postSettings($user, $data);
         
-        // Bind entity class
-        $signupForm->bind($user);
-        
-        // Set data
-        $signupForm->setData($data);
-        
-        // Check if form data is valid
-        if ($signupForm->isValid()) {
-            // Get data
-            $user = $signupForm->getData();
-
-            // Encrypt password
-            $user->setPassword($this->encryptPassword($user->getPassword()));
-
-            // Update row
-            $this->getUserMapper()->updateRow($user);
+        // Check if result is valid
+        if ($result instanceof UserEntityInterface) {
+            // Encrypt password if flagged
+            if ($encryptPassword === true) {
+                // Set password
+                $result->setPassword($this->encryptPassword($result->getPassword()));
+            }
             
-            return $user;
+            // Get user mapper
+            $userMapper = $this->getUserMapper();
+            
+            // Update row
+            $userMapper->updateRow($result);
+            
+            // Return result
+            return $result;
         }
         
         return false;
+    }
+    
+    /**
+     * Find user through email form.
+     * 
+     * @return \User\Entity\UserEntityInterface
+     */
+    public function findByEmail(array $data)
+    {
+        // Post email form
+        $result = $this->postEmail($data);
+        
+        // Check if form data is valid
+        if (is_array($result)) {
+            // Get user mapper
+            $userMapper = $this->getUserMapper();
+            
+            // Return row
+            return $userMapper->selectRow($result);
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Find user through username form.
+     * 
+     * @return \User\Entity\UserEntityInterface
+     */
+    public function findByUsername(array $data)
+    {
+        // Post username form
+        $result = $this->postUsername($data);
+        
+        // Check if form data is valid
+        if (is_array($result)) {
+            // Get user mapper
+            $userMapper = $this->getUserMapper();
+            
+            // Return row
+            return $userMapper->selectRow($result);
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Post email form.
+     * 
+     * @param array $data
+     * 
+     * @return array
+     */
+    public function postEmail(array $data)
+    {
+        // Get form
+        $form = $this->getEmailForm();
+        
+        // Set data
+        $form->setData($data);
+        
+        // Return form data
+        return $form->isValid() ? $form->getData() : false;
+    }
+    
+    /**
+     * Post login form.
+     * 
+     * @param array $data
+     * 
+     * @return array
+     */
+    public function postLogin(array $data)
+    {
+        // Get form
+        $form = $this->getLoginForm();
+        
+        // Set data
+        $form->setData($data);
+        
+        // Return form data
+        return $form->isValid() ? $form->getData() : false;
+    }
+    
+    /**
+     * Post password form.
+     * 
+     * @param array $data
+     * 
+     * @return array
+     */
+    public function postPassword(array $data)
+    {
+        // Get form
+        $form = $this->getPasswordForm();
+        
+        // Set data
+        $form->setData($data);
+        
+        // Return form data
+        return $form->isValid() ? $form->getData() : false;
+    }
+    
+    /**
+     * Post settings form.
+     * 
+     * @param \User\Entity\UserEntityInterface $user
+     * @param array                            $data
+     * 
+     * @return \User\Entity\UserEntityInterface
+     */
+    public function postSettings(UserEntityInterface $user, array $data)
+    {
+        // Get form
+        $form = $this->getSettingsForm();
+        
+        // Bind entity class
+        $form->bind($user);
+        
+        // Set data
+        $form->setData($data);
+        
+        // Return form data
+        return $form->isValid() ? $form->getData() : false;
+    }
+    
+    /**
+     * Post signup form.
+     * 
+     * @param array $data
+     * 
+     * @return \User\Entity\UserEntityInterface
+     */
+    public function postSignup(array $data)
+    {
+        // Get form
+        $form = $this->getSignupForm();
+        
+        // Get entity class
+        $class = $this->getUserOptions()->getUserEntityClass();
+        
+        // Bind entity class
+        $form->bind(new $class);
+        
+        // Set data
+        $form->setData($data);
+        
+        // Return form data
+        return $form->isValid() ? $form->getData() : false;
+    }
+    
+    /**
+     * Post username form.
+     * 
+     * @param array $data
+     * 
+     * @return array
+     */
+    public function postUsername(array $data)
+    {
+        // Get form
+        $form = $this->getUsernameForm();
+        
+        // Set data
+        $form->setData($data);
+        
+        // Return form data
+        return $form->isValid() ? $form->getData() : false;
     }
     
     /**
@@ -165,25 +336,13 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
      */
     public function encryptPassword($password)
     {
-        // Encryption service
+        // Create encryptor
         $crypt = new Bcrypt(array(
             'cost' => 14,
         ));
         
+        // Create password
         return $crypt->create($password);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getAccountForm()
-    {
-        if ($this->accountForm === null) {
-            // Set account form
-            $this->accountForm = $this->getServiceLocator()->get('user.form.user.account');
-        }
-        
-        return $this->accountForm;
     }
     
     /**
@@ -200,26 +359,39 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     }
     
     /**
-     * {@inheritDoc}
+     * @return \User\Form\UserFormInterface
+     */
+    public function getEmailForm()
+    {
+        if ($this->emailForm === null) {
+            // Set email form
+            $this->emailForm = $this->getServiceLocator()->get('user.form.email');
+        }
+        
+        return $this->emailForm;
+    }
+    
+    /**
+     * @return \User\Form\UserFormInterface
      */
     public function getLoginForm()
     {
         if ($this->loginForm === null) {
             // Set login form
-            $this->loginForm = $this->getServiceLocator()->get('user.form.user.login');
+            $this->loginForm = $this->getServiceLocator()->get('user.form.login');
         }
         
         return $this->loginForm;
     }
     
     /**
-     * {@inheritDoc}
+     * @return \User\Form\UserFormInterface
      */
     public function getPasswordForm()
     {
         if ($this->passwordForm === null) {
             // Set password form
-            $this->passwordForm = $this->getServiceLocator()->get('user.form.user.password');
+            $this->passwordForm = $this->getServiceLocator()->get('user.form.password');
         }
         
         return $this->passwordForm;
@@ -244,13 +416,26 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
     }
     
     /**
-     * {@inheritDoc}
+     * @return \User\Form\UserFormInterface
+     */
+    public function getSettingsForm()
+    {
+        if ($this->settingsForm === null) {
+            // Set settings form
+            $this->settingsForm = $this->getServiceLocator()->get('user.form.settings');
+        }
+        
+        return $this->settingsForm;
+    }
+    
+    /**
+     * @return \User\Form\UserFormInterface
      */
     public function getSignupForm()
     {
         if ($this->signupForm === null) {
             // Set signup form
-            $this->signupForm = $this->getServiceLocator()->get('user.form.user.signup');
+            $this->signupForm = $this->getServiceLocator()->get('user.form.signup');
         }
         
         return $this->signupForm;
@@ -280,5 +465,18 @@ class UserManager implements UserManagerInterface, ServiceLocatorAwareInterface
         }
         
         return $this->userOptions;
+    }
+    
+    /**
+     * @return \User\Form\UserFormInterface
+     */
+    public function getUsernameForm()
+    {
+        if ($this->usernameForm === null) {
+            // Set username form
+            $this->usernameForm = $this->getServiceLocator()->get('user.form.username');
+        }
+        
+        return $this->usernameForm;
     }
 }

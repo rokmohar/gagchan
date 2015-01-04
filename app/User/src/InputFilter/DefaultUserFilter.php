@@ -1,12 +1,12 @@
 <?php
 
-namespace User\InputFilter\Recover;
+namespace User\InputFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class DefaultRecoverFilter extends AbstractRecoverFilter
+class DefaultUserFilter extends AbstractUserFilter
 {
     /**
      * {@inheritDoc}
@@ -15,12 +15,12 @@ class DefaultRecoverFilter extends AbstractRecoverFilter
     {
         $this
             ->addCsrf()
-            ->addUserId()
+            ->addId()
+            ->addUsername()
             ->addEmail()
-            ->addRemoteAddress()
-            ->addRequestAt()
-            ->addRecoveredAt()
-            ->addIsRecovered()
+            ->addPassword()
+            ->addPasswordVerify()
+            ->addState()
             ->addCreatedAt()
             ->addUpdatedAt()
         ;

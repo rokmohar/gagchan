@@ -39,7 +39,6 @@ class UploadFormFactory implements FactoryInterface
             'name',
             'file',
             'category_id',
-            'delay_at',
         ));
         
         // Enable file upload

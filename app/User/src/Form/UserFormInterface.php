@@ -1,6 +1,6 @@
 <?php
 
-namespace User\Form\User;
+namespace User\Form;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -8,6 +8,11 @@ namespace User\Form\User;
  */
 interface UserFormInterface
 {
+    /**
+     * Add identifier element.
+     */
+    public function addId();
+    
     /**
      * Add username element.
      */

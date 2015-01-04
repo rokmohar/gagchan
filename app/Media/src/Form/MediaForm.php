@@ -65,7 +65,6 @@ class MediaForm extends Form
             ->addContentType()
             ->addIsFeatured()
             ->addState()
-            ->addDelayAt()
             ->addSubmit()
         ;
     }
@@ -362,30 +361,6 @@ class MediaForm extends Form
             'attributes' => array(
                 'class'       => 'form-control',
                 'placeholder' => 'State',
-            ),
-        ));
-        
-        return $this;
-    }
-    
-    /**
-     * Add the delay at element.
-     * 
-     * @return \Media\Form\MediaForm
-     */
-    public function addDelayAt()
-    {
-        $this->add(array(
-            'name'    => 'delay_at',
-            'type'    => 'Zend\Form\Element\DateTime',
-            'options' => array(
-                'label'  => 'Delay at',
-                'format' => 'Y-m-d H:i:s'
-            ),
-            'attributes' => array(
-                'class'       => 'form-control',
-                'placeholder' => 'Delay at',
-                //'value'       => new \DateTime(),
             ),
         ));
         

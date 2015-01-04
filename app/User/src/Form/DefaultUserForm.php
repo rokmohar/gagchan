@@ -1,6 +1,6 @@
 <?php
 
-namespace User\Form\User;
+namespace User\Form;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -15,6 +15,7 @@ class DefaultUserForm extends AbstractUserForm
     {
         $this
             ->addCsrf()
+            ->addId()
             ->addUsername()
             ->addEmail()
             ->addPassword()

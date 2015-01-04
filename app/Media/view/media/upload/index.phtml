@@ -50,18 +50,6 @@
                 <?php echo $this->formElementErrors($uploadForm->get('category_id')) ?>
             </div>
 
-            <!-- #Delay -->
-            <div class="form-row">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span> 
-                    <?php echo $this->formDateTime($uploadForm->get('delay_at')) ?>
-                </div>
-
-                <?php echo $this->formElementErrors($uploadForm->get('delay_at')) ?>
-            </div>
-
             <div class="input-group">
                 <?php echo $this->formButton($uploadForm->get('submit')) ?>
             </div>

@@ -1,19 +1,19 @@
 <?php
 
-namespace User\Factory\Form\User;
+namespace User\Factory\Form;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\User\DefaultUserForm;
+use User\Form\DefaultUserForm;
 use User\Hydrator\UserHydrator;
-use User\InputFilter\User\DefaultUserFilter;
+use User\InputFilter\DefaultUserFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class LoginFormFactory implements FactoryInterface
+class SettingsFormFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -30,14 +30,24 @@ class LoginFormFactory implements FactoryInterface
         $form->setValidationGroup(array(
             'csrf',
             'email',
-            'password',
+            'username',
+            'updated_at',
         ));
         
         // Create hydrator
         $form->setHydrator(new UserHydrator());
         
         // Create input filter
-        $form->setInputFilter(new DefaultUserFilter($userMapper));
+        $inputFilter = new DefaultUserFilter($userMapper);
+        
+        // Enable validators
+        $inputFilter
+            ->enableEmailUniqueRecord()
+            ->enableUsernameUniqueRecord()
+        ;
+        
+        // Set input filter
+        $form->setInputFilter($inputFilter);
         
         // Return form
         return $form;

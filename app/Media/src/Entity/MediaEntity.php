@@ -76,11 +76,6 @@ class MediaEntity implements MediaEntityInterface
     /**
      * @var \DateTime
      */
-    protected $delayAt;
-    
-    /**
-     * @var \DateTime
-     */
     protected $createdAt;
     
     /**
@@ -329,24 +324,6 @@ class MediaEntity implements MediaEntityInterface
     public function setState($state)
     {
         $this->state = $state;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getDelayAt()
-    {
-        return $this->delayAt;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setDelayAt(\DateTime $delayAt = null)
-    {
-        $this->delayAt = $delayAt;
         
         return $this;
     }

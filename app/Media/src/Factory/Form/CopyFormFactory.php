@@ -40,7 +40,6 @@ class CopyFormFactory implements FactoryInterface
             'name',
             'url',
             'category_id',
-            'delay_at',
         ));
         
         // Get hydrator

@@ -34,18 +34,6 @@
                 <?php echo $this->formElementErrors($publishForm->get('category_id')) ?>
             </div>
 
-            <!-- #Delay -->
-            <div class="form-row">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span> 
-                    <?php echo $this->formDateTime($publishForm->get('delay_at')) ?>
-                </div>
-
-                <?php echo $this->formElementErrors($publishForm->get('delay_at')) ?>
-            </div>
-            
             <!-- #Token -->
             <?php echo $this->formHidden($publishForm->get('token')) ?>
 

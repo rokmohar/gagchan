@@ -26,11 +26,11 @@ abstract class AbstractDb extends AbstractValidator
     public function __construct(array $options = array())
     {
         if (!isset($options['field'])) {
-            throw new \InvalidArgumentException("Option \"field\" is required.");
+            throw new \InvalidArgumentException("Field is required, none given");
         }
         
         if (!isset($options['mapper'])) {
-            throw new \InvalidArgumentException("Option \"mapper\" is required");
+            throw new \InvalidArgumentException("Mapper is requirefd, none given");
         }
         
         $this->field  = $options['field'];

@@ -15,15 +15,7 @@ class DateTimeStrategy implements StrategyInterface
      */
     public function extract($value)
     {
-        if (!$value instanceof \DateTime) {
-            // Throw an exception
-            throw new \InvalidArgumentException(sprintf(
-                "Expected instance of DateTime, \"%\" given",
-                is_object($value) ? get_class($value) : gettype($value)
-            ));
-        }
-        
-        return $value->format("Y-d-m H:i:s");
+        return ($value instanceof \DateTime) ? $value->format("Y-m-d H:i:s") : $value;
     }
     
     /**
@@ -31,7 +23,6 @@ class DateTimeStrategy implements StrategyInterface
      */
     public function hydrate($value)
     {
-        // Create DateTime
-        return new \DateTime($value);
+        return (is_string($value) && !empty($value)) ? new \DateTime($value) : $value;
     }
 }

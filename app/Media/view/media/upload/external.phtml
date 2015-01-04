@@ -46,22 +46,6 @@
                 <?php echo $this->formElementErrors($externalForm->get('category_id')) ?>
             </div>
 
-            <?php if (in_array($this->user()->getIdentity()->getId(), array(1, 12))): ?>
-            
-            <!-- #Delay -->
-            <div class="form-row">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span> 
-                    <?php echo $this->formDateTime($externalForm->get('delay_at')) ?>
-                </div>
-
-                <?php echo $this->formElementErrors($externalForm->get('delay_at')) ?>
-            </div>
-            
-            <?php endif ?>
-
             <div class="input-group">
                 <?php echo $this->formButton($externalForm->get('submit')) ?>
             </div>

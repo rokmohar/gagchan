@@ -105,20 +105,6 @@ class RecoverMapper extends AbstractMapper implements RecoverMapperInterface
     }
     
     /**
-     * Select a row by the request token.
-     * 
-     * @param
-     */
-    public function selectNotConfirmed($id, $requestToken)
-    {
-        return $this->selectRow(array(
-            'id'            => $id,
-            'request_token' => $requestToken,
-            'is_recovered'  => false,
-        ));
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function updateRow(RecoverEntityInterface $recover)

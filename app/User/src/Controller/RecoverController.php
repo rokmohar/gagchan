@@ -7,8 +7,6 @@ use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use Core\Utils\TokenGenerator;
-
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
@@ -16,34 +14,14 @@ use Core\Utils\TokenGenerator;
 class RecoverController extends AbstractActionController
 {
     /**
-     * @var \User\Mailer\MailerInterface
-     */
-    protected $mailer;
-    
-    /**
-     * @var \User\Form\RecoverForm
-     */
-    protected $recoverForm;
-    
-    /**
-     * @var \User\Mapper\RecoverMapperInterface
-     */
-    protected $recoverMapper;
-    
-    /**
      * @var \User\Manager\RecoverManagerInterface
      */
     protected $recoverManager;
     
     /**
-     * @var \User\Form\PasswordForm
+     * @var \User\Manager\UserManagerInterface
      */
-    protected $passwordForm;
-    
-    /**
-     * @var \User\Mapper\UserMapperInterface
-     */
-    protected $userMapper;
+    protected $userManager;
     
     /**
      * @return \Zend\View\Model\ViewModel
@@ -63,59 +41,42 @@ class RecoverController extends AbstractActionController
             return $prg;
         }
         
-        // Get form
-        $recoverForm = $this->getRecoverForm();
+        // Get recover manager
+        $recoverManager = $this->getRecoverManager();
+        
+        // Get email form
+        $emailForm = $recoverManager->getEmailForm();
         
         // Return view, iff PRG is GET request
         if ($prg === false) {
             return new ViewModel(array(
-                'recoverForm' => $recoverForm,
+                'recoverForm' => $emailForm,
             ));
         }
         
-        // Set entity prototype
-        $recoverForm->bind(new \User\Entity\UserEntity());
-
-        // Set posted data
-        $recoverForm->setData($prg);
-
-        // Check if form is not valid
-        if (!$recoverForm->isValid()) {
-            // Return view
+        // Get user manager
+        $userManager = $this->getUserManager();
+        
+        // Post email form
+        $user = $userManager->findByEmail($prg);
+        
+        //Return view, iff form is invalid
+        if ($user === false) {
             return new ViewModel(array(
-                'recoverForm' => $recoverForm,
+                'recoverForm' => $emailForm,
             ));
         }
         
-        // Get data
-        $data = $recoverForm->getData();
+        // Create recover
+        $recover = $recoverManager->createRecover($user, $this->getRequest());
         
-        // Get user
-        $user = $this->getUserMapper()->selectRowByEmail($data->getEmail());
-        
-        // Create class
-        $recover = new \User\Entity\RecoverEntity();
-        
-        $recover->setUserId($user->getId());
-        $recover->setEmail($user->getEmail());
-        $recover->setRemoteAddress(
-            $this->getRequest()->getServer('REMOTE_ADDR')
-        );
-        $recover->setRequestAt(new \DateTime());
-        $recover->setRequestToken($this->generateToken());
-        $recover->setRecoveredAt();
-        $recover->setIsRecovered(false);
-        
-        // Get recover mapper
-        $this->getRecoverMapper()->insertRow($recover);
-        
-        // Send message
-        $this->getMailer()->sendRecoverMessage($user, $recover);
+        // Send recover message
+        $recoverManager->sendRecoverMessage($user, $recover);
         
         // Create view
         $view = new ViewModel(array(
-            'user'    => $user,
             'recover' => $recover,
+            'user'    => $user,
         ));
         
         // Set template
@@ -130,53 +91,55 @@ class RecoverController extends AbstractActionController
      */
     public function resetAction()
     {
-        // Check if user has identity
+        // Redirect, iff user has identity
         if ($this->user()->hasIdentity()) {
-            // Redirect to route
             return $this->redirect()->toRoute('home');
         }
         
+        // Get recover manager
+        $recoverManager = $this->getRecoverManager();
+        
         // Get recover mapper
-        $recoverMapper = $this->getRecoverMapper();
+        $recoverMapper = $recoverManager->getRecoverMapper();
         
         // Get recover
-        $recover = $recoverMapper->selectNotConfirmed(
-            $this->params()->fromRoute('id'),
-            $this->params()->fromRoute('token')
-        );
+        $recover = $recoverMapper->selectRow(array(
+            'id'           => $this->params()->fromRoute('id'),
+            'token'        => $this->params()->fromRoute('token'),
+            'is_recovered' => false,
+        ));
         
-        // Check if recover is empty
+        // Return not found, iff recover is empty
         if (empty($recover)) {
-            // Recover not found
             return $this->notFoundAction();
         }
         
         // Get PRG
         $prg = $this->prg();
         
-        // Check if PRG is response
+        // Redirect, iff PRG is reponse
         if ($prg instanceof Response) {
-            // Return response
             return $prg;
         }
         
-        // Get form
-        $passwordForm = $this->getPasswordForm();
+        // Get user manager
+        $userManager = $this->getUserManager();
         
-        // Check if PRG is GET
+        // Get password form
+        $passwordForm = $userManager->getPasswordForm();
+        
+        // Return view, iff PRG is GET request
         if ($prg === false) {
-            // Return view
             return new ViewModel(array(
                 'passwordForm' => $passwordForm,
             ));
         }
         
-        // Set data
-        $passwordForm->setData($prg);
+        // Post password form
+        $result = $userManager->postPassword($prg);
         
-        // Check if form is not valid
-        if (!$passwordForm->isValid()) {
-            // Return view
+        // Return view, iff form data is not valid
+        if ($result === false) {
             return new ViewModel(array(
                 'passwordForm' => $passwordForm,
             ));
@@ -186,27 +149,18 @@ class RecoverController extends AbstractActionController
         $userMapper = $this->getUserMapper();
         
         // Get user
-        $user = $this->getUserMapper()->selectRowById($recover->getUserId());
+        $user = $userMapper->selectRowById($recover->getUserId());
         
-        // Get crypt
-        $crypt = new Bcrypt(array(
-            'cost' => 14,
-        ));
+        // Return not found, iff user is empty
+        if (empty($user)) {
+            return $this->notFoundAction();
+        }
         
-        // Set password
-        $user->setPassword($crypt->create(
-            $passwordForm->get('password')->getValue()
-        ));
+        // Process recovery
+        $recoverManager->processRecover($user, $recover);
         
         // Update user
-        $userMapper->updateRow($user);
-        
-        // Set as recovered
-        $recover->setRecoveredAt(new \DateTime());
-        $recover->setIsRecovered(true);
-        
-        // Update recover
-        $recoverMapper->updateRow($recover);
+        $userManager->updateUser($user, $result, true);
         
         // Create view
         $view = new ViewModel(array(
@@ -222,80 +176,6 @@ class RecoverController extends AbstractActionController
     }
     
     /**
-     * Generate a random token.
-     * 
-     * @return string
-     */
-    public function generateToken()
-    {
-        // Get token generator
-        $generator = new TokenGenerator();
-        
-        // Generate token
-        return $generator->getToken(32);
-    }
-    
-    /**
-     * Return the mailer.
-     * 
-     * @return \User\Mailer\MailerInterface
-     */
-    public function getMailer()
-    {
-        if ($this->mailer === null) {
-            // Get amazon mailer
-            $this->mailer = $this->getServiceLocator()->get('user.mailer.amazon');
-        }
-        
-        return $this->mailer;
-    }
-    
-    /**
-     * Return the recover form.
-     * 
-     * @return \User\Form\RecoverForm
-     */
-    public function getRecoverForm()
-    {
-        if ($this->recoverForm === null) {
-            // Get recover request form
-            $this->recoverForm = $this->getServiceLocator()->get('user.form.recover.request');
-        }
-        
-        return $this->recoverForm;
-    }
-    
-    /**
-     * Return the password form.
-     * 
-     * @return \User\Form\PasswordForm
-     */
-    public function getPasswordForm()
-    {
-        if ($this->passwordForm === null) {
-            // Get user password form
-            $this->passwordForm = $this->getServiceLocator()->get('user.form.user.password');
-        }
-        
-        return $this->passwordForm;
-    }
-    
-    /**
-     * Return the recover mapper.
-     * 
-     * @return \User\Mapper\RecoverMapperInterface
-     */
-    public function getRecoverMapper()
-    {
-        if ($this->recoverMapper === null) {
-            // Get recover mapper
-            $this->recoverMapper = $this->getServiceLocator()->get('user.mapper.recover');
-        }
-        
-        return $this->recoverMapper;
-    }
-    
-    /**
      * Return the recover manager.
      * 
      * @return \User\Manager\RecoverManagerInterface
@@ -303,7 +183,7 @@ class RecoverController extends AbstractActionController
     public function getRecoverManager()
     {
         if ($this->recoverManager === null) {
-            // Get recover manager
+            // Set recover manager
             $this->recoverManager = $this->getServiceLocator()->get('user.manager.recover');
         }
         
@@ -311,17 +191,17 @@ class RecoverController extends AbstractActionController
     }
     
     /**
-     * Return the user mapper.
+     * Return the user manager.
      * 
-     * @return \User\Mapper\UserMapperInterface
+     * @return \User\Manager\UserManagerInterface
      */
-    public function getUserMapper()
+    public function getUserManager()
     {
-        if ($this->userMapper === null) {
-            // Get user mapper
-            $this->userMapper = $this->getServiceLocator()->get('user.mapper.user');
+        if ($this->userManager === null) {
+            // Set user mapper
+            $this->userManager = $this->getServiceLocator()->get('user.manager.user');
         }
         
-        return $this->userMapper;
+        return $this->userManager;
     }
 }

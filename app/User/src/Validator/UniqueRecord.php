@@ -2,8 +2,6 @@
 
 namespace User\Validator;
 
-use Zend\Validator\AbstractValidator;
-
 use User\Entity\UserEntityInterface;
 use User\Mapper\UserMapperInterface;
 
@@ -24,55 +22,19 @@ class UniqueRecord extends AbstractDb
         self::ERROR_RECORD_FOUND => "A record matching the input was found",
     );
     
-    /**
-     * @param string
-     */
-    protected $field;
-    
-    /**
-     * @var \User\Mapper\UserMapperInterface
-     */
-    protected $mapper;
-    
-    /**
-     * @param array $options
-     */
-    public function __construct(array $options = array())
-    {
-        if (!isset($options['field'])) {
-            throw new \InvalidArgumentException(
-                "Option \"field\" is required, nothing given."
-            );
-        }
-        
-        if (!isset($options['mapper']) || !$options['mapper'] instanceof UserMapperInterface) {
-            throw new \InvalidArgumentException(
-                "Option \"mapper\" must be an instance of User\Mapper\UserMapperInterface."
-            );
-        }
-        
-        $this->field  = $options['field'];
-        $this->mapper = $options['mapper'];
-        
-        unset($options['field']);
-        unset($options['mapper']);
-        
-        parent::__construct($options);
-    }
     
     /**
      * {@inheritDoc}
      */
     public function isValid($value, $context = null)
     {
-        // Find match
+        // Find a match
         $match = $this->mapper->selectRow(array(
             $this->field => $value,
         ));
         
-        // Check if match is empty
+        // Return true, iff match is empty
         if (empty($match)) {
-            // No record found
             return true;
         }
         
@@ -80,16 +42,15 @@ class UniqueRecord extends AbstractDb
         $expectedIdentifiers = $this->getExpectedIdentifiers($context);
         $foundIdentifiers    = $this->getFoundIdentifiers($match);
 
-        // Compare identifiers
+        // Return true, iff identifiers are same
         if (count(array_diff_assoc($expectedIdentifiers, $foundIdentifiers)) === 0) {
-            // No record found
             return true;
         }
         
         // Add error
         $this->error(self::ERROR_RECORD_FOUND);
         
-        // Record found
+        // Not found
         return false;
     }
     

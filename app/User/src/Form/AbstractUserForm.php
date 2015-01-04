@@ -1,6 +1,6 @@
 <?php
 
-namespace User\Form\User;
+namespace User\Form;
 
 use Zend\Form\Form;
 
@@ -43,6 +43,19 @@ abstract class AbstractUserForm extends Form implements UserFormInterface
         $this->add(array(
             'name' => 'csrf',
             'type' => 'Zend\Form\Element\Csrf',
+        ));
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function addId()
+    {
+        $this->add(array(
+            'name' => 'id',
+            'type' => 'Zend\Form\Element\Text',
         ));
         
         return $this;

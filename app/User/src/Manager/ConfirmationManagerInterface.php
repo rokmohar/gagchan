@@ -2,6 +2,8 @@
 
 namespace User\Manager;
 
+use Zend\Stdlib\RequestInterface;
+
 use User\Entity\ConfirmationEntityInterface;
 use User\Entity\UserEntityInterface;
 
@@ -12,19 +14,20 @@ use User\Entity\UserEntityInterface;
 interface ConfirmationManagerInterface
 {
     /**
-     * Create confirmation.
+     * Create account confirmation.
      * 
-     * @param array $data
+     * @param \User\Entity\UserEntityInterface $user
+     * @param \Zend\Stdlib\RequestInterface    $request
      */
-    public function createConfirmation(array $data);
+    public function createConfirmation(UserEntityInterface $user, RequestInterface $request);
     
     /**
-     * Update confirmation.
+     * Complete account confirmation.
      * 
+     * @param \User\Entity\UserEntityInterface         $user
      * @param \User\Entity\ConfirmationEntityInterface $confirmation
-     * @param array                                    $data
      */
-    public function updateConfirmation(ConfirmationEntityInterface $confirmation, array $data);
+    public function processConfirmation(UserEntityInterface $user, ConfirmationEntityInterface $confirmation);
     
     /**
      * Send confirmation message.
@@ -35,9 +38,11 @@ interface ConfirmationManagerInterface
     public function sendConfirmationMessage(UserEntityInterface $user, ConfirmationEntityInterface $confirmation);
     
     /**
-     * @return \User\Form\Confirmation\ConfirmationFormInterface
+     * Generate random token.
+     * 
+     * @return string
      */
-    public function getConfirmationForm();
+    public function generateToken();
     
     /**
      * @return \User\Mapper\ConfirmationMapperInterface
@@ -48,6 +53,13 @@ interface ConfirmationManagerInterface
      * @return \User\Mailer\MailerInterface
      */
     public function getMailer();
+    
+    /**
+     * Return the user mapper.
+     * 
+     * @return \User\Mapper\UserMapper
+     */
+    public function getUserMapper();
     
     /**
      * Return the user options.

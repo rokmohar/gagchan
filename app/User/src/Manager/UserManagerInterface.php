@@ -17,10 +17,11 @@ interface UserManagerInterface
      */
     public function authenticate(array $params);
     
+    
     /**
-     * Perform login through form.
+     * Authenticate through login form.
      * 
-     * @param array $data
+     * @return \Zend\Authentication\Result
      */
     public function login(array $data);
     
@@ -47,11 +48,11 @@ interface UserManagerInterface
     public function updateUser(UserEntityInterface $user, array $data);
     
     /**
-     * Return user account form.
+     * Encrypt password.
      * 
-     * @return \User\Form\User\UserFormInterface
+     * @param string $password
      */
-    public function getAccountForm();
+    public function encryptPassword($password);
     
     /**
      * Return the authentication service.
@@ -59,27 +60,6 @@ interface UserManagerInterface
      * @return \Zend\Authentication\AuthenticationServiceInterface
      */
     public function getAuthService();
-    
-    /**
-     * Return user login form.
-     * 
-     * @return \User\Form\User\UserFormInterface
-     */
-    public function getLoginForm();
-    
-    /**
-     * Return user password form.
-     * 
-     * @return \User\Form\User\UserFormInterface
-     */
-    public function getPasswordForm();
-    
-    /**
-     * Return user signup form.
-     * 
-     * @return \User\Form\User\UserFormInterface
-     */
-    public function getSignupForm();
     
     /**
      * Return the user mapper.

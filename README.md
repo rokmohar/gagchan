@@ -1,17 +1,16 @@
 To do
 ================================================================================
-- Implement user profile
+- Add user profile
 - Add administration panel
-- Implement ACL
-- Implement layout processor
-- Implement cron processor
-- Optimize configuration
-- Code optimization
+- Add ACL module
+- Add cron module
+- Improve layout module
+- Improve configuration
 
-Important security updates (security issue)
+Important security updates
 ================================================================================
 - Database session storage
-- Database remember me (cookie) token storage
+- Database remember me token (persistent cookie) storage
 
 Delay date format
 ================================================================================

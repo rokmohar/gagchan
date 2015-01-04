@@ -1,19 +1,19 @@
 <?php
 
-namespace User\Factory\Form\User;
+namespace User\Factory\Form;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use User\Form\User\DefaultUserForm;
+use User\Form\DefaultUserForm;
 use User\Hydrator\UserHydrator;
-use User\InputFilter\User\DefaultUserFilter;
+use User\InputFilter\DefaultUserFilter;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-class AccountFormFactory implements FactoryInterface
+class UsernameFormFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -24,12 +24,11 @@ class AccountFormFactory implements FactoryInterface
         $userMapper = $serviceLocator->get('user.mapper.user');
         
         // Create form
-        $form = new UserForm($userMapper);
+        $form = new DefaultUserForm($userMapper);
         
         // Set validation group
         $form->setValidationGroup(array(
             'csrf',
-            'email',
             'username',
         ));
         
@@ -41,8 +40,7 @@ class AccountFormFactory implements FactoryInterface
         
         // Enable validators
         $inputFilter
-            ->enableEmailUniqueRecord()
-            ->enableUsernameUniqueRecord()
+            ->enableEmailRecordExists()
         ;
         
         // Set input filter
