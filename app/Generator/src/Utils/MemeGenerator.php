@@ -41,7 +41,7 @@ class MemeGenerator
     {
         $this
             ->setImage($path)
-            ->setFont('public/fonts/impact.ttf')
+            ->setFont('public/frontend/fonts/impact.ttf')
             ->setSize($path)
             ->setBackground($this->getImage())
             ->getStrokeColor($this->getImage())
@@ -70,14 +70,12 @@ class MemeGenerator
 
         // Top text
         $topText    = $this->getTopText();
-        
+                
         // Bottom text
         $bottomText = $this->getBottomText();
 
         // Add top text, if not empty
-        if(!empty($topText)) {
-            
-            
+        if(!empty($topText)) {            
             $this->addText($topText, 30, 'topText');
         }
 

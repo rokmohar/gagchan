@@ -120,7 +120,7 @@ class IndexController extends AbstractActionController
 
         // Get validator
         $validator = new Exists('public/media/generator');
-
+        
         // Check if file does not exist
         if (!$validator->isValid(sprintf("%s.jpg", $data['token']))) {
             // Redirect to route
@@ -172,7 +172,7 @@ class IndexController extends AbstractActionController
      * @return array
      */
     public function previewAction()
-    {
+    {       
         // Get request
         $request = $this->getRequest();
 
