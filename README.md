@@ -3,7 +3,6 @@ To do
 - Add user profile
 - Add administration panel
 - Add ACL module
-- Add cron module
 - Improve layout module
 - Improve configuration
 

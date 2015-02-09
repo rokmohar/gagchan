@@ -3,6 +3,7 @@
 namespace Acl\Mapper;
 
 use Acl\Entity\RoleEntityInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -35,4 +36,21 @@ interface RoleMapperInterface
      * @param \Acl\Entity\RoleEntityInterface $role
      */
     public function updateRow(RoleEntityInterface $role);
+    
+    /**
+     * @param \User\Entity\UserEntityInterface $user
+     * @param \Acl\Entity\RoleEntityInterface  $role
+     */
+    public function insertRole(UserEntityInterface $user, RoleEntityInterface $role);
+    
+    /**
+     * @param \User\Entity\UserEntityInterface $user
+     * @param \Acl\Entity\RoleEntityInterface  $role
+     */
+    public function deleteRole(UserEntityInterface $user, RoleEntityInterface $role);
+    
+    /**
+     * @param \User\Entity\UserEntityInterface $user
+     */
+    public function selectByUser(UserEntityInterface $user);
 }

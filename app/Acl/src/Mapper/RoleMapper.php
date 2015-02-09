@@ -6,7 +6,7 @@ use Zend\Db\ResultSet\HydratingResultSet;
 
 use Core\Mapper\AbstractMapper;
 use Acl\Entity\RoleEntityInterface;
-//use User\Entity\UserEntityInterface;
+use User\Entity\UserEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -131,5 +131,81 @@ class RoleMapper extends AbstractMapper implements RoleMapperInterface
         
         // Execute statement
         return $statement->execute();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function insertRole(UserEntityInterface $user, RoleEntityInterface $role)
+    {
+        // Get insert
+        $insert = $this->getInsert('user_has_role'); // @todo: Make configurable
+        $insert->values(array(
+            'user_id' => $user->getId(),
+            'role_id' => $role->getId(),
+        ));
+        
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($insert);
+        
+        // Execute statement
+        $result = $statement->execute();
+        
+        // Return result
+        return $result;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function deleteRole(UserEntityInterface $user, RoleEntityInterface $role)
+    {
+        // Get delete
+        $delete = $this->getDelete('user_has_role'); // @todo: Make configurable
+        $delete->where(array(
+            'user_id' => $user->getId(),
+            'role_id' => $role->getId(),
+        ));
+        
+        // Prepare statement
+        $statement = $this->getSql()->prepareStatementForSqlObject($delete);
+        
+        // Execute statement
+        $result = $statement->execute();
+        
+        // Return result
+        return $result;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function selectByUser(UserEntityInterface $user)
+    {
+        // Get select
+        $select = $this->getSelect();
+        $select
+            ->join('user_has_role', sprintf('%s.id = %s.role_id',
+                $this->getTableName(),
+                'user_has_role'
+            )) // @todo: Make it configurable
+            ->where(array(
+                'user_id' => $user->getId(),
+            ))    
+        ;
+        
+        // Prepare a statement
+        $stmt = $this->getSql()->prepareStatementForSqlObject($select);
+        
+        // Execute the statement
+        $resultSet = new HydratingResultSet(
+            $this->getHydrator(),
+            $this->getEntityClass()
+        );
+        
+        $resultSet->initialize($stmt->execute());
+        
+        // Return result
+        return $resultSet;
     }
 }
