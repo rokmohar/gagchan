@@ -11,15 +11,11 @@ use Media\Entity\CommentEntityInterface;
 interface CommentMapperInterface
 {
     /**
-     * Insert a row.
-     * 
      * @param \Media\Entity\CommentEntityInterface $comment
      */
     public function insertRow(CommentEntityInterface $comment);
     
     /**
-     * Select all rows.
-     * 
      * @param array $where
      * @param array $order
      * 
@@ -28,8 +24,6 @@ interface CommentMapperInterface
     public function selectAll(array $where, array $order);
     
     /**
-     * Select a row.
-     * 
      * @param array $where
      * @param array $order
      * 
@@ -38,8 +32,6 @@ interface CommentMapperInterface
     public function selectRow(array $where, array $order);
     
     /**
-     * Update a row.
-     * 
      * @param \Media\Entity\CommentEntityInterface $comment
      */
     public function updateRow(CommentEntityInterface $comment);

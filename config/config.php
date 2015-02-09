@@ -6,6 +6,7 @@ return array(
         'Aws',
         
         // Our modules
+        'Acl',
         'Admin',
         'Category',
         'Cms',

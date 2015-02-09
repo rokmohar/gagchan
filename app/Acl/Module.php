@@ -2,6 +2,7 @@
 
 namespace Acl;
 
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
 
@@ -10,7 +11,9 @@ use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
  * @author Rok Založnik <tugamer@gmail.com>
  */
 class Module implements
-    ConfigProviderInterface
+    AutoloaderProviderInterface,
+    ConfigProviderInterface,
+    ControllerPluginProviderInterface
 {
     /**
      * @return array
@@ -24,6 +27,14 @@ class Module implements
                 ),
             ),
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getControllerPluginConfig()
+    {
+        return array();
     }
 
     /**

@@ -1,19 +1,19 @@
 <?php
 
-namespace Media\Mapper;
+namespace Acl\Mapper;
 
-use Media\Entity\MediaEntityInterface;
+use Acl\Entity\ResourceEntityInterface;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  * @author Rok Založnik <tugamer@gmail.com>
  */
-interface MediaMapperInterface
+interface ResourceMapperInterface
 {
     /**
-     * @param \Media\Entity\MediaEntityInterface $media
+     * @param \Acl\Entity\ResourceEntityInterface $resource
      */
-    public function insertRow(MediaEntityInterface $media);
+    public function insertRow(ResourceEntityInterface $resource);
     
     /**
      * @param array $where
@@ -32,7 +32,7 @@ interface MediaMapperInterface
     public function selectRow(array $where, array $order);
     
     /**
-     * @param \Media\Entity\MediaEntityInterface $media
+     * @param \Acl\Entity\ResourceEntityInterface $resource
      */
-    public function updateRow(MediaEntityInterface $media);
+    public function updateRow(ResourceEntityInterface $resource);
 }
