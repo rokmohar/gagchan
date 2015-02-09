@@ -15,10 +15,10 @@
     <!-- Favicon -->
     <?php echo $this->headLink(array('rel'  => 'shortcut icon', 'type' => 'image/png', 'href' => '/images/favicon.png')) ?>
 
-    <!-- Styles -->
+    <!-- Styles -->   
     <?php echo $this->headLink()
         ->prependStylesheet('/frontend/css/layout.css', 'screen')
-        ->prependStylesheet('/frontend/css/bootstrap.min.css')
+        ->prependStylesheet('//netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css')
     ?>
 
     <!-- Google Fonts -->
@@ -29,7 +29,7 @@
 
     <!-- Fonts -->
     <?php echo $this->headLink()
-        ->prependStylesheet('/frontend/css/fonts/font-awesome.min.css')
+        ->prependStylesheet('//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
     ?>
     
     <!-- Scripts -->
@@ -112,9 +112,9 @@
         <?php echo $this->content; ?>
 
     </div><!-- /.container -->
-
+    
     <?php echo $this->inlineScript()
-        ->prependFile('/frontend/js/bootstrap.min.js')
+        ->prependFile('//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
         ->prependFile('/frontend/js/jquery.gagchan.js')
         ->prependFile('/frontend/js/jquery.prettySocial.min.js')
         ->prependFile('/frontend/js/jquery.zeroclipboard.min.js')
