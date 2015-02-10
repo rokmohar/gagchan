@@ -1,6 +1,6 @@
 <?php
 
-namespace Acl;
+namespace Security;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -44,9 +44,7 @@ class Module implements
     {
         return array(
             'factories' => array(
-                'acl.mapper.permission' => 'Acl\Factory\Mapper\PermissionMapperFactory',
-                'acl.mapper.resource'   => 'Acl\Factory\Mapper\ResourceMapperFactory',
-                'acl.mapper.role'       => 'Acl\Factory\Mapper\RoleMapperFactory',
+                'security.mapper.role'       => 'Security\Factory\Mapper\RoleMapperFactory',
             ),
         );
     }

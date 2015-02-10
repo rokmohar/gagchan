@@ -52,15 +52,6 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        // @todo: Remove this (for debug)
-        /*$roleMapper = $this->getServiceLocator()->get('acl.mapper.role');
-        $userMapper = $this->getServiceLocator()->get('user.mapper.user');
-        
-        $user = $userMapper->selectRow(array('id' => 12));
-        $role = $roleMapper->selectByUser($user);
-        
-        var_dump($user, $role->current()); die();*/
-        
         // Get params from query
         $page = (int) $this->params()->fromQuery('page', 1);
         

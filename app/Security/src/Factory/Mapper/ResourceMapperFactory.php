@@ -1,11 +1,11 @@
 <?php
 
-namespace Acl\Factory\Mapper;
+namespace Security\Factory\Mapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Acl\Mapper\ResourceMapper;
+use Security\Mapper\ResourceMapper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -21,10 +21,10 @@ class ResourceMapperFactory implements FactoryInterface
         $dbAdapter = $serviceLocator->get('db.adapter');
         
         // Entity class
-        $entityClass = new \Acl\Entity\ResourceEntity();
+        $entityClass = new \Security\Entity\ResourceEntity();
         
         // Hydrator
-        $hydrator = new \Acl\Hydrator\ResourceHydrator();
+        $hydrator = new \Security\Hydrator\ResourceHydrator();
         
         return new ResourceMapper($dbAdapter, 'resource', $entityClass, $hydrator);
     }

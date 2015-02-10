@@ -1,16 +1,16 @@
 <?php
 
-namespace Acl\Factory\Mapper;
+namespace Security\Factory\Mapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-use Acl\Mapper\RoleMapper;
+use Security\Mapper\PermissionMapper;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
  */
-class RoleMapperFactory implements FactoryInterface
+class PermissionMapperFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
@@ -21,11 +21,11 @@ class RoleMapperFactory implements FactoryInterface
         $dbAdapter = $serviceLocator->get('db.adapter');
         
         // Entity class
-        $entityClass = new \Acl\Entity\RoleEntity();
+        $entityClass = new \Security\Entity\PermissionEntity();
         
         // Hydrator
-        $hydrator = new \Acl\Hydrator\RoleHydrator();
+        $hydrator = new \Security\Hydrator\PermissionHydrator();
         
-        return new RoleMapper($dbAdapter, 'role', $entityClass, $hydrator);
+        return new PermissionMapper($dbAdapter, 'permission', $entityClass, $hydrator);
     }
 }

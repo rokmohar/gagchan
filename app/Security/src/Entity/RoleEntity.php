@@ -1,6 +1,6 @@
 <?php
 
-namespace Acl\Entity;
+namespace Security\Entity;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -14,14 +14,14 @@ class RoleEntity implements RoleEntityInterface
     protected $id;
     
     /**
+     * @var int
+     */
+    protected $parentId;
+    
+    /**
      * @var string
      */
     protected $name;
-    
-    /**
-     * @var int
-     */
-    protected $status;
     
     /**
      * @var \DateTime
@@ -54,6 +54,24 @@ class RoleEntity implements RoleEntityInterface
     /**
      * {@inheritDoc}
      */
+    public function getParentId()
+    {
+        return $this->parentId;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+        
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return $this->name;
@@ -65,24 +83,6 @@ class RoleEntity implements RoleEntityInterface
     public function setName($name)
     {
         $this->name = $name;
-        
-        return $this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
         
         return $this;
     }

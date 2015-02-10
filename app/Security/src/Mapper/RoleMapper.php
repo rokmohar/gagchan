@@ -1,11 +1,11 @@
 <?php
 
-namespace Acl\Mapper;
+namespace Security\Mapper;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 
 use Core\Mapper\AbstractMapper;
-use Acl\Entity\RoleEntityInterface;
+use Security\Entity\RoleEntityInterface;
 use User\Entity\UserEntityInterface;
 
 /**
@@ -188,7 +188,7 @@ class RoleMapper extends AbstractMapper implements RoleMapperInterface
             ->join('user_has_role', sprintf('%s.id = %s.role_id',
                 $this->getTableName(),
                 'user_has_role'
-            )) // @todo: Make it configurable
+            )) // @todo: Make configurable
             ->where(array(
                 'user_id' => $user->getId(),
             ))    

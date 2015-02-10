@@ -1,6 +1,6 @@
 <?php
 
-namespace Acl\Hydrator;
+namespace Security\Hydrator;
 
 use Core\Hydrator\AbstractHydrator;
 

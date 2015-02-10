@@ -1,8 +1,8 @@
 <?php
 
-namespace Acl\Mapper;
+namespace Security\Mapper;
 
-use Acl\Entity\RoleEntityInterface;
+use Security\Entity\RoleEntityInterface;
 use User\Entity\UserEntityInterface;
 
 /**
@@ -12,7 +12,7 @@ use User\Entity\UserEntityInterface;
 interface RoleMapperInterface
 {
     /**
-     * @param \Acl\Entity\RoleEntityInterface $role
+     * @param \Security\Entity\RoleEntityInterface $role
      */
     public function insertRow(RoleEntityInterface $role);
     
@@ -33,19 +33,19 @@ interface RoleMapperInterface
     public function selectRow(array $where, array $order);
     
     /**
-     * @param \Acl\Entity\RoleEntityInterface $role
+     * @param \Security\Entity\RoleEntityInterface $role
      */
     public function updateRow(RoleEntityInterface $role);
     
     /**
      * @param \User\Entity\UserEntityInterface $user
-     * @param \Acl\Entity\RoleEntityInterface  $role
+     * @param \Security\Entity\RoleEntityInterface  $role
      */
     public function insertRole(UserEntityInterface $user, RoleEntityInterface $role);
     
     /**
      * @param \User\Entity\UserEntityInterface $user
-     * @param \Acl\Entity\RoleEntityInterface  $role
+     * @param \Security\Entity\RoleEntityInterface  $role
      */
     public function deleteRole(UserEntityInterface $user, RoleEntityInterface $role);
     

@@ -1,6 +1,6 @@
 <?php
 
-namespace Acl\Entity;
+namespace Security\Entity;
 
 /**
  * @author Rok Mohar <rok.mohar@gmail.com>
@@ -19,6 +19,16 @@ interface RoleEntityInterface
     public function setId($id);
     
     /**
+     * @return int
+     */
+    public function getParentId();
+    
+    /**
+     * @param int $parentId
+     */
+    public function setParentId($parentId);
+    
+    /**
      * @return string
      */
     public function getName();
@@ -27,16 +37,6 @@ interface RoleEntityInterface
      * @param string $name
      */
     public function setName($name);
-    
-    /**
-     * @return int
-     */
-    public function getStatus();
-    
-    /**
-     * @param int $status
-     */
-    public function setStatus($status);
     
     /**
      * @return \DateTime
