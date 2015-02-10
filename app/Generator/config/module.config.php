@@ -43,13 +43,13 @@ return array(
                     ),
                 ),
             ),
-            'preview' => array(
+            'save' => array(
                 'type'    => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/preview',
+                    'route'    => '/save',
                     'defaults' => array(
                         'controller' => 'Generator\IndexController',
-                        'action'     => 'preview',
+                        'action'     => 'save',
                     ),
                 ),
             ),

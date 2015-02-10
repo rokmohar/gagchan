@@ -711,6 +711,11 @@ h1, h2, h3, h4, h5, h6 {
  * #Generator Style
  * =============================================================================
  **/
+@font-face {
+    font-family: 'Impact';
+    src: url('../fonts/impact.ttf');
+}
+
 .meme-grid {
     margin: -1.50% -0.75% 0;
     padding: 0;
@@ -740,4 +745,8 @@ h1, h2, h3, h4, h5, h6 {
 .publish-group > li {
     margin-right: 10px;
     float: left;
+}
+
+#memecanvas {
+    height: 400px;
 }

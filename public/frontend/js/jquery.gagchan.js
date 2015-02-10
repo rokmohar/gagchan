@@ -118,6 +118,7 @@ jQuery(document).ready(function($) {
         return false;
     });
     
+    /* Old PHP generator
     // Meme generator preview
     var $img   = $('#preview');
     var $src   = $img.attr('src');
@@ -138,7 +139,7 @@ jQuery(document).ready(function($) {
                 $('#preview').attr('src', response.name + '?' + new Date().getTime());
             }
         });
-    });
+    }); */
     
     // Change pagination for mobile devices
     function checkWidth(init) {
